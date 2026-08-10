@@ -1,0 +1,36 @@
+{
+  "files": [
+    {
+      "name": "models.jsonl",
+      "rows": 20,
+      "sha256": "b6ef7d47cef13a0f3fd7c91be151c5f8e349352bab4372653bcb76cc1152d5b0",
+      "size_bytes": 7444
+    },
+    {
+      "name": "tasks.jsonl",
+      "rows": 32,
+      "sha256": "4bdf00f213d9296b41bbc0d6f8c71bbe4a390c4a8aa14a26cbc686d6ec7d2be6",
+      "size_bytes": 43911
+    },
+    {
+      "name": "observations.jsonl",
+      "rows": 1280,
+      "sha256": "c98361b3ae8452034f12688aa19bcbe6af9a7f365b631dedcc065e1f9f8a4875",
+      "size_bytes": 888640
+    },
+    {
+      "name": "paired_outcomes.jsonl",
+      "rows": 640,
+      "sha256": "6a93104d7765e06c91adf1bba4219b4038de6d698823990f121e5c9f81d424da",
+      "size_bytes": 481806
+    },
+    {
+      "name": "leaderboard.jsonl",
+      "rows": 20,
+      "sha256": "7c5ea37c62483cd419aaffe3669295a0f0e638c454bb6d4d6d8b0fc088a39166",
+      "size_bytes": 10524
+    }
+  ],
+  "release_artifact_sha256": "603e4aa4db86a6e28900736322943dde2593c9e1ffd473f26b9a469bcd5c912a",
+  "schema_version": "flavourbench-hf-dataset-manifest-v1"
+}

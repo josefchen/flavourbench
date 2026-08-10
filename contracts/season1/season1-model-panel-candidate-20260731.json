@@ -1,0 +1,159 @@
+{
+  "schema_version": "flavourbench-season1-panel-candidate-v1",
+  "snapshot_date": "2026-07-31",
+  "selection_policy": "Sixteen exact endpoints selected before Season 1 quality measurement across four closed-family, eight published-weight candidate, two efficiency, and two reasoning coverage slots. Selection uses release recency, family diversity, tool-contract success, stable canonical identity, route privacy, and expected cost rather than observed culinary quality. Each endpoint has a real two-generation contract, one successful private Epicure call, and immutable identity evidence. Catalog-only, access-denied, forced-tool-incompatible, failed exact routes, and silent provider substitutions are excluded.",
+  "models": [
+    {
+      "display_name": "OpenAI GPT-5.6 Sol Pro",
+      "model_id": "openai/gpt-5.6-sol-pro",
+      "canonical_slug": "openai/gpt-5.6-sol-pro-20260709",
+      "execution_backend": "openrouter",
+      "provider_slug": "openai/flex",
+      "slot_role": "closed_family",
+      "smoke_artifact_path": "artifacts/frontier-refresh/2026-07-31/structured-parity/gpt56-diagnostic-smoke/openrouter-0bf4520bbece-c2e21531da0127e84058418c700902a0671d6a32abcec79b8f3de25faf37f333.json",
+      "smoke_artifact_sha256": "c2e21531da0127e84058418c700902a0671d6a32abcec79b8f3de25faf37f333"
+    },
+    {
+      "display_name": "Anthropic Claude Sonnet 5",
+      "model_id": "anthropic/claude-sonnet-5",
+      "canonical_slug": "anthropic/claude-sonnet-5-20260630",
+      "execution_backend": "openrouter",
+      "provider_slug": "anthropic",
+      "slot_role": "closed_family",
+      "smoke_artifact_path": "artifacts/frontier-refresh/2026-07-31/structured-parity/smokes/openrouter-2cd37409a483-ced9ee387380b7eec96ba7694740c16b0d77bdee224801e680bbb5ec66cb025f.json",
+      "smoke_artifact_sha256": "ced9ee387380b7eec96ba7694740c16b0d77bdee224801e680bbb5ec66cb025f"
+    },
+    {
+      "display_name": "Anthropic Claude Opus 5",
+      "model_id": "anthropic/claude-opus-5",
+      "canonical_slug": "anthropic/claude-opus-5-20260723",
+      "execution_backend": "openrouter",
+      "provider_slug": "anthropic",
+      "slot_role": "closed_family",
+      "smoke_artifact_path": "artifacts/frontier-refresh/2026-07-31/structured-parity/smokes/openrouter-568e0eb3a95b-9f96e5e1e04a70eb0602730082bdf17dd6dba39dc56ba39d2ef20af44c2bf9e0.json",
+      "smoke_artifact_sha256": "9f96e5e1e04a70eb0602730082bdf17dd6dba39dc56ba39d2ef20af44c2bf9e0"
+    },
+    {
+      "display_name": "Google Gemini 3.1 Pro Preview",
+      "model_id": "google/gemini-3.1-pro-preview",
+      "canonical_slug": "google/gemini-3.1-pro-preview-20260219",
+      "execution_backend": "openrouter",
+      "provider_slug": "google-ai-studio/flex",
+      "slot_role": "closed_family",
+      "smoke_artifact_path": "artifacts/frontier-refresh/2026-07-31/structured-parity/smokes/openrouter-793ee6d86cf8-c932e571ec092e234c4ce9a477c54ce03574ac0e4ab5291218092f1e6a41465a.json",
+      "smoke_artifact_sha256": "c932e571ec092e234c4ce9a477c54ce03574ac0e4ab5291218092f1e6a41465a"
+    },
+    {
+      "display_name": "Qwen3 Next 80B A3B",
+      "model_id": "qwen.qwen3-next-80b-a3b",
+      "canonical_slug": "qwen.qwen3-next-80b-a3b",
+      "execution_backend": "bedrock",
+      "slot_role": "open_weight",
+      "smoke_artifact_path": "artifacts/frontier-refresh/2026-07-29/season1-provider/bedrock-smokes-v5/bedrock-3176ed51677b-3d2608c071457ebbf74089e5f3e9633df51779993027b209611e16e1382b1542.json",
+      "smoke_artifact_sha256": "3d2608c071457ebbf74089e5f3e9633df51779993027b209611e16e1382b1542"
+    },
+    {
+      "display_name": "NVIDIA Nemotron 3 Super 120B A12B",
+      "model_id": "nvidia.nemotron-super-3-120b",
+      "canonical_slug": "nvidia.nemotron-super-3-120b",
+      "execution_backend": "bedrock",
+      "slot_role": "open_weight",
+      "smoke_artifact_path": "artifacts/frontier-refresh/2026-07-29/season1-provider/bedrock-smokes-v5/bedrock-7b0a9938b70f-fd2ee43b174072ad00486a8b1e01a7a3628ea47d6cd9019ba44136a6bbad7034.json",
+      "smoke_artifact_sha256": "fd2ee43b174072ad00486a8b1e01a7a3628ea47d6cd9019ba44136a6bbad7034"
+    },
+    {
+      "display_name": "MiniMax M2.5",
+      "model_id": "minimax.minimax-m2.5",
+      "canonical_slug": "minimax.minimax-m2.5",
+      "execution_backend": "bedrock",
+      "slot_role": "open_weight",
+      "smoke_artifact_path": "artifacts/frontier-refresh/2026-07-29/season1-provider/bedrock-smokes-v5/bedrock-da9996bedeee-a8517b9fb5abc8dbc34651faae32e38cb260582e2f03d488b6b9b2e9d60a3b67.json",
+      "smoke_artifact_sha256": "a8517b9fb5abc8dbc34651faae32e38cb260582e2f03d488b6b9b2e9d60a3b67"
+    },
+    {
+      "display_name": "OpenAI gpt-oss-120b",
+      "model_id": "openai.gpt-oss-120b-1:0",
+      "canonical_slug": "openai.gpt-oss-120b-1:0",
+      "execution_backend": "bedrock",
+      "slot_role": "open_weight",
+      "smoke_artifact_path": "artifacts/frontier-refresh/2026-07-29/season1-provider/bedrock-smokes-v5/bedrock-c382348df2dd-7a506a3c8668ad15e4c1c21dce537bf307b1a2c906fef4f41c3a1df4b5792a56.json",
+      "smoke_artifact_sha256": "7a506a3c8668ad15e4c1c21dce537bf307b1a2c906fef4f41c3a1df4b5792a56"
+    },
+    {
+      "display_name": "Z.AI GLM 5.2",
+      "model_id": "z-ai/glm-5.2",
+      "canonical_slug": "z-ai/glm-5.2-20260616",
+      "execution_backend": "openrouter",
+      "provider_slug": "deepinfra/fp4",
+      "slot_role": "open_weight",
+      "smoke_artifact_path": "artifacts/frontier-refresh/2026-07-31/structured-parity/smokes/openrouter-0c72ffa4e7c0-126c660026139f145fd34d06f9456c59d7f9217b5c165aadd872054e5a0cb800.json",
+      "smoke_artifact_sha256": "126c660026139f145fd34d06f9456c59d7f9217b5c165aadd872054e5a0cb800"
+    },
+    {
+      "display_name": "Mistral Devstral 2 123B",
+      "model_id": "mistral.devstral-2-123b",
+      "canonical_slug": "mistral.devstral-2-123b",
+      "execution_backend": "bedrock",
+      "slot_role": "open_weight",
+      "smoke_artifact_path": "artifacts/frontier-refresh/2026-07-29/season1-expansion/bedrock-smokes-v2/bedrock-2a4163886480-c0209970aee1103f1dc182085dbf37af28cfad53d0ad897aeeed7b8176245579.json",
+      "smoke_artifact_sha256": "c0209970aee1103f1dc182085dbf37af28cfad53d0ad897aeeed7b8176245579"
+    },
+    {
+      "display_name": "Qwen3 VL 235B A22B",
+      "model_id": "qwen.qwen3-vl-235b-a22b",
+      "canonical_slug": "qwen.qwen3-vl-235b-a22b",
+      "execution_backend": "bedrock",
+      "slot_role": "open_weight",
+      "smoke_artifact_path": "artifacts/frontier-refresh/2026-07-29/season1-expansion/bedrock-smokes-v2/bedrock-4237f604ac9a-1c3b46875ecf7b741048eacece9fea65a23764ee1651a66289e8d7f2f56ab892.json",
+      "smoke_artifact_sha256": "1c3b46875ecf7b741048eacece9fea65a23764ee1651a66289e8d7f2f56ab892"
+    },
+    {
+      "display_name": "DeepSeek V4 Pro",
+      "model_id": "deepseek/deepseek-v4-pro",
+      "canonical_slug": "deepseek/deepseek-v4-pro-20260423",
+      "execution_backend": "openrouter",
+      "provider_slug": "cloudflare",
+      "slot_role": "open_weight",
+      "smoke_artifact_path": "artifacts/frontier-refresh/2026-07-31/structured-parity/retry-smokes/openrouter-4247e801b57d-403c6473a57eae4edb8a608fca7ba3cab201295d5832442fe894a4c51a0fb847.json",
+      "smoke_artifact_sha256": "403c6473a57eae4edb8a608fca7ba3cab201295d5832442fe894a4c51a0fb847"
+    },
+    {
+      "display_name": "Anthropic Claude Haiku 4.5",
+      "model_id": "global.anthropic.claude-haiku-4-5-20251001-v1:0",
+      "canonical_slug": "anthropic.claude-haiku-4-5-20251001-v1:0",
+      "execution_backend": "bedrock",
+      "slot_role": "efficiency",
+      "smoke_artifact_path": "artifacts/frontier-refresh/2026-07-29/season1-provider/bedrock-smokes-v5/bedrock-86c33cf13949-23cb25c7946906fb0b180986266a3fa7c9ec908599b6f13043b888ac47c16c61.json",
+      "smoke_artifact_sha256": "23cb25c7946906fb0b180986266a3fa7c9ec908599b6f13043b888ac47c16c61"
+    },
+    {
+      "display_name": "DeepSeek V4 Flash",
+      "model_id": "deepseek/deepseek-v4-flash",
+      "canonical_slug": "deepseek/deepseek-v4-flash-20260423",
+      "execution_backend": "openrouter",
+      "provider_slug": "deepinfra/fp4",
+      "slot_role": "efficiency",
+      "smoke_artifact_path": "artifacts/frontier-refresh/2026-07-31/structured-parity/smokes/openrouter-6d0dcdfbe2d7-4d781dddad7c525196dbcb228147b9584b50f949e6c2d3af8366186e04ffbe7e.json",
+      "smoke_artifact_sha256": "4d781dddad7c525196dbcb228147b9584b50f949e6c2d3af8366186e04ffbe7e"
+    },
+    {
+      "display_name": "MoonshotAI Kimi K3",
+      "model_id": "moonshotai/kimi-k3",
+      "canonical_slug": "moonshotai/kimi-k3-20260715",
+      "execution_backend": "openrouter",
+      "provider_slug": "moonshotai/mxfp4",
+      "slot_role": "reasoning",
+      "smoke_artifact_path": "artifacts/frontier-refresh/2026-07-31/structured-parity/smokes/openrouter-9e460c49820c-6c9c2befcb7ec4417f984b942203c7f47f6eb2ac5312c981d9dbdd6a3785cc14.json",
+      "smoke_artifact_sha256": "6c9c2befcb7ec4417f984b942203c7f47f6eb2ac5312c981d9dbdd6a3785cc14"
+    },
+    {
+      "display_name": "Amazon Nova Pro",
+      "model_id": "eu.amazon.nova-pro-v1:0",
+      "canonical_slug": "amazon.nova-pro-v1:0",
+      "execution_backend": "bedrock",
+      "slot_role": "reasoning",
+      "smoke_artifact_path": "artifacts/frontier-refresh/2026-07-29/season1-expansion/bedrock-smokes-v2/bedrock-8bc976d69325-819274f1fee66bc4f62a9b0944ba26dc392c9dfccd63c1f3d96189e93c70e524.json",
+      "smoke_artifact_sha256": "819274f1fee66bc4f62a9b0944ba26dc392c9dfccd63c1f3d96189e93c70e524"
+    }
+  ]
+}

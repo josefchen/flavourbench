@@ -1,0 +1,81 @@
+{
+  "schema_version": "flavourbench-frontier-refresh-roster-v1",
+  "benchmark": "FlavourBench",
+  "snapshot_label": "Season 1 current frontier contracts 2026-07-31",
+  "status": "candidate_pending_live_contract_smoke",
+  "official": false,
+  "rank_eligible": false,
+  "bedrock_catalog_sha256": "162c4fcf9d539d169031b8266546773af6e42d9a79144c76e63bdb7c15b0a10f",
+  "selection_rule": "Five newly available or previously failed exact endpoints requested before quality measurement: Bedrock-native Claude Sonnet 5 and Claude Opus 5, first-party DeepSeek V4 Pro and V4 Flash routes, and a pinned Decart GLM 5.2 route replacing the failed Z.AI endpoint. Every endpoint must pass a real provider request, a real Epicure tool call, a normalized final response, and exact identity reconciliation before panel consideration.",
+  "slots": [
+    {
+      "snapshot_model_id": "fb-s1-br-20260731-01",
+      "slot_role": "closed_frontier",
+      "canonical_name": "Anthropic Claude Sonnet 5",
+      "provider": "bedrock",
+      "endpoint_id": "global.anthropic.claude-sonnet-5",
+      "canonical_slug": "anthropic.claude-sonnet-5",
+      "catalog_observed": true,
+      "status": "contract_required"
+    },
+    {
+      "snapshot_model_id": "fb-s1-br-20260731-02",
+      "slot_role": "reasoning",
+      "canonical_name": "Anthropic Claude Opus 5",
+      "provider": "bedrock",
+      "endpoint_id": "global.anthropic.claude-opus-5",
+      "canonical_slug": "anthropic.claude-opus-5",
+      "catalog_observed": true,
+      "status": "contract_required"
+    },
+    {
+      "snapshot_model_id": "fb-s1-or-20260731-01",
+      "slot_role": "open_weight_frontier",
+      "canonical_name": "DeepSeek V4 Pro",
+      "provider": "openrouter",
+      "endpoint_id": "deepseek/deepseek-v4-pro",
+      "canonical_slug": "deepseek/deepseek-v4-pro-20260423",
+      "provider_slug": "deepseek",
+      "catalog_observed": true,
+      "status": "contract_required"
+    },
+    {
+      "snapshot_model_id": "fb-s1-or-20260731-02",
+      "slot_role": "efficiency",
+      "canonical_name": "DeepSeek V4 Flash",
+      "provider": "openrouter",
+      "endpoint_id": "deepseek/deepseek-v4-flash",
+      "canonical_slug": "deepseek/deepseek-v4-flash-20260423",
+      "provider_slug": "deepseek",
+      "catalog_observed": true,
+      "status": "contract_required"
+    },
+    {
+      "snapshot_model_id": "fb-s1-or-20260731-03",
+      "slot_role": "open_weight_frontier",
+      "canonical_name": "Z.AI GLM 5.2",
+      "provider": "openrouter",
+      "endpoint_id": "z-ai/glm-5.2",
+      "canonical_slug": "z-ai/glm-5.2-20260616",
+      "provider_slug": "decart/fp4",
+      "catalog_observed": true,
+      "status": "contract_required"
+    }
+  ],
+  "routing_policy": {
+    "one_endpoint_per_model": true,
+    "allow_fallbacks": false,
+    "require_parameters": true,
+    "data_collection": "deny",
+    "provider_substitution_rank_eligible": false
+  },
+  "freeze_preconditions": [
+    "real provider response",
+    "real Epicure MCP call",
+    "complete tool trace",
+    "non-empty normalized final answer",
+    "canonical route identity",
+    "frozen token and cost policy",
+    "append-only artifact and cost record"
+  ]
+}

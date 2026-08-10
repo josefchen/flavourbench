@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://epicure.dev/schemas/frontier-coverage-orphan-closure-v1.schema.json",
+  "title": "FlavourBench frontier coverage orphan closure v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "audit_artifact_sha256",
+    "audit_filename",
+    "work_item_id",
+    "reservation_entry_sha256",
+    "incident_entry_sha256",
+    "ledger_head_before_closure_sha256",
+    "failure_class",
+    "delivery_status",
+    "reserved_usd",
+    "provider_calls",
+    "epicure_calls",
+    "source_artifacts",
+    "safe_to_replay",
+    "work_item_retired",
+    "v1_ledger_remains_blocked_by_design",
+    "continuation_requires_separate_ledger_and_fresh_identifiers",
+    "artifact_sha256"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "flavourbench-frontier-coverage-orphan-closure-v1"
+    },
+    "status": { "const": "verified_closed_without_source" },
+    "audit_artifact_sha256": { "$ref": "#/$defs/sha256" },
+    "audit_filename": { "type": "string", "minLength": 1 },
+    "work_item_id": { "$ref": "#/$defs/sha256" },
+    "reservation_entry_sha256": { "$ref": "#/$defs/sha256" },
+    "incident_entry_sha256": { "$ref": "#/$defs/sha256" },
+    "ledger_head_before_closure_sha256": { "$ref": "#/$defs/sha256" },
+    "failure_class": { "const": "pre_request_credential_gate" },
+    "delivery_status": {
+      "const": "verified_not_sent_under_reconstructed_source"
+    },
+    "reserved_usd": { "const": "0" },
+    "provider_calls": { "const": 0 },
+    "epicure_calls": { "const": 0 },
+    "source_artifacts": { "const": 0 },
+    "safe_to_replay": { "const": false },
+    "work_item_retired": { "const": true },
+    "v1_ledger_remains_blocked_by_design": { "const": true },
+    "continuation_requires_separate_ledger_and_fresh_identifiers": {
+      "const": true
+    },
+    "artifact_sha256": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

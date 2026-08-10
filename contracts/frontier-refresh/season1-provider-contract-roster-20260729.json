@@ -1,0 +1,183 @@
+{
+  "schema_version": "flavourbench-frontier-refresh-roster-v1",
+  "benchmark": "FlavourBench",
+  "snapshot_label": "Season 1 provider contract candidates 2026-07-29",
+  "status": "candidate_pending_live_contract_smoke",
+  "official": false,
+  "rank_eligible": false,
+  "bedrock_catalog_sha256": "78bb7081d8e5d3f141668098dbcd1c3ffe55efa08e73bc66a35bdd7606d2e279",
+  "selection_rule": "Fifteen current text endpoints spanning closed, open-weight, reasoning, and efficiency families across separately pinned Bedrock and OpenRouter lanes. Catalog discovery made no inference calls. Every endpoint must independently pass a real provider request, Epicure tool-use, and final-response contract before season consideration.",
+  "slots": [
+    {
+      "snapshot_model_id": "fb-s1-br-20260729-01",
+      "slot_role": "closed_frontier",
+      "canonical_name": "Anthropic Claude Fable 5",
+      "provider": "bedrock",
+      "endpoint_id": "global.anthropic.claude-fable-5",
+      "canonical_slug": "anthropic.claude-fable-5",
+      "catalog_observed": true,
+      "status": "contract_required"
+    },
+    {
+      "snapshot_model_id": "fb-s1-br-20260729-02",
+      "slot_role": "efficiency",
+      "canonical_name": "Anthropic Claude Haiku 4.5",
+      "provider": "bedrock",
+      "endpoint_id": "global.anthropic.claude-haiku-4-5-20251001-v1:0",
+      "canonical_slug": "anthropic.claude-haiku-4-5-20251001-v1:0",
+      "catalog_observed": true,
+      "status": "contract_required"
+    },
+    {
+      "snapshot_model_id": "fb-s1-br-20260729-03",
+      "slot_role": "reasoning",
+      "canonical_name": "Anthropic Claude Opus 4.8",
+      "provider": "bedrock",
+      "endpoint_id": "global.anthropic.claude-opus-4-8",
+      "canonical_slug": "anthropic.claude-opus-4-8",
+      "catalog_observed": true,
+      "status": "contract_required"
+    },
+    {
+      "snapshot_model_id": "fb-s1-br-20260729-04",
+      "slot_role": "closed_frontier",
+      "canonical_name": "Anthropic Claude Sonnet 4.6",
+      "provider": "bedrock",
+      "endpoint_id": "global.anthropic.claude-sonnet-4-6",
+      "canonical_slug": "anthropic.claude-sonnet-4-6",
+      "catalog_observed": true,
+      "status": "contract_required"
+    },
+    {
+      "snapshot_model_id": "fb-s1-br-20260729-05",
+      "slot_role": "efficiency",
+      "canonical_name": "Amazon Nova 2 Lite",
+      "provider": "bedrock",
+      "endpoint_id": "global.amazon.nova-2-lite-v1:0",
+      "canonical_slug": "amazon.nova-2-lite-v1:0",
+      "catalog_observed": true,
+      "status": "contract_required"
+    },
+    {
+      "snapshot_model_id": "fb-s1-br-20260729-06",
+      "slot_role": "open_weight_frontier",
+      "canonical_name": "Qwen3 Next 80B A3B",
+      "provider": "bedrock",
+      "endpoint_id": "qwen.qwen3-next-80b-a3b",
+      "canonical_slug": "qwen.qwen3-next-80b-a3b",
+      "catalog_observed": true,
+      "status": "contract_required"
+    },
+    {
+      "snapshot_model_id": "fb-s1-br-20260729-07",
+      "slot_role": "open_weight_frontier",
+      "canonical_name": "NVIDIA Nemotron 3 Super 120B A12B",
+      "provider": "bedrock",
+      "endpoint_id": "nvidia.nemotron-super-3-120b",
+      "canonical_slug": "nvidia.nemotron-super-3-120b",
+      "catalog_observed": true,
+      "status": "contract_required"
+    },
+    {
+      "snapshot_model_id": "fb-s1-br-20260729-08",
+      "slot_role": "open_weight_frontier",
+      "canonical_name": "MiniMax M2.5",
+      "provider": "bedrock",
+      "endpoint_id": "minimax.minimax-m2.5",
+      "canonical_slug": "minimax.minimax-m2.5",
+      "catalog_observed": true,
+      "status": "contract_required"
+    },
+    {
+      "snapshot_model_id": "fb-s1-br-20260729-09",
+      "slot_role": "reasoning",
+      "canonical_name": "OpenAI gpt-oss-120b",
+      "provider": "bedrock",
+      "endpoint_id": "openai.gpt-oss-120b-1:0",
+      "canonical_slug": "openai.gpt-oss-120b-1:0",
+      "catalog_observed": true,
+      "status": "contract_required"
+    },
+    {
+      "snapshot_model_id": "fb-s1-br-20260729-10",
+      "slot_role": "open_weight_frontier",
+      "canonical_name": "Z.AI GLM 4.7 Flash",
+      "provider": "bedrock",
+      "endpoint_id": "zai.glm-4.7-flash",
+      "canonical_slug": "zai.glm-4.7-flash",
+      "catalog_observed": true,
+      "status": "contract_required"
+    },
+    {
+      "snapshot_model_id": "fb-s1-or-20260729-01",
+      "slot_role": "closed_frontier",
+      "canonical_name": "OpenAI GPT-5.6 Sol Pro",
+      "provider": "openrouter",
+      "endpoint_id": "openai/gpt-5.6-sol-pro",
+      "canonical_slug": "openai/gpt-5.6-sol-pro-20260709",
+      "provider_slug": "openai/flex",
+      "catalog_observed": true,
+      "status": "contract_required"
+    },
+    {
+      "snapshot_model_id": "fb-s1-or-20260729-02",
+      "slot_role": "closed_frontier",
+      "canonical_name": "Anthropic Claude Sonnet 5",
+      "provider": "openrouter",
+      "endpoint_id": "anthropic/claude-sonnet-5",
+      "canonical_slug": "anthropic/claude-sonnet-5-20260630",
+      "provider_slug": "anthropic",
+      "catalog_observed": true,
+      "status": "contract_required"
+    },
+    {
+      "snapshot_model_id": "fb-s1-or-20260729-03",
+      "slot_role": "reasoning",
+      "canonical_name": "Anthropic Claude Opus 5",
+      "provider": "openrouter",
+      "endpoint_id": "anthropic/claude-opus-5",
+      "canonical_slug": "anthropic/claude-opus-5-20260723",
+      "provider_slug": "anthropic",
+      "catalog_observed": true,
+      "status": "contract_required"
+    },
+    {
+      "snapshot_model_id": "fb-s1-or-20260729-04",
+      "slot_role": "open_weight_frontier",
+      "canonical_name": "MoonshotAI Kimi K3",
+      "provider": "openrouter",
+      "endpoint_id": "moonshotai/kimi-k3",
+      "canonical_slug": "moonshotai/kimi-k3-20260715",
+      "provider_slug": "moonshotai/mxfp4",
+      "catalog_observed": true,
+      "status": "contract_required"
+    },
+    {
+      "snapshot_model_id": "fb-s1-or-20260729-05",
+      "slot_role": "open_weight_frontier",
+      "canonical_name": "Z.AI GLM 5.2",
+      "provider": "openrouter",
+      "endpoint_id": "z-ai/glm-5.2",
+      "canonical_slug": "z-ai/glm-5.2-20260616",
+      "provider_slug": "z-ai/fp8",
+      "catalog_observed": true,
+      "status": "contract_required"
+    }
+  ],
+  "routing_policy": {
+    "one_endpoint_per_model": true,
+    "allow_fallbacks": false,
+    "require_parameters": true,
+    "data_collection": "deny",
+    "provider_substitution_rank_eligible": false
+  },
+  "freeze_preconditions": [
+    "real provider response",
+    "real Epicure MCP call",
+    "complete tool trace",
+    "non-empty normalized final answer",
+    "canonical route identity",
+    "frozen token and cost policy",
+    "append-only artifact and cost record"
+  ]
+}

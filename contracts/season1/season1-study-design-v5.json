@@ -1,0 +1,330 @@
+{
+  "analysis": {
+    "bias_audits": [
+      "left-right-position",
+      "response-length",
+      "format-and-style",
+      "rater-severity",
+      "provider-incident",
+      "task-order"
+    ],
+    "both_bad_policy": "observed_failure_outcome_excluded_from_conditional_preference_fit",
+    "controlled_arena_point": "arena-rank-0.1.1-weighted-bradley-terry",
+    "controlled_arena_uncertainty": "5000-replicate-family-stratified-task-cluster-bootstrap",
+    "controlled_uplift_primary": "family-standardized-design-based-paired-estimator",
+    "controlled_uplift_estimands": [
+      "paired_completion_intention-to-evaluate",
+      "conditional_preference_given_both_valid_and_not_both_bad",
+      "both_bad_probability"
+    ],
+    "correction_sensitivity": "recompute-all-snapshots-and-report-rank-and-effect-shifts-after-every-confirmed-material-task-defect",
+    "failure_sensitivity": "best-and-worst-case-missing-preference-bounds",
+    "full_roster_graph_policy": "withhold-global-ranking-if-any-frozen-model-is-isolated-or-disconnected",
+    "item_diagnostics": [
+      "family-and-construct-cell-pass-rate",
+      "task-difficulty",
+      "task-discrimination",
+      "leave-one-task-out-rank-stability",
+      "endpoint-by-family-interaction"
+    ],
+    "live_public_uncertainty": "participant-cluster-bootstrap-conditional-on-collected-voluntary-traffic",
+    "multiple_reporting": "preference-objective-reliability-cost-and-latency-remain-separate",
+    "no_composite_score": true,
+    "stopping_rule": "fixed-prespecified-cell-counts-without-effect-based-early-stopping",
+    "tie_policy": "half-win-in-model-arena-and-uplift-preference",
+    "weighting": {
+      "battle_within_task": "equal",
+      "family": "one-quarter-each",
+      "planned_rater_within_battle": "equal",
+      "scheduled_repetition_within_task": "equal",
+      "task_within_family": "equal"
+    }
+  },
+  "artifact_sha256": "7a63cfd6117338a3af16a422d5ee3458298fdc0ff2fd0abfe45fe851a7e54506",
+  "claim_boundary": {
+    "controlled_primary": "frozen-English-non-specialist-home-cooking-task-bank-and-versioned-endpoints",
+    "expert": "conditional-on-named-qualified-reviewer-panel-unless-rater-population-criteria-pass",
+    "live_public_secondary": "observational-voluntary-traffic-not-task-bank-inference",
+    "prohibited_claims": [
+      "universal-culinary-intelligence",
+      "food-safety-or-allergen-competence",
+      "formal-nutrition-competence",
+      "cultural-authenticity",
+      "performance-outside-tested-endpoints-or-release-versions"
+    ],
+    "season0_data": "development-and-measurement-audit-only",
+    "synthetic_observations": "prohibited-from-all-scored-and-supplemental-empirical-evidence"
+  },
+  "data_governance": {
+    "controlled_benchmark_retention": "immutable-release-archive-through-formal-withdrawal-policy",
+    "identity": "season-specific-pseudonyms-and-admin-witnessed-person-hmac-commitments-without-raw-identity-or-IP-retention",
+    "live_nonconsented_retention_days": 30,
+    "research_release_consent": "explicit-optional-default-off-for-live-public-traffic",
+    "role_person_uniqueness": "one-season-account-per-person-and-six-person-independence-within-each-task",
+    "specialist_tracks": "separately-governed"
+  },
+  "expert_evaluation": {
+    "minimum_distinct_independent_raters_per_comparison": 2,
+    "minimum_unique_comparison_appearances_per_model": {
+      "epicure_uplift": 50,
+      "model_arena": 100
+    },
+    "minimum_unique_comparisons": {
+      "epicure_uplift": 800,
+      "model_arena": 800
+    },
+    "ratings_per_comparison": 2,
+    "reliability_repeat_rate": 0.125,
+    "required_cohort": "qualification-matched-independent-culinary-reviewers",
+    "rubric_dimensions": [
+      "task_completion",
+      "constraint_compliance",
+      "coherence",
+      "sensory_promise",
+      "cookability",
+      "clarity",
+      "originality",
+      "evidence_use",
+      "calibration"
+    ],
+    "task_criterion_source": "independent-answer-blind-adjudication"
+  },
+  "model_panel": {
+    "candidate_count": 16,
+    "eligibility": [
+      "canonical-versioned-model-identity",
+      "exact-provider-endpoint",
+      "text-generation",
+      "tool-calling",
+      "strict-structured-output",
+      "approved-data-policy",
+      "cost-within-frozen-cap",
+      "production-contract-pass"
+    ],
+    "fallback_policy": "disabled-for-ranked-runs",
+    "freshness_policy": "dated-catalog-cutoff-and-exact-endpoint-manifest-per-season",
+    "provider_retry_policy": "billing-retry-not-an-independent-generation-repetition",
+    "provider_substitution_policy": "unranked-exploratory-only",
+    "selection_without_quality_outcomes": true
+  },
+  "power_and_validation": {
+    "arena_target_effect_elo": 50,
+    "bias_limit_probability_scale": 0.02,
+    "bootstrap_connected_replicate_minimum": 0.99,
+    "coverage_acceptance": [
+      0.93,
+      0.97
+    ],
+    "minimum_monte_carlo_datasets_per_scenario": 2000,
+    "minimum_power": 0.8,
+    "null_type_one_error_acceptance": [
+      0.04,
+      0.06
+    ],
+    "uplift_target_effect_probability": 0.1
+  },
+  "primary_controlled_collection": {
+    "epicure_uplift": {
+      "anchor_repetitions": 640,
+      "base_pairs": 2560,
+      "minimum_pairs_per_model": 200,
+      "minimum_pairs_per_model_family": 50,
+      "total_pairs": 3200
+    },
+    "model_arena": {
+      "endpoint_appearances": 6400,
+      "minimum_endpoint_appearances_per_model": 400,
+      "total_battles": 3200
+    },
+    "total_model_response_arms": 12800
+  },
+  "release_requirements": {
+    "benchmark_results_release": {
+      "all_primary_collection_cells_complete_or-prespecified-missingness-bound": true,
+      "all_validity-and-robustness-studies-complete": true,
+      "content-addressed-raw-to-result-archive": true,
+      "exact-replay-command-and-container-digest": true,
+      "public-correction-and-challenge-ledger": true,
+      "signed-snapshot-bound-research-archive": true,
+      "zero-unresolved-material-task-defects": true
+    },
+    "industry_standard_claim": {
+      "minimum-independent-culinary-replications": 1,
+      "minimum-independent-model-lab-or-open-model-team-reproductions": 2,
+      "minimum-published-seasons": 2,
+      "prohibited-before-thresholds-pass": true
+    },
+    "season_cadence": "dated-immutable-seasons-with-delayed-private-reserve-and-no-overwrite"
+  },
+  "schema_version": "flavourbench-season1-study-design-v5",
+  "status": "prospective-design-superseding-v4-before-scored-collection",
+  "supersedes_artifact_sha256": "b7f40733fded37123b76b6ddc1c81da5efa72730652b2cd6d405de7b5c60bf29",
+  "target_population": {
+    "excluded_domains": [
+      "formal-nutrition",
+      "allergen-management",
+      "food-safety",
+      "cultural-authenticity",
+      "medical-or-legal-advice"
+    ],
+    "language": "English",
+    "tasks": "non-specialist-home-cooking-decision-support",
+    "users": "adults-seeking-practical-culinary-assistance"
+  },
+  "task_bank": {
+    "admission": {
+      "answer_leakage_check": true,
+      "author_distinct_from_reviewers": true,
+      "blind_prompt_only_solutions_per_task": 2,
+      "distinct_people_per_task": 6,
+      "independent_adjudications_per_task": 1,
+      "independent_contamination_audit_reviews_per_task": 1,
+      "independent_reconciliations_per_task": 2,
+      "independent_validator_contract_reviews_per_task": 1,
+      "minimum_distinct_verified_task_authors": 20,
+      "minimum_human_evidence_reviews": 480,
+      "minimum_human_validity_records": 720,
+      "person_uniqueness_method": "admin-witnessed-season-hmac-v1",
+      "rights_review": true,
+      "specialist_scope_check": true,
+      "task_specific_surface_diagnostic_where_objective": true,
+      "validator_calibration_minimum_precision": 0.95,
+      "validator_calibration_minimum_recall": 0.9
+    },
+    "construct_blueprint": {
+      "artifact_sha256": "83e5b115ddcac3cb4622ede99d0b39d870b6617425568b3248818bc8f6368b19",
+      "path": "contracts/season1/season1-construct-blueprint-v1.json",
+      "schema_version": "flavourbench-season1-construct-blueprint-v1"
+    },
+    "contamination": {
+      "auto_reject_high_similarity": true,
+      "labeled_detection_calibration": {
+        "minimum_cases": 150,
+        "minimum_overall_precision": 0.95,
+        "minimum_overall_recall": 0.9,
+        "minimum_paraphrase_recall": 0.85,
+        "required_before_scored_collection": true
+      },
+      "methods": [
+        "exact",
+        "fuzzy",
+        "ngram",
+        "semantic",
+        "web"
+      ],
+      "replay_over_content_addressed_bundle": true,
+      "semantic_method": "distributional-random-indexing-v1",
+      "web_results_captured_before_admission": true
+    },
+    "correction_policy": {
+      "confirmed_error_action": "append-only-retirement-and-mandatory-snapshot-recomputation",
+      "minimum_independent_adjudicators": 2,
+      "original_task_role_exclusion": true,
+      "public_content_addressed_challenges": true,
+      "versioned_replacement_required_to_restore-bank-quota": true
+    },
+    "families": {
+      "composition": 60,
+      "cookability": 60,
+      "evidence": 60,
+      "substitution": 60
+    },
+    "hidden_until_release_cutoff": true,
+    "human_authored": true,
+    "minimum_surface_diagnostic_coverage": 96,
+    "split_lifecycle_dates": [
+      "authored_at",
+      "sealed_at",
+      "first_used_at",
+      "released_at",
+      "retired_at"
+    ],
+    "splits": {
+      "development": 40,
+      "private_reserve": 40,
+      "scored": 160
+    },
+    "total": 240
+  },
+  "validity_and_robustness": {
+    "generation_reliability_panel": {
+      "conditions": [
+        "epicure_off",
+        "epicure_on"
+      ],
+      "endpoint_count": 16,
+      "incremental_arms_beyond_primary": 1280,
+      "independent_generations_per_cell": 3,
+      "metrics": [
+        "valid-response-pass-at-1",
+        "all-three-valid-pass-cubed",
+        "within-endpoint-score-variance",
+        "pairwise-outcome-consistency",
+        "tool-trajectory-consistency"
+      ],
+      "nested_in_primary_collection": true,
+      "ranking_use": "reported-separately-not-pooled-into-primary-point-estimates",
+      "retries_are_not_repetitions": true,
+      "selection_before_quality_outcomes": true,
+      "task_count": 20,
+      "tasks_per_family": 5,
+      "total_panel_arms": 1920
+    },
+    "post_collection_item_audit": {
+      "all_anomaly_flagged_tasks": true,
+      "audit_materials": [
+        "prompt",
+        "criterion-pack",
+        "validator-contract",
+        "model-responses-and-tool-traces",
+        "failure-and-disagreement-patterns"
+      ],
+      "auditors_excluded_from_original_task_roles": true,
+      "material_defect_action": "append-only-retirement-and-mandatory-recomputation-of-all-affected-snapshots",
+      "minimum_independent_auditors_per_task": 2,
+      "minimum_random_tasks": 60,
+      "population_tasks": 240,
+      "random_audit_fraction": 0.25,
+      "release_requires_zero_unresolved_material_defects": true,
+      "sampling_seed_committed_before-model-results": true
+    },
+    "practical_cookability_execution": {
+      "blinding": "model-and-epicure-condition-hidden",
+      "independent_cooks_per_output": 2,
+      "measures": [
+        "completion",
+        "elapsed-time",
+        "instruction-deviations",
+        "yield",
+        "blinded-acceptability",
+        "rubric-to-execution-association"
+      ],
+      "output_selection": "preregistered-endpoint-condition-rotation-without-quality-outcomes",
+      "outputs_per_task": 1,
+      "ranking_use": "construct-validity-study-not-pooled-into-primary-ranking",
+      "task_count": 24,
+      "task_family": "cookability",
+      "total_kitchen_executions": 48
+    },
+    "prompt_sensitivity_audit": {
+      "endpoint_count": 8,
+      "endpoint_selection": "provider-and-model-family-stratified-without-quality-outcomes",
+      "epicure_condition": "epicure_off",
+      "metrics": [
+        "endpoint-score-shift",
+        "rank-correlation",
+        "endpoint-by-prompt-interaction",
+        "invalid-response-shift"
+      ],
+      "prompt_variants": 3,
+      "ranking_use": "development-only-non-ranking-audit",
+      "selection_after-results": "prohibited",
+      "split": "development",
+      "task_count": 20,
+      "tasks_per_family": 5,
+      "total_response_arms": 480
+    },
+    "total_planned_real_model_response_arms_including_robustness": 14560
+  },
+  "version": "5.0.0"
+}

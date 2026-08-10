@@ -1,0 +1,61 @@
+{
+  "schema_version": "flavourbench-season1-arena-inference-acceptance-v1",
+  "status": "frozen_precollection",
+  "frozen_at": "2026-08-03T00:00:00Z",
+  "study_design_artifact_sha256": "7a63cfd6117338a3af16a422d5ee3458298fdc0ff2fd0abfe45fe851a7e54506",
+  "scope": "official_global_and_family_specific_model_arena_fits",
+  "global_fit": {
+    "required_admitted_scored_tasks": 160,
+    "required_admitted_scored_tasks_per_family": 40,
+    "minimum_unique_task_clusters_per_model_family": 20,
+    "minimum_unique_comparisons_per_model": 100,
+    "minimum_distinct_independent_raters_per_comparison": 2,
+    "require_connected_graph_per_family": true,
+    "minimum_global_bootstrap_connected_rate": 0.99,
+    "minimum_family_bootstrap_connected_rate": 0.99,
+    "maximum_unresolved_material_task_defects": 0
+  },
+  "family_specific_fit": {
+    "required_admitted_scored_tasks": 40,
+    "minimum_unique_task_clusters_per_model": 20,
+    "minimum_unique_comparisons_per_model": 100,
+    "minimum_distinct_independent_raters_per_comparison": 2,
+    "require_connected_graph": true,
+    "minimum_bootstrap_connected_rate": 0.99
+  },
+  "pairwise_reporting": {
+    "minimum_shared_task_clusters_for_interval": 10,
+    "below_floor_action": "suppress_pair_specific_interval"
+  },
+  "withholding_status": "withheld_insufficient_task_clusters",
+  "current_development_pool_is_not_grandfathered": true,
+  "simulation_gate": {
+    "minimum_datasets_per_scenario": 2000,
+    "production_layout_required": true,
+    "models": 16,
+    "bootstrap_replicates": 5000,
+    "validated_surrogate_permitted": false,
+    "scenarios": [
+      "null_tie_rate_0.10",
+      "null_tie_rate_0.40",
+      "single_model_50_elo_shift",
+      "family_crossover_zero_global_effect",
+      "task_icc_0.05_and_0.25_with_observed_response_reuse",
+      "crossed_rater_severity_and_side_bias",
+      "observed_endpoint_family_missingness_and_near_disconnection",
+      "both_bad_0_and_0.20_with_10_percent_anomalous_or_repeat_raters"
+    ],
+    "acceptance": {
+      "pairwise_difference_coverage_lower": 0.93,
+      "pairwise_difference_coverage_upper": 0.97,
+      "type_i_error_lower": 0.04,
+      "type_i_error_upper": 0.06,
+      "minimum_power_at_50_elo": 0.8,
+      "maximum_probability_scale_absolute_bias": 0.02,
+      "require_no_interval_narrowing_under_exact_row_duplication": true,
+      "require_deterministic_sparse_anchor_and_disconnected_withholding": true
+    },
+    "status": "required_not_yet_executed"
+  },
+  "artifact_sha256": "bdc0fa93c6365cdcd45694d1d5500d82ccbd622f3be897be9217e252855ffff5"
+}

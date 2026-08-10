@@ -1,0 +1,17 @@
+{
+  "schema_version": "flavourbench-season0-replacement-candidate-v1",
+  "status": "compatibility_test_only",
+  "official": false,
+  "rank_eligible": false,
+  "selection_reason": "Pre-scoring replacement candidate for a roster model that failed all four real Epicure-on calibration arms.",
+  "slots": [
+    {
+      "slot_role": "open_weight",
+      "canonical_name": "Qwen3 VL 235B A22B",
+      "provider": "bedrock",
+      "endpoint_id": "qwen.qwen3-vl-235b-a22b",
+      "catalog_observed": true,
+      "status": "contract_required"
+    }
+  ]
+}

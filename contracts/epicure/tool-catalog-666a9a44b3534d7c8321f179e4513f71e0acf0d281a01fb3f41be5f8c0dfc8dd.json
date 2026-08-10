@@ -1,0 +1,729 @@
+[
+  {
+    "_meta": {
+      "securitySchemes": [
+        {
+          "type": "noauth"
+        }
+      ]
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true,
+      "title": "Compare ingredients on an axis"
+    },
+    "description": "Compares two ingredients on one named embedding axis, such as sweetness or a cuisine direction. Returns both projections, the difference from ingredient A to ingredient B, percentile labels, and the axis p10/p90 range. Valid axis names are available from list_targets with kind='direction'.",
+    "inputSchema": {
+      "properties": {
+        "axis": {
+          "maxLength": 120,
+          "minLength": 1,
+          "title": "Axis",
+          "type": "string"
+        },
+        "ingredient_a": {
+          "maxLength": 120,
+          "minLength": 1,
+          "title": "Ingredient A",
+          "type": "string"
+        },
+        "ingredient_b": {
+          "maxLength": 120,
+          "minLength": 1,
+          "title": "Ingredient B",
+          "type": "string"
+        }
+      },
+      "required": [
+        "ingredient_a",
+        "ingredient_b",
+        "axis"
+      ],
+      "title": "_compare_on_axisArguments",
+      "type": "object"
+    },
+    "name": "compare_on_axis",
+    "title": "Compare ingredients on an axis"
+  },
+  {
+    "_meta": {
+      "securitySchemes": [
+        {
+          "type": "noauth"
+        }
+      ]
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true,
+      "title": "Score an ingredient pairing"
+    },
+    "description": "Measures the affinity between two specific ingredients. Returns their 300-dimensional cosine similarity and a percentile label relative to ingredient pairs in the corpus. Higher values indicate a stronger learned pairing; typical scores fall between 0.0 and 0.6.",
+    "inputSchema": {
+      "properties": {
+        "ingredient_a": {
+          "maxLength": 120,
+          "minLength": 1,
+          "title": "Ingredient A",
+          "type": "string"
+        },
+        "ingredient_b": {
+          "maxLength": 120,
+          "minLength": 1,
+          "title": "Ingredient B",
+          "type": "string"
+        }
+      },
+      "required": [
+        "ingredient_a",
+        "ingredient_b"
+      ],
+      "title": "_pairing_scoreArguments",
+      "type": "object"
+    },
+    "name": "pairing_score",
+    "title": "Score an ingredient pairing"
+  },
+  {
+    "_meta": {
+      "securitySchemes": [
+        {
+          "type": "noauth"
+        }
+      ]
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true,
+      "title": "Explore ingredient pairings"
+    },
+    "description": "Explores complementary ingredients for one or more seed ingredients. It is suited to open-ended pairing questions and recipe or dish design. Returns clustered flavour directions, each seed's strongest secondary connections, and bridge ingredients shared across clusters. Category penalties promote variety, and optional vegan or vegetarian filters remove incompatible suggestions.",
+    "inputSchema": {
+      "properties": {
+        "ingredients": {
+          "anyOf": [
+            {
+              "items": {
+                "maxLength": 120,
+                "minLength": 1,
+                "type": "string"
+              },
+              "maxItems": 12,
+              "minItems": 1,
+              "type": "array"
+            },
+            {
+              "maxLength": 120,
+              "minLength": 1,
+              "type": "string"
+            }
+          ],
+          "title": "Ingredients"
+        },
+        "is_vegan": {
+          "default": false,
+          "title": "Is Vegan",
+          "type": "boolean"
+        },
+        "is_vegetarian": {
+          "default": false,
+          "title": "Is Vegetarian",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "ingredients"
+      ],
+      "title": "_find_pairingsArguments",
+      "type": "object"
+    },
+    "name": "find_pairings",
+    "title": "Explore ingredient pairings"
+  },
+  {
+    "_meta": {
+      "securitySchemes": [
+        {
+          "type": "noauth"
+        }
+      ]
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true,
+      "title": "Inspect flavour correlations"
+    },
+    "description": "Reports the strongest relationships between named axes in the global flavour space. Positive cosine values indicate aligned axes and negative values indicate opposing axes. Results can be limited and filtered by minimum absolute correlation to keep the response concise.",
+    "inputSchema": {
+      "properties": {
+        "limit": {
+          "default": 30,
+          "maximum": 100,
+          "minimum": 1,
+          "title": "Limit",
+          "type": "integer"
+        },
+        "min_abs_correlation": {
+          "default": 0.3,
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Min Abs Correlation",
+          "type": "number"
+        }
+      },
+      "title": "_flavour_correlationsArguments",
+      "type": "object"
+    },
+    "name": "flavour_correlations",
+    "title": "Inspect flavour correlations"
+  },
+  {
+    "_meta": {
+      "securitySchemes": [
+        {
+          "type": "noauth"
+        }
+      ]
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true,
+      "title": "Profile an ingredient by cuisine"
+    },
+    "description": "Scores one ingredient against eight macro-region cuisine directions: Japanese, East Asian, Southeast Asian, South Asian, Latin American, Mediterranean, Eastern European, and Western Atlantic. Returns ranked cosine similarities with p10/p90 range context for cuisine-focused questions.",
+    "inputSchema": {
+      "properties": {
+        "ingredient": {
+          "maxLength": 120,
+          "minLength": 1,
+          "title": "Ingredient",
+          "type": "string"
+        }
+      },
+      "required": [
+        "ingredient"
+      ],
+      "title": "_cultural_profileArguments",
+      "type": "object"
+    },
+    "name": "cultural_profile",
+    "title": "Profile an ingredient by cuisine"
+  },
+  {
+    "_meta": {
+      "securitySchemes": [
+        {
+          "type": "noauth"
+        }
+      ]
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true,
+      "title": "Find similar ingredients"
+    },
+    "description": "Returns the nearest ingredients to one seed by cosine similarity in the 300-dimensional embedding. The result is a ranked similarity list with no clustering or dietary filtering, suited to direct substitution and single-ingredient similarity questions.",
+    "inputSchema": {
+      "properties": {
+        "ingredient": {
+          "maxLength": 120,
+          "minLength": 1,
+          "title": "Ingredient",
+          "type": "string"
+        },
+        "top_k": {
+          "default": 5,
+          "maximum": 25,
+          "minimum": 1,
+          "title": "Top K",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "ingredient"
+      ],
+      "title": "_neighborsArguments",
+      "type": "object"
+    },
+    "name": "neighbors",
+    "title": "Find similar ingredients"
+  },
+  {
+    "_meta": {
+      "securitySchemes": [
+        {
+          "type": "noauth"
+        }
+      ]
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true,
+      "title": "Transform an ingredient in flavour space"
+    },
+    "description": "Rotates a seed ingredient toward a named direction, emergent mode, or second ingredient on the embedding unit sphere, then returns the nearest ingredients to the transformed vector. This supports explicitly directed transformations such as making an ingredient sweeter or more aligned with a cuisine. list_targets provides valid directions and modes. angle_deg ranges from 0 (unchanged) to 90 (fully orthogonal to the seed).",
+    "inputSchema": {
+      "$defs": {
+        "DirectionTarget": {
+          "additionalProperties": false,
+          "description": "Rotate the seed toward a supervised direction.\n\nThe ``name`` is one of the keys returned by ``list_targets(kind='direction')``.\nExamples: ``cuisine:Japanese``, ``cf_sweet``, ``cf_savory``,\n``usda_protein_g``, ``nova``, ``diet``.",
+          "properties": {
+            "kind": {
+              "const": "direction",
+              "title": "Kind",
+              "type": "string"
+            },
+            "name": {
+              "description": "Supervised direction key. Call list_targets(kind='direction') for the catalogue.",
+              "maxLength": 120,
+              "minLength": 1,
+              "title": "Name",
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "name"
+          ],
+          "title": "DirectionTarget",
+          "type": "object"
+        },
+        "IngredientTarget": {
+          "additionalProperties": false,
+          "description": "Rotate the seed toward another ingredient.\n\n``name`` is resolved through the same deterministic matcher as every\nother tool, so free-text inputs like ``\"fresh ginger\"`` work.",
+          "properties": {
+            "kind": {
+              "const": "ingredient",
+              "title": "Kind",
+              "type": "string"
+            },
+            "name": {
+              "description": "Target ingredient name (free-text; matcher will resolve).",
+              "maxLength": 120,
+              "minLength": 1,
+              "title": "Name",
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "name"
+          ],
+          "title": "IngredientTarget",
+          "type": "object"
+        },
+        "ModeTarget": {
+          "additionalProperties": false,
+          "description": "Rotate the seed toward an emergent GMM mode pole.\n\n``property`` + ``mode_id`` are the two keys returned together by\n``list_targets(kind='mode')``.",
+          "properties": {
+            "kind": {
+              "const": "mode",
+              "title": "Kind",
+              "type": "string"
+            },
+            "mode_id": {
+              "description": "Integer mode id within the property family.",
+              "maximum": 10000,
+              "minimum": 0,
+              "title": "Mode Id",
+              "type": "integer"
+            },
+            "property": {
+              "description": "Mode property family, e.g. 'cf_savory', 'nova_level'. Call list_targets(kind='mode') for valid (property, mode_id) pairs.",
+              "maxLength": 120,
+              "minLength": 1,
+              "title": "Property",
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "property",
+            "mode_id"
+          ],
+          "title": "ModeTarget",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "angle_deg": {
+          "default": 30.0,
+          "maximum": 90,
+          "minimum": 0,
+          "title": "Angle Deg",
+          "type": "number"
+        },
+        "seed": {
+          "maxLength": 120,
+          "minLength": 1,
+          "title": "Seed",
+          "type": "string"
+        },
+        "target": {
+          "description": "Discriminated union -- exactly one of: {'kind':'direction', 'name': <axis-key>}, {'kind':'mode', 'property': <prop>, 'mode_id': <int>}, {'kind':'ingredient', 'name': <ingredient>}.",
+          "discriminator": {
+            "mapping": {
+              "direction": "#/$defs/DirectionTarget",
+              "ingredient": "#/$defs/IngredientTarget",
+              "mode": "#/$defs/ModeTarget"
+            },
+            "propertyName": "kind"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/DirectionTarget"
+            },
+            {
+              "$ref": "#/$defs/ModeTarget"
+            },
+            {
+              "$ref": "#/$defs/IngredientTarget"
+            }
+          ],
+          "title": "Target"
+        },
+        "top_k": {
+          "default": 5,
+          "maximum": 25,
+          "minimum": 1,
+          "title": "Top K",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "seed",
+        "target"
+      ],
+      "title": "_morphArguments",
+      "type": "object"
+    },
+    "name": "morph",
+    "title": "Transform an ingredient in flavour space"
+  },
+  {
+    "_meta": {
+      "securitySchemes": [
+        {
+          "type": "noauth"
+        }
+      ]
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true,
+      "title": "List transformation targets"
+    },
+    "description": "Lists valid targets for morph and named axes for compare_on_axis. Directions include cuisines, sensory descriptors, nutrients, NOVA, and diet; modes are emergent GMM regions. Results are paginated by kind and include a concise angle_deg guide for morph.",
+    "inputSchema": {
+      "properties": {
+        "kind": {
+          "default": "direction",
+          "enum": [
+            "direction",
+            "mode"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "limit": {
+          "default": 25,
+          "maximum": 50,
+          "minimum": 1,
+          "title": "Limit",
+          "type": "integer"
+        },
+        "offset": {
+          "default": 0,
+          "maximum": 10000,
+          "minimum": 0,
+          "title": "Offset",
+          "type": "integer"
+        }
+      },
+      "title": "_list_targetsArguments",
+      "type": "object"
+    },
+    "name": "list_targets",
+    "title": "List transformation targets"
+  },
+  {
+    "_meta": {
+      "securitySchemes": [
+        {
+          "type": "noauth"
+        }
+      ]
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true,
+      "title": "List flavour factors"
+    },
+    "description": "Lists the 20 emergent ICA flavour factors available to ingredient_on_factor and pareto_navigate. Each summary includes the factor index, named axis, pole labels, and coherence ratings. Set include_examples=true to add themes and anchoring ingredients, and use min_coherence to filter the catalogue.",
+    "inputSchema": {
+      "properties": {
+        "include_examples": {
+          "default": false,
+          "title": "Include Examples",
+          "type": "boolean"
+        },
+        "min_coherence": {
+          "default": "moderate",
+          "enum": [
+            "high",
+            "moderate",
+            "low"
+          ],
+          "title": "Min Coherence",
+          "type": "string"
+        }
+      },
+      "title": "_list_factorsArguments",
+      "type": "object"
+    },
+    "name": "list_factors",
+    "title": "List flavour factors"
+  },
+  {
+    "_meta": {
+      "securitySchemes": [
+        {
+          "type": "noauth"
+        }
+      ]
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true,
+      "title": "Project an ingredient onto a factor"
+    },
+    "description": "Projects one ingredient onto one emergent ICA factor. Returns the signed projection, its percentile across all 1,790 ingredients, and the labels and anchoring ingredients for both poles. Positive values point toward pole A and negative values toward pole B; list_factors maps factor indices to named axes.",
+    "inputSchema": {
+      "properties": {
+        "factor": {
+          "maximum": 19,
+          "minimum": 0,
+          "title": "Factor",
+          "type": "integer"
+        },
+        "ingredient": {
+          "maxLength": 120,
+          "minLength": 1,
+          "title": "Ingredient",
+          "type": "string"
+        }
+      },
+      "required": [
+        "ingredient",
+        "factor"
+      ],
+      "title": "_ingredient_on_factorArguments",
+      "type": "object"
+    },
+    "name": "ingredient_on_factor",
+    "title": "Project an ingredient onto a factor"
+  },
+  {
+    "_meta": {
+      "securitySchemes": [
+        {
+          "type": "noauth"
+        }
+      ]
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true,
+      "title": "Navigate a flavour trade-off"
+    },
+    "description": "Computes Pareto frontiers that balance similarity to a seed ingredient against movement toward one or more labelled flavour poles. It supports trade-off questions such as finding ingredients that remain rice-like while becoming more aligned with another culinary property. A specific factor and side can be supplied, or relevant poles can be selected automatically.",
+    "inputSchema": {
+      "$defs": {
+        "ParetoPole": {
+          "additionalProperties": false,
+          "description": "One labelled ICA pole used for explicit Pareto navigation.",
+          "properties": {
+            "factor": {
+              "maximum": 19,
+              "minimum": 0,
+              "title": "Factor",
+              "type": "integer"
+            },
+            "side": {
+              "enum": [
+                "a",
+                "b"
+              ],
+              "title": "Side",
+              "type": "string"
+            }
+          },
+          "required": [
+            "factor",
+            "side"
+          ],
+          "title": "ParetoPole",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "max_frontier": {
+          "default": 15,
+          "maximum": 25,
+          "minimum": 1,
+          "title": "Max Frontier",
+          "type": "integer"
+        },
+        "pole": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ParetoPole"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "seed": {
+          "maxLength": 120,
+          "minLength": 1,
+          "title": "Seed",
+          "type": "string"
+        },
+        "top_k_poles": {
+          "default": 6,
+          "maximum": 10,
+          "minimum": 1,
+          "title": "Top K Poles",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "seed"
+      ],
+      "title": "_pareto_navigateArguments",
+      "type": "object"
+    },
+    "name": "pareto_navigate",
+    "title": "Navigate a flavour trade-off"
+  },
+  {
+    "_meta": {
+      "securitySchemes": [
+        {
+          "type": "noauth"
+        }
+      ]
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true,
+      "title": "Find an ingredient's flavour region"
+    },
+    "description": "Returns the emergent GMM regions that best describe one ingredient. Each result includes a human-labelled mode, cosine similarity to its centroid, dominant cuisine and food group, and representative members. An optional property restricts the search to one axis family.",
+    "inputSchema": {
+      "properties": {
+        "ingredient": {
+          "maxLength": 120,
+          "minLength": 1,
+          "title": "Ingredient",
+          "type": "string"
+        },
+        "property": {
+          "anyOf": [
+            {
+              "maxLength": 120,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Property"
+        },
+        "top_k": {
+          "default": 3,
+          "maximum": 25,
+          "minimum": 1,
+          "title": "Top K",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "ingredient"
+      ],
+      "title": "_closest_modeArguments",
+      "type": "object"
+    },
+    "name": "closest_mode",
+    "title": "Find an ingredient's flavour region"
+  },
+  {
+    "_meta": {
+      "securitySchemes": [
+        {
+          "type": "noauth"
+        }
+      ]
+    },
+    "annotations": {
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false,
+      "readOnlyHint": true,
+      "title": "Locate an ingredient on the atlas"
+    },
+    "description": "Locates one ingredient on the precomputed 2D UMAP atlas. Returns its coordinate, cuisine and food-group labels, and nearest visual neighbours with 2D distances. The result describes spatial context rather than a named model region.",
+    "inputSchema": {
+      "properties": {
+        "ingredient": {
+          "maxLength": 120,
+          "minLength": 1,
+          "title": "Ingredient",
+          "type": "string"
+        },
+        "top_k_neighbors_2d": {
+          "default": 5,
+          "maximum": 25,
+          "minimum": 1,
+          "title": "Top K Neighbors 2D",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "ingredient"
+      ],
+      "title": "_where_on_atlasArguments",
+      "type": "object"
+    },
+    "name": "where_on_atlas",
+    "title": "Locate an ingredient on the atlas"
+  }
+]

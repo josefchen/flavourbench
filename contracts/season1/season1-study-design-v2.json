@@ -1,0 +1,175 @@
+{
+  "analysis": {
+    "both_bad_policy": "observed_failure_outcome_excluded_from_conditional_preference_fit",
+    "controlled_arena_point": "arena-rank-0.1.1-weighted-bradley-terry",
+    "controlled_arena_uncertainty": "5000-replicate-family-stratified-task-cluster-bootstrap",
+    "controlled_uplift_primary": "family-standardized-design-based-paired-estimator",
+    "controlled_uplift_estimands": [
+      "paired_completion_intention-to-evaluate",
+      "conditional_preference_given_both_valid_and_not_both_bad",
+      "both_bad_probability"
+    ],
+    "failure_sensitivity": "best-and-worst-case-missing-preference-bounds",
+    "full_roster_graph_policy": "withhold_global_ranking_if_any_frozen_model_is_isolated_or_disconnected",
+    "live_public_uncertainty": "participant-cluster-bootstrap_conditional-on-collected-voluntary-traffic",
+    "multiple_reporting": "preference-objective-reliability-cost-and-latency-remain-separate",
+    "no_composite_score": true,
+    "stopping_rule": "fixed_prespecified-cell-counts-without-effect-based-early-stopping",
+    "tie_policy": "half-win-in-model-arena-and-uplift-preference",
+    "weighting": {
+      "battle_within_task": "equal",
+      "family": "one-quarter-each",
+      "planned_rater_within_battle": "equal",
+      "scheduled_repetition_within_task": "equal",
+      "task_within_family": "equal"
+    }
+  },
+  "artifact_sha256": "a6a7442aaecbfdf37bc3cc8b62130a5d46ef8401c6d93e53585b2266677e2ce3",
+  "claim_boundary": {
+    "controlled_primary": "frozen-English-non-specialist-home-cooking-task-bank-and-versioned-endpoints",
+    "expert": "conditional-on-named-qualified-reviewer-panel-unless-rater-population-criteria-pass",
+    "live_public_secondary": "observational-voluntary-traffic-not-task-bank-inference",
+    "prohibited_claims": [
+      "universal-culinary-intelligence",
+      "food-safety-or-allergen-competence",
+      "formal-nutrition-competence",
+      "cultural-authenticity",
+      "performance-outside-tested-endpoints-or-release-versions"
+    ],
+    "season0_data": "development-and-measurement-audit-only",
+    "synthetic_observations": "prohibited-from-all-scored-evidence"
+  },
+  "data_governance": {
+    "controlled_benchmark_retention": "immutable-release-archive-through-formal-withdrawal-policy",
+    "identity": "season-specific-pseudonyms-without-raw-IP-storage",
+    "live_nonconsented_retention_days": 30,
+    "research_release_consent": "explicit-optional-default-off-for-live-public-traffic",
+    "specialist_tracks": "separately-governed"
+  },
+  "expert_evaluation": {
+    "minimum_distinct_independent_raters_per_comparison": 2,
+    "minimum_unique_comparisons": {
+      "epicure_uplift": 800,
+      "model_arena": 800
+    },
+    "minimum_unique_comparison_appearances_per_model": {
+      "epicure_uplift": 50,
+      "model_arena": 100
+    },
+    "ratings_per_comparison": 2,
+    "reliability_repeat_rate": 0.125,
+    "required_cohort": "qualification-matched-independent-culinary-reviewers",
+    "rubric_dimensions": [
+      "task_completion",
+      "constraint_compliance",
+      "coherence",
+      "sensory_promise",
+      "cookability",
+      "clarity",
+      "originality",
+      "evidence_use",
+      "calibration"
+    ]
+  },
+  "model_panel": {
+    "candidate_count": 16,
+    "eligibility": [
+      "canonical-versioned-model-identity",
+      "exact-provider-endpoint",
+      "text-generation",
+      "tool-calling",
+      "strict-structured-output",
+      "approved-data-policy",
+      "cost-within-frozen-cap",
+      "production-contract-pass"
+    ],
+    "fallback_policy": "disabled-for-ranked-runs",
+    "provider_retry_policy": "billing-retry-not-an-independent-generation-repetition",
+    "provider_substitution_policy": "unranked-exploratory-only",
+    "selection_without-quality-outcomes": true
+  },
+  "power_and_validation": {
+    "arena_target_effect_elo": 50,
+    "bias_limit_probability_scale": 0.02,
+    "bootstrap_connected_replicate_minimum": 0.99,
+    "coverage_acceptance": [
+      0.93,
+      0.97
+    ],
+    "minimum_monte_carlo_datasets_per_scenario": 2000,
+    "minimum_power": 0.8,
+    "null_type_one_error_acceptance": [
+      0.04,
+      0.06
+    ],
+    "uplift_target_effect_probability": 0.1
+  },
+  "primary_controlled_collection": {
+    "epicure_uplift": {
+      "anchor_repetitions": 640,
+      "base_pairs": 2560,
+      "minimum_pairs_per_model": 200,
+      "minimum_pairs_per_model_family": 50,
+      "total_pairs": 3200
+    },
+    "model_arena": {
+      "endpoint_appearances": 6400,
+      "minimum_endpoint_appearances_per_model": 400,
+      "total_battles": 3200
+    },
+    "total_model_response_arms": 12800
+  },
+  "schema_version": "flavourbench-season1-study-design-v2",
+  "status": "prospective-design-superseding-v1-before-scored-collection",
+  "supersedes_artifact_sha256": "0869b4c6815317ca31736f854ef14a7b5fbcbc45683afb2a9589dbb42afde30c",
+  "target_population": {
+    "excluded_domains": [
+      "formal-nutrition",
+      "allergen-management",
+      "food-safety",
+      "cultural-authenticity",
+      "medical-or-legal-advice"
+    ],
+    "language": "English",
+    "tasks": "non-specialist-home-cooking-decision-support",
+    "users": "adults-seeking-practical-culinary-assistance"
+  },
+  "task_bank": {
+    "admission": {
+      "answer_leakage_check": true,
+      "author_distinct_from_reviewers": true,
+      "contamination_methods": [
+        "exact",
+        "fuzzy",
+        "ngram",
+        "semantic",
+        "web"
+      ],
+      "independent_approvals_per_task": 2,
+      "rights_review": true,
+      "specialist_scope_check": true,
+      "task-specific-validator-where-objective": true
+    },
+    "construct_blueprint": {
+      "artifact_sha256": "83e5b115ddcac3cb4622ede99d0b39d870b6617425568b3248818bc8f6368b19",
+      "path": "contracts/season1/season1-construct-blueprint-v1.json",
+      "schema_version": "flavourbench-season1-construct-blueprint-v1"
+    },
+    "families": {
+      "composition": 60,
+      "cookability": 60,
+      "evidence": 60,
+      "substitution": 60
+    },
+    "human_authored": true,
+    "hidden_until_release_cutoff": true,
+    "minimum_executable_validator_coverage": 96,
+    "splits": {
+      "development": 40,
+      "private_reserve": 40,
+      "scored": 160
+    },
+    "total": 240
+  },
+  "version": "2.0.0"
+}

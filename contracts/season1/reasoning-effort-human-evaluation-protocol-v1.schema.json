@@ -1,0 +1,296 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://flavourbench.org/schemas/reasoning-effort-human-evaluation-protocol-v1.schema.json",
+  "title": "FlavourBench reasoning-effort human-evaluation protocol v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_role",
+    "status",
+    "study_id",
+    "reasoning_task_wave_binding",
+    "supersedes",
+    "study_scope",
+    "source_bindings",
+    "task_selection",
+    "tasks",
+    "endpoints",
+    "variant_contracts",
+    "epicure_conditions",
+    "comparison_contracts",
+    "arm_coordinates",
+    "comparison_cells",
+    "presentation_allocation",
+    "presentations",
+    "ballot_contract",
+    "failure_and_missingness",
+    "analysis_plan",
+    "counts",
+    "claim_boundary",
+    "artifact_sha256"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "flavourbench-reasoning-effort-human-evaluation-protocol-v1"
+    },
+    "record_role": {
+      "const": "pre_generation_blinded_human_evaluation_allocation"
+    },
+    "status": {
+      "const": "frozen_planning_only_no_generations_no_judgments"
+    },
+    "study_id": {
+      "const": "reasoning-effort-sensitivity-successor-24-task-v1"
+    },
+    "reasoning_task_wave_binding": {
+      "type": "object",
+      "required": [
+        "study_plan_sha256",
+        "task_selection_artifact_sha256",
+        "selected_task_set_sha256",
+        "wave_order_sha256",
+        "selected_tasks",
+        "ordered_waves"
+      ],
+      "properties": {
+        "study_plan_sha256": {"$ref": "#/$defs/sha256"},
+        "task_selection_artifact_sha256": {"$ref": "#/$defs/sha256"},
+        "selected_task_set_sha256": {"$ref": "#/$defs/sha256"},
+        "wave_order_sha256": {"$ref": "#/$defs/sha256"},
+        "selected_tasks": {"type": "array", "minItems": 24, "maxItems": 24},
+        "ordered_waves": {"type": "array", "minItems": 24, "maxItems": 24}
+      }
+    },
+    "supersedes": {"type": "object"},
+    "study_scope": {
+      "type": "object",
+      "required": [
+        "development_only",
+        "rank_eligible",
+        "confirmatory",
+        "official_leaderboard_admission",
+        "synthetic_tasks",
+        "synthetic_arms",
+        "provider_calls_made_by_protocol_freeze",
+        "mcp_calls_made_by_protocol_freeze",
+        "human_records_created_by_protocol_freeze"
+      ],
+      "properties": {
+        "development_only": {"const": true},
+        "rank_eligible": {"const": false},
+        "confirmatory": {"const": false},
+        "official_leaderboard_admission": {"const": false},
+        "synthetic_tasks": {"const": 0},
+        "synthetic_arms": {"const": 0},
+        "provider_calls_made_by_protocol_freeze": {"const": 0},
+        "mcp_calls_made_by_protocol_freeze": {"const": 0},
+        "human_records_created_by_protocol_freeze": {"const": 0}
+      }
+    },
+    "source_bindings": {"type": "object"},
+    "task_selection": {"type": "object"},
+    "tasks": {
+      "type": "array",
+      "minItems": 24,
+      "maxItems": 24,
+      "items": {
+        "type": "object",
+        "required": [
+          "task_id",
+          "family",
+          "task_sha256",
+          "prompt_sha256",
+          "source_license",
+          "confirmatory_eligible",
+          "rank_eligible",
+          "task_wave_id",
+          "task_wave_ordinal",
+          "executor_work_item_ids",
+          "generation_pairs",
+          "generation_response_arms",
+          "task_index"
+        ],
+        "properties": {
+          "task_id": {"type": "string", "minLength": 1},
+          "family": {
+            "enum": ["substitution", "composition", "cookability", "evidence"]
+          },
+          "task_sha256": {"$ref": "#/$defs/sha256"},
+          "prompt_sha256": {"$ref": "#/$defs/sha256"},
+          "confirmatory_eligible": {"const": false},
+          "rank_eligible": {"const": false},
+          "task_wave_id": {"$ref": "#/$defs/sha256"},
+          "task_wave_ordinal": {"type": "integer", "minimum": 1, "maximum": 24},
+          "executor_work_item_ids": {
+            "type": "array",
+            "minItems": 7,
+            "maxItems": 7,
+            "uniqueItems": true,
+            "items": {"$ref": "#/$defs/sha256"}
+          },
+          "generation_pairs": {"const": 7},
+          "generation_response_arms": {"const": 14},
+          "task_index": {"type": "integer", "minimum": 0, "maximum": 23}
+        }
+      }
+    },
+    "endpoints": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "variant_contracts": {"type": "object"},
+    "epicure_conditions": {
+      "const": ["epicure_off", "epicure_on"]
+    },
+    "comparison_contracts": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10
+    },
+    "arm_coordinates": {
+      "type": "array",
+      "minItems": 336,
+      "maxItems": 336,
+      "items": {
+        "type": "object",
+        "required": [
+          "arm_coordinate_id",
+          "executor_arm_id",
+          "executor_work_item_id",
+          "task_id",
+          "endpoint_id",
+          "condition",
+          "variant",
+          "response_artifact_sha256",
+          "generation_id",
+          "status"
+        ],
+        "properties": {
+          "arm_coordinate_id": {"$ref": "#/$defs/sha256"},
+          "executor_arm_id": {"type": "string", "minLength": 1},
+          "executor_work_item_id": {"$ref": "#/$defs/sha256"},
+          "response_artifact_sha256": {"type": "null"},
+          "generation_id": {"type": "null"},
+          "status": {"const": "planned_not_generated"}
+        }
+      }
+    },
+    "comparison_cells": {
+      "type": "array",
+      "minItems": 240,
+      "maxItems": 240,
+      "items": {
+        "type": "object",
+        "required": [
+          "cell_id",
+          "task_id",
+          "family",
+          "task_wave_id",
+          "endpoint_id",
+          "condition",
+          "comparison_id",
+          "lower_variant",
+          "upper_variant",
+          "analysis_role",
+          "base_block_id",
+          "lower_arm_coordinate_id",
+          "upper_arm_coordinate_id",
+          "planned_judgments_per_cohort"
+        ],
+        "properties": {
+          "cell_id": {"$ref": "#/$defs/sha256"},
+          "analysis_role": {"enum": ["primary", "secondary"]},
+          "base_block_id": {"pattern": "^base-block-(0[1-9]|1[0-2])$"},
+          "planned_judgments_per_cohort": {"const": 3}
+        }
+      }
+    },
+    "presentation_allocation": {"type": "object"},
+    "presentations": {
+      "type": "array",
+      "minItems": 1584,
+      "maxItems": 1584,
+      "items": {
+        "type": "object",
+        "required": [
+          "presentation_id",
+          "cell_id",
+          "task_id",
+          "family",
+          "task_wave_id",
+          "base_block_id",
+          "assignment_block_id",
+          "cohort",
+          "replication_slot",
+          "analysis_role",
+          "blind_left_arm_token",
+          "blind_right_arm_token",
+          "sealed_orientation",
+          "is_repeat",
+          "repeat_source_presentation_id",
+          "counts_in_effect_estimate",
+          "sequence_position"
+        ],
+        "properties": {
+          "presentation_id": {"$ref": "#/$defs/sha256"},
+          "cell_id": {"$ref": "#/$defs/sha256"},
+          "cohort": {"enum": ["culinary_expert", "general_public"]},
+          "replication_slot": {"enum": [1, 2, 3]},
+          "analysis_role": {"enum": ["primary", "secondary"]},
+          "blind_left_arm_token": {"$ref": "#/$defs/sha256"},
+          "blind_right_arm_token": {"$ref": "#/$defs/sha256"},
+          "sealed_orientation": {"enum": ["lower_left", "upper_left"]},
+          "is_repeat": {"type": "boolean"},
+          "repeat_source_presentation_id": {
+            "oneOf": [{"type": "null"}, {"$ref": "#/$defs/sha256"}]
+          },
+          "counts_in_effect_estimate": {"type": "boolean"},
+          "sequence_position": {"type": "integer", "minimum": 1, "maximum": 22}
+        }
+      }
+    },
+    "ballot_contract": {"type": "object"},
+    "failure_and_missingness": {"type": "object"},
+    "analysis_plan": {"type": "object"},
+    "counts": {
+      "type": "object",
+      "required": [
+        "tasks",
+        "arm_coordinates",
+        "comparison_cells",
+        "primary_comparison_cells",
+        "secondary_comparison_cells",
+        "assignment_blocks",
+        "original_presentations",
+        "position_swapped_repeats",
+        "presentations_total",
+        "provider_calls",
+        "mcp_calls",
+        "human_records"
+      ],
+      "properties": {
+        "tasks": {"const": 24},
+        "arm_coordinates": {"const": 336},
+        "comparison_cells": {"const": 240},
+        "primary_comparison_cells": {"const": 144},
+        "secondary_comparison_cells": {"const": 96},
+        "assignment_blocks": {"const": 72},
+        "original_presentations": {"const": 1440},
+        "position_swapped_repeats": {"const": 144},
+        "presentations_total": {"const": 1584},
+        "provider_calls": {"const": 0},
+        "mcp_calls": {"const": 0},
+        "human_records": {"const": 0}
+      }
+    },
+    "claim_boundary": {"type": "object"},
+    "artifact_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

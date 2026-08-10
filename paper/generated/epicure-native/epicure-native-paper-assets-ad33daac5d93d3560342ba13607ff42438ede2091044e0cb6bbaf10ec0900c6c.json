@@ -1,0 +1,26 @@
+{
+  "artifact_sha256": "ad33daac5d93d3560342ba13607ff42438ede2091044e0cb6bbaf10ec0900c6c",
+  "generated_files": [
+    "figures/epicure-native/frontier-family-heatmap.pdf",
+    "figures/epicure-native/frontier-family-heatmap.png",
+    "figures/epicure-native/frontier-latency-uplift.pdf",
+    "figures/epicure-native/frontier-latency-uplift.png",
+    "figures/epicure-native/frontier-paired-outcome-matrix.pdf",
+    "figures/epicure-native/frontier-paired-outcome-matrix.png",
+    "figures/epicure-native/frontier-score-dumbbell.pdf",
+    "figures/epicure-native/frontier-score-dumbbell.png",
+    "figures/epicure-native/frontier-score-forest.pdf",
+    "figures/epicure-native/frontier-score-forest.png",
+    "figures/epicure-native/frontier-social-summary.pdf",
+    "figures/epicure-native/frontier-social-summary.png",
+    "generated/epicure-native/epicure-native-case-studies.json",
+    "generated/epicure-native/epicure-native-case-studies.tex",
+    "generated/epicure-native/epicure-native-family-table.tex",
+    "generated/epicure-native/epicure-native-leaderboard-table.tex",
+    "generated/epicure-native/epicure-native-macros.tex",
+    "generated/epicure-native/epicure-native-release.json",
+    "generated/epicure-native/epicure-native-route-table.tex"
+  ],
+  "release_artifact_sha256": "603e4aa4db86a6e28900736322943dde2593c9e1ffd473f26b9a469bcd5c912a",
+  "schema_version": "flavourbench-epicure-native-paper-assets-v1"
+}

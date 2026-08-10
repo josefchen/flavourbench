@@ -1,0 +1,39 @@
+{
+  "schema_version": "flavourbench-frontier-refresh-roster-v1",
+  "benchmark": "FlavourBench",
+  "snapshot_label": "MiniMax M3 alternate exact route 2026-08-01",
+  "status": "candidate_pending_live_contract_smoke",
+  "official": false,
+  "rank_eligible": false,
+  "bedrock_catalog_sha256": "162c4fcf9d539d169031b8266546773af6e42d9a79144c76e63bdb7c15b0a10f",
+  "selection_rule": "One alternate provider route after the frozen Together endpoint returned a pre-generation 404. The failed route remains in the registry.",
+  "slots": [
+    {
+      "snapshot_model_id": "fb-route-20260801-minimax-m3-morph",
+      "slot_role": "open_model_frontier",
+      "canonical_name": "MiniMax M3",
+      "provider": "openrouter",
+      "endpoint_id": "minimax/minimax-m3",
+      "canonical_slug": "minimax/minimax-m3-20260531",
+      "provider_slug": "morph",
+      "catalog_observed": true,
+      "status": "contract_required"
+    }
+  ],
+  "routing_policy": {
+    "one_endpoint_per_model": true,
+    "allow_fallbacks": false,
+    "require_parameters": true,
+    "data_collection": "deny",
+    "provider_substitution_rank_eligible": false
+  },
+  "freeze_preconditions": [
+    "real provider response",
+    "real Epicure MCP call",
+    "complete tool trace",
+    "non-empty normalized final answer",
+    "canonical route identity",
+    "frozen token and cost policy",
+    "append-only artifact and cost record"
+  ]
+}

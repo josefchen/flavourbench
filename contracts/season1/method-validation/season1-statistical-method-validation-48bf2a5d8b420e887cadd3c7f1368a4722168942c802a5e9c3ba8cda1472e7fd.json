@@ -1,0 +1,142 @@
+{
+  "acceptance": {
+    "all_scenarios_pass": true,
+    "minimum_monte_carlo_datasets_per_scenario": 2000,
+    "status": "pass"
+  },
+  "acceptance_thresholds": {
+    "interval_coverage": [
+      0.93,
+      0.97
+    ],
+    "one_sided_positive_power_minimum": 0.8,
+    "two_sided_type_i_error": [
+      0.04,
+      0.06
+    ]
+  },
+  "artifact_class": "simulated_statistical_method_validation_only",
+  "artifact_sha256": "48bf2a5d8b420e887cadd3c7f1368a4722168942c802a5e9c3ba8cda1472e7fd",
+  "claim_boundary": {
+    "epicure_quality_claim": false,
+    "leaderboard_use": false,
+    "limitation": "This validates a balanced identifiable subproblem. It does not establish construct validity, rater validity, contamination control, or empirical model performance. Those require the frozen real Season 1 collection.",
+    "model_quality_claim": false,
+    "purpose": "finite-sample validation of the pre-registered estimators",
+    "scored_benchmark_observations": 0
+  },
+  "parameters": {
+    "bootstrap_replicates_per_dataset": 999,
+    "families": [
+      "composition",
+      "cookability",
+      "evidence",
+      "substitution"
+    ],
+    "monte_carlo_datasets_per_scenario": 2000,
+    "seed": 20260801,
+    "tasks_per_family": 50,
+    "tie_treatment": "half-win"
+  },
+  "protocol_date": "2026-08-01",
+  "scenarios": [
+    {
+      "acceptance": {
+        "alternative_power_at_least_0.80": true,
+        "coverage_in_0.93_0.97": true,
+        "null_type_i_in_0.04_0.06": true,
+        "status": "pass"
+      },
+      "bootstrap_method": "family-stratified task-cluster percentile bootstrap",
+      "bootstrap_replicates_per_dataset": 999,
+      "families": [
+        "composition",
+        "cookability",
+        "evidence",
+        "substitution"
+      ],
+      "model_arena": {
+        "bias": 0.022636,
+        "estimand": "two-endpoint Bradley-Terry rating difference",
+        "interval_coverage": 0.9525,
+        "mean_estimate": 0.022636,
+        "one_sided_positive_power": null,
+        "scope": "identifiable two-endpoint subproblem of the frozen Bradley-Terry estimator",
+        "true_value": 0.0,
+        "two_sided_type_i_error": 0.0475
+      },
+      "monte_carlo_datasets": 2000,
+      "ordinal_probabilities": {
+        "loss": 0.4,
+        "tie": 0.2,
+        "win": 0.4
+      },
+      "scenario_id": "symmetric-null-with-ties",
+      "tasks_per_family": 50,
+      "uplift": {
+        "bias": 3.2e-05,
+        "coverage_mcse": 0.004756,
+        "estimand": "family-standardized Epicure half-win share",
+        "interval_coverage": 0.9525,
+        "mean_estimate": 0.500032,
+        "one_sided_positive_power": null,
+        "power_mcse": null,
+        "true_value": 0.5,
+        "two_sided_type_i_error": 0.0475,
+        "type_i_error_mcse": 0.004756
+      }
+    },
+    {
+      "acceptance": {
+        "alternative_power_at_least_0.80": true,
+        "coverage_in_0.93_0.97": true,
+        "null_type_i_in_0.04_0.06": true,
+        "status": "pass"
+      },
+      "bootstrap_method": "family-stratified task-cluster percentile bootstrap",
+      "bootstrap_replicates_per_dataset": 999,
+      "families": [
+        "composition",
+        "cookability",
+        "evidence",
+        "substitution"
+      ],
+      "model_arena": {
+        "bias": 0.013897,
+        "estimand": "two-endpoint Bradley-Terry rating difference",
+        "interval_coverage": 0.9465,
+        "mean_estimate": 70.450401,
+        "one_sided_positive_power": 0.8895,
+        "scope": "identifiable two-endpoint subproblem of the frozen Bradley-Terry estimator",
+        "true_value": 70.436504,
+        "two_sided_type_i_error": null
+      },
+      "monte_carlo_datasets": 2000,
+      "ordinal_probabilities": {
+        "loss": 0.3,
+        "tie": 0.2,
+        "win": 0.5
+      },
+      "scenario_id": "positive-practical-effect-with-ties",
+      "tasks_per_family": 50,
+      "uplift": {
+        "bias": -0.000376,
+        "coverage_mcse": 0.005032,
+        "estimand": "family-standardized Epicure half-win share",
+        "interval_coverage": 0.9465,
+        "mean_estimate": 0.599624,
+        "one_sided_positive_power": 0.8895,
+        "power_mcse": 0.00701,
+        "true_value": 0.6,
+        "two_sided_type_i_error": null,
+        "type_i_error_mcse": null
+      }
+    }
+  ],
+  "schema_version": "flavourbench-season1-statistical-method-validation-v1",
+  "source_hashes": {
+    "method_validation_py": "e049517aff01669952fe7c459c8a94f987dca39cc67d5d60ffb05ba5af12d49b",
+    "requirements_lock": "17ed63400e42c4b1914fb2c54a35b10da14c40df7050ce7f6957c74760d793a3",
+    "season1_statistics_py": "ab4cb00037b2cfe0ece9780c0ebe66885d82237b1b6aee39ef8bc6a7dac10ed7"
+  }
+}

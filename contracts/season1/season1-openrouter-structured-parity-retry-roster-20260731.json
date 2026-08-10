@@ -1,0 +1,22 @@
+{
+  "schema_version": "flavourbench-frontier-refresh-roster-v1",
+  "snapshot_label": "season1-openrouter-structured-output-parity-retry-2026-07-31",
+  "slots": [
+    {
+      "snapshot_model_id": "s1-or-retry-01-gpt-5-6-sol-pro",
+      "canonical_name": "OpenAI GPT-5.6 Sol Pro",
+      "provider": "openrouter",
+      "endpoint_id": "openai/gpt-5.6-sol-pro",
+      "canonical_slug": "openai/gpt-5.6-sol-pro-20260709",
+      "provider_slug": "openai/flex"
+    },
+    {
+      "snapshot_model_id": "s1-or-retry-02-deepseek-v4-pro",
+      "canonical_name": "DeepSeek V4 Pro",
+      "provider": "openrouter",
+      "endpoint_id": "deepseek/deepseek-v4-pro",
+      "canonical_slug": "deepseek/deepseek-v4-pro-20260423",
+      "provider_slug": "cloudflare"
+    }
+  ]
+}

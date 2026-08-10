@@ -1,0 +1,18 @@
+{
+  "schema_version": "flavourbench-frontier-refresh-roster-v1",
+  "snapshot_date": "2026-07-31",
+  "purpose": "Completion-safe real contract retest for the Season 1 Gemini endpoint; no quality claims.",
+  "slots": [
+    {
+      "snapshot_model_id": "fb-s1-or-20260731-retest-gemini-01",
+      "slot_role": "closed_frontier",
+      "canonical_name": "Google Gemini 3.1 Pro Preview",
+      "provider": "openrouter",
+      "endpoint_id": "google/gemini-3.1-pro-preview",
+      "canonical_slug": "google/gemini-3.1-pro-preview-20260219",
+      "provider_slug": "google-ai-studio/flex",
+      "catalog_observed": true,
+      "status": "contract_required"
+    }
+  ]
+}

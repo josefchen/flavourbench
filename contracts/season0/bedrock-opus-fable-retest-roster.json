@@ -1,0 +1,28 @@
+{
+  "schema_version": "flavourbench-season0-provider-retest-roster-v1",
+  "status": "compatibility_retest_only",
+  "official": false,
+  "rank_eligible": false,
+  "catalog_semantic_sha256": "e9fdf1c3c173ac234c58be3bbb3a14fe4c942e975ce284e2644d2944c0490f10",
+  "catalog_region": "eu-west-1",
+  "catalog_profile_scope": "global",
+  "selection_rule": "Re-test exact Bedrock routes after the frozen Season 0 manifest selected OpenRouter because both prior Bedrock Converse calls returned AccessDeniedException.",
+  "slots": [
+    {
+      "slot_role": "provider_replication",
+      "canonical_name": "Anthropic Claude Opus 4.8",
+      "provider": "bedrock",
+      "endpoint_id": "global.anthropic.claude-opus-4-8",
+      "catalog_observed": true,
+      "status": "compatibility_retest"
+    },
+    {
+      "slot_role": "provider_replication",
+      "canonical_name": "Anthropic Claude Fable 5",
+      "provider": "bedrock",
+      "endpoint_id": "global.anthropic.claude-fable-5",
+      "catalog_observed": true,
+      "status": "compatibility_retest"
+    }
+  ]
+}

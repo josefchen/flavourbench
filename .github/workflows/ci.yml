@@ -1,0 +1,60 @@
+name: Public release integrity
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install benchmark and development dependencies
+        run: pip install -e '.[dev]'
+
+      - name: Replay the public automated release
+        run: >-
+          python -I paper/reproduce_epicure_native.py
+          --release paper/generated/epicure-native/epicure-native-release.json
+
+      - name: Verify benchmark and Hugging Face packaging
+        run: |
+          pytest -q tests/epicure_native_taskset_test.py
+          python -m py_compile hf/space/app.py hf/dataset/build_dataset.py
+          python hf/dataset/build_dataset.py --check
+          (cd paper/build && sha256sum --check ARTIFACTS.sha256)
+
+      - name: Lint public launch surfaces
+        run: |
+          ruff check \
+            src/flavourbench/epicure_native_taskset.py \
+            src/flavourbench/epicure_native_leaderboard.py \
+            src/flavourbench/epicure_native_release.py \
+            paper/reproduce_epicure_native.py \
+            paper/build_epicure_native_assets.py \
+            hf/space/app.py \
+            hf/dataset/build_dataset.py \
+            scripts/scan_public_release.py
+          ruff format --check \
+            src/flavourbench/epicure_native_taskset.py \
+            src/flavourbench/epicure_native_leaderboard.py \
+            src/flavourbench/epicure_native_release.py \
+            paper/reproduce_epicure_native.py \
+            paper/build_epicure_native_assets.py \
+            hf/space/app.py \
+            hf/dataset/build_dataset.py \
+            scripts/scan_public_release.py
+
+      - name: Reject obvious private material
+        run: python scripts/scan_public_release.py

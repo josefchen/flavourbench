@@ -1,0 +1,42 @@
+{
+  "schema_version": "flavourbench-bedrock-capability-price-evidence-v1",
+  "target_id": "global.anthropic.claude-haiku-4-5-20251001-v1:0",
+  "canonical_model_id": "anthropic/claude-haiku-4.5",
+  "observed_at": "2026-07-15T20:04:44Z",
+  "capabilities": {
+    "converse": true,
+    "client_side_tool_use": true,
+    "structured_output": true,
+    "count_tokens": true
+  },
+  "capability_source_uris": [
+    "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-anthropic-claude-haiku-4-5.html",
+    "https://docs.aws.amazon.com/bedrock/latest/userguide/structured-output.html",
+    "https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html",
+    "https://docs.aws.amazon.com/bedrock/latest/userguide/count-tokens.html"
+  ],
+  "price": {
+    "input_per_million_usd": "1",
+    "output_per_million_usd": "5",
+    "cache_read_per_million_usd": null,
+    "cache_write_per_million_usd": null,
+    "source_uri": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrockFoundationModels/20260703085857/index.json",
+    "reference_uri": "https://aws.amazon.com/bedrock/pricing/",
+    "offer_code": "AmazonBedrockFoundationModels",
+    "offer_version": 20260703085857,
+    "publication_date": "2026-07-03T08:58:57Z",
+    "offer_file_sha256": "80e5caa7c2fc873f2d58cffbdcd3233added609f3497811217614b2cca381d26",
+    "region_code": "eu-west-1",
+    "input_price_dimension": {
+      "sku": "QAF6BJ2FZ92WV4RM",
+      "usage_type": "EU-MP:EU_InputTokenCount_Global-Units",
+      "price_per_million_usd": "1"
+    },
+    "output_price_dimension": {
+      "sku": "G47BMTZZRZZK23Q2",
+      "usage_type": "EU-MP:EU_OutputTokenCount_Global-Units",
+      "price_per_million_usd": "5"
+    },
+    "evidence_note": "Rates are frozen from the versioned official AWS Price List offer for global Claude Haiku 4.5 usage with an eu-west-1 source Region."
+  }
+}

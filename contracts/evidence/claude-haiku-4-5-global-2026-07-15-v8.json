@@ -1,0 +1,84 @@
+{
+  "schema_version": "flavourbench-bedrock-capability-price-evidence-v1",
+  "target_id": "global.anthropic.claude-haiku-4-5-20251001-v1:0",
+  "canonical_model_id": "anthropic/claude-haiku-4.5",
+  "observed_at": "2026-07-15T22:22:48Z",
+  "capabilities": {
+    "converse": true,
+    "client_side_tool_use": true,
+    "structured_output": true,
+    "count_tokens": true
+  },
+  "inference_constraints": {
+    "temperature_top_p_mutually_exclusive": true,
+    "evidence_note": "Protocol v6 freezes temperature=0.2, omits top_p, retains the 2048-token ceiling proven sufficient by the completed v5 Epicure-off arm, and recursively closes every projected strict tool object with additionalProperties=false."
+  },
+  "access_prerequisite": {
+    "anthropic_use_case_form_state": "submitted_readback_confirmed",
+    "submitted_form_sha256": "d6ec7222808de9d5e42a0cdedbaa8562548c5dab1b64ca97369bed7f9dd9bd60",
+    "put_http_status": 201,
+    "observed_at": "2026-07-15T22:11:20Z",
+    "foundation_model_id": "anthropic.claude-haiku-4-5-20251001-v1:0",
+    "agreement_status": "AVAILABLE",
+    "authorization_status": "AUTHORIZED",
+    "entitlement_availability": "AVAILABLE",
+    "region_availability": "AVAILABLE",
+    "source_uri": "https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html",
+    "note": "The raw form, AWS account identity, and control-plane response are not stored. Live execution independently checks GetUseCaseForModelAccess and discards returned form contents."
+  },
+  "prior_contract_observation": {
+    "protocol": "bedrock_epicure_contract_smoke_v5",
+    "run_key": "93ad14919f21fde573224c3621a034bc4c039a1f3a79489c1c32c92887c13fbf",
+    "epicure_off": {
+      "status": "complete",
+      "finish_reason": "end_turn",
+      "input_tokens": 369,
+      "output_tokens": 938,
+      "service_latency_ms": 12983,
+      "rate_card_estimated_cost_micros": 5059,
+      "artifact_semantic_sha256": "b9bcfcd1297010f52b93abda3eab49f19e5efcd5808892bea9ac3da7edb3db8c",
+      "artifact_file_sha256": "fa95d0b3164deb8767313d43e5879c0f3045c8be7101c5584be1af432e3af54c"
+    },
+    "epicure_on": {
+      "status": "failed_pre_send",
+      "aws_error_code": "ValidationException",
+      "aws_http_status": 400,
+      "failure_artifact_semantic_sha256": "d1ffc2d7f9f92f4e73f47c086c5f77a7a9ce5e1e186c74fa63cb11d727eba80a",
+      "failure_artifact_file_sha256": "c1013fed30da70625955196d5b1bbef920f77aca1948d8e9e72f3b0b28beac40",
+      "replay_authorized": false
+    },
+    "revision_reason": "CountTokens rejected the projected strict tool schema before paid generation because object schemas did not explicitly set additionalProperties=false. Protocol v6 uses a new identity and recursively closed projected object schemas."
+  },
+  "capability_source_uris": [
+    "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-anthropic-claude-haiku-4-5.html",
+    "https://docs.aws.amazon.com/bedrock/latest/userguide/structured-output.html",
+    "https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html",
+    "https://docs.aws.amazon.com/bedrock/latest/userguide/count-tokens.html",
+    "https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-anthropic-claude-messages-request-response.html",
+    "https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html"
+  ],
+  "price": {
+    "input_per_million_usd": "1",
+    "output_per_million_usd": "5",
+    "cache_read_per_million_usd": null,
+    "cache_write_per_million_usd": null,
+    "source_uri": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrockFoundationModels/20260703085857/index.json",
+    "reference_uri": "https://aws.amazon.com/bedrock/pricing/",
+    "offer_code": "AmazonBedrockFoundationModels",
+    "offer_version": 20260703085857,
+    "publication_date": "2026-07-03T08:58:57Z",
+    "offer_file_sha256": "80e5caa7c2fc873f2d58cffbdcd3233added609f3497811217614b2cca381d26",
+    "region_code": "eu-west-1",
+    "input_price_dimension": {
+      "sku": "QAF6BJ2FZ92WV4RM",
+      "usage_type": "EU-MP:EU_InputTokenCount_Global-Units",
+      "price_per_million_usd": "1"
+    },
+    "output_price_dimension": {
+      "sku": "G47BMTZZRZZK23Q2",
+      "usage_type": "EU-MP:EU_OutputTokenCount_Global-Units",
+      "price_per_million_usd": "5"
+    },
+    "evidence_note": "Rates are frozen from the versioned official AWS Price List offer for global Claude Haiku 4.5 usage with an eu-west-1 source Region."
+  }
+}

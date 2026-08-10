@@ -1,0 +1,83 @@
+{
+  "schema_version": "flavourbench-task-validation-automated-replay-runtime-contract-v1",
+  "campaign_sha256": "76b248477b3adc81b6eb198666a93538534db8e945567e2a99fc69085f709709",
+  "replay": {
+    "relative_path": "artifacts/season1/task-validation-campaign-v6/automated-replay-89f6dede2826e27bcd69eb764e32bd7a203b371f0098831c78c1077383383157.json",
+    "semantic_sha256": "89f6dede2826e27bcd69eb764e32bd7a203b371f0098831c78c1077383383157",
+    "physical_sha256": "ced66727597192342ddb978f7f48153a8fe82b0d5808d17f89c6ce42aabaaab9",
+    "json_schema_relative_path": "contracts/season1/task-validation-automated-replay-v1.schema.json",
+    "json_schema_physical_sha256": "b9ea4c66668762d7f86413c4d19d9e04efa5c103b65f4d16e6ab647490c5f462"
+  },
+  "server_verifier": {
+    "import_path": "flavourbench.task_validation_automated_replay.verify_pinned_replay",
+    "input_paths_factory": "flavourbench.task_validation_automated_replay.ReplayInputPaths.from_root",
+    "module_relative_path": "src/flavourbench/task_validation_automated_replay.py",
+    "module_physical_sha256": "1347b00edf58e787db36efd178b6044da606031e48d7abadda05a7e4a71edcdf",
+    "network_access": false,
+    "database_access": false,
+    "clock_access": false,
+    "provider_calls": 0,
+    "epicure_calls": 0,
+    "verification_semantics": "Verify pinned bytes and semantic digest, rebuild from all six pinned inputs, and require exact document equality before returning the bounded runtime projection."
+  },
+  "authorization_binding": {
+    "accepted_automated_evidence_sha256": "89f6dede2826e27bcd69eb764e32bd7a203b371f0098831c78c1077383383157",
+    "rights": {
+      "automatedEvidenceVerified": true,
+      "anomaly_candidate_ids_sha256": "2468292138a7fa9e60cc9ae7040c5356ebe477cbdf6b3eca471c405752af752c",
+      "anomaly_candidate_count": 1,
+      "sample_seed_commitment_sha256": "aae16a208727c7f64b4a89607929c783891afc580f7def0b6fdb4d6849ea49f7",
+      "sample_candidate_ids_sha256": "16d7b6a7af53fe3f619bc089a2feb296eb256bc8a0025db2f43782089c26dd4f",
+      "sample_candidate_count": 24
+    },
+    "contamination": {
+      "automatedEvidenceVerified": true,
+      "automated_hit_candidate_ids_sha256": "0219732caefce585f31207ea900e3a88eb367d5b9ed728a42c97bd579a59eb93",
+      "automated_hit_candidate_count": 22,
+      "sample_seed_commitment_sha256": "cbefa9086a14e25d388436ff118b06463f94cbf4cd0d46954f65e368414f1c9e",
+      "sample_candidate_ids_sha256": "a218c7fa87df5f74ba92ce4511b02af4060ef5ce1b13132e11ff4539bf9ef64e",
+      "sample_candidate_count": 24
+    },
+    "server_must_derive_candidate_ids_from_verified_replay": true,
+    "request_supplied_candidate_ids_are_not_authoritative": true,
+    "digest_or_candidate_set_mismatch_disposition": "fail_closed_no_audit_authorization"
+  },
+  "allowed_runtime_projection": {
+    "rights_automatedEvidenceVerified": true,
+    "contamination_automatedEvidenceVerified": true,
+    "contamination_automated_hit_candidate_ids": "exact_verified_replay_value",
+    "human_decision_fields_must_remain_unchanged": true,
+    "campaign_audit_passed": false,
+    "task_bank_import_authorized": false,
+    "rank_eligible": false,
+    "contamination_free": false
+  },
+  "forbidden_runtime_effects": [
+    "create_or_modify_a_human_audit_decision",
+    "mark_either_batch_audit_passed_without_an_independent_human_pass",
+    "authorize_task_bank_import",
+    "authorize_model_or_Epicure_generation",
+    "make_any_task_rank_eligible",
+    "claim_contamination_free",
+    "replace_the_seed_committed_human_sample",
+    "silently_ignore_a_rights_anomaly_or_prompt_risk_hit"
+  ],
+  "human_gate": {
+    "rights_required_records": "24 seed-committed candidates plus every rights anomaly",
+    "contamination_required_records": "24 seed-committed candidates plus every automated prompt-risk hit",
+    "independent_human_decisions_required": true,
+    "automated_and_human_evidence_are_conjunctive": true,
+    "replay_is_a_human_decision": false
+  },
+  "claim_boundary": {
+    "public_source_contamination_limited_not_contamination_free": true,
+    "external_model_training_membership_tested": false,
+    "external_benchmark_corpus_tested": false,
+    "external_web_search_performed": false,
+    "raw_api_response_bodies_preserved": false,
+    "source_revision_independently_refetched": false,
+    "task_validity_established": false,
+    "human_ballots_observed": 0,
+    "release_go_issued": false
+  }
+}

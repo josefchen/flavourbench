@@ -1,0 +1,513 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://flavourbench.org/schemas/task-validation-contamination-replay-v2.schema.json",
+  "title": "FlavourBench task-validation contamination replay v2 NO-GO",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_role",
+    "status",
+    "bound_inputs",
+    "policy",
+    "coverage",
+    "findings",
+    "external_evidence_assessment",
+    "calibration",
+    "decision",
+    "claim_boundary",
+    "artifact_sha256"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "flavourbench-task-validation-contamination-replay-v2"
+    },
+    "artifact_role": {
+      "const": "captured_contamination_method_no_go_successor"
+    },
+    "status": { "const": "no_go" },
+    "bound_inputs": { "$ref": "#/$defs/boundInputs" },
+    "policy": { "$ref": "#/$defs/policy" },
+    "coverage": { "$ref": "#/$defs/coverage" },
+    "findings": { "$ref": "#/$defs/findings" },
+    "external_evidence_assessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "benchmark_corpus_search_performed",
+        "benchmark_corpus_coverage_complete",
+        "external_web_search_captured",
+        "external_web_search_replay_performed",
+        "external_web_provider_known_positive_validation_passed",
+        "external_web_method_suitable_for_admission",
+        "external_result_text_redistribution_rights_confirmed",
+        "known_relevant_culinary_corpora_excluded",
+        "model_training_membership_tested"
+      ],
+      "properties": {
+        "benchmark_corpus_search_performed": { "const": true },
+        "benchmark_corpus_coverage_complete": { "const": false },
+        "external_web_search_captured": { "const": true },
+        "external_web_search_replay_performed": { "const": false },
+        "external_web_provider_known_positive_validation_passed": { "const": false },
+        "external_web_method_suitable_for_admission": { "const": false },
+        "external_result_text_redistribution_rights_confirmed": { "const": false },
+        "known_relevant_culinary_corpora_excluded": { "const": 2 },
+        "model_training_membership_tested": { "const": false }
+      }
+    },
+    "calibration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "real_labeled_calibration_artifact_observed",
+        "cases_observed",
+        "precision_threshold_verified",
+        "recall_threshold_verified",
+        "paraphrase_recall_threshold_verified",
+        "test_fixtures_count_as_evidence"
+      ],
+      "properties": {
+        "real_labeled_calibration_artifact_observed": { "const": false },
+        "cases_observed": { "const": 0 },
+        "precision_threshold_verified": { "const": false },
+        "recall_threshold_verified": { "const": false },
+        "paraphrase_recall_threshold_verified": { "const": false },
+        "test_fixtures_count_as_evidence": { "const": false }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "full_campaign_contamination_method_requirement_satisfied",
+        "disposition",
+        "blocking_reasons",
+        "remediation"
+      ],
+      "properties": {
+        "full_campaign_contamination_method_requirement_satisfied": { "const": false },
+        "disposition": { "const": "no_go" },
+        "blocking_reasons": {
+          "type": "array",
+          "minItems": 7,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 20 }
+        },
+        "remediation": {
+          "type": "array",
+          "minItems": 5,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 20 }
+        }
+      }
+    },
+    "claim_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contamination_limited",
+        "contamination_free",
+        "official_task_bank",
+        "rank_eligible",
+        "task_bank_import_authorized",
+        "campaign_audit_passed",
+        "human_contamination_decision_observed",
+        "model_calls",
+        "epicure_calls",
+        "paid_provider_calls",
+        "synthetic_tasks"
+      ],
+      "properties": {
+        "contamination_limited": { "const": true },
+        "contamination_free": { "const": false },
+        "official_task_bank": { "const": false },
+        "rank_eligible": { "const": false },
+        "task_bank_import_authorized": { "const": false },
+        "campaign_audit_passed": { "const": false },
+        "human_contamination_decision_observed": { "const": false },
+        "model_calls": { "const": 0 },
+        "epicure_calls": { "const": 0 },
+        "paid_provider_calls": { "const": 0 },
+        "synthetic_tasks": { "const": 0 }
+      }
+    },
+    "artifact_sha256": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "candidateId": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://"
+    },
+    "inputPin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "semantic_sha256", "physical_sha256"],
+      "properties": {
+        "schema_version": { "type": "string", "minLength": 5 },
+        "semantic_sha256": { "$ref": "#/$defs/sha256" },
+        "physical_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "boundInputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "campaign",
+        "review_assignment",
+        "v1_replay",
+        "benchmark_snapshot",
+        "web_snapshot"
+      ],
+      "properties": {
+        "campaign": { "$ref": "#/$defs/inputPin" },
+        "review_assignment": { "$ref": "#/$defs/inputPin" },
+        "v1_replay": { "$ref": "#/$defs/inputPin" },
+        "benchmark_snapshot": { "$ref": "#/$defs/inputPin" },
+        "web_snapshot": { "$ref": "#/$defs/inputPin" }
+      }
+    },
+    "thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["exact", "fuzzy", "ngram", "semantic", "web"],
+      "properties": {
+        "exact": { "type": "number", "minimum": 0, "maximum": 1 },
+        "fuzzy": { "type": "number", "minimum": 0, "maximum": 1 },
+        "ngram": { "type": "number", "minimum": 0, "maximum": 1 },
+        "semantic": { "type": "number", "minimum": 0, "maximum": 1 },
+        "web": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy_version",
+        "required_methods",
+        "scan_implementation_version",
+        "scan_implementation_sha256",
+        "scan_implementation_policy",
+        "semantic_method",
+        "report_thresholds",
+        "auto_reject_thresholds",
+        "labeled_calibration_requirement"
+      ],
+      "properties": {
+        "policy_version": {
+          "const": "flavourbench-task-validation-contamination-policy-v2"
+        },
+        "required_methods": {
+          "const": ["exact", "fuzzy", "ngram", "semantic", "web"]
+        },
+        "scan_implementation_version": {
+          "const": "flavourbench-task-validation-captured-benchmark-scan-v2"
+        },
+        "scan_implementation_sha256": { "$ref": "#/$defs/sha256" },
+        "scan_implementation_policy": { "type": "object", "minProperties": 8 },
+        "semantic_method": { "const": "distributional-random-indexing-v1" },
+        "report_thresholds": { "$ref": "#/$defs/thresholds" },
+        "auto_reject_thresholds": { "$ref": "#/$defs/thresholds" },
+        "labeled_calibration_requirement": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "minimum_cases",
+            "minimum_cases_per_relation",
+            "minimum_precision",
+            "minimum_recall",
+            "minimum_paraphrase_recall",
+            "independent_human_labels_required"
+          ],
+          "properties": {
+            "minimum_cases": { "const": 150 },
+            "minimum_cases_per_relation": { "const": 50 },
+            "minimum_precision": { "const": 0.95 },
+            "minimum_recall": { "const": 0.9 },
+            "minimum_paraphrase_recall": { "const": 0.85 },
+            "independent_human_labels_required": { "const": true }
+          }
+        }
+      }
+    },
+    "methodCoverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "performed",
+        "assigned_prompts",
+        "prompts_scanned",
+        "coverage_percent",
+        "hit_count"
+      ],
+      "properties": {
+        "performed": { "type": "boolean" },
+        "assigned_prompts": { "const": 180 },
+        "prompts_scanned": { "type": "integer", "minimum": 0, "maximum": 180 },
+        "coverage_percent": { "enum": [0, 100] },
+        "hit_count": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assigned_prompts",
+        "scan_records",
+        "method_coverage",
+        "benchmark_records",
+        "benchmark_dataset_slices",
+        "external_web_query_receipts",
+        "external_web_result_records",
+        "external_web_known_positive_source_urls_returned",
+        "benchmark_record_set_sha256",
+        "scan_failure_records"
+      ],
+      "properties": {
+        "assigned_prompts": { "const": 180 },
+        "scan_records": { "const": 180 },
+        "method_coverage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["exact", "fuzzy", "ngram", "semantic", "web"],
+          "properties": {
+            "exact": { "$ref": "#/$defs/methodCoverage" },
+            "fuzzy": { "$ref": "#/$defs/methodCoverage" },
+            "ngram": { "$ref": "#/$defs/methodCoverage" },
+            "semantic": { "$ref": "#/$defs/methodCoverage" },
+            "web": { "$ref": "#/$defs/methodCoverage" }
+          }
+        },
+        "benchmark_records": { "const": 4671 },
+        "benchmark_dataset_slices": { "const": 4 },
+        "external_web_query_receipts": { "const": 180 },
+        "external_web_result_records": { "const": 1769 },
+        "external_web_known_positive_source_urls_returned": { "const": 0 },
+        "benchmark_record_set_sha256": { "$ref": "#/$defs/sha256" },
+        "scan_failure_records": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["scope", "method", "reason"],
+            "properties": {
+              "scope": { "const": "all_assigned_prompts" },
+              "method": { "const": "web" },
+              "reason": { "type": "string", "minLength": 20 }
+            }
+          }
+        }
+      }
+    },
+    "performedMethod": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method",
+        "performed",
+        "implementation_version",
+        "implementation_sha256",
+        "query_sha256",
+        "corpus_snapshot_sha256",
+        "result_set_sha256",
+        "hit_count",
+        "retained_hit_count",
+        "retention_policy",
+        "completed_at"
+      ],
+      "properties": {
+        "method": { "enum": ["exact", "fuzzy", "ngram", "semantic"] },
+        "performed": { "const": true },
+        "implementation_version": {
+          "const": "flavourbench-task-validation-captured-benchmark-scan-v2"
+        },
+        "implementation_sha256": { "$ref": "#/$defs/sha256" },
+        "query_sha256": { "$ref": "#/$defs/sha256" },
+        "corpus_snapshot_sha256": { "$ref": "#/$defs/sha256" },
+        "result_set_sha256": { "$ref": "#/$defs/sha256" },
+        "hit_count": { "type": "integer", "minimum": 0 },
+        "retained_hit_count": { "type": "integer", "minimum": 0, "maximum": 20 },
+        "retention_policy": { "type": "string", "minLength": 20 },
+        "completed_at": { "$ref": "#/$defs/timestamp" }
+      }
+    },
+    "unperformedWebMethod": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method",
+        "performed",
+        "implementation_version",
+        "implementation_sha256",
+        "query_sha256",
+        "corpus_snapshot_sha256",
+        "result_set_sha256",
+        "hit_count",
+        "retained_hit_count",
+        "retention_policy",
+        "completed_at",
+        "reason"
+      ],
+      "properties": {
+        "method": { "const": "web" },
+        "performed": { "const": false },
+        "implementation_version": { "type": "null" },
+        "implementation_sha256": { "type": "null" },
+        "query_sha256": { "$ref": "#/$defs/sha256" },
+        "corpus_snapshot_sha256": { "type": "null" },
+        "result_set_sha256": { "type": "null" },
+        "hit_count": { "const": 0 },
+        "retained_hit_count": { "const": 0 },
+        "retention_policy": { "type": "string", "minLength": 20 },
+        "completed_at": { "type": "null" },
+        "reason": { "type": "string", "minLength": 20 }
+      }
+    },
+    "hit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method",
+        "source_reference_sha256",
+        "matched_text_sha256",
+        "similarity_milli",
+        "source_class",
+        "source_url",
+        "dataset",
+        "license_id",
+        "automated_interpretation"
+      ],
+      "properties": {
+        "method": { "enum": ["exact", "fuzzy", "ngram", "semantic"] },
+        "source_reference_sha256": { "$ref": "#/$defs/sha256" },
+        "matched_text_sha256": { "$ref": "#/$defs/sha256" },
+        "similarity_milli": { "type": "integer", "minimum": 0, "maximum": 1000 },
+        "source_class": { "const": "benchmark_corpus" },
+        "source_url": { "$ref": "#/$defs/url" },
+        "dataset": {
+          "enum": ["cais/mmlu", "truthfulqa/truthful_qa", "allenai/ai2_arc"]
+        },
+        "license_id": { "enum": ["MIT", "Apache-2.0", "CC-BY-SA-4.0"] },
+        "automated_interpretation": {
+          "const": "human_review_trigger_not_leak_ground_truth"
+        }
+      }
+    },
+    "scanRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assignment_ordinal",
+        "candidate_id",
+        "prompt_sha256",
+        "normalized_prompt_sha256",
+        "methods",
+        "hits",
+        "high_similarity_hit",
+        "human_disposition"
+      ],
+      "properties": {
+        "assignment_ordinal": { "type": "integer", "minimum": 1, "maximum": 180 },
+        "candidate_id": { "$ref": "#/$defs/candidateId" },
+        "prompt_sha256": { "$ref": "#/$defs/sha256" },
+        "normalized_prompt_sha256": { "$ref": "#/$defs/sha256" },
+        "methods": {
+          "type": "array",
+          "prefixItems": [
+            { "$ref": "#/$defs/performedMethod" },
+            { "$ref": "#/$defs/performedMethod" },
+            { "$ref": "#/$defs/performedMethod" },
+            { "$ref": "#/$defs/performedMethod" },
+            { "$ref": "#/$defs/unperformedWebMethod" }
+          ],
+          "minItems": 5,
+          "maxItems": 5,
+          "items": false
+        },
+        "hits": {
+          "type": "array",
+          "maxItems": 20,
+          "items": { "$ref": "#/$defs/hit" }
+        },
+        "high_similarity_hit": { "type": "boolean" },
+        "human_disposition": { "type": "null" }
+      }
+    },
+    "findings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method_hit_counts",
+        "automated_hit_candidate_ids",
+        "records",
+        "detector_diagnostics",
+        "automated_hits_are_human_ground_truth",
+        "human_dispositions_observed"
+      ],
+      "properties": {
+        "method_hit_counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["exact", "fuzzy", "ngram", "semantic", "web"],
+          "properties": {
+            "exact": { "type": "integer", "minimum": 0 },
+            "fuzzy": { "type": "integer", "minimum": 0 },
+            "ngram": { "type": "integer", "minimum": 0 },
+            "semantic": { "type": "integer", "minimum": 0 },
+            "web": { "const": 0 }
+          }
+        },
+        "automated_hit_candidate_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/candidateId" }
+        },
+        "records": {
+          "type": "array",
+          "minItems": 180,
+          "maxItems": 180,
+          "items": { "$ref": "#/$defs/scanRecord" }
+        },
+        "detector_diagnostics": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "benchmark_prompt_record_pairs",
+            "semantic_report_hit_rate_million",
+            "semantic_report_hit_rate_at_least_five_percent",
+            "candidates_with_auto_reject_threshold_hit",
+            "interpretation"
+          ],
+          "properties": {
+            "benchmark_prompt_record_pairs": { "const": 840780 },
+            "semantic_report_hit_rate_million": {
+              "type": "integer",
+              "minimum": 50000,
+              "maximum": 1000000
+            },
+            "semantic_report_hit_rate_at_least_five_percent": { "const": true },
+            "candidates_with_auto_reject_threshold_hit": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 180
+            },
+            "interpretation": { "type": "string", "minLength": 20 }
+          }
+        },
+        "automated_hits_are_human_ground_truth": { "const": false },
+        "human_dispositions_observed": { "const": 0 }
+      }
+    }
+  }
+}

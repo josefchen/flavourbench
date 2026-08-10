@@ -1,0 +1,11 @@
+{
+  "schema_version": "flavourbench-epicure-runtime-contract-v1",
+  "release_id": "exploratory-unmatched-1790-runtime",
+  "bundle_sha256": "98d0403115bf8eb4fb71dbb89a53362e9b9acafda7494c464763df7d764174d1",
+  "application_sha256": "be4216ae799f330b76f1f8c009ad2e79ce891d5dec452854dbc449e66e2eb313",
+  "tool_schema_sha256": "666a9a44b3534d7c8321f179e4513f71e0acf0d281a01fb3f41be5f8c0dfc8dd",
+  "ingredient_count": 1790,
+  "embedding_dimensions": 300,
+  "status": "exploratory_unmatched_runtime_bundle",
+  "rank_eligible": false
+}

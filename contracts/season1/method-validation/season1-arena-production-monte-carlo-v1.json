@@ -1,0 +1,100 @@
+{
+  "schema_version": "flavourbench-season1-arena-production-monte-carlo-contract-v1",
+  "status": "required_not_yet_executed",
+  "policy_artifact_sha256": "bdc0fa93c6365cdcd45694d1d5500d82ccbd622f3be897be9217e252855ffff5",
+  "study_design_artifact_sha256": "7a63cfd6117338a3af16a422d5ee3458298fdc0ff2fd0abfe45fe851a7e54506",
+  "engine": {
+    "implementation": "flavourbench/src/flavourbench/season1_arena_monte_carlo.py",
+    "implementation_file_sha256": "e157419b99de8b5547ba2543931a3d2ab9906598594ae860adb5c3a06715e3f2",
+    "source_bundle_artifact_sha256": "382151bc013d19240873de764f54ecab90bc554f663c44b2c3ca405c8975943a",
+    "source_file_sha256s": {
+      "src/flavourbench/season1_arena_acceptance.py": "c33f3bb1390626ceba792431b3e7d796ad8ef69e76970060a4ba9f5638fa2223",
+      "src/flavourbench/season1_arena_monte_carlo.py": "e157419b99de8b5547ba2543931a3d2ab9906598594ae860adb5c3a06715e3f2",
+      "src/flavourbench/season1_statistics.py": "4739a404be983956ff6d178dbc1521c8c5fb5fea3699014687f1e7c40ce2e452"
+    },
+    "mode": "production_equation_exact_task_by_rater_cluster_bootstrap",
+    "validated_surrogate_used": false,
+    "layout_artifact_sha256": "2549176a534c97a43f5fe5085204547a81eebef70669f916622dee865cb0ccdc",
+    "checkpointing": "one_content_addressed_jsonl_record_per_scenario_dataset",
+    "deterministic_seed": "sha256(policy_sha256:scenario:dataset_index)",
+    "resume_semantics": "verified_existing_dataset_indices_are_skipped",
+    "development_runs_count_toward_gate": false
+  },
+  "production_layout": {
+    "models": 16,
+    "families": 4,
+    "admitted_scored_tasks": 160,
+    "tasks_per_family": 40,
+    "battles": 3200,
+    "battles_per_task": 20,
+    "endpoint_appearances": 6400,
+    "endpoint_appearances_per_model": 400,
+    "endpoint_appearances_per_model_family": 100,
+    "independent_raters_per_comparison": 2
+  },
+  "required_execution": {
+    "datasets_per_scenario": 2000,
+    "bootstrap_replicates_per_dataset": 5000,
+    "scenarios": [
+      "null_tie_rate_0.10",
+      "null_tie_rate_0.40",
+      "single_model_50_elo_shift",
+      "family_crossover_zero_global_effect",
+      "task_icc_0.05_and_0.25_with_observed_response_reuse",
+      "crossed_rater_severity_and_side_bias",
+      "observed_endpoint_family_missingness_and_near_disconnection",
+      "both_bad_0_and_0.20_with_10_percent_anomalous_or_repeat_raters"
+    ],
+    "total_dataset_records": 16000,
+    "total_bootstrap_resamples": 80000000,
+    "estimated_bradley_terry_refits": 70035000,
+    "estimated_structural_connectivity_resamples": 10000000,
+    "capacity_preflight": {
+      "status": "development_only_not_gate_evidence",
+      "host_acceleration": "CPU; installed jaxlib had no CUDA support",
+      "regular_layout_20_bootstraps_elapsed_seconds": 5.75,
+      "regular_layout_200_bootstraps_elapsed_seconds": 7.75,
+      "sparse_layout_200_resamples_elapsed_seconds": 4.09,
+      "maximum_resident_set_kibibytes_observed": 329516,
+      "rough_total_cpu_hour_range": [
+        250,
+        350
+      ],
+      "rough_64_worker_wall_hour_range_before_orchestration_overhead": [
+        4,
+        6
+      ],
+      "estimate_limit": "The extrapolation is capacity planning only. A measured production-image shard is required before scheduling spend."
+    }
+  },
+  "acceptance": {
+    "pairwise_difference_coverage_lower": 0.93,
+    "pairwise_difference_coverage_upper": 0.97,
+    "type_i_error_lower": 0.04,
+    "type_i_error_upper": 0.06,
+    "minimum_power_at_50_elo": 0.8,
+    "maximum_probability_scale_absolute_bias": 0.02,
+    "require_no_interval_narrowing_under_exact_row_duplication": true,
+    "require_deterministic_sparse_anchor_and_disconnected_withholding": true
+  },
+  "commands": {
+    "materialize_layout": "flavourbench/.venv/bin/python -m flavourbench.season1_arena_monte_carlo layout --output <layout.json>",
+    "run_one_production_shard": "flavourbench/.venv/bin/python -m flavourbench.season1_arena_monte_carlo run-shard --scenario <scenario> --start <inclusive-index> --count <bounded-count> --bootstrap-replicates 5000 --checkpoint <checkpoint.jsonl>",
+    "run_development_smoke": "flavourbench/.venv/bin/python -m flavourbench.season1_arena_monte_carlo run-shard --scenario null_tie_rate_0.10 --start 0 --count 1 --bootstrap-replicates 10 --development-mode --checkpoint <development.jsonl>",
+    "aggregate": "flavourbench/.venv/bin/python -m flavourbench.season1_arena_monte_carlo aggregate --checkpoints <checkpoint.jsonl>... --output <result.json>"
+  },
+  "current_execution": {
+    "completed_production_dataset_records": 0,
+    "completed_production_bootstrap_resamples": 0,
+    "result_artifact_sha256": null,
+    "acceptance_status": null
+  },
+  "claim_boundary": {
+    "simulation_gate_complete": false,
+    "pass_claimed": false,
+    "model_quality_evidence": false,
+    "synthetic_method_validation_only": true,
+    "full_run_required_before_publication_acceptance": true
+  },
+  "artifact_sha256": "2ba9f4d5b9b2f5a231edf085ea55b6ab67097780c12be86868082dbbdac95351"
+}

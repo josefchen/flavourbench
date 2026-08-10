@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "spec_sha256": "24f443851bd0503f306b3df28ce4e578651b9e1d9d1821c12de15aac78289e68",
+  "deployment_profile_id": "dev-qwen2.5-0.5b-modal-l4-vllm-0.25.1",
+  "season_slug": "development-only",
+  "status": "immutable-development-example",
+  "model": {
+    "repo_id": "Qwen/Qwen2.5-0.5B-Instruct",
+    "served_model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+    "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "tokenizer_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "code_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "weights_file": "model.safetensors",
+    "weights_sha256": "fdf756fa7fcbe7404d5c60e26bff1a0c8b8aa1f72ced49e7dd0210fe288fb7fe",
+    "license": "apache-2.0"
+  },
+  "runtime": {
+    "container_image": "vllm/vllm-openai:v0.25.1@sha256:f0b9a0dc75a9fca3b6811e3279367b2d6a448055a000bfd13859587d74cef268",
+    "architecture": "linux/amd64",
+    "vllm_version": "0.25.1",
+    "modal_sdk_version": "1.5.2"
+  },
+  "serving": {
+    "dtype": "bfloat16",
+    "quantization": "none",
+    "max_model_len": 32768,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "max_num_seqs": 8,
+    "gpu_memory_utilization": 0.85,
+    "engine_seed": 20260715,
+    "enable_auto_tool_choice": true,
+    "tool_call_parser": "hermes",
+    "reasoning_parser": null,
+    "structured_outputs_backend": "xgrammar",
+    "parallel_tool_calls": false,
+    "max_tool_rounds": 8,
+    "chat_template_sha256": "cd8e9439f0570856fd70470bf8889ebd8b5d1107207f67a5efb46e342330527f"
+  },
+  "decoding": {
+    "temperature": 0.2,
+    "top_p": 0.95,
+    "max_tokens": 1800,
+    "seed": 20260715
+  },
+  "hardware": {
+    "modal_gpu": "L4",
+    "requested_gpu_count": 1,
+    "automatic_gpu_fallbacks": false
+  },
+  "backend": {
+    "kind": "modal",
+    "app_name": "flavourbench-dev-qwen25-05b",
+    "environment": "flavourbench-development",
+    "secret_name": "flavourbench-gpu-runtime-development",
+    "routing_region": "eu-west",
+    "compute_region": "eu-west",
+    "min_containers": 0,
+    "max_containers": 1,
+    "target_concurrency": 8,
+    "buffer_containers": 0,
+    "scaledown_window_seconds": 120,
+    "startup_timeout_seconds": 1200,
+    "exit_grace_period_seconds": 60
+  },
+  "cost": {
+    "currency": "USD",
+    "price_snapshot_date": "2026-07-15",
+    "gpu_price_per_second": 0.000222,
+    "admission_fraction": 0.85,
+    "drain_fraction": 0.95,
+    "hard_stop_fraction": 1.0
+  },
+  "controls": {
+    "mutations_authorized": false,
+    "official_runs_allowed": false,
+    "authorization_ticket": "GATE-A-NOT-AUTHORIZED",
+    "public_prompt_traffic_allowed": false,
+    "notes": "Immutable no-cost development example; not a Season 0 leaderboard deployment."
+  },
+  "provenance": {
+    "model_api_checked_at": "2026-07-15T00:00:00Z",
+    "container_manifest_checked_at": "2026-07-15T00:00:00Z",
+    "model_source": "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct",
+    "container_source": "https://hub.docker.com/r/vllm/vllm-openai"
+  }
+}

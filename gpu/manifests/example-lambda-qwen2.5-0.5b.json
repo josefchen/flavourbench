@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0",
+  "spec_sha256": "cd5c87af298fb73d31b529efd1f8de0787b9c859555eecf0b262ddf986b55f74",
+  "deployment_profile_id": "dev-qwen2.5-0.5b-lambda-a10-vllm-0.25.1",
+  "season_slug": "development-only",
+  "status": "immutable-workload-development-example",
+  "model": {
+    "repo_id": "Qwen/Qwen2.5-0.5B-Instruct",
+    "served_model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+    "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "tokenizer_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "code_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "weights_file": "model.safetensors",
+    "weights_sha256": "fdf756fa7fcbe7404d5c60e26bff1a0c8b8aa1f72ced49e7dd0210fe288fb7fe",
+    "license": "apache-2.0"
+  },
+  "runtime": {
+    "container_image": "vllm/vllm-openai:v0.25.1@sha256:f0b9a0dc75a9fca3b6811e3279367b2d6a448055a000bfd13859587d74cef268",
+    "architecture": "linux/amd64",
+    "vllm_version": "0.25.1",
+    "modal_sdk_version": "1.5.2"
+  },
+  "serving": {
+    "dtype": "bfloat16",
+    "quantization": "none",
+    "max_model_len": 32768,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "max_num_seqs": 8,
+    "gpu_memory_utilization": 0.85,
+    "engine_seed": 20260715,
+    "enable_auto_tool_choice": true,
+    "tool_call_parser": "hermes",
+    "reasoning_parser": null,
+    "structured_outputs_backend": "xgrammar",
+    "parallel_tool_calls": false,
+    "max_tool_rounds": 8,
+    "chat_template_sha256": "cd8e9439f0570856fd70470bf8889ebd8b5d1107207f67a5efb46e342330527f"
+  },
+  "decoding": {
+    "temperature": 0.2,
+    "top_p": 0.95,
+    "max_tokens": 1800,
+    "seed": 20260715
+  },
+  "hardware": {
+    "lambda_instance_type": "gpu_1x_a10",
+    "requested_gpu_count": 1,
+    "expected_gpu_description": "A10 (24 GB PCIe)"
+  },
+  "backend": {
+    "kind": "lambda_cloud",
+    "region_name": "us-west-1",
+    "image_id": "REPLACE_WITH_ACCOUNT_VISIBLE_LAMBDA_IMAGE_ID",
+    "ssh_key_name": "REPLACE_WITH_LAMBDA_SSH_KEY_NAME",
+    "firewall_ruleset_id": "REPLACE_WITH_SSH_ONLY_FIREWALL_RULESET_ID",
+    "inference_bind": "127.0.0.1:8000",
+    "access_path": "ssh-tunnel-only"
+  },
+  "cost": {
+    "currency": "USD",
+    "price_snapshot_date": "2026-07-15",
+    "price_cents_per_hour": 129,
+    "maximum_runtime_minutes": 30,
+    "maximum_epoch_cost_cents": 65,
+    "admission_fraction": 0.85,
+    "drain_fraction": 0.95,
+    "hard_stop_fraction": 1.0
+  },
+  "controls": {
+    "mutations_authorized": false,
+    "official_runs_allowed": false,
+    "authorization_ticket": "GATE-A-NOT-AUTHORIZED",
+    "public_prompt_traffic_allowed": false,
+    "notes": "No-cost template. Resolve account-specific image, key, and firewall IDs only after authorization."
+  },
+  "provenance": {
+    "model_api_checked_at": "2026-07-15T00:00:00Z",
+    "container_manifest_checked_at": "2026-07-15T00:00:00Z",
+    "lambda_price_checked_at": "2026-07-15T00:00:00Z",
+    "model_source": "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct",
+    "container_source": "https://hub.docker.com/r/vllm/vllm-openai",
+    "lambda_instance_source": "https://lambda.ai/instances"
+  }
+}

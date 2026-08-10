@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://flavourbench.org/schemas/task-validation-ledger-event-v1.schema.json",
+  "title": "FlavourBench task-validation ledger event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "campaign_sha256",
+    "sequence",
+    "event_id",
+    "event_type",
+    "reviewer_pseudonym",
+    "person_commitment_sha256",
+    "reviewer_admission_receipt_sha256",
+    "payload",
+    "previous_event_sha256",
+    "event_sha256"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "flavourbench-task-validation-ledger-event-v1"
+    },
+    "campaign_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "event_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "event_type": {
+      "enum": [
+        "blind_ballot",
+        "criterion_pack_confirmation",
+        "adjudication",
+        "rights_batch_audit",
+        "contamination_batch_audit"
+      ]
+    },
+    "reviewer_pseudonym": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 120
+    },
+    "person_commitment_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "reviewer_admission_receipt_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "payload": {
+      "type": "object"
+    },
+    "previous_event_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "event_sha256": {
+      "$ref": "#/$defs/sha256"
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

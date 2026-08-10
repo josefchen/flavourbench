@@ -1,0 +1,46 @@
+{
+  "schema_version": "flavourbench-season1-arena-runtime-projection-v2",
+  "purpose": "Narrow immutable projection of the build and runtime surface used by distributed method validation.",
+  "distribution": {
+    "name": "epicure-flavourbench",
+    "version": "0.1.0"
+  },
+  "entrypoint": {
+    "module": "flavourbench.season1_arena_distributed",
+    "function": "run",
+    "invocation": "python -m flavourbench.season1_arena_distributed"
+  },
+  "python": {
+    "implementation": "CPython",
+    "version": "3.12.11",
+    "machine": "x86_64"
+  },
+  "dependency_versions": {
+    "arena-rank": "0.1.1",
+    "epicure-flavourbench": "0.1.0",
+    "jax": "0.8.1",
+    "jaxlib": "0.8.1",
+    "numpy": "2.3.3",
+    "pandas": "3.0.3",
+    "scipy": "1.18.0"
+  },
+  "thread_environment": {
+    "JAX_ENABLE_X64": "true",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1"
+  },
+  "source_policy": {
+    "exact_imported_estimator_sources_required": true,
+    "exact_requirements_lock_required": true,
+    "exact_dockerfile_required": true,
+    "full_project_script_table_is_execution_irrelevant": true,
+    "unrelated_cli_additions_may_not_invalidate_the_estimator_image": true
+  },
+  "claim_boundary": {
+    "method_validation_only": true,
+    "model_calls": false,
+    "model_quality_evidence": false
+  }
+}

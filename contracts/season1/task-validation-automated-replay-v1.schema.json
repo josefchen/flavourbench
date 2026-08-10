@@ -1,0 +1,522 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://flavourbench.org/schemas/task-validation-automated-replay-v1.schema.json",
+  "title": "FlavourBench task-validation automated replay",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_role",
+    "bound_inputs",
+    "policy",
+    "coverage",
+    "acquisition_receipt_verification",
+    "rights",
+    "contamination_and_prompt_risk",
+    "human_audit_handoff",
+    "runtime_projection",
+    "limitations",
+    "claim_boundary",
+    "artifact_sha256"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "flavourbench-task-validation-automated-replay-v1"
+    },
+    "artifact_role": {
+      "const": "automated_evidence_for_independent_human_batch_audits"
+    },
+    "bound_inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_bundle",
+        "review_assignment",
+        "acquisition_receipt",
+        "campaign",
+        "quality_report",
+        "readiness"
+      ],
+      "properties": {
+        "candidate_bundle": { "$ref": "#/$defs/inputPin" },
+        "review_assignment": { "$ref": "#/$defs/inputPin" },
+        "acquisition_receipt": { "$ref": "#/$defs/inputPin" },
+        "campaign": { "$ref": "#/$defs/inputPin" },
+        "quality_report": { "$ref": "#/$defs/inputPin" },
+        "readiness": { "$ref": "#/$defs/inputPin" }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy_version",
+        "text_normalization",
+        "duplicate_methods",
+        "pattern_rules",
+        "specialist_tags",
+        "score_arithmetic",
+        "coverage_denominator",
+        "automated_findings_are_human_review_triggers",
+        "automated_findings_are_human_ground_truth"
+      ],
+      "properties": {
+        "policy_version": {
+          "const": "flavourbench-task-validation-local-replay-policy-v1"
+        },
+        "text_normalization": { "type": "string", "minLength": 1 },
+        "duplicate_methods": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": { "$ref": "#/$defs/duplicateMethod" }
+        },
+        "pattern_rules": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/patternRule" }
+        },
+        "specialist_tags": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "score_arithmetic": { "const": "integer_millionths_half_up" },
+        "coverage_denominator": { "const": 180 },
+        "automated_findings_are_human_review_triggers": { "const": true },
+        "automated_findings_are_human_ground_truth": { "const": false }
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "captured_source_records_verified",
+        "scheduled_records_verified",
+        "scheduled_records_scanned",
+        "scheduled_records_by_family",
+        "rights_coverage_percent",
+        "scan_coverage_percent",
+        "scan_categories"
+      ],
+      "properties": {
+        "captured_source_records_verified": { "const": 1052 },
+        "scheduled_records_verified": { "const": 180 },
+        "scheduled_records_scanned": { "const": 180 },
+        "scheduled_records_by_family": { "$ref": "#/$defs/familyCounts" },
+        "rights_coverage_percent": { "const": 100 },
+        "scan_coverage_percent": { "const": 100 },
+        "scan_categories": {
+          "type": "array",
+          "const": [
+            "public_source_exposure_baseline",
+            "duplicate",
+            "answer_leak",
+            "self_resolution",
+            "link",
+            "visual",
+            "specialist"
+          ]
+        }
+      }
+    },
+    "acquisition_receipt_verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "real_public_api",
+        "request_records_verified",
+        "question_request_records_verified",
+        "revision_request_records_verified",
+        "revision_question_ids_verified",
+        "answer_endpoint_requests_verified_zero",
+        "model_calls_verified_zero",
+        "epicure_calls_verified_zero",
+        "raw_response_bodies_available_for_replay"
+      ],
+      "properties": {
+        "real_public_api": { "const": true },
+        "request_records_verified": { "const": 64 },
+        "question_request_records_verified": { "const": 11 },
+        "revision_request_records_verified": { "const": 53 },
+        "revision_question_ids_verified": { "const": 1052 },
+        "answer_endpoint_requests_verified_zero": { "const": true },
+        "model_calls_verified_zero": { "const": true },
+        "epicure_calls_verified_zero": { "const": true },
+        "raw_response_bodies_available_for_replay": { "const": false }
+      }
+    },
+    "rights": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "automatedEvidenceVerified",
+        "records",
+        "integrity_failure_count",
+        "anomaly_candidate_ids",
+        "human_decision"
+      ],
+      "properties": {
+        "automatedEvidenceVerified": { "const": true },
+        "records": {
+          "type": "array",
+          "minItems": 180,
+          "maxItems": 180,
+          "items": { "$ref": "#/$defs/rightsRecord" }
+        },
+        "integrity_failure_count": { "const": 0 },
+        "anomaly_candidate_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/candidateId" }
+        },
+        "human_decision": { "type": "null" }
+      }
+    },
+    "contamination_and_prompt_risk": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "automatedEvidenceVerified",
+        "records",
+        "finding_count_by_category",
+        "finding_count_by_rule",
+        "automated_hit_candidate_ids",
+        "public_source_candidate_count",
+        "contamination_free",
+        "human_decision"
+      ],
+      "properties": {
+        "automatedEvidenceVerified": { "const": true },
+        "records": {
+          "type": "array",
+          "minItems": 180,
+          "maxItems": 180,
+          "items": { "$ref": "#/$defs/scanRecord" }
+        },
+        "finding_count_by_category": { "$ref": "#/$defs/nonnegativeCounts" },
+        "finding_count_by_rule": { "$ref": "#/$defs/nonnegativeCounts" },
+        "automated_hit_candidate_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/candidateId" }
+        },
+        "public_source_candidate_count": { "const": 180 },
+        "contamination_free": { "const": false },
+        "human_decision": { "type": "null" }
+      }
+    },
+    "human_audit_handoff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rights",
+        "contamination",
+        "human_auditors_must_inspect_seeded_sample_and_every_anomaly_or_hit",
+        "replay_sets_human_decision"
+      ],
+      "properties": {
+        "rights": { "$ref": "#/$defs/auditHandoff" },
+        "contamination": { "$ref": "#/$defs/auditHandoff" },
+        "human_auditors_must_inspect_seeded_sample_and_every_anomaly_or_hit": {
+          "const": true
+        },
+        "replay_sets_human_decision": { "const": false }
+      }
+    },
+    "runtime_projection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rights_automatedEvidenceVerified",
+        "contamination_automatedEvidenceVerified",
+        "contamination_automated_hit_candidate_ids",
+        "human_decision_fields_must_remain_unchanged",
+        "campaign_audit_passed",
+        "task_bank_import_authorized",
+        "rank_eligible"
+      ],
+      "properties": {
+        "rights_automatedEvidenceVerified": { "const": true },
+        "contamination_automatedEvidenceVerified": { "const": true },
+        "contamination_automated_hit_candidate_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/candidateId" }
+        },
+        "human_decision_fields_must_remain_unchanged": { "const": true },
+        "campaign_audit_passed": { "const": false },
+        "task_bank_import_authorized": { "const": false },
+        "rank_eligible": { "const": false }
+      }
+    },
+    "limitations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "public_source_contamination_limited_not_contamination_free",
+        "model_training_membership_tested",
+        "external_benchmark_corpus_tested",
+        "external_web_search_performed",
+        "raw_api_response_bodies_preserved",
+        "raw_source_html_reconstructable",
+        "recorded_html_hash_commitments_verified_for_shape_only",
+        "source_revision_independently_refetched",
+        "task_validity_established",
+        "human_rights_decision_observed",
+        "human_contamination_decision_observed",
+        "release_go_issued"
+      ],
+      "properties": {
+        "public_source_contamination_limited_not_contamination_free": { "const": true },
+        "model_training_membership_tested": { "const": false },
+        "external_benchmark_corpus_tested": { "const": false },
+        "external_web_search_performed": { "const": false },
+        "raw_api_response_bodies_preserved": { "const": false },
+        "raw_source_html_reconstructable": { "const": false },
+        "recorded_html_hash_commitments_verified_for_shape_only": { "const": true },
+        "source_revision_independently_refetched": { "const": false },
+        "task_validity_established": { "const": false },
+        "human_rights_decision_observed": { "const": false },
+        "human_contamination_decision_observed": { "const": false },
+        "release_go_issued": { "const": false }
+      }
+    },
+    "claim_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "official_task_bank",
+        "rank_eligible",
+        "automated_evidence_is_human_decision",
+        "contamination_free",
+        "model_or_epicure_calls",
+        "synthetic_tasks"
+      ],
+      "properties": {
+        "official_task_bank": { "const": false },
+        "rank_eligible": { "const": false },
+        "automated_evidence_is_human_decision": { "const": false },
+        "contamination_free": { "const": false },
+        "model_or_epicure_calls": { "const": 0 },
+        "synthetic_tasks": { "const": 0 }
+      }
+    },
+    "artifact_sha256": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "candidateId": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "inputPin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "semantic_sha256", "physical_sha256"],
+      "properties": {
+        "schema_version": { "type": "string", "minLength": 1 },
+        "semantic_sha256": { "$ref": "#/$defs/sha256" },
+        "physical_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "duplicateMethod": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rule_id"],
+      "properties": {
+        "rule_id": { "type": "string", "minLength": 1 },
+        "scope": { "type": "string", "minLength": 1 },
+        "threshold_million": { "type": "integer", "minimum": 0, "maximum": 1000000 },
+        "minimum_smaller_trigram_count": { "type": "integer", "minimum": 1 },
+        "comparison": { "type": "string", "minLength": 1 }
+      }
+    },
+    "patternRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["category", "rule_id", "pattern", "flags"],
+      "properties": {
+        "category": {
+          "enum": ["answer_leak", "self_resolution", "link", "visual", "specialist"]
+        },
+        "rule_id": { "type": "string", "minLength": 1 },
+        "pattern": { "type": "string", "minLength": 1 },
+        "flags": {
+          "type": "array",
+          "items": { "enum": ["IGNORECASE"] },
+          "uniqueItems": true
+        }
+      }
+    },
+    "familyCounts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["substitution", "composition", "cookability", "evidence"],
+      "properties": {
+        "substitution": { "const": 45 },
+        "composition": { "const": 45 },
+        "cookability": { "const": 45 },
+        "evidence": { "const": 45 }
+      }
+    },
+    "nonnegativeCounts": {
+      "type": "object",
+      "propertyNames": { "pattern": "^[a-z][a-z0-9_]*$" },
+      "additionalProperties": { "type": "integer", "minimum": 0 }
+    },
+    "rightsRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schedule_ordinal",
+        "candidate_id",
+        "scheduling_family",
+        "candidate_record_sha256",
+        "prompt_sha256",
+        "source_record_sha256",
+        "source_question_id",
+        "source_revision_guid",
+        "source_revision_number",
+        "source_revision_created_utc",
+        "effective_license",
+        "question_api_license",
+        "terminal_revision_license",
+        "attribution_sha256",
+        "source_url_sha256",
+        "title_text_source_sha256",
+        "body_text_source_sha256",
+        "title_html_source_sha256",
+        "body_html_source_sha256",
+        "checks",
+        "anomalies",
+        "automated_interpretation"
+      ],
+      "properties": {
+        "schedule_ordinal": { "type": "integer", "minimum": 1, "maximum": 180 },
+        "candidate_id": { "$ref": "#/$defs/candidateId" },
+        "scheduling_family": {
+          "enum": ["substitution", "composition", "cookability", "evidence"]
+        },
+        "candidate_record_sha256": { "$ref": "#/$defs/sha256" },
+        "prompt_sha256": { "$ref": "#/$defs/sha256" },
+        "source_record_sha256": { "$ref": "#/$defs/sha256" },
+        "source_question_id": { "type": "integer", "minimum": 1 },
+        "source_revision_guid": {
+          "type": "string",
+          "pattern": "^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"
+        },
+        "source_revision_number": { "type": "integer", "minimum": 1 },
+        "source_revision_created_utc": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+        },
+        "effective_license": { "const": "CC BY-SA 4.0" },
+        "question_api_license": {
+          "type": ["string", "null"],
+          "enum": ["CC BY-SA 4.0", null]
+        },
+        "terminal_revision_license": { "const": "CC BY-SA 4.0" },
+        "attribution_sha256": { "$ref": "#/$defs/sha256" },
+        "source_url_sha256": { "$ref": "#/$defs/sha256" },
+        "title_text_source_sha256": { "$ref": "#/$defs/sha256" },
+        "body_text_source_sha256": { "$ref": "#/$defs/sha256" },
+        "title_html_source_sha256": { "$ref": "#/$defs/sha256" },
+        "body_html_source_sha256": { "$ref": "#/$defs/sha256" },
+        "checks": {
+          "type": "object",
+          "minProperties": 9,
+          "additionalProperties": { "const": true }
+        },
+        "anomalies": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "enum": ["question_api_license_missing"] }
+        },
+        "automated_interpretation": {
+          "const": "integrity_evidence_not_human_rights_decision"
+        }
+      }
+    },
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["category", "rule_id", "automated_interpretation"],
+      "properties": {
+        "category": {
+          "enum": ["duplicate", "answer_leak", "self_resolution", "link", "visual", "specialist"]
+        },
+        "rule_id": { "type": "string", "minLength": 1 },
+        "evidence_sha256": { "$ref": "#/$defs/sha256" },
+        "evidence_start": { "type": "integer", "minimum": 0 },
+        "evidence_end": { "type": "integer", "minimum": 1 },
+        "matched_candidate_id": { "$ref": "#/$defs/candidateId" },
+        "matched_prompt_sha256": { "$ref": "#/$defs/sha256" },
+        "match_scope": { "enum": ["scheduled_slate", "captured_source_snapshot"] },
+        "similarity_million": { "type": "integer", "minimum": 0, "maximum": 1000000 },
+        "automated_interpretation": {
+          "const": "human_review_trigger_not_ground_truth"
+        }
+      }
+    },
+    "scanRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_id",
+        "prompt_sha256",
+        "public_source_exposure_baseline",
+        "findings",
+        "automated_disposition",
+        "human_decision"
+      ],
+      "properties": {
+        "candidate_id": { "$ref": "#/$defs/candidateId" },
+        "prompt_sha256": { "$ref": "#/$defs/sha256" },
+        "public_source_exposure_baseline": { "const": true },
+        "findings": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/finding" }
+        },
+        "automated_disposition": { "enum": ["requires_human_review", "no_rule_hit"] },
+        "human_decision": { "type": "null" }
+      }
+    },
+    "auditHandoff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sample_algorithm",
+        "sample_seed_commitment_sha256",
+        "sample_candidate_ids",
+        "anomaly_or_hit_candidate_ids",
+        "required_candidate_ids"
+      ],
+      "properties": {
+        "sample_algorithm": { "const": "sha256-order-within-scheduling-family-v1" },
+        "sample_seed_commitment_sha256": { "$ref": "#/$defs/sha256" },
+        "sample_candidate_ids": {
+          "type": "array",
+          "minItems": 24,
+          "maxItems": 24,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/candidateId" }
+        },
+        "anomaly_or_hit_candidate_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/candidateId" }
+        },
+        "required_candidate_ids": {
+          "type": "array",
+          "minItems": 24,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/candidateId" }
+        }
+      }
+    }
+  }
+}

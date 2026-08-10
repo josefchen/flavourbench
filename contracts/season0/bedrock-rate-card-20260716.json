@@ -1,0 +1,98 @@
+{
+  "schema_version": "flavourbench-bedrock-rate-card-v1",
+  "currency": "USD",
+  "observed_at_utc": "2026-07-16T00:00:00Z",
+  "billing_region": "eu-west-1",
+  "service_tier": "standard",
+  "status": "published_rate_estimate_pending_aws_cur_crosscheck",
+  "sources": [
+    {
+      "publisher": "Amazon Web Services",
+      "title": "Amazon Bedrock Pricing",
+      "url": "https://aws.amazon.com/bedrock/pricing/",
+      "use": "Qwen, Mistral, MiniMax, and OpenAI token rates"
+    },
+    {
+      "publisher": "AWS Marketplace",
+      "title": "Claude Sonnet 4.6 (Amazon Bedrock Edition)",
+      "url": "https://aws.amazon.com/marketplace/pp/prodview-o6w4hyizv7g64",
+      "use": "global standard Claude Sonnet 4.6 token rates"
+    },
+    {
+      "publisher": "Amazon Web Services",
+      "title": "Object detection with Amazon Nova 2 Lite",
+      "url": "https://aws.amazon.com/blogs/machine-learning/object-detection-with-amazon-nova-2-lite/",
+      "use": "Nova 2 Lite standard token rates"
+    },
+    {
+      "publisher": "Amazon Web Services",
+      "title": "Understanding your Amazon Bedrock Cost and Usage Report data",
+      "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/cost-mgmt-understanding-cur-data.html",
+      "use": "invoice-level reconciliation semantics"
+    }
+  ],
+  "rates_per_million_tokens": {
+    "global.anthropic.claude-sonnet-4-6": {
+      "input": "3.00",
+      "output": "15.00",
+      "cache_read_input": "0.30",
+      "cache_write_input": "3.75",
+      "routing": "global_cross_region",
+      "evidence": "AWS Marketplace published global standard rate"
+    },
+    "qwen.qwen3-next-80b-a3b": {
+      "input": "0.18",
+      "output": "1.41",
+      "cache_read_input": null,
+      "cache_write_input": null,
+      "routing": "eu_west_1_standard",
+      "evidence": "AWS Bedrock Europe Ireland published rate"
+    },
+    "qwen.qwen3-vl-235b-a22b": {
+      "input": "0.62",
+      "output": "3.13",
+      "cache_read_input": null,
+      "cache_write_input": null,
+      "routing": "eu_west_1_standard",
+      "evidence": "AWS Bedrock Europe Ireland published rate"
+    },
+    "mistral.devstral-2-123b": {
+      "input": "0.48",
+      "output": "2.40",
+      "cache_read_input": null,
+      "cache_write_input": null,
+      "routing": "eu_west_1_standard",
+      "evidence": "AWS Bedrock Europe Ireland published rate"
+    },
+    "openai.gpt-oss-120b-1:0": {
+      "input": "0.18",
+      "output": "0.70",
+      "cache_read_input": null,
+      "cache_write_input": null,
+      "routing": "eu_west_1_standard",
+      "evidence": "conservative published Europe 120B rate proxy; CUR crosscheck required",
+      "provisional": true
+    },
+    "global.amazon.nova-2-lite-v1:0": {
+      "input": "0.30",
+      "output": "2.50",
+      "cache_read_input": null,
+      "cache_write_input": null,
+      "routing": "global_cross_region",
+      "evidence": "AWS published Nova 2 Lite standard rate"
+    },
+    "minimax.minimax-m2.5": {
+      "input": "0.36",
+      "output": "1.44",
+      "cache_read_input": null,
+      "cache_write_input": null,
+      "routing": "eu_west_1_standard",
+      "evidence": "AWS Bedrock Europe Ireland published rate"
+    }
+  },
+  "reconciliation_policy": {
+    "request_level": "returned Bedrock usage multiplied by the frozen published rate",
+    "invoice_level": "AWS CUR 2.0 aggregate crosscheck after billing data becomes available",
+    "claim_boundary": "rate-card estimates are not described as per-request AWS invoice charges"
+  }
+}
