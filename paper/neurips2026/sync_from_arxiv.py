@@ -47,8 +47,10 @@ PREAMBLE = r"""\documentclass{article}
   pdftitle={FlavourBench: An Executable Benchmark for Culinary Reasoning
     Without a Model Judge},
   pdfauthor={Anonymous Authors},
-  pdfsubject={An executable culinary benchmark with a matched Epicure intervention},
-  pdfkeywords={language models, benchmarks, tool use, culinary reasoning, executable evaluation}
+  pdfsubject={Executable culinary reasoning in frontier language models with a matched
+    Epicure intervention},
+  pdfkeywords={frontier language models, benchmarks, tool use, culinary reasoning,
+    executable evaluation}
 }
 \setlist{leftmargin=*,nosep}
 

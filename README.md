@@ -2,7 +2,7 @@
 
 # FlavourBench
 
-### An executable benchmark for culinary reasoning without a model judge
+### Executable culinary reasoning for frontier language models—without a model judge
 
 **20 models · 32 tasks · 640 matched pairs · exact offline replay**
 

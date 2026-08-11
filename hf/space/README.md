@@ -8,12 +8,12 @@ sdk_version: 6.9.0
 app_file: app.py
 pinned: false
 license: other
-short_description: Executable culinary reasoning without a model judge.
+short_description: Culinary reasoning benchmark for frontier LLMs; no model judge.
 ---
 
-# FlavourBench: An Executable Benchmark for Culinary Reasoning Without a Model Judge
+# FlavourBench: Frontier Culinary Reasoning Without a Model Judge
 
-An evidence explorer and leaderboard for 20 current language-model endpoints, scored against
+An executable benchmark and evidence explorer for 20 current frontier language-model endpoints, scored against
 executable culinary answer keys without a human or model judge.
 
 [Paper](https://github.com/josefchen/flavourbench/blob/main/paper/build/flavourbench.pdf) ·

@@ -1,5 +1,5 @@
 ---
-pretty_name: "FlavourBench: Executable Culinary Reasoning Without a Model Judge"
+pretty_name: "FlavourBench: Frontier Culinary Reasoning Benchmark"
 license: other
 language:
 - en
@@ -43,6 +43,9 @@ configs:
 FlavourBench evaluates 20 current language-model endpoints against executable culinary answer keys,
 with no human or model judge. This dataset contains the complete 32-task release used by the paper
 and leaderboard, including both Model only and Model + Epicure conditions.
+
+It is the machine-readable evidence layer for evaluating culinary reasoning across the current
+frontier panel; it is not a general model-intelligence or food-safety ranking.
 
 [Paper](https://github.com/josefchen/flavourbench/blob/main/paper/build/flavourbench.pdf) ·
 [Interactive explorer](https://huggingface.co/spaces/josefchen/flavourbench) ·

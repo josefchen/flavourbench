@@ -32,8 +32,10 @@
   urlcolor=FBBlue,
   pdftitle={FlavourBench: An Executable Benchmark for Culinary Reasoning Without a Model Judge},
   pdfauthor={Josef Chen},
-  pdfsubject={An executable culinary benchmark with a matched Epicure intervention},
-  pdfkeywords={language models, benchmarks, tool use, culinary reasoning, executable evaluation}
+  pdfsubject={Executable culinary reasoning in frontier language models with a matched
+    Epicure intervention},
+  pdfkeywords={frontier language models, benchmarks, tool use, culinary reasoning,
+    executable evaluation}
 }
 \setlist{leftmargin=*,nosep}
 \setlength{\parindent}{1em}
@@ -56,8 +58,9 @@ Without a Model Judge}
   \maketitle
   \vspace{-1.1em}
   \begin{abstract}
-  \system{} evaluates culinary reasoning against answer keys computed by \epicure{}, a versioned
-  executable culinary system. Four deterministic, read-only operations compile a common
+  \system{} is an executable benchmark of culinary reasoning in frontier language models, scored
+  against answer keys computed by \epicure{}, a versioned culinary system. Four deterministic,
+  read-only operations compile a common
   \FBTasks{}-task panel before any evaluated model is called; no human or model judge scores the
   test. We run \FBModels{} current endpoints on every task in two matched conditions. Model only
   yields the FlavourBench Score.

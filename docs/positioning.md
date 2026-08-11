@@ -2,7 +2,8 @@
 
 ## Category
 
-**FlavourBench is an executable benchmark for culinary reasoning without a model judge.**
+**FlavourBench is an executable benchmark of culinary reasoning in frontier language models,
+without a model judge.**
 
 It tests ingredient substitution, composition, cookability, and cultural association against
 answer keys compiled by a versioned culinary runtime. No human or model judge determines the
@@ -15,7 +16,7 @@ repository summaries, paper metadata, and the first screen of the benchmark Spac
 
 | Name | Role | Canonical description |
 |---|---|---|
-| **FlavourBench** | Benchmark and leaderboard | Executable benchmark for culinary reasoning without a model judge |
+| **FlavourBench** | Benchmark and leaderboard | Executable culinary reasoning benchmark for frontier language models, without a model judge |
 | **FlavourBench Score** | Official ranking metric | Model-only exact-choice accuracy on the fixed task panel |
 | **Epicure Gain** | Matched intervention metric | Percentage-point change when the same endpoint receives the named Epicure operation |
 | **Epicure** | Culinary runtime and operator layer | Versioned system that compiles the answer keys and powers the assisted condition |
@@ -54,7 +55,7 @@ The proof line is:
 
 Use:
 
-- “an executable benchmark for culinary reasoning without a model judge”;
+- “an executable benchmark of culinary reasoning in frontier language models, without a model judge”;
 - “20 current language-model endpoints” for this dated release;
 - “no human or model judge scores the primary leaderboard”;
 - “the same endpoint and task are measured with and without Epicure”; and
