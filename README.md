@@ -2,7 +2,7 @@
 
 # FlavourBench
 
-### Executable culinary reasoning across frontier language models, without a model judge
+### The executable culinary benchmark for frontier language models
 
 **20 models · 32 tasks · 640 matched pairs · exact offline replay**
 
@@ -10,10 +10,10 @@
 
 </div>
 
-FlavourBench is an executable benchmark of culinary reasoning across 20 current language-model
-endpoints. Every model answers the same 32 exact-choice tasks. Model-only accuracy produces the
-ranked **FlavourBench Score**. A matched run with one specified **Epicure** operation is retained as
-a secondary integration diagnostic and never changes rank.
+FlavourBench evaluates culinary reasoning across 20 frontier language-model endpoints. Every model
+answers the same 32 exact-choice tasks against answer keys computed by Epicure before evaluation.
+Model-only accuracy produces the ranked **FlavourBench Score**. A matched run with one specified
+**Epicure** operation measures execution separately and never changes rank.
 
 > **Current release:** a complete public automated benchmark for Epicure-grounded culinary reasoning. It does not claim to rank general intelligence.
 

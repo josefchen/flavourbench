@@ -1,6 +1,6 @@
 # FlavourBench
 
-**FlavourBench: An Executable Benchmark for Culinary Reasoning Without a Model Judge**
+**FlavourBench: Executable Culinary Evaluation of Frontier Language Models**
 
 FlavourBench is an executable 20-model benchmark of culinary reasoning across current frontier
 language-model endpoints. A versioned Epicure runtime generates

@@ -29,11 +29,9 @@
   linkcolor=FBBlue,
   citecolor=FBBlue,
   urlcolor=FBBlue,
-  pdftitle={FlavourBench: An Executable Benchmark for Culinary Reasoning
-    Without a Model Judge},
+  pdftitle={FlavourBench: Executable Culinary Evaluation of Frontier Language Models},
   pdfauthor={Anonymous Authors},
-  pdfsubject={Executable culinary reasoning across frontier language models with a matched
-    Epicure intervention},
+  pdfsubject={An executable benchmark of culinary reasoning across frontier language models},
   pdfkeywords={frontier language models, benchmarks, tool use, culinary reasoning,
     executable evaluation}
 }
@@ -44,7 +42,7 @@
 \newcommand{\sha}[1]{\texttt{\seqsplit{#1}}}
 \input{../generated/epicure-native/epicure-native-macros.tex}
 
-\title{\system{}: An Executable Benchmark for Culinary Reasoning\\Without a Model Judge}
+\title{\system{}: Executable Culinary Evaluation of\\Frontier Language Models}
 \author{Anonymous Authors}
 
 \begin{document}
@@ -52,21 +50,21 @@
 \maketitle
 
 \begin{abstract}
-  \system{} is an executable benchmark for culinary reasoning across frontier language models,
-  scored against answer keys computed by \epicure{}, a versioned culinary system. Four
-  deterministic, read-only operations compile a common
-  \FBTasks{}-task panel before any evaluated model is called; no human or model judge scores the
-  test. We run \FBModels{} current endpoints on every task. Model-only exact-choice accuracy is the
-  FlavourBench Score; missing outputs count as incorrect and completion is reported separately.
-  \FBTopModel{} leads this fixed panel with \FBTopCorrect{}/32 correct, or \FBTopScore{}\%
-  (Wilson 95\% interval \FBTopWilsonLow{}--\FBTopWilsonHigh{}\%). The leading intervals overlap,
-  and exact paired tests against both 19/32 runners-up give $p=\FBTopVsSecondP{}$, so the release
-  supports an exact score snapshot rather than a resolved fine-grained ordering. A secondary
-  named-operation condition measures execution with \epicure{} available. It reaches 100\% for
-  \FBAssistedCeilingModels{} of \FBAssistedEligibleModels{} responding endpoints and is therefore
-  an integration diagnostic, not a second leaderboard. A content-addressed release binds every
-  task, answer key, route, response, completion state, and Epicure trace; its dependency-free
-  verifier reconstructs the score table and figures offline.
+  We introduce \system{}, an executable benchmark for culinary reasoning in frontier language
+  models. \epicure{}, a versioned culinary system, computes the answer to each task before any
+  evaluated model is called. No human labels or model judge enter the score. We test \FBModels{}
+  frontier endpoints, including
+  GPT-5.6, Claude 5, Gemini 3, Kimi K3, Qwen 3.8 Max, GLM 5.2, DeepSeek V4, and Cohere Command A,
+  on the same \FBTasks{} four-choice tasks across substitution, composition, cookability, and
+  cultural evidence. Model-only accuracy defines the FlavourBench Score. \FBTopModel{} scores
+  \FBTopScore{}\% (\FBTopCorrect{}/32); Claude Sonnet 5 and DeepSeek V4 Pro each score 59.4\%
+  (19/32). Exact paired tests do not separate these three on the current panel
+  ($p=\FBTopVsSecondP{}$). A second, named-operation condition tests whether models can call
+  \epicure{} and return its result. \FBAssistedCeilingModels{} of
+  \FBAssistedEligibleModels{} responding endpoints reach 100\%, so this condition is reported as
+  an execution diagnostic rather than a ranking metric. The public release contains \FBArms{}
+  model-task-condition records with routes, completion states, traces, and content hashes. A
+  dependency-free verifier recomputes every score, table, and figure offline.
   \end{abstract}
 
 \section{Introduction}

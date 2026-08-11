@@ -44,11 +44,9 @@ PREAMBLE = r"""\documentclass{article}
   linkcolor=FBBlue,
   citecolor=FBBlue,
   urlcolor=FBBlue,
-  pdftitle={FlavourBench: An Executable Benchmark for Culinary Reasoning
-    Without a Model Judge},
+  pdftitle={FlavourBench: Executable Culinary Evaluation of Frontier Language Models},
   pdfauthor={Anonymous Authors},
-  pdfsubject={Executable culinary reasoning across frontier language models with a matched
-    Epicure intervention},
+  pdfsubject={An executable benchmark of culinary reasoning across frontier language models},
   pdfkeywords={frontier language models, benchmarks, tool use, culinary reasoning,
     executable evaluation}
 }
@@ -59,7 +57,7 @@ PREAMBLE = r"""\documentclass{article}
 \newcommand{\sha}[1]{\texttt{\seqsplit{#1}}}
 \input{../generated/epicure-native/epicure-native-macros.tex}
 
-\title{\system{}: An Executable Benchmark for Culinary Reasoning\\Without a Model Judge}
+\title{\system{}: Executable Culinary Evaluation of\\Frontier Language Models}
 \author{Anonymous Authors}
 
 \begin{document}

@@ -192,7 +192,7 @@ def main() -> int:
         raise VerificationError("anonymous PDF contains an author identity")
     normalized_text = " ".join(text.split())
     for phrase in (
-        "An Executable Benchmark for Culinary Reasoning Without a Model Judge",
+        "Executable Culinary Evaluation of Frontier Language Models",
         "The FlavourBench Score leaderboard",
         "Using the score as a training signal",
         "Command A Plus",

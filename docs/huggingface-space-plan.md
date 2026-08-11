@@ -50,7 +50,7 @@ flowchart LR
 
 ### 1. Evidence hero
 
-The hero asks whether language models can reason about flavour without a model judge. A real
+The hero asks how well frontier language models reason about flavour. A real
 FlavourBench Score rail with Wilson intervals fills the right half. It uses the checked-in data,
 not a product mockup. Four compact facts establish scale without a row of generic cards.
 

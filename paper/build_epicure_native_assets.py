@@ -713,7 +713,7 @@ def _social_summary(release: dict[str, Any], rows: list[dict[str, Any]], output:
         color="#68717D",
     )
     figure.suptitle(
-        "FlavourBench: executable culinary reasoning\nwithout a model judge",
+        "FlavourBench: executable culinary evaluation\nof frontier language models",
         x=0.08,
         y=0.96,
         ha="left",

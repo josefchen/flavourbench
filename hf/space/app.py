@@ -313,8 +313,8 @@ def _hero_html() -> str:
     return f"""
     <div class="fb-shell fb-hero">
       <section>
-        <div class="fb-kicker">Frontier culinary reasoning benchmark · 20 endpoints</div>
-        <h1>Culinary reasoning without a model judge.</h1>
+        <div class="fb-kicker">The executable culinary benchmark · 20 frontier endpoints</div>
+        <h1>How well do frontier models reason about flavour?</h1>
         <p class="fb-dek">FlavourBench scores 20 current language-model endpoints against answer
         keys compiled by Epicure.
         <strong>Blue is the FlavourBench Score. Gray shows its Wilson 95% interval.</strong>
@@ -510,7 +510,7 @@ theme = gr.themes.Base(
 )
 
 
-with gr.Blocks(title="FlavourBench · Frontier culinary reasoning benchmark") as demo:
+with gr.Blocks(title="FlavourBench · Executable culinary benchmark") as demo:
     gr.HTML(_hero_html())
 
     with gr.Tabs():

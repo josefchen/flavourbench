@@ -2,7 +2,7 @@
 
 ## Category
 
-**FlavourBench is an executable benchmark for culinary reasoning without a model judge.**
+**FlavourBench is the executable culinary benchmark for frontier language models.**
 
 It tests ingredient substitution, composition, cookability, and cultural association against
 answer keys compiled by a versioned culinary runtime. No human or model judge determines the
@@ -16,7 +16,7 @@ repository summaries, paper metadata, and the first screen of the benchmark Spac
 
 | Name | Role | Canonical description |
 |---|---|---|
-| **FlavourBench** | Benchmark and leaderboard | Executable benchmark for culinary reasoning without a model judge |
+| **FlavourBench** | Benchmark and leaderboard | Executable culinary benchmark for frontier language models |
 | **FlavourBench Score** | Official ranking metric | Model-only exact-choice accuracy on the fixed task panel |
 | **Epicure Gain** | Secondary diagnostic | Matched change when the same endpoint receives the named Epicure operation; never a rank input |
 | **Epicure** | Culinary runtime and operator layer | Versioned system that compiles the answer keys and powers the assisted condition |
@@ -35,7 +35,7 @@ sound like a product test.
 
 The short launch hook is:
 
-> Culinary reasoning without a model judge.
+> How well do frontier models reason about flavour?
 
 The proof line is:
 
@@ -55,7 +55,7 @@ The proof line is:
 
 Use:
 
-- “an executable benchmark for culinary reasoning without a model judge”;
+- “the executable culinary benchmark for frontier language models”;
 - “20 current language-model endpoints” for this dated release;
 - “no human or model judge scores the primary leaderboard”;
 - “FlavourBench Score is the only ranking metric, and equal scores share a score rank”;
