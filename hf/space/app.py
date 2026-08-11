@@ -628,8 +628,14 @@ python -I paper/reproduce_epicure_native.py \\
   --release paper/generated/epicure-native/epicure-native-release.json
 ```
 
+**Project:** [paper](https://github.com/josefchen/flavourbench/blob/main/paper/build/flavourbench.pdf)
+· [dataset](https://huggingface.co/datasets/josefchen/flavourbench)
+· [source](https://github.com/josefchen/flavourbench)
+
 **Rights note:** tasks and authored metadata are CC BY 4.0. Model responses and third-party
-materials retain the boundaries in `LICENSES.md`. This explorer is a public research preview.
+materials retain the boundaries in
+[`LICENSES.md`](https://github.com/josefchen/flavourbench/blob/main/LICENSES.md). This explorer is a
+public research preview.
                 """
             )
 

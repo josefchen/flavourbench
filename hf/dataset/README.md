@@ -43,6 +43,10 @@ FlavourBench measures model performance on deterministic culinary evidence tasks
 read-only access to Epicure. This dataset contains the complete public 20-model, 32-task automated
 pilot used by the paper and explorer.
 
+[Paper](https://github.com/josefchen/flavourbench/blob/main/paper/build/flavourbench.pdf) ·
+[Interactive explorer](https://huggingface.co/spaces/josefchen/flavourbench) ·
+[Source and reproduction](https://github.com/josefchen/flavourbench)
+
 ## Configurations
 
 | Config | Rows | Unit |
@@ -81,8 +85,9 @@ underlying model has zero capability.
 Benchmark prompts, choices, identifiers, authored metadata, derived tables, and original figures
 are released under CC BY 4.0. Model responses are included as research records but do not grant
 rights in provider software, weights, services, or marks. The underlying Epicure ingredient data,
-embeddings, and unrestricted payloads are not redistributed. See the repository `LICENSES.md` for
-the complete component-level boundary.
+embeddings, and unrestricted payloads are not redistributed. See the repository
+[`LICENSES.md`](https://github.com/josefchen/flavourbench/blob/main/LICENSES.md) for the complete
+component-level boundary.
 
 ## Reproduction
 

@@ -15,6 +15,10 @@ short_description: Inspect how Epicure changes frontier model decisions.
 
 An evidence-first explorer for the FlavourBench Epicure-native automated pilot.
 
+[Paper](https://github.com/josefchen/flavourbench/blob/main/paper/build/flavourbench.pdf) ·
+[Dataset](https://huggingface.co/datasets/josefchen/flavourbench) ·
+[Source and reproduction](https://github.com/josefchen/flavourbench)
+
 The Space presents the complete 20-model, 32-task public release and makes every paired result
 inspectable. It does not call models or Epicure at runtime. The checked-in release JSON is the sole
 data source.
@@ -30,4 +34,5 @@ For a Hugging Face deployment, upload the contents of this directory as the Spac
 release file under `data/` keeps the first launch self-contained. A later revision can load the
 same content-addressed table configs from the companion dataset repository.
 
-See the repository [rights boundary](../../LICENSES.md) before publishing or mirroring records.
+See the repository [rights boundary](https://github.com/josefchen/flavourbench/blob/main/LICENSES.md)
+before publishing or mirroring records.
