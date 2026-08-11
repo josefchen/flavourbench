@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 from collections import defaultdict
 from pathlib import Path
 from typing import Any
@@ -147,22 +148,75 @@ def _short(model_id: str) -> str:
     return SHORT_NAMES.get(model_id, model_id.rsplit("/", 1)[-1])
 
 
+def _paired_exact_p(release: dict[str, Any], left_model: str, right_model: str) -> float:
+    outcomes: dict[tuple[str, str], bool] = {}
+    for observation in release["observations"]:
+        if observation["condition"] != "epicure_off":
+            continue
+        key = (str(observation["model_id"]), str(observation["task_id"]))
+        if key in outcomes:
+            raise AssetError("duplicate Model only observation in paired test")
+        outcomes[key] = bool(observation["correct"])
+
+    task_ids = [str(task["task_id"]) for task in release["tasks"]]
+    if len(task_ids) != 32 or len(set(task_ids)) != 32:
+        raise AssetError("paired test requires the exact 32-task panel")
+    left_only = right_only = 0
+    for task_id in task_ids:
+        left = outcomes.get((left_model, task_id))
+        right = outcomes.get((right_model, task_id))
+        if left is None or right is None:
+            raise AssetError("paired test is missing a Model only observation")
+        left_only += int(left and not right)
+        right_only += int(right and not left)
+    discordant = left_only + right_only
+    if discordant == 0:
+        return 1.0
+    lower_tail = sum(
+        math.comb(discordant, index) for index in range(min(left_only, right_only) + 1)
+    ) / (2**discordant)
+    return min(1.0, 2 * lower_tail)
+
+
+def _score_display_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    return sorted(
+        rows,
+        key=lambda row: (
+            -float(row["epicure_benchmark_score"]),
+            _short(str(row["model_id"])).casefold(),
+        ),
+    )
+
+
+def _score_ranks(rows: list[dict[str, Any]]) -> dict[str, int]:
+    ranks: dict[str, int] = {}
+    previous_score: float | None = None
+    current_rank = 0
+    for position, row in enumerate(_score_display_rows(rows), start=1):
+        score = float(row["epicure_benchmark_score"])
+        if previous_score is None or score != previous_score:
+            current_rank = position
+            previous_score = score
+        ranks[str(row["model_id"])] = current_rank
+    return ranks
+
+
 def _leaderboard_table(rows: list[dict[str, Any]]) -> str:
+    score_ranks = _score_ranks(rows)
     lines = [
-        r"\begin{tabular}{@{}r l r r r r r@{}}",
+        r"\begin{tabular}{@{}r l r r c r@{}}",
         r"\toprule",
-        r"Rank & Model & FB Score & +Epicure & Gain & Model \% done & Epicure \% done \\",
+        r"Score rank & Model & Correct & FB Score & Wilson 95\% & Parsed \\",
         r"\midrule",
     ]
-    for row in rows:
+    for row in _score_display_rows(rows):
         off = row["conditions"]["epicure_off"]
-        on = row["conditions"]["epicure_on"]
-        rank = str(row["rank"]) if off["reliability"] > 0 else "DNF"
+        lower, upper = (100 * float(value) for value in off["wilson_95"])
+        rank = str(score_ranks[str(row["model_id"])]) if off["reliability"] > 0 else "DNF"
         lines.append(
             f"{rank} & {_tex(_short(row['model_id']))} & "
-            f"{off['accuracy_percent']:.1f} & {on['accuracy_percent']:.1f} & "
-            f"{row['uplift_percentage_points']:+.1f} & "
-            f"{off['reliability'] * 100:.1f} & {on['reliability'] * 100:.1f} \\\\"
+            f"{off['correct']}/32 & {off['accuracy_percent']:.1f} & "
+            f"{lower:.1f} to {upper:.1f} & {off['parseable_answers']}/32 \\\\"
         )
     lines.extend([r"\bottomrule", r"\end{tabular}"])
     return "\n".join(lines)
@@ -219,7 +273,7 @@ def _macros(release: dict[str, Any], rows: list[dict[str, Any]]) -> str:
     ]
     bottom = completed_rows[-1]
     cohere = [row for row in rows if row["model_id"].startswith("cohere/")]
-    by_model = {row["model_id"]: row for row in rows}
+    score_ranks = _score_ranks(rows)
     best_uplift = max(rows, key=lambda row: float(row["uplift_percentage_points"]))
     worst_uplift = min(rows, key=lambda row: float(row["uplift_percentage_points"]))
     worst_base_reliability = min(
@@ -236,10 +290,41 @@ def _macros(release: dict[str, Any], rows: list[dict[str, Any]]) -> str:
     worst_reliability_names = _tex(
         " and ".join(_short(row["model_id"]) for row in worst_base_reliability_models)
     )
-    cohere_plus_rank = next(row["rank"] for row in cohere if "plus" in row["model_id"])
-    cohere_reasoning_rank = next(row["rank"] for row in cohere if "reasoning" in row["model_id"])
     cohere_plus = next(row for row in cohere if "plus" in row["model_id"])
     cohere_reasoning = next(row for row in cohere if "reasoning" in row["model_id"])
+    assisted_eligible = [
+        row for row in rows if int(row["conditions"]["epicure_on"]["normal_completions"]) > 0
+    ]
+    assisted_ceiling = sum(
+        float(row["conditions"]["epicure_on"]["accuracy_percent"]) == 100
+        for row in assisted_eligible
+    )
+    assisted_accuracy = (
+        100
+        * sum(int(row["conditions"]["epicure_on"]["correct"]) for row in assisted_eligible)
+        / (32 * len(assisted_eligible))
+    )
+    score_gain_correlation = float(
+        np.corrcoef(
+            [float(row["epicure_benchmark_score"]) for row in assisted_eligible],
+            [float(row["uplift_percentage_points"]) for row in assisted_eligible],
+        )[0, 1]
+    )
+    top_vs_second_p = _paired_exact_p(release, top["model_id"], rows[1]["model_id"])
+    top_vs_third_p = _paired_exact_p(release, top["model_id"], rows[2]["model_id"])
+    pairwise = [
+        (_paired_exact_p(release, top["model_id"], row["model_id"]), row) for row in rows[1:]
+    ]
+    adjusted: list[tuple[float, dict[str, Any]]] = []
+    running_adjusted = 0.0
+    for position, (raw_p, row) in enumerate(sorted(pairwise, key=lambda item: item[0])):
+        candidate = min(1.0, raw_p * (len(pairwise) - position))
+        running_adjusted = max(running_adjusted, candidate)
+        adjusted.append((running_adjusted, row))
+    separated = [row for adjusted_p, row in adjusted if adjusted_p <= 0.05]
+    separated.sort(key=lambda row: -float(row["epicure_benchmark_score"]))
+    separated_names = _tex(", ".join(_short(row["model_id"]) for row in separated))
+    top_interval = [100 * float(value) for value in top["conditions"]["epicure_off"]["wilson_95"]]
     lines = [
         f"\\newcommand{{\\FBReleaseSHA}}{{\\texttt{{{release['artifact_sha256'][:12]}\\ldots}}}}",
         r"\newcommand{\FBModels}{20}",
@@ -251,6 +336,13 @@ def _macros(release: dict[str, Any], rows: list[dict[str, Any]]) -> str:
         f"\\newcommand{{\\FBTopModel}}{{{_tex(_short(top['model_id']))}}}",
         f"\\newcommand{{\\FBTopScore}}{{{top['epicure_benchmark_score']:.1f}}}",
         f"\\newcommand{{\\FBTopCorrect}}{{{top['conditions']['epicure_off']['correct']}}}",
+        f"\\newcommand{{\\FBTopWilsonLow}}{{{top_interval[0]:.1f}}}",
+        f"\\newcommand{{\\FBTopWilsonHigh}}{{{top_interval[1]:.1f}}}",
+        f"\\newcommand{{\\FBTopVsSecondP}}{{{top_vs_second_p:.3f}}}",
+        f"\\newcommand{{\\FBTopVsThirdP}}{{{top_vs_third_p:.3f}}}",
+        f"\\newcommand{{\\FBLeaderHolmSeparated}}{{{len(separated)}}}",
+        f"\\newcommand{{\\FBLeaderHolmComparisons}}{{{len(pairwise)}}}",
+        f"\\newcommand{{\\FBLeaderHolmSeparatedNames}}{{{separated_names}}}",
         f"\\newcommand{{\\FBTopOnCorrect}}{{{top['conditions']['epicure_on']['correct']}}}",
         f"\\newcommand{{\\FBTopOnScore}}{{{top['conditions']['epicure_on']['accuracy_percent']:.1f}}}",
         f"\\newcommand{{\\FBTopUplift}}{{{top['uplift_percentage_points']:+.1f}}}",
@@ -263,6 +355,10 @@ def _macros(release: dict[str, Any], rows: list[dict[str, Any]]) -> str:
         f"\\newcommand{{\\FBToolCalls}}{{{aggregate['epicure_tool_calls']}}}",
         f"\\newcommand{{\\FBReferenceMatches}}{{{aggregate['reference_tool_match_pairs']}}}",
         f"\\newcommand{{\\FBObservedCost}}{{{aggregate['observed_cost_usd']:.2f}}}",
+        f"\\newcommand{{\\FBAssistedEligibleModels}}{{{len(assisted_eligible)}}}",
+        f"\\newcommand{{\\FBAssistedCeilingModels}}{{{assisted_ceiling}}}",
+        f"\\newcommand{{\\FBAssistedEligibleAccuracy}}{{{assisted_accuracy:.1f}}}",
+        f"\\newcommand{{\\FBScoreGainCorrelation}}{{{score_gain_correlation:.3f}}}",
         f"\\newcommand{{\\FBPositiveUpliftModels}}{{{positive_uplift}}}",
         f"\\newcommand{{\\FBNegativeUpliftModels}}{{{negative_uplift}}}",
         f"\\newcommand{{\\FBZeroUpliftModels}}{{{zero_uplift}}}",
@@ -272,15 +368,15 @@ def _macros(release: dict[str, Any], rows: list[dict[str, Any]]) -> str:
         f"\\newcommand{{\\FBWorstUplift}}{{{worst_uplift['uplift_percentage_points']:+.1f}}}",
         f"\\newcommand{{\\FBWorstBaseReliabilityModels}}{{{worst_reliability_names}}}",
         f"\\newcommand{{\\FBWorstBaseReliability}}{{{100 * worst_base_reliability:.1f}}}",
-        f"\\newcommand{{\\FBCoherePlusRank}}{{{cohere_plus_rank}}}",
-        f"\\newcommand{{\\FBCohereReasoningRank}}{{{cohere_reasoning_rank}}}",
+        f"\\newcommand{{\\FBCoherePlusRank}}{{{score_ranks[cohere_plus['model_id']]}}}",
+        f"\\newcommand{{\\FBCohereReasoningRank}}{{{score_ranks[cohere_reasoning['model_id']]}}}",
         f"\\newcommand{{\\FBCoherePlusScore}}{{{cohere_plus['epicure_benchmark_score']:.1f}}}",
         f"\\newcommand{{\\FBCoherePlusUplift}}{{{cohere_plus['uplift_percentage_points']:+.1f}}}",
         f"\\newcommand{{\\FBCohereReasoningScore}}{{{cohere_reasoning['epicure_benchmark_score']:.1f}}}",
         f"\\newcommand{{\\FBCohereReasoningUplift}}{{{cohere_reasoning['uplift_percentage_points']:+.1f}}}",
-        f"\\newcommand{{\\FBKimiRank}}{{{by_model['moonshotai/kimi-k3']['rank']}}}",
-        f"\\newcommand{{\\FBQwenRank}}{{{by_model['qwen/qwen3.8-max']['rank']}}}",
-        f"\\newcommand{{\\FBGLMRank}}{{{by_model['z-ai/glm-5.2']['rank']}}}",
+        f"\\newcommand{{\\FBKimiRank}}{{{score_ranks['moonshotai/kimi-k3']}}}",
+        f"\\newcommand{{\\FBQwenRank}}{{{score_ranks['qwen/qwen3.8-max']}}}",
+        f"\\newcommand{{\\FBGLMRank}}{{{score_ranks['z-ai/glm-5.2']}}}",
     ]
     return "\n".join(lines)
 
@@ -348,7 +444,7 @@ def _score_forest(rows: list[dict[str, Any]], output: Path) -> None:
             s=45,
             linewidth=1.5,
             color="#7B8491",
-            label="No model-only completion",
+            label="No parseable answer",
             zorder=4,
         )
     axis.axvline(25, color=RED, linestyle="--", linewidth=1.1, label="Chance (25%)")
@@ -485,12 +581,12 @@ def _latency_uplift(rows: list[dict[str, Any]], output: Path) -> None:
         ]
         latency_missing = not arm_latencies
         latency = unavailable_floor if latency_missing else float(np.mean(arm_latencies)) / 1000
-        uplift = row["uplift_percentage_points"]
-        color = TEAL if uplift > 0 else RED if uplift < 0 else "#7B8491"
+        is_direct = row["execution_backend"] in {"cohere_direct", "kimi_direct"}
+        color = TEAL if is_direct else BLUE
         axis.scatter(
             row["epicure_benchmark_score"],
             latency,
-            s=42 + 5 * abs(uplift),
+            s=58,
             color="#7B8491" if latency_missing else color,
             marker="x" if latency_missing else "o",
             alpha=0.82,
@@ -512,22 +608,16 @@ def _latency_uplift(rows: list[dict[str, Any]], output: Path) -> None:
     axis.set_xlabel("FlavourBench Score")
     axis.set_ylabel("Median response latency (seconds, log scale)")
     axis.set_title(
-        "Score, response time, and Epicure Gain",
+        "Score and response time",
         loc="left",
         weight="bold",
     )
     axis.grid(color="#DDE2E8", linewidth=0.7)
     axis.spines[["top", "right"]].set_visible(False)
-    uplift_values = [float(row["uplift_percentage_points"]) for row in rows]
-    legend = []
-    if any(value > 0 for value in uplift_values):
-        legend.append(Line2D([0], [0], marker="o", linestyle="", color=TEAL, label="Positive gain"))
-    if any(value < 0 for value in uplift_values):
-        legend.append(Line2D([0], [0], marker="o", linestyle="", color=RED, label="Negative gain"))
-    if any(value == 0 for value in uplift_values):
-        legend.append(
-            Line2D([0], [0], marker="o", linestyle="", color="#7B8491", label="No change")
-        )
+    legend = [
+        Line2D([0], [0], marker="o", linestyle="", color=BLUE, label="OpenRouter"),
+        Line2D([0], [0], marker="o", linestyle="", color=TEAL, label="Direct provider"),
+    ]
     if unavailable_plotted:
         legend.append(
             Line2D(
@@ -580,7 +670,6 @@ def _social_summary(release: dict[str, Any], rows: list[dict[str, Any]], output:
             color=CHARCOAL,
         )
 
-    aggregate = release["leaderboard"]["aggregate"]
     summary.axis("off")
     summary.text(0, 0.96, "THE RESULT", fontsize=10, color=TEAL, weight="bold")
     summary.text(
@@ -609,16 +698,17 @@ def _social_summary(release: dict[str, Any], rows: list[dict[str, Any]], output:
     summary.text(
         0,
         0.19,
-        f"{aggregate['uplift_percentage_points']:+.1f} pp",
-        fontsize=25,
-        color=TEAL,
+        f"{100 * rows[0]['conditions']['epicure_off']['wilson_95'][0]:.1f} to "
+        f"{100 * rows[0]['conditions']['epicure_off']['wilson_95'][1]:.1f}%",
+        fontsize=21,
+        color=BLUE,
         weight="bold",
     )
-    summary.text(0, 0.12, "panel Epicure Gain", fontsize=11, color=CHARCOAL)
+    summary.text(0, 0.12, "leader Wilson 95% interval", fontsize=11, color=CHARCOAL)
     summary.text(
         0,
         0.01,
-        "No model judge  |  exact offline replay  |  direct Kimi and Cohere",
+        "Score only ranks  |  exact offline replay  |  direct Kimi and Cohere",
         fontsize=8.5,
         color="#68717D",
     )
@@ -712,12 +802,13 @@ def _case_studies(
 def build(release_path: Path, generated: Path, figures: Path) -> None:
     release = _read_release(release_path)
     rows = _ranked_rows(release)
+    display_rows = _score_display_rows(rows)
     completed_rows = [
         row for row in rows if float(row["conditions"]["epicure_off"]["reliability"]) > 0
     ]
     _configure_plots()
     _write(generated / "epicure-native-macros.tex", _macros(release, rows))
-    _write(generated / "epicure-native-leaderboard-table.tex", _leaderboard_table(rows))
+    _write(generated / "epicure-native-leaderboard-table.tex", _leaderboard_table(display_rows))
     _write(generated / "epicure-native-route-table.tex", _route_table(release, rows))
     _write(generated / "epicure-native-family-table.tex", _family_table(rows, release))
     cases_tex, cases = _case_studies(release, rows)
@@ -726,12 +817,12 @@ def build(release_path: Path, generated: Path, figures: Path) -> None:
         generated / "epicure-native-case-studies.json",
         json.dumps(cases, ensure_ascii=False, indent=2, sort_keys=True),
     )
-    _dumbbell(rows, figures)
-    _score_forest(rows, figures)
-    _heatmap(rows, figures)
-    _paired_matrix(release, rows, figures)
-    _latency_uplift(rows, figures)
-    _social_summary(release, rows, figures)
+    _dumbbell(display_rows, figures)
+    _score_forest(display_rows, figures)
+    _heatmap(display_rows, figures)
+    _paired_matrix(release, display_rows, figures)
+    _latency_uplift(display_rows, figures)
+    _social_summary(release, display_rows, figures)
     manifest = {
         "schema_version": "flavourbench-epicure-native-paper-assets-v1",
         "release_artifact_sha256": release["artifact_sha256"],

@@ -136,11 +136,24 @@ body, .gradio-container {
 }
 .fb-rail {
   background: var(--fb-code);
-  height: 8px;
+  height: 12px;
   position: relative;
 }
-.fb-rail-base { background: var(--fb-blue); height: 8px; left: 0; position: absolute; }
-.fb-rail-uplift { background: var(--fb-gold); height: 8px; position: absolute; }
+.fb-rail-base {
+  background: var(--fb-blue);
+  bottom: 0;
+  height: 7px;
+  left: 0;
+  position: absolute;
+}
+.fb-rail-ci {
+  border-left: 1px solid var(--fb-muted);
+  border-right: 1px solid var(--fb-muted);
+  border-top: 2px solid var(--fb-muted);
+  height: 4px;
+  position: absolute;
+  top: 0;
+}
 .fb-rail-score {
   color: var(--fb-muted);
   font-family: "IBM Plex Mono", ui-monospace, monospace;
@@ -249,24 +262,47 @@ OBSERVATION_INDEX = {
 }
 
 
+def _score_display_models() -> list[dict[str, Any]]:
+    return sorted(
+        MODELS,
+        key=lambda model: (
+            -float(model["conditions"]["epicure_off"]["accuracy_percent"]),
+            str(model["display_name"]).casefold(),
+        ),
+    )
+
+
+DISPLAY_MODELS = _score_display_models()
+SCORE_RANKS: dict[str, int] = {}
+_previous_score: float | None = None
+_current_rank = 0
+for _position, _model in enumerate(DISPLAY_MODELS, start=1):
+    _score = float(_model["conditions"]["epicure_off"]["accuracy_percent"])
+    if _previous_score is None or _score != _previous_score:
+        _current_rank = _position
+        _previous_score = _score
+    SCORE_RANKS[str(_model["model_id"])] = _current_rank
+
+
 def _short_name(display_name: str) -> str:
     return display_name.split(": ", 1)[-1].replace(" Pro", "")
 
 
 def _frontier_html() -> str:
     rows = []
-    for model in MODELS[:12]:
-        off = float(model["conditions"]["epicure_off"]["accuracy_percent"])
-        on = float(model["conditions"]["epicure_on"]["accuracy_percent"])
+    for model in DISPLAY_MODELS[:12]:
+        condition = model["conditions"]["epicure_off"]
+        score = float(condition["accuracy_percent"])
+        lower, upper = (100 * float(value) for value in condition["wilson_95"])
         rows.append(
             "<div class='fb-rail-row'>"
             f"<div class='fb-rail-label' title='{html.escape(model['display_name'])}'>"
             f"{html.escape(_short_name(model['display_name']))}</div>"
             "<div class='fb-rail'>"
-            f"<span class='fb-rail-base' style='width:{off:.3f}%'></span>"
-            f"<span class='fb-rail-uplift' style='left:{off:.3f}%;width:{max(on - off, 0):.3f}%'></span>"
+            f"<span class='fb-rail-ci' style='left:{lower:.3f}%;width:{upper - lower:.3f}%'></span>"
+            f"<span class='fb-rail-base' style='width:{score:.3f}%'></span>"
             "</div>"
-            f"<div class='fb-rail-score'>{off:.0f}</div>"
+            f"<div class='fb-rail-score'>{score:.0f}</div>"
             "</div>"
         )
     return "".join(rows)
@@ -281,20 +317,20 @@ def _hero_html() -> str:
         <h1>Culinary reasoning without a model judge.</h1>
         <p class="fb-dek">FlavourBench scores 20 current language-model endpoints against answer
         keys compiled by Epicure.
-        <strong>Blue measures Model only. Gold measures the gain from Epicure.</strong>
+        <strong>Blue is the FlavourBench Score. Gray shows its Wilson 95% interval.</strong>
         Open any pair to inspect the prompt, answers, tool trace, and hashes.</p>
         <div class="fb-stats">
           <div class="fb-stat"><strong>{counts["models"]}</strong><span>models</span></div>
           <div class="fb-stat"><strong>{counts["tasks"]}</strong><span>tasks</span></div>
-          <div class="fb-stat"><strong>{counts["assigned_pairs"]}</strong><span>matched pairs</span></div>
-          <div class="fb-stat"><strong>{counts["observed_response_arms"]:,}</strong><span>observed arms</span></div>
+          <div class="fb-stat"><strong>{counts["models"] * counts["tasks"]}</strong><span>score cells</span></div>
+          <div class="fb-stat"><strong>{counts["families"]}</strong><span>task families</span></div>
         </div>
       </section>
-      <section class="fb-frontier" aria-label="FlavourBench Score and Epicure Gain">
-        <div class="fb-frontier-head"><strong>FlavourBench Score plus Epicure Gain</strong><span>Top 12 · percent correct</span></div>
+      <section class="fb-frontier" aria-label="FlavourBench Score with Wilson intervals">
+        <div class="fb-frontier-head"><strong>FlavourBench Score</strong><span>Top 12 · score and Wilson 95%</span></div>
         {_frontier_html()}
-        <div class="fb-note">One task equals 3.125 percentage points. Read adjacent rows as a
-        close score group, then inspect the underlying pairs.</div>
+        <div class="fb-note">One answer equals 3.125 points. The score is exact for these 32 tasks;
+        overlapping intervals mean nearby rows are not a definitive general ordering.</div>
       </section>
     </div>
     """
@@ -302,19 +338,21 @@ def _hero_html() -> str:
 
 def _leaderboard_frame() -> pd.DataFrame:
     rows = []
-    for model in MODELS:
+    for model in DISPLAY_MODELS:
         off = model["conditions"]["epicure_off"]
-        on = model["conditions"]["epicure_on"]
-        observed = int(off["normal_completions"]) + int(on["normal_completions"])
+        lower, upper = (100 * float(value) for value in off["wilson_95"])
         rows.append(
             {
-                "Rank": model["rank"],
+                "Score rank": (
+                    SCORE_RANKS[str(model["model_id"])]
+                    if int(off["parseable_answers"]) > 0
+                    else "DNF"
+                ),
                 "Model": model["display_name"],
-                "Model only": f"{off['accuracy_percent']:.3g}%",
-                "Model + Epicure": f"{on['accuracy_percent']:.3g}%",
-                "Epicure Gain": f"+{model['uplift_percentage_points']:.3g} pp",
-                "Observed arms": f"{observed}/64",
-                "Backend": model["execution_backend"],
+                "FlavourBench Score": f"{off['accuracy_percent']:.3g}%",
+                "Correct": f"{off['correct']}/32",
+                "Wilson 95%": f"{lower:.1f}% to {upper:.1f}%",
+                "Parsed answers": f"{off['parseable_answers']}/32",
             }
         )
     return pd.DataFrame(rows)
@@ -332,9 +370,9 @@ def _model_detail(model_name: str) -> tuple[str, pd.DataFrame]:
         <span>Wilson 95%: {off["wilson_95"][0] * 100:.1f}% to {off["wilson_95"][1] * 100:.1f}%</span>
       </div>
       <div class="fb-condition good">
-        <small>Model + Epicure accuracy</small>
+        <small>Named-operation diagnostic</small>
         <strong>{on["accuracy_percent"]:.3g}%</strong>
-        <span>Epicure Gain: +{model["uplift_percentage_points"]:.3g} percentage points</span>
+        <span>Expected ceiling; never a ranking input</span>
       </div>
     </div>
     """
@@ -482,7 +520,7 @@ with gr.Blocks(title="FlavourBench · Frontier culinary reasoning benchmark") as
                 <div class="fb-section-title">
                   <div class="fb-kicker">Automated exact-choice track</div>
                   <h2>The complete public benchmark</h2>
-                  <p>Rank follows FlavourBench Score. Model + Epicure and Epicure Gain show the matched intervention.</p>
+                  <p>Score rank follows only the FlavourBench Score on the fixed 32-task panel.</p>
                 </div>
                 """
             )
@@ -492,12 +530,15 @@ with gr.Blocks(title="FlavourBench · Frontier culinary reasoning benchmark") as
                 wrap=True,
                 show_search="filter",
                 show_row_numbers=False,
-                column_widths=[55, 260, 95, 95, 105, 110, 110],
+                column_widths=[55, 280, 130, 85, 175, 155],
             )
             gr.Markdown(
-                "**Reading the table.** Rank follows Model only accuracy over this 32-task release; "
-                "it is not a claim about general model quality. Equal scores follow the release's "
-                "frozen tie-break rules. Use Pair Lens before interpreting small differences."
+                "**Reading the table.** The score is exact for this fixed panel. The Wilson interval "
+                "is a descriptive sampling indicator, not proof about all culinary reasoning. "
+                "Equal scores share a score rank, and leading intervals overlap, so nearby rows "
+                "should be treated as a close score group. "
+                "Parsed answers keeps answer-contract failures visible. Epicure-assisted results "
+                "remain available in Model fingerprint and Pair Lens, but they do not affect rank."
             )
 
         with gr.Tab("Model fingerprint"):
@@ -600,10 +641,11 @@ with gr.Blocks(title="FlavourBench · Frontier culinary reasoning benchmark") as
                 <div class="fb-method-grid">
                   <div>
                     <h3>Scoring contract</h3>
-                    <p><strong>FlavourBench Score</strong> is Model only exact-choice accuracy over
-                    all 32 tasks. <strong>Model + Epicure</strong> uses the same endpoint-task cells
-                    with one named Epicure operation. <strong>Epicure Gain</strong> is the matched
-                    percentage-point change and does not affect rank.</p>
+                    <p><strong>FlavourBench Score</strong> is model-only exact-choice accuracy over
+                    all 32 tasks and is the only ranking metric. Epicure compiles the reference
+                    answers; it is not a model row. The matched named-operation condition makes the
+                    same runtime output available to the endpoint, so its near-100% result is an
+                    expected execution ceiling, not a second benchmark score.</p>
                     <p>Tasks cover substitution, composition, cookability, and evidence. Every expected
                     answer is derived from a fixed read-only Epicure operation.</p>
                     <h3>Public records</h3>

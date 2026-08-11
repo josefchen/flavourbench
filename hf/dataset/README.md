@@ -1,5 +1,5 @@
 ---
-pretty_name: "FlavourBench: Frontier Culinary Reasoning Benchmark"
+pretty_name: "FlavourBench: Executable Culinary Reasoning Without a Model Judge"
 license: other
 language:
 - en
@@ -69,13 +69,18 @@ frontier panel; it is not a general model-intelligence or food-safety ranking.
 - `response_artifact_sha256`, `prompt_sha256`, and reference-result hashes preserve lineage.
 - `paired_outcome` is one of `both_correct`, `off_only`, `on_only`, `neither`, or `incomplete`.
 - `epicure_benchmark_score` stores the FlavourBench Score: Model only exact-choice accuracy.
-- `uplift_percentage_points` stores Epicure Gain: the matched percentage-point change in Model + Epicure.
+- `rank` is the shared score rank; `release_order` preserves the source artifact's deterministic
+  row order without treating an assisted metric as evidence that tied scores differ.
+- `uplift_percentage_points` stores the secondary matched change with Epicure available. It is an
+  integration diagnostic and does not enter score rank.
 
 ## Intended use
 
-Use the dataset to reproduce the public automated leaderboard, study model-Epicure interaction,
-inspect task-level errors, or build alternative visualizations. The 32-task release should not be
-used as a general ranking of model intelligence. A one-task change equals 3.125 percentage points.
+Use the dataset to reproduce the public automated leaderboard, inspect task-level errors, study the
+secondary model-Epicure interaction, or build alternative visualizations. The primary leaderboard
+uses only `epicure_benchmark_score`; equal scores share a displayed score rank. The 32-task release
+should not be used as a general ranking of model intelligence. One task changes the score by 3.125
+points, and leading Wilson intervals overlap.
 
 ## Availability and missingness
 

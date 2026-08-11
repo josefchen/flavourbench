@@ -32,7 +32,7 @@
   pdftitle={FlavourBench: An Executable Benchmark for Culinary Reasoning
     Without a Model Judge},
   pdfauthor={Anonymous Authors},
-  pdfsubject={Executable culinary reasoning in frontier language models with a matched
+  pdfsubject={Executable culinary reasoning across frontier language models with a matched
     Epicure intervention},
   pdfkeywords={frontier language models, benchmarks, tool use, culinary reasoning,
     executable evaluation}
@@ -52,21 +52,21 @@
 \maketitle
 
 \begin{abstract}
-  \system{} is an executable benchmark of culinary reasoning in frontier language models, scored
-  against answer keys computed by \epicure{}, a versioned culinary system. Four deterministic,
-  read-only operations compile a common
+  \system{} is an executable benchmark for culinary reasoning across frontier language models,
+  scored against answer keys computed by \epicure{}, a versioned culinary system. Four
+  deterministic, read-only operations compile a common
   \FBTasks{}-task panel before any evaluated model is called; no human or model judge scores the
-  test. We run \FBModels{} current endpoints on every task in two matched conditions. Model only
-  yields the FlavourBench Score.
-  Model + Epicure permits one read-only call to the specified operation, and the accuracy
-  difference defines Epicure Gain. The release contains \FBPairs{} matched pairs and \FBArms{}
-  assigned arms. \FBTopModel{} leads the model-only ranking at \FBTopScore{}\%. Across the panel,
-  Epicure access raises exact accuracy from \FBAggregateOff\% to \FBAggregateOn\%, a
-  \FBAggregateUplift{}-point gain. Because the operation is named in the prompt, this condition
-  tests tool execution rather than tool discovery. A content-addressed release binds every task,
-  answer key, route, response, completion state, and Epicure trace. Its dependency-free verifier
-  reconstructs the leaderboard and paper figures offline. \system{} measures model knowledge and
-  the value of a domain system on the same task set.
+  test. We run \FBModels{} current endpoints on every task. Model-only exact-choice accuracy is the
+  FlavourBench Score; missing outputs count as incorrect and completion is reported separately.
+  \FBTopModel{} leads this fixed panel with \FBTopCorrect{}/32 correct, or \FBTopScore{}\%
+  (Wilson 95\% interval \FBTopWilsonLow{}--\FBTopWilsonHigh{}\%). The leading intervals overlap,
+  and exact paired tests against both 19/32 runners-up give $p=\FBTopVsSecondP{}$, so the release
+  supports an exact score snapshot rather than a resolved fine-grained ordering. A secondary
+  named-operation condition measures execution with \epicure{} available. It reaches 100\% for
+  \FBAssistedCeilingModels{} of \FBAssistedEligibleModels{} responding endpoints and is therefore
+  an integration diagnostic, not a second leaderboard. A content-addressed release binds every
+  task, answer key, route, response, completion state, and Epicure trace; its dependency-free
+  verifier reconstructs the score table and figures offline.
   \end{abstract}
 
 \section{Introduction}
@@ -82,11 +82,10 @@ in a 300-dimensional space \cite{radzikowski2026structure,radzikowski2026geometr
 operations are converted into four-choice questions. The compiler records each answer before it
 contacts an evaluated model.
 
-The design asks two separate questions. The FlavourBench Score measures how often a model endpoint
-returns \epicure{}'s answer without access to the runtime. Epicure Gain measures the change when
-the same endpoint receives the same task with one read-only \epicure{} call. Every model receives
-every task in both conditions. The score determines the leaderboard; Epicure Gain does not enter
-the ranking.
+The design asks one ranking question and one diagnostic question. The FlavourBench Score measures
+how often a model endpoint returns \epicure{}'s answer without runtime access. The same endpoint
+then receives the task with one read-only \epicure{} call, providing a controlled execution check.
+Every model receives every task in both conditions. Only the model-only score determines rank.
 
 Our release evaluates \FBModels{} current endpoints, including GPT-5.6 Sol, Terra, and Luna;
 Claude Fable, Opus, and Sonnet 5; Gemini 3.1 Pro and 3.6 Flash; Grok 4.5; Kimi K3; Qwen 3.8 Max;
@@ -101,8 +100,8 @@ The paper makes three contributions:
   executable system rather than a model judge;
   \item a common-task frontier evaluation with \FBPairs{} matched pairs, exact missing-response
   penalties, and a public 20-row leaderboard;
-  \item a matched Epicure intervention that reports panel gain and task-family interactions without
-  changing the ranking score.
+  \item a matched, named-operation diagnostic that exposes tool-integration failures and
+  task-family interactions without changing the ranking score.
 \end{enumerate}
 
 \epicure{} has two roles. It fixes the answer key, then becomes the intervention in the second arm.
@@ -127,8 +126,8 @@ arbitrary composite score.
     \node[box] (panel) at (7.0,0) {\textbf{Frontier panel}\\20 models\\fixed route per model};
     \node[box] (off) at (10.35,1.05) {\textbf{Model only}\\same prompt\\no Epicure call};
     \node[oracle] (on) at (10.35,-1.05) {\textbf{Model + Epicure}\\same prompt\\one read-only call};
-    \node[score] (scorer) at (13.75,0) {\textbf{Exact scorer}\\FlavourBench Score\\Epicure Gain};
-    \node[score] (release) at (17.1,0) {\textbf{Public release}\\rank + gain + traces\\offline replay};
+    \node[score] (scorer) at (13.75,0) {\textbf{Exact scorer}\\score only ranks\\assisted diagnostic};
+    \node[score] (release) at (17.1,0) {\textbf{Public release}\\score + intervals\\pairs + traces};
 
     \draw[arrow] (graph) -- (compiler);
     \draw[arrow] (compiler) -- (panel);
@@ -139,8 +138,9 @@ arbitrary composite score.
     \draw[arrow] (scorer) -- (release);
   \end{tikzpicture}}
   \caption{The \system{} pipeline. \epicure{} fixes each answer before evaluation. The Model only
-  arm produces the ranked FlavourBench Score. The matched Model + Epicure arm produces Epicure
-  Gain. Both are reconstructed from the same public release.}
+  arm produces the ranked FlavourBench Score. The matched Model + Epicure arm tests execution with
+  the answer-generating system available and does not affect rank. Both reconstruct from the same
+  public release.}
   \label{fig:architecture}
 \end{figure*}
 
@@ -222,9 +222,9 @@ The single ranking metric is the FlavourBench Score:
  \label{eq:score}
 \end{equation}
 Every family contains eight tasks, so ordinary accuracy already gives each family equal weight.
-Missing or invalid responses remain in the denominator as incorrect. The public release sorts by
-$F_m$, then uses Model + Epicure accuracy, Model + Epicure completion, and model ID as fixed
-tie-breakers.
+Missing or invalid responses remain in the denominator as incorrect. The paper and public Space
+give equal values of $F_m$ the same score rank; model name orders rows within a tie. No assisted
+metric breaks a FlavourBench Score tie.
 
 Epicure Gain is the matched difference
 \begin{equation}
@@ -240,11 +240,15 @@ or neither correct.
 Completion is the fraction of assigned responses that end normally with a parseable final marker.
 The score still counts missing responses as incorrect. Reporting completion beside the score keeps
 endpoint failure separate from a wrong culinary answer. A zero score with zero completions is not
-evidence of zero model capability. For each 32-task accuracy we report a 95\% Wilson interval.
+evidence of zero model capability. For each 32-task accuracy we report a 95\% Wilson interval as a
+descriptive uncertainty indicator. The panel is deliberately balanced rather than randomly drawn
+from all culinary questions, so the interval is not a population guarantee.
 
 The benchmark is designed for visible differences, not hundredths of a point. One answer changes
-the score by 3.125 points. Family breakdowns and the full pair matrix are published so tied or
-nearby aggregate scores can be inspected rather than over-interpreted.
+the score by 3.125 points. Exact paired McNemar tests comparing the 20/32 leader with each 19/32
+runner-up give $p=\FBTopVsSecondP{}$ and $p=\FBTopVsThirdP{}$. These unadjusted descriptive tests,
+the overlapping intervals, family breakdowns, and task matrix all point to the same reading: this
+release resolves broad separation, not the order of adjacent leaders.
 
 \subsection{Twenty-model frontier panel}
 
@@ -262,17 +266,20 @@ cohere2026reasoning,openrouter2026generation}. The exact 20-row route table appe
 
 \subsection{The FlavourBench Score leaderboard}
 
-\FBTopModel{} leads with \FBTopCorrect{}/32 correct and a FlavourBench Score of \FBTopScore{}.
-\Cref{tab:leaderboard} gives the full release ordering and completion rates. \Cref{fig:forest} adds
-intervals to show which gaps the 32-task panel can resolve. Models with no Model only completion are
-marked DNF rather than interpreted as the least capable systems.
+\FBTopModel{} leads the fixed panel with \FBTopCorrect{}/32 correct and a FlavourBench Score of
+\FBTopScore{} (Wilson 95\% interval \FBTopWilsonLow{}--\FBTopWilsonHigh{}). \Cref{tab:leaderboard}
+gives the score-only ranking, correct counts, intervals, and parsed-answer counts. The top three differ by
+one answer, their intervals overlap substantially, and the paired tests above do not separate the
+leader from either runner-up. Across all 19 leader comparisons, Holm adjustment separates only
+\FBLeaderHolmSeparated{} rows, \FBLeaderHolmSeparatedNames{}; two are DNF endpoints. Models with no
+parseable model-only answer are marked DNF rather than interpreted as the least capable systems.
 
 \begin{figure*}[t]
   \centering
   \includegraphics[width=0.88\linewidth]{../figures/epicure-native/frontier-score-forest.pdf}
   \caption{FlavourBench Score against \epicure{} answer keys. Points are exact accuracy over the
-  common 32-task panel; bars are 95\% Wilson intervals. Crosses mark endpoints with no Model only
-  completion. The dashed line is four-choice chance.}
+  common 32-task panel; bars are descriptive 95\% Wilson intervals. Crosses mark endpoints with no
+  parseable model-only answer. The dashed line is four-choice chance.}
   \label{fig:forest}
 \end{figure*}
 
@@ -281,40 +288,66 @@ marked DNF rather than interpreted as the least capable systems.
   \scriptsize
   \setlength{\tabcolsep}{4pt}
   \input{../generated/epicure-native/epicure-native-leaderboard-table.tex}
-  \caption{The public leaderboard. ``FB Score'' is Model only exact-choice accuracy and determines
-  rank. ``+Epicure'' is accuracy for the same tasks with \epicure{} available. ``Gain'' is their
-  difference in percentage points. The final columns report completion. DNF means that the Model
-  only endpoint returned no parseable completion.}
+  \caption{The score-only public leaderboard. ``Correct'' and ``FB Score'' use model-only answers;
+  equal scores share a score rank. Wilson 95\% is a descriptive interval for the fixed 32-task
+  panel, and ``Parsed'' reports responses with a valid final choice. DNF means that the endpoint
+  returned no parseable model-only answer.}
   \label{tab:leaderboard}
+\end{table*}
+
+\begin{table*}[t]
+  \centering
+  \small
+  \begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{0.25\linewidth}
+      >{\raggedright\arraybackslash}p{0.22\linewidth} X@{}}
+    \toprule
+    Statistical indicator & Observed value & Reading \\
+    \midrule
+    Score resolution & 1/32 = 3.125 points & Adjacent rows often differ by one answer. \\
+    Leader uncertainty & \FBTopScore\%; Wilson 95\% \FBTopWilsonLow{}--\FBTopWilsonHigh\% &
+      Exact for this panel; broad descriptive interval beyond it. \\
+    Leader vs. 19/32 runners-up & Exact paired $p=\FBTopVsSecondP{}$ and
+      $p=\FBTopVsThirdP{}$ & The fixed panel does not separate the top three. \\
+    Leader vs. full panel & \FBLeaderHolmSeparated{}/\FBLeaderHolmComparisons{} comparisons
+      significant after Holm adjustment & Only broad operational separation is resolved. \\
+    Assisted ceiling & \FBAssistedCeilingModels{}/\FBAssistedEligibleModels{} endpoints at 100\% &
+      Useful for integration failures, not rank discrimination. \\
+    Score--gain correlation & $r=\FBScoreGainCorrelation{}$ & Near-perfect inverse dependence;
+      gain is largely the distance to the assisted ceiling. \\
+    \bottomrule
+  \end{tabularx}
+  \caption{The statistical reading of this release. Intervals and tests are descriptive because
+  the 32 tasks form a fixed balanced panel rather than a random sample of all culinary questions.}
+  \label{tab:statistical-reading}
 \end{table*}
 
 The answer key exists before the model call, every endpoint receives the same questions, and no
 judge is sampled after the fact. Missing outputs count as incorrect in the operational score but
-remain visible in the completion columns. Mistral Large 2512 and Nemotron 3 Ultra returned no Model
-only completion in this run, so their zeroes are transport outcomes rather than capability
-estimates. Nemotron also returned no Model + Epicure completion.
+remain visible in the ``Parsed'' column. Mistral Large 2512 returned 32 normal model-only
+responses, but none contained a parseable final choice. Nemotron 3 Ultra returned no response in
+either condition. Both zeroes are operational outcomes rather than capability estimates.
 
 \subsection{What Epicure changes}
 
-Across all 640 matched pairs, panel accuracy is \FBAggregateOff\% for Model only and
-\FBAggregateOn\% for Model + Epicure. Epicure Gain is therefore \FBAggregateUplift{} points. Every
-route that produced at least one assisted response gains points under the operational scoring rule.
-The largest numerical change is \FBBestUpliftModel{} at \FBBestUplift{} points, but that route had
-no Model only completion. Its change combines condition-specific availability with answer quality
-and should not be read as a pure knowledge gain.
+The assisted condition is deliberately secondary. Among the \FBAssistedEligibleModels{} endpoints
+that returned assisted completions, \FBAssistedCeilingModels{} score 100\% and mean accuracy is
+\FBAssistedEligibleAccuracy\%. FlavourBench Score and Epicure Gain correlate
+$r=\FBScoreGainCorrelation{}$ because a near-100\% assisted ceiling makes gain approximately
+$100-F_m$. Gain therefore adds little ranking information and does not appear in the primary table.
 
 \begin{figure*}[t]
   \centering
   \includegraphics[width=0.88\linewidth]{../figures/epicure-native/frontier-score-dumbbell.pdf}
-  \caption{Model only and Model + Epicure accuracy over the same 32 tasks. Each line is a matched
-  comparison within one endpoint, not a comparison between different task samples.}
+  \caption{Model-only and named-operation assisted accuracy over the same 32 tasks. This secondary
+  diagnostic shows the assisted ceiling and endpoint failures; it does not determine rank.}
   \label{fig:dumbbell}
 \end{figure*}
 
-The assisted prompt names the relevant operation. This is a scaffolded test of calling that
-operation, reading its output, and preserving the answer contract. It is not a test of open-ended
-tool discovery. That narrower intervention is useful here because it isolates the benefit of
-\epicure{} from the separate problem of choosing among many tools.
+The assisted prompt names the relevant operation, whose output is also used to compile the answer
+key. Near-ceiling assisted accuracy is therefore expected. The condition tests whether an endpoint
+can call the specified operation, read its output, and preserve the answer contract. It is not an
+independent validation of \epicure{}, a second capability score, or a test of open-ended tool
+discovery.
 
 \subsection{Families explain aggregate ties}
 
@@ -346,12 +379,12 @@ reverse outcome. Grey cells show questions neither condition solved.
 
 \subsection{Cohere, Kimi, Qwen, and route fidelity}
 
-Both Cohere models are full members of the public panel. Command A Plus ranks
-\FBCoherePlusRank{} with a FlavourBench Score of \FBCoherePlusScore{} and an Epicure Gain of
-\FBCoherePlusUplift{} points. Command A Reasoning ranks \FBCohereReasoningRank{} with a score of
-\FBCohereReasoningScore{} and a gain of \FBCohereReasoningUplift{} points. Kimi K3 ranks
-\FBKimiRank{} through the direct Kimi endpoint. Qwen 3.8 Max ranks \FBQwenRank{} through an exact
-OpenRouter route, and GLM 5.2 ranks \FBGLMRank{}. No route changes during generation.
+Both Cohere models are full members of the public panel. Command A Plus has score rank
+\FBCoherePlusRank{} with a FlavourBench Score of \FBCoherePlusScore{}; Command A Reasoning has
+score rank \FBCohereReasoningRank{} at \FBCohereReasoningScore{}. Kimi K3 has score rank
+\FBKimiRank{} through the direct Kimi endpoint. Qwen 3.8 Max has score rank \FBQwenRank{} through
+an exact OpenRouter route, and GLM 5.2 has score rank \FBGLMRank{}. No route changes during
+generation.
 
 The two direct Cohere routes each produced all 64 assigned arms. Their returned identifiers are
 \texttt{\seqsplit{command-a-plus-05-2026}} and
@@ -364,12 +397,11 @@ model, returned model, provider, route, generation ID, latency, token counts, an
 Direct and routed endpoints can therefore be analysed separately without pretending they are
 interchangeable deployments.
 
-\subsection{Score, response time, and Epicure Gain}
+\subsection{Score and response time}
 
-\Cref{fig:latency} plots FlavourBench Score against median response time. Marker colour encodes
-Epicure Gain. A fast model can score poorly, a high-scoring model can gain little from \epicure{},
-and a lower-ranked model can improve sharply when assisted. The release keeps these dimensions
-separate.
+\Cref{fig:latency} plots FlavourBench Score against median response time. Marker colour identifies
+the execution route. Accuracy and latency are separate operational dimensions: faster endpoints do
+not necessarily score higher, and direct-provider routes are not pooled with routed deployments.
 
 
 
@@ -436,16 +468,19 @@ choice matches a deterministic runtime result. \system{} uses that distinction t
 core ranking while leaving subjective culinary evaluation as a separate track.
 
 \paragraph{Why run Model + Epicure?}
-The leaderboard says which endpoint best predicts \epicure{}. The matched intervention asks how
-much the same endpoint changes when given \epicure{} directly. That result is operationally useful:
-a strong model may gain little, while a lower-scoring model may become competitive when grounded.
-The dumbbell and pair matrix show this task by task.
+The condition is a named-operation execution test. Because \epicure{} both generated the answer
+key and supplies the relevant runtime output, its near-ceiling accuracy is expected. The condition
+still catches tool-call, argument, parsing, and answer-contract failures, but it neither ranks
+models nor independently validates \epicure{}. The dumbbell and pair matrix expose those failures
+task by task.
 
 \paragraph{Scaling the benchmark.}
 The task compiler can expand the seed lists while preserving the four operations. The next release
 should reserve unseen ingredients and pairs, remove near-duplicate questions, and measure stability
-across runtime versions. The current 32-task panel is a frontier snapshot and a reproducible
-template for a larger hidden set.
+across runtime versions. As a simple scale guide near 50\% accuracy, 100 independent tasks give
+about a 10-point 95\% half-width and 400 give about five points; paired rank claims should be powered
+on the observed task covariance. The current panel is a frontier snapshot and a reproducible
+template for that larger hidden set.
 
 \section{Related work}
 
@@ -498,23 +533,21 @@ with access to that runtime measured as a matched intervention.
 
 \section{Limitations}
 
-The 32-task panel resolves large score differences better than close ones: one answer moves the
-score by 3.125 points. The English ingredient seeds cover four \epicure{} operations, and hosted
-routes are a dated snapshot. Public prompts may eventually be memorised. The assisted condition
-names the operation, so it measures execution with a specified tool rather than open-ended tool
-selection. Finally, agreement with \epicure{} inherits the runtime's representation choices; it is
-not a food-safety or cultural-authenticity certification. Larger hidden panels, additional
-operations, and repeated route snapshots are the immediate next tests.
+The 32-task panel resolves broad differences, not adjacent leaders: one answer moves the score by
+3.125 points and the leading intervals overlap. The English ingredient seeds cover four
+\epicure{} operations, hosted routes are a dated snapshot, and public prompts may eventually be
+memorised. Agreement with \epicure{} inherits the runtime's representation choices; it is not a
+food-safety or cultural-authenticity certification. A larger hidden panel, additional operations,
+and repeated route snapshots are the immediate next tests.
 
 \section{Conclusion}
 
 \system{} turns a versioned culinary runtime into an executable benchmark for frontier language
-models. \FBTopModel{}
-leads the 20-model panel with a FlavourBench Score of \FBTopScore{}. Giving the same endpoints a
-specified \epicure{} operation raises panel accuracy by \FBAggregateUplift{} points. The score,
-gain, completion rates, prompts, responses, and traces all reconstruct from the released 1,280-arm
-grid. The result is a simple benchmark with a separate, measured intervention: what models know,
-and what \epicure{} adds.
+models. \FBTopModel{} leads this 20-model, 32-task snapshot at \FBTopScore{}\%, while the overlapping
+leading intervals make the close group explicit. Scores, completions, prompts, responses, and
+traces all reconstruct from the released 1,280-arm grid. The result is a simple automated
+leaderboard with a separate named-operation diagnostic, not a model judge hidden behind another
+score.
 
 \clearpage
 \appendix
@@ -558,9 +591,9 @@ operation.
 \begin{figure*}[t]
   \centering
   \includegraphics[width=0.82\linewidth]{../figures/epicure-native/frontier-latency-uplift.pdf}
-  \caption{FlavourBench Score, response time, and Epicure Gain. Response time uses a log scale.
-  Point size increases with the magnitude of gain; colour indicates its direction. An $\times$
-  marks a route with no observed response time.}
+  \caption{FlavourBench Score and response time. Response time uses a log scale; colour identifies
+  direct-provider and OpenRouter execution. An $\times$ marks a route with no observed response
+  time.}
   \label{fig:latency}
 \end{figure*}
 

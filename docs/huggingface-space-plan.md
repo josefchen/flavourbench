@@ -8,10 +8,10 @@ human or model judge. The hero should state both ideas directly and let the pair
 them concrete.
 
 Most benchmark Spaces begin with a dense sortable table. FlavourBench should begin with its
-scientific advantage: a matched Model only/Model + Epicure observation for every model-task cell. The first
-screen should communicate one idea in under five seconds:
+scientific advantage: an exact model-only score against executable answer keys. The first screen
+should communicate one idea in under five seconds:
 
-> Blue is what the model knew alone. Gold is what Epicure added.
+> Blue is the FlavourBench Score. Gray is its Wilson 95% interval.
 
 The public product is an evidence explorer with a leaderboard, not a leaderboard with an About
 tab attached.
@@ -51,14 +51,14 @@ flowchart LR
 ### 1. Evidence hero
 
 The hero asks whether language models can reason about flavour without a model judge. A real
-FlavourBench Score plus Epicure Gain rail plot fills the right half. It uses the checked-in data,
+FlavourBench Score rail with Wilson intervals fills the right half. It uses the checked-in data,
 not a product mockup. Four compact facts establish scale without a row of generic cards.
 
 ### 2. Leaderboard
 
-The table exposes rank, model, FlavourBench Score, Model + Epicure accuracy, Epicure Gain, observed-arm count, and route.
-Availability is never collapsed into a capability claim. Tied and near-tied pilot scores should
-eventually appear as visual rank groups.
+The table exposes score rank, model, FlavourBench Score, correct count, Wilson 95% interval, and
+model-only parsed-answer count. Equal scores share a rank. Availability is never collapsed into a
+capability claim, and Epicure-assisted values do not enter this table.
 
 ### 3. Model fingerprint
 

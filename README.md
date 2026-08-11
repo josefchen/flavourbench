@@ -2,7 +2,7 @@
 
 # FlavourBench
 
-### Executable culinary reasoning for frontier language models—without a model judge
+### Executable culinary reasoning across frontier language models, without a model judge
 
 **20 models · 32 tasks · 640 matched pairs · exact offline replay**
 
@@ -10,13 +10,10 @@
 
 </div>
 
-FlavourBench is an executable benchmark of culinary reasoning across 20 current frontier language-model
-endpoints. It measures two things separately:
-
-1. what a model knows without culinary tools, and
-2. how much the same model improves when it can query **Epicure**, a deterministic evidence engine.
-
-Every model answers the same 32 exact-choice tasks twice. **Model only** produces the ranked **FlavourBench Score**. **Model + Epicure** measures the same endpoint with one read-only call to a specified Epicure operation. Their difference is **Epicure Gain**.
+FlavourBench is an executable benchmark of culinary reasoning across 20 current language-model
+endpoints. Every model answers the same 32 exact-choice tasks. Model-only accuracy produces the
+ranked **FlavourBench Score**. A matched run with one specified **Epicure** operation is retained as
+a secondary integration diagnostic and never changes rank.
 
 > **Current release:** a complete public automated benchmark for Epicure-grounded culinary reasoning. It does not claim to rank general intelligence.
 
@@ -30,19 +27,24 @@ Every model answers the same 32 exact-choice tasks twice. **Model only** produce
 | Matched model/Epicure pairs | 640 |
 | Assigned arms | 1,280 |
 | Observed response arms | 1,195 |
-| Highest FlavourBench Score | 62.5% |
-| Highest Model + Epicure accuracy | 100.0% |
+| Top FlavourBench Score | 62.5% (20/32) |
+| Leader Wilson 95% interval | 45.3% to 77.1% |
 
 The public panel includes GPT-5.6 Sol, Terra, and Luna; Claude Fable, Sonnet, and Opus 5; Gemini; Kimi K3; Qwen3.8 Max; GLM 5.2; both Cohere Command A routes; DeepSeek; MiniMax; Grok; Mistral; Nemotron; and Tencent HY3.
 
-The **FlavourBench Score** is exact-choice Model only accuracy over all 32 tasks. **Epicure Gain** is the percentage-point change for the same tasks in Model + Epicure. Missing responses score zero, while completion remains visible in a separate column.
+The **FlavourBench Score** is exact-choice model-only accuracy over all 32 tasks. Missing or
+unparseable answers score zero, while parsed-answer count remains visible in a separate column.
+Equal scores share a score rank.
+The leading intervals overlap, so this release is an exact snapshot rather than a definitive
+fine-grained ordering of general culinary ability.
 
-![Paired outcomes across the public model panel](paper/figures/epicure-native/frontier-paired-outcome-matrix.png)
+![FlavourBench Scores and Wilson intervals](paper/figures/epicure-native/frontier-score-forest.png)
 
 ## Why this benchmark is different
 
-- **Matched intervention.** The same model and task are observed as Model only and Model + Epicure.
+- **One ranking metric.** The public table uses only exact model-only accuracy.
 - **Deterministic ground truth.** Each answer is derived from a fixed Epicure operation and a content-addressed result.
+- **Matched diagnostic.** The assisted condition exposes tool-call and answer-contract failures without affecting rank.
 - **Inspectability.** Public records include prompts, choices, answers, bounded Epicure traces, response times, routes, and hashes.
 - **Failure visibility.** Missing or malformed endpoint responses stay distinguishable from wrong answers.
 - **One-command replay.** The leaderboard is reconstructed from the release artifact, not copied from a dashboard.
@@ -94,7 +96,12 @@ The launch files in [`hf`](hf) are intentionally provider-free. They read the ch
 
 ## Research boundaries
 
-The 32-task release is deliberately inspectable. One correct answer moves a model by 3.125 percentage points, so close scores should be read with the reported intervals and task-level matrix. Nemotron's zero reflects endpoint availability in this run, not a claim that the underlying model has zero culinary capability. Model + Epicure measures use of a named operation, not open-ended tool discovery.
+The 32-task release is deliberately inspectable. One correct answer moves a model by 3.125 points,
+so close scores should be read with the reported intervals and task-level matrix. Exact paired tests
+do not separate the 20/32 leader from either 19/32 runner-up. After Holm adjustment, only three of
+19 leader comparisons separate, and two are DNF endpoints. Nemotron's zero reflects endpoint
+availability in this run, not a claim that the underlying model has zero culinary capability. The
+assisted condition uses a named operation and is an execution diagnostic, not a second leaderboard.
 
 ## Citation
 

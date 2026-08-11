@@ -11,8 +11,9 @@ language-model endpoints. A versioned Epicure runtime generates
 - flavour-axis comparison; and
 - cuisine-direction projection.
 
-Every model answers every task twice: Model only, then Model + Epicure with one read-only call to a
-named operation. This produces 640 matched model-task pairs and 1,280 scored responses.
+Every model answers every task twice: model only, then with one read-only call to a named Epicure
+operation. The model-only arm produces the ranking score. The assisted arm is a secondary
+integration diagnostic. Together they produce 640 matched model-task pairs and 1,280 responses.
 
 ## Score
 
@@ -23,17 +24,18 @@ FlavourBench Score = 100 × Model only correct answers / 32
 ```
 
 Because all four families contain eight tasks, this is also exact accuracy over the common
-32-task panel. Missing, abnormal, or unparseable responses score zero. Ties are broken by
-Epicure-enabled accuracy, Epicure-enabled reliability, then model ID.
+32-task panel. Missing, abnormal, or unparseable responses score zero. Equal scores share a score
+rank; model name orders rows within a tie. Assisted results never break score ties.
 
-The paired intervention reports:
+The paired diagnostic also records:
 
 ```text
 Epicure Gain = accuracy(Model + Epicure) − accuracy(Model only)
 ```
 
-No human or LLM judge is used for either metric. Epicure computes the answer key before any model
-call.
+No human or LLM judge is used. Epicure computes the answer key before any model call. Because the
+assisted prompt names the answer-generating operation, its near-ceiling accuracy is expected and
+must not be read as a second leaderboard.
 
 ## Panel
 
@@ -65,8 +67,9 @@ python3 -I reproduce_epicure_native.py \
 ```
 
 It checks the content address and full 20 × 32 × 2 observation grid, then recomputes every score,
-family result, completion value, Epicure Gain, and rank. The paper tables and vector figures are built
-from the same release by `build_epicure_native_assets.py`.
+family result, completion value, matched change, and source order. The paper displays shared
+score-only ranks. Tables and vector figures are built from the same release by
+`build_epicure_native_assets.py`.
 
 ## Outputs
 
@@ -74,7 +77,8 @@ from the same release by `build_epicure_native_assets.py`.
 - `build/flavourbench-arxiv-source.tar.gz`: self-contained arXiv source archive.
 - `build/ARTIFACTS.sha256`: PDF and archive checksums.
 - `generated/epicure-native/`: public release, tables, case studies, and macros.
-- `figures/epicure-native/`: vector leaderboard, Epicure Gain, family, matrix, response-time, and 16:9 social figures.
+- `figures/epicure-native/`: vector score, interval, family, paired-diagnostic, response-time, and
+  16:9 social figures.
 
 The source archive contains the manuscript, public 1,280-arm release, scorer/replay code, task
 compiler, tests, figures, and licenses. It excludes credentials, internal deployment material,

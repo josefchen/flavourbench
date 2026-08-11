@@ -56,9 +56,30 @@ def _paired_outcome(off: dict[str, Any], on: dict[str, Any]) -> str:
     return "neither"
 
 
+def _score_ranks(release: dict[str, Any]) -> dict[str, int]:
+    ordered = sorted(
+        release["leaderboard"]["models"],
+        key=lambda row: (
+            -float(row["epicure_benchmark_score"]),
+            str(row["display_name"]).casefold(),
+        ),
+    )
+    result: dict[str, int] = {}
+    previous_score: float | None = None
+    current_rank = 0
+    for position, row in enumerate(ordered, start=1):
+        score = float(row["epicure_benchmark_score"])
+        if previous_score is None or score != previous_score:
+            current_rank = position
+            previous_score = score
+        result[str(row["model_id"])] = current_rank
+    return result
+
+
 def _build_tables(release: dict[str, Any]) -> dict[str, list[dict[str, Any]]]:
     leaderboard_by_model = {row["model_id"]: row for row in release["leaderboard"]["models"]}
     task_by_id = {task["task_id"]: task for task in release["tasks"]}
+    score_ranks = _score_ranks(release)
 
     model_rows = []
     for model in release["models"]:
@@ -66,7 +87,8 @@ def _build_tables(release: dict[str, Any]) -> dict[str, list[dict[str, Any]]]:
         model_rows.append(
             {
                 **model,
-                "rank": leaderboard["rank"],
+                "rank": score_ranks[model["model_id"]],
+                "release_order": leaderboard["rank"],
                 "evaluation_status": leaderboard["evaluation_status"],
                 "epicure_benchmark_score": leaderboard["epicure_benchmark_score"],
                 "tool_on_accuracy_percent": leaderboard["conditions"]["epicure_on"][
@@ -112,16 +134,29 @@ def _build_tables(release: dict[str, Any]) -> dict[str, list[dict[str, Any]]]:
             )
 
     leaderboard_rows = []
-    for row in release["leaderboard"]["models"]:
+    leaderboard_models = sorted(
+        release["leaderboard"]["models"],
+        key=lambda row: (
+            -float(row["epicure_benchmark_score"]),
+            str(row["display_name"]).casefold(),
+        ),
+    )
+    for row in leaderboard_models:
         leaderboard_rows.append(
             {
-                "rank": row["rank"],
+                "rank": score_ranks[row["model_id"]],
+                "release_order": row["rank"],
                 "model_id": row["model_id"],
                 "display_name": row["display_name"],
                 "execution_backend": row["execution_backend"],
                 "evaluation_status": row["evaluation_status"],
                 "epicure_benchmark_score": row["epicure_benchmark_score"],
                 "tool_off_accuracy_percent": row["conditions"]["epicure_off"]["accuracy_percent"],
+                "tool_off_correct": row["conditions"]["epicure_off"]["correct"],
+                "tool_off_parseable_answers": row["conditions"]["epicure_off"]["parseable_answers"],
+                "tool_off_normal_completions": row["conditions"]["epicure_off"][
+                    "normal_completions"
+                ],
                 "tool_on_accuracy_percent": row["conditions"]["epicure_on"]["accuracy_percent"],
                 "uplift_percentage_points": row["uplift_percentage_points"],
                 "tool_off_wilson_95": row["conditions"]["epicure_off"]["wilson_95"],

@@ -8,10 +8,10 @@ sdk_version: 6.9.0
 app_file: app.py
 pinned: false
 license: other
-short_description: Culinary reasoning benchmark for frontier LLMs; no model judge.
+short_description: Culinary reasoning for frontier LLMs, without a model judge.
 ---
 
-# FlavourBench: Frontier Culinary Reasoning Without a Model Judge
+# FlavourBench: An Executable Benchmark for Culinary Reasoning Without a Model Judge
 
 An executable benchmark and evidence explorer for 20 current frontier language-model endpoints, scored against
 executable culinary answer keys without a human or model judge.
@@ -20,9 +20,11 @@ executable culinary answer keys without a human or model judge.
 [Dataset](https://huggingface.co/datasets/josefchen/flavourbench) ·
 [Source and reproduction](https://github.com/josefchen/flavourbench)
 
-The Space presents the complete 20-model, 32-task public release and makes every paired result
-inspectable. It does not call models or Epicure at runtime. The checked-in release JSON is the sole
-data source.
+The Space presents the complete 20-model, 32-task public release. Its primary table contains only
+FlavourBench Score, correct count, Wilson 95% interval, and parsed-answer count. Equal scores share
+a score rank. Epicure-assisted results remain available in the model and pair views as a secondary
+execution diagnostic. The Space does not call models or Epicure at runtime; the checked-in release
+JSON is the sole data source.
 
 ## Local launch
 

@@ -47,7 +47,7 @@ PREAMBLE = r"""\documentclass{article}
   pdftitle={FlavourBench: An Executable Benchmark for Culinary Reasoning
     Without a Model Judge},
   pdfauthor={Anonymous Authors},
-  pdfsubject={Executable culinary reasoning in frontier language models with a matched
+  pdfsubject={Executable culinary reasoning across frontier language models with a matched
     Epicure intervention},
   pdfkeywords={frontier language models, benchmarks, tool use, culinary reasoning,
     executable evaluation}

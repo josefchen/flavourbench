@@ -2,12 +2,12 @@
 
 ## Category
 
-**FlavourBench is an executable benchmark of culinary reasoning in frontier language models,
-without a model judge.**
+**FlavourBench is an executable benchmark for culinary reasoning without a model judge.**
 
 It tests ingredient substitution, composition, cookability, and cultural association against
 answer keys compiled by a versioned culinary runtime. No human or model judge determines the
-leaderboard. A matched second condition measures what changes when the same model can call Epicure.
+leaderboard. A matched second condition checks execution when the same model can call Epicure; it
+does not affect rank.
 
 This is the canonical category sentence. Use it consistently in search descriptions, launch posts,
 repository summaries, paper metadata, and the first screen of the benchmark Space.
@@ -16,9 +16,9 @@ repository summaries, paper metadata, and the first screen of the benchmark Spac
 
 | Name | Role | Canonical description |
 |---|---|---|
-| **FlavourBench** | Benchmark and leaderboard | Executable culinary reasoning benchmark for frontier language models, without a model judge |
+| **FlavourBench** | Benchmark and leaderboard | Executable benchmark for culinary reasoning without a model judge |
 | **FlavourBench Score** | Official ranking metric | Model-only exact-choice accuracy on the fixed task panel |
-| **Epicure Gain** | Matched intervention metric | Percentage-point change when the same endpoint receives the named Epicure operation |
+| **Epicure Gain** | Secondary diagnostic | Matched change when the same endpoint receives the named Epicure operation; never a rank input |
 | **Epicure** | Culinary runtime and operator layer | Versioned system that compiles the answer keys and powers the assisted condition |
 | **Epicure Explorer** | Operator demonstration | Interactive view of the culinary representation and operators behind FlavourBench |
 
@@ -30,7 +30,7 @@ sound like a product test.
 
 1. **Executable ground truth:** the answer key exists before an evaluated model is called.
 2. **Frontier comparison:** 20 current endpoints receive the same 32 tasks and missing-response rule.
-3. **Matched tool intervention:** 640 model-task pairs isolate what the model knew from what Epicure added.
+3. **Matched execution diagnostic:** 640 model-task pairs expose named-operation integration failures.
 4. **Auditability:** prompts, routes, responses, completion states, bounded traces, and hashes replay offline.
 
 The short launch hook is:
@@ -55,9 +55,10 @@ The proof line is:
 
 Use:
 
-- “an executable benchmark of culinary reasoning in frontier language models, without a model judge”;
+- “an executable benchmark for culinary reasoning without a model judge”;
 - “20 current language-model endpoints” for this dated release;
 - “no human or model judge scores the primary leaderboard”;
+- “FlavourBench Score is the only ranking metric, and equal scores share a score rank”;
 - “the same endpoint and task are measured with and without Epicure”; and
 - “the complete leaderboard reconstructs from one content-addressed artifact.”
 
