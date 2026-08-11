@@ -6,7 +6,6 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-
 HERE = Path(__file__).resolve().parent
 CANONICAL = HERE.parent / "main.tex"
 TARGET = HERE / "main.tex"
@@ -45,10 +44,10 @@ PREAMBLE = r"""\documentclass{article}
   linkcolor=FBBlue,
   citecolor=FBBlue,
   urlcolor=FBBlue,
-  pdftitle={FlavourBench: Epicure as an Executable Oracle for Ranking Culinary Agents},
+  pdftitle={FlavourBench: What Language Models Know and What Epicure Adds},
   pdfauthor={Anonymous Authors},
-  pdfsubject={An automated benchmark and paired tool-uplift study for frontier culinary agents},
-  pdfkeywords={language models, benchmarks, tool use, culinary reasoning, reinforcement learning}
+  pdfsubject={An executable culinary benchmark with a matched Epicure intervention},
+  pdfkeywords={language models, benchmarks, tool use, culinary reasoning, executable evaluation}
 }
 \setlist{leftmargin=*,nosep}
 
@@ -57,7 +56,7 @@ PREAMBLE = r"""\documentclass{article}
 \newcommand{\sha}[1]{\texttt{\seqsplit{#1}}}
 \input{../generated/epicure-native/epicure-native-macros.tex}
 
-\title{\system{}: Epicure as an Executable Oracle for Ranking Culinary Agents}
+\title{\system{}: What Language Models Know and What Epicure Adds}
 \author{Anonymous Authors}
 
 \begin{document}
@@ -93,9 +92,7 @@ def _pop_figure(body: str, label: str) -> tuple[str, str]:
 def render() -> str:
     source = CANONICAL.read_text(encoding="utf-8")
     abstract_start = source.index(r"\begin{abstract}")
-    abstract_end = source.index(r"\end{abstract}", abstract_start) + len(
-        r"\end{abstract}"
-    )
+    abstract_end = source.index(r"\end{abstract}", abstract_start) + len(r"\end{abstract}")
     abstract = source[abstract_start:abstract_end]
     body_start = source.index(r"\section{Introduction}")
     bibliography_start = source.index(r"\bibliographystyle", body_start)
@@ -105,7 +102,7 @@ def render() -> str:
     body = source[body_start:body_end]
 
     case_start = body.index(r"\section{Real prompts, answers, and tool calls}")
-    case_end = body.index(r"\section{From benchmark score to training reward}")
+    case_end = body.index(r"\section{Using the score as a training signal}")
     case_section = body[case_start:case_end].strip()
     body = body[:case_start] + body[case_end:]
 
@@ -123,7 +120,6 @@ def render() -> str:
         + "\n\n".join(appendix_figures)
     )
     body = body[:appendix_position] + appendix_material + body[appendix_position:]
-    body = body.replace(appendix_marker, r"\clearpage" + "\n" + appendix_marker, 1)
 
     body = body.replace(
         r"{generated/operational-analysis/",

@@ -10,7 +10,6 @@ import sys
 from pathlib import Path
 from typing import Any
 
-
 HERE = Path(__file__).resolve().parent
 PAPER = HERE.parent
 BUILD = HERE / "build"
@@ -61,9 +60,7 @@ def _constant(value: str) -> None:
 
 
 def _canonical(value: object) -> bytes:
-    return json.dumps(
-        value, ensure_ascii=False, separators=(",", ":"), sort_keys=True
-    ).encode()
+    return json.dumps(value, ensure_ascii=False, separators=(",", ":"), sort_keys=True).encode()
 
 
 def _read_release() -> dict[str, Any]:
@@ -121,9 +118,7 @@ def main() -> int:
         and [row.get("rank") for row in ranked] == list(range(1, 21))
         and required_models <= model_ids
     ):
-        raise VerificationError(
-            "release does not contain the complete ranked 20-model panel"
-        )
+        raise VerificationError("release does not contain the complete ranked 20-model panel")
     route_expectations = {
         "moonshotai/kimi-k3": ("kimi_direct", "kimi-code-direct", "k3", 64),
         "cohere/command-a-plus-05-2026": (
@@ -148,8 +143,7 @@ def main() -> int:
         observed = [
             row
             for row in observations
-            if row.get("model_id") == model_id
-            and row.get("response_artifact_sha256") is not None
+            if row.get("model_id") == model_id and row.get("response_artifact_sha256") is not None
         ]
         if (
             models_by_id[model_id].get("execution_backend") != backend
@@ -171,8 +165,7 @@ def main() -> int:
         observed = [
             row
             for row in observations
-            if row.get("model_id") == model_id
-            and row.get("response_artifact_sha256") is not None
+            if row.get("model_id") == model_id and row.get("response_artifact_sha256") is not None
         ]
         if (
             models_by_id[model_id].get("execution_backend") != "openrouter"
@@ -198,9 +191,9 @@ def main() -> int:
     if "Anonymous Authors" in text or AUTHOR_IDENTITY in text:
         raise VerificationError("anonymous PDF contains an author identity")
     for phrase in (
-        "Epicure as an Executable Oracle",
-        "The Epicure Benchmark leaderboard",
-        "From benchmark score to training reward",
+        "What Language Models Know",
+        "The FlavourBench Score leaderboard",
+        "Using the score as a training signal",
         "Command A Plus",
         "Command A Reasoning",
         "Qwen 3.8 Max",
@@ -224,9 +217,7 @@ def main() -> int:
             appendix_page = page
             break
     if appendix_page is None or appendix_page > 10:
-        raise VerificationError(
-            "NeurIPS main paper exceeds the nine-page content limit"
-        )
+        raise VerificationError("NeurIPS main paper exceeds the nine-page content limit")
 
     log = LOG.read_text(encoding="utf-8", errors="replace")
     if re.search(r"undefined references|Citation .* undefined|Overfull \\hbox", log):
@@ -245,9 +236,7 @@ def main() -> int:
         RELEASE,
     ):
         if SECRET_PATTERN.search(path.read_text(encoding="utf-8", errors="ignore")):
-            raise VerificationError(
-                f"credential-like text found in release file: {path}"
-            )
+            raise VerificationError(f"credential-like text found in release file: {path}")
     references_text = REFERENCES.read_text(encoding="utf-8")
     if AUTHOR_IDENTITY in references_text or BIBLIOGRAPHY_IDENTITY in references_text:
         raise VerificationError("anonymous bibliography contains an author identity")

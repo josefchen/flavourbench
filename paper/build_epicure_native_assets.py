@@ -151,14 +151,15 @@ def _leaderboard_table(rows: list[dict[str, Any]]) -> str:
     lines = [
         r"\begin{tabular}{@{}r l r r r r r@{}}",
         r"\toprule",
-        r"Rank & Model & Base & +Epicure & $\Delta$ & Base OK & Tool OK \\",
+        r"Rank & Model & FB Score & +Epicure & Gain & Model \% done & Epicure \% done \\",
         r"\midrule",
     ]
     for row in rows:
         off = row["conditions"]["epicure_off"]
         on = row["conditions"]["epicure_on"]
+        rank = str(row["rank"]) if off["reliability"] > 0 else "DNF"
         lines.append(
-            f"{row['rank']} & {_tex(_short(row['model_id']))} & "
+            f"{rank} & {_tex(_short(row['model_id']))} & "
             f"{off['accuracy_percent']:.1f} & {on['accuracy_percent']:.1f} & "
             f"{row['uplift_percentage_points']:+.1f} & "
             f"{off['reliability'] * 100:.1f} & {on['reliability'] * 100:.1f} \\\\"
@@ -196,7 +197,7 @@ def _family_table(rows: list[dict[str, Any]], release: dict[str, Any]) -> str:
     lines = [
         r"\begin{tabular}{@{}l l r r r@{}}",
         r"\toprule",
-        r"Family & Epicure operation & Tasks & Base & +Epicure \\",
+        r"Family & Epicure operation & Tasks & Model only & Model + Epicure \\",
         r"\midrule",
     ]
     for family, label in zip(FAMILIES, FAMILY_LABELS, strict=True):
@@ -213,7 +214,10 @@ def _family_table(rows: list[dict[str, Any]], release: dict[str, Any]) -> str:
 def _macros(release: dict[str, Any], rows: list[dict[str, Any]]) -> str:
     aggregate = release["leaderboard"]["aggregate"]
     top = rows[0]
-    bottom = rows[-1]
+    completed_rows = [
+        row for row in rows if float(row["conditions"]["epicure_off"]["reliability"]) > 0
+    ]
+    bottom = completed_rows[-1]
     cohere = [row for row in rows if row["model_id"].startswith("cohere/")]
     by_model = {row["model_id"]: row for row in rows}
     best_uplift = max(rows, key=lambda row: float(row["uplift_percentage_points"]))
@@ -248,6 +252,7 @@ def _macros(release: dict[str, Any], rows: list[dict[str, Any]]) -> str:
         f"\\newcommand{{\\FBTopScore}}{{{top['epicure_benchmark_score']:.1f}}}",
         f"\\newcommand{{\\FBTopCorrect}}{{{top['conditions']['epicure_off']['correct']}}}",
         f"\\newcommand{{\\FBTopOnCorrect}}{{{top['conditions']['epicure_on']['correct']}}}",
+        f"\\newcommand{{\\FBTopOnScore}}{{{top['conditions']['epicure_on']['accuracy_percent']:.1f}}}",
         f"\\newcommand{{\\FBTopUplift}}{{{top['uplift_percentage_points']:+.1f}}}",
         f"\\newcommand{{\\FBBottomModel}}{{{_tex(_short(bottom['model_id']))}}}",
         f"\\newcommand{{\\FBBottomScore}}{{{bottom['epicure_benchmark_score']:.1f}}}",
@@ -297,13 +302,14 @@ def _dumbbell(rows: list[dict[str, Any]], output: Path) -> None:
             alpha=0.75,
             zorder=1,
         )
-    axis.scatter(off, y, s=35, color=BLUE, label="Model alone", zorder=3)
-    axis.scatter(on, y, s=42, color=GOLD, marker="D", label="With Epicure", zorder=3)
+    axis.scatter(off, y, s=35, color=BLUE, label="Model only", zorder=3)
+    axis.scatter(on, y, s=42, color=GOLD, marker="D", label="Model + Epicure", zorder=3)
     axis.set_yticks(y, labels=names)
     axis.set_xlim(0, 103)
     axis.set_xlabel("Exact-choice accuracy (%)")
+    aggregate_gain = float(np.mean(on - off))
     axis.set_title(
-        "Epicure changes accuracy unevenly across frontier models",
+        f"Epicure raises panel accuracy by {aggregate_gain:.1f} points",
         loc="left",
         weight="bold",
     )
@@ -320,12 +326,13 @@ def _score_forest(rows: list[dict[str, Any]], output: Path) -> None:
     point = np.array([row["conditions"]["epicure_off"]["accuracy_percent"] for row in ordered])
     intervals = np.array([row["conditions"]["epicure_off"]["wilson_95"] for row in ordered]) * 100
     errors = np.vstack((point - intervals[:, 0], intervals[:, 1] - point))
+    completed = np.array([row["conditions"]["epicure_off"]["reliability"] > 0 for row in ordered])
     figure, axis = plt.subplots(figsize=(7.2, 7.4))
     y = np.arange(len(rows))
     axis.errorbar(
-        point,
-        y,
-        xerr=errors,
+        point[completed],
+        y[completed],
+        xerr=errors[:, completed],
         fmt="o",
         color=BLUE,
         ecolor="#8BAAC7",
@@ -333,12 +340,23 @@ def _score_forest(rows: list[dict[str, Any]], output: Path) -> None:
         capsize=2.5,
         markersize=5.2,
     )
+    if not np.all(completed):
+        axis.scatter(
+            point[~completed],
+            y[~completed],
+            marker="x",
+            s=45,
+            linewidth=1.5,
+            color="#7B8491",
+            label="No model-only completion",
+            zorder=4,
+        )
     axis.axvline(25, color=RED, linestyle="--", linewidth=1.1, label="Chance (25%)")
     axis.set_yticks(y, labels=names)
     axis.set_xlim(0, 103)
-    axis.set_xlabel("Model-alone exact-choice accuracy (%)")
+    axis.set_xlabel("FlavourBench Score (%)")
     axis.set_title(
-        "A 32-task common panel yields an identifiable frontier ranking",
+        "FlavourBench Score on the common 32-task panel",
         loc="left",
         weight="bold",
     )
@@ -362,7 +380,7 @@ def _heatmap(rows: list[dict[str, Any]], output: Path) -> None:
         )
     figure, axes = plt.subplots(1, 2, figsize=(8.3, 8.1), sharey=True, constrained_layout=True)
     image = None
-    for axis, matrix, title in zip(axes, matrices, ("Model alone", "With Epicure"), strict=True):
+    for axis, matrix, title in zip(axes, matrices, ("Model only", "Model + Epicure"), strict=True):
         image = axis.imshow(matrix, aspect="auto", cmap="YlGnBu", vmin=0, vmax=1)
         axis.set_xticks(range(4), labels=FAMILY_LABELS, rotation=28, ha="right")
         axis.set_yticks(range(20), labels=[_short(row["model_id"]) for row in rows])
@@ -383,7 +401,7 @@ def _heatmap(rows: list[dict[str, Any]], output: Path) -> None:
     assert image is not None
     colorbar = figure.colorbar(image, ax=axes, fraction=0.025, pad=0.02)
     colorbar.set_label("Accuracy")
-    figure.suptitle("Family-level accuracy exposes where aggregate ties come from", weight="bold")
+    figure.suptitle("The same score can hide different family profiles", weight="bold")
     _save(figure, output / "frontier-family-heatmap")
 
 
@@ -410,13 +428,13 @@ def _paired_matrix(release: dict[str, Any], rows: list[dict[str, Any]], output: 
     axis.tick_params(length=0)
     for boundary in (7.5, 15.5, 23.5):
         axis.axvline(boundary, color="white", linewidth=2.5)
-    axis.set_title("Every cell is a paired model–task outcome", loc="left", weight="bold")
+    axis.set_title("Every cell compares the same model and task", loc="left", weight="bold")
     legend = [
         Line2D([0], [0], marker="s", linestyle="", color=color, markersize=9, label=label)
         for color, label in (
             ("#E5E8EC", "Neither correct"),
-            (RED, "Model alone only"),
-            (GOLD, "Epicure only"),
+            (RED, "Model only"),
+            (GOLD, "Model + Epicure only"),
             (BLUE, "Both correct"),
         )
     ]
@@ -491,10 +509,10 @@ def _latency_uplift(rows: list[dict[str, Any]], output: Path) -> None:
                 ha=horizontal_alignment,
             )
     axis.set_yscale("log")
-    axis.set_xlabel("Epicure Benchmark Score (model alone)")
-    axis.set_ylabel("Median paired-arm latency (seconds, log scale)")
+    axis.set_xlabel("FlavourBench Score")
+    axis.set_ylabel("Median response latency (seconds, log scale)")
     axis.set_title(
-        "Accuracy, latency, and Epicure uplift are distinct properties",
+        "Score, response time, and Epicure Gain",
         loc="left",
         weight="bold",
     )
@@ -503,13 +521,9 @@ def _latency_uplift(rows: list[dict[str, Any]], output: Path) -> None:
     uplift_values = [float(row["uplift_percentage_points"]) for row in rows]
     legend = []
     if any(value > 0 for value in uplift_values):
-        legend.append(
-            Line2D([0], [0], marker="o", linestyle="", color=TEAL, label="Positive uplift")
-        )
+        legend.append(Line2D([0], [0], marker="o", linestyle="", color=TEAL, label="Positive gain"))
     if any(value < 0 for value in uplift_values):
-        legend.append(
-            Line2D([0], [0], marker="o", linestyle="", color=RED, label="Negative uplift")
-        )
+        legend.append(Line2D([0], [0], marker="o", linestyle="", color=RED, label="Negative gain"))
     if any(value == 0 for value in uplift_values):
         legend.append(
             Line2D([0], [0], marker="o", linestyle="", color="#7B8491", label="No change")
@@ -552,7 +566,7 @@ def _social_summary(release: dict[str, Any], rows: list[dict[str, Any]], output:
     axis.text(25.8, 19.25, "chance", color=RED, fontsize=7.2, va="top")
     axis.set_yticks(range(20), labels=names)
     axis.set_xlim(0, 100)
-    axis.set_xlabel("Epicure Benchmark Score")
+    axis.set_xlabel("FlavourBench Score")
     axis.grid(axis="x", color="#E1E5EA", linewidth=0.7)
     axis.spines[["top", "right", "left"]].set_visible(False)
     axis.tick_params(axis="y", length=0, labelsize=7.5)
@@ -581,7 +595,7 @@ def _social_summary(release: dict[str, Any], rows: list[dict[str, Any]], output:
     summary.text(
         0,
         0.74,
-        f"ranks #1 at {rows[0]['epicure_benchmark_score']:.1f}",
+        f"highest score in this run: {rows[0]['epicure_benchmark_score']:.1f}",
         fontsize=13,
         color=BLUE,
         weight="bold",
@@ -591,7 +605,7 @@ def _social_summary(release: dict[str, Any], rows: list[dict[str, Any]], output:
     summary.text(0, 0.46, "32", fontsize=30, weight="bold", color=CHARCOAL)
     summary.text(0.2, 0.48, "Epicure-generated tasks", fontsize=11, color=CHARCOAL)
     summary.text(0, 0.34, "640", fontsize=30, weight="bold", color=CHARCOAL)
-    summary.text(0.25, 0.36, "matched tool-off/on pairs", fontsize=11, color=CHARCOAL)
+    summary.text(0.25, 0.36, "matched model and Epicure pairs", fontsize=11, color=CHARCOAL)
     summary.text(
         0,
         0.19,
@@ -600,16 +614,16 @@ def _social_summary(release: dict[str, Any], rows: list[dict[str, Any]], output:
         color=TEAL,
         weight="bold",
     )
-    summary.text(0, 0.12, "panel uplift with Epicure", fontsize=11, color=CHARCOAL)
+    summary.text(0, 0.12, "panel Epicure Gain", fontsize=11, color=CHARCOAL)
     summary.text(
         0,
         0.01,
-        "No LLM judge  •  exact offline replay  •  direct Kimi + Cohere",
+        "No model judge  |  exact offline replay  |  direct Kimi and Cohere",
         fontsize=8.5,
         color="#68717D",
     )
     figure.suptitle(
-        "FlavourBench: Epicure as an executable oracle",
+        "FlavourBench: what models know, what Epicure adds",
         x=0.08,
         y=0.96,
         ha="left",
@@ -680,8 +694,8 @@ def _case_studies(
                 rf"with {_tex(case['model'])}.}}",
                 rf"\textbf{{Prompt.}} {_tex(case['prompt'])}",
                 "",
-                rf"\textbf{{Model alone.}} \texttt{{{_tex(case['off_answer'])}}} \quad "
-                rf"\textbf{{With Epicure.}} \texttt{{{_tex(case['on_answer'])}}}",
+                rf"\textbf{{Model only.}} \texttt{{{_tex(case['off_answer'])}}} \quad "
+                rf"\textbf{{Model + Epicure.}} \texttt{{{_tex(case['on_answer'])}}}",
                 "",
                 rf"\textbf{{Epicure call.}} \texttt{{{_tex(tool['name'])}}}"
                 rf"\allowbreak\texttt{{({_tex(arguments)})}}. "
@@ -698,6 +712,9 @@ def _case_studies(
 def build(release_path: Path, generated: Path, figures: Path) -> None:
     release = _read_release(release_path)
     rows = _ranked_rows(release)
+    completed_rows = [
+        row for row in rows if float(row["conditions"]["epicure_off"]["reliability"]) > 0
+    ]
     _configure_plots()
     _write(generated / "epicure-native-macros.tex", _macros(release, rows))
     _write(generated / "epicure-native-leaderboard-table.tex", _leaderboard_table(rows))
@@ -743,8 +760,8 @@ def build(release_path: Path, generated: Path, figures: Path) -> None:
                 "release_artifact_sha256": release["artifact_sha256"],
                 "top_model": _short(rows[0]["model_id"]),
                 "top_score": rows[0]["epicure_benchmark_score"],
-                "bottom_model": _short(rows[-1]["model_id"]),
-                "bottom_score": rows[-1]["epicure_benchmark_score"],
+                "bottom_ranked_model": _short(completed_rows[-1]["model_id"]),
+                "bottom_ranked_score": completed_rows[-1]["epicure_benchmark_score"],
             },
             sort_keys=True,
         )

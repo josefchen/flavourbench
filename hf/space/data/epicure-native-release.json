@@ -1,5 +1,5 @@
 {
-  "artifact_sha256": "603e4aa4db86a6e28900736322943dde2593c9e1ffd473f26b9a469bcd5c912a",
+  "artifact_sha256": "197b84d75ccaa549650ad08cc88f934a4ac1173c8e51c9fb149a703ce2602ce8",
   "benchmark": "FlavourBench",
   "counts": {
     "assigned_arms": 1280,
@@ -20,7 +20,7 @@
       "reference_tool_match_pairs": 606,
       "uplift_percentage_points": 50.0
     },
-    "artifact_sha256": "6153fc38fb27107386b127562809762facb9729807c8a9f8a5e91ed499cfad4e",
+    "artifact_sha256": "6076a904af22c6d58b11cb6a0b267431dbfeff639ab511bf6c936d9cf55eebf4",
     "benchmark": "FlavourBench",
     "design": {
       "conditions": [
@@ -1483,16 +1483,16 @@
     "official_track": true,
     "primary_metric": {
       "chance_level": 25,
-      "definition": "100 times equal-family exact-choice accuracy against Epicure answers, without Epicure tool access",
-      "name": "Epicure Benchmark Score",
+      "definition": "100 times Model only correct answers divided by 32, against the published Epicure answer keys",
+      "name": "FlavourBench Score",
       "range": [
         0,
         100
       ],
       "rank_order": [
-        "Epicure Benchmark Score descending",
-        "Epicure-on accuracy descending",
-        "Epicure-on reliability descending",
+        "FlavourBench Score descending",
+        "Model + Epicure accuracy descending",
+        "Model + Epicure completion descending",
         "model ID ascending"
       ]
     },
@@ -34493,7 +34493,7 @@
       "release_id": "exploratory-unmatched-1790-runtime",
       "schema_version": "epicure-runtime-provenance-v1"
     },
-    "leaderboard_artifact_sha256": "6153fc38fb27107386b127562809762facb9729807c8a9f8a5e91ed499cfad4e",
+    "leaderboard_artifact_sha256": "6076a904af22c6d58b11cb6a0b267431dbfeff639ab511bf6c936d9cf55eebf4",
     "manifest_sha256": "44220f0a6c26798871f830f6ddd62ed99d8872ad5dcb7516491b90bfc71887fc",
     "task_set_sha256": "c033bf8e349350b186a47b28c94d4b0f356cbb519d0cffb3d5a7389ce7d7ca2f",
     "taskset_artifact_sha256": "615e6164a29ea57c507d979934f3ce484d6b71f4d6da55e9e8d338147c68e536"

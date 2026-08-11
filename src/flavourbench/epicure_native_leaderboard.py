@@ -341,17 +341,17 @@ def build_leaderboard(
         "official_track": len(complete_rows) == 20,
         "human_judgments": 0,
         "primary_metric": {
-            "name": "Epicure Benchmark Score",
+            "name": "FlavourBench Score",
             "definition": (
-                "100 times equal-family exact-choice accuracy against Epicure answers, without "
-                "Epicure tool access"
+                "100 times Model only correct answers divided by 32, against the published "
+                "Epicure answer keys"
             ),
             "range": [0, 100],
             "chance_level": 25,
             "rank_order": [
-                "Epicure Benchmark Score descending",
-                "Epicure-on accuracy descending",
-                "Epicure-on reliability descending",
+                "FlavourBench Score descending",
+                "Model + Epicure accuracy descending",
+                "Model + Epicure completion descending",
                 "model ID ascending",
             ],
         },

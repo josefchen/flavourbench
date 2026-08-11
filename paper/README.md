@@ -1,6 +1,6 @@
 # FlavourBench
 
-**FlavourBench: Epicure as an Executable Oracle for Ranking Culinary Agents**
+**FlavourBench: What Language Models Know and What Epicure Adds**
 
 FlavourBench is an automated 20-model culinary benchmark. A versioned Epicure runtime generates
 32 four-choice tasks and their exact answer keys across four balanced families:
@@ -10,15 +10,15 @@ FlavourBench is an automated 20-model culinary benchmark. A versioned Epicure ru
 - flavour-axis comparison; and
 - cuisine-direction projection.
 
-Every model answers every task twice: once without Epicure and once with one read-only Epicure
-call. This produces 640 matched model–task pairs and 1,280 scored arms.
+Every model answers every task twice: Model only, then Model + Epicure with one read-only call to a
+named operation. This produces 640 matched model-task pairs and 1,280 scored responses.
 
 ## Score
 
-The public model rank uses the **Epicure Benchmark Score**:
+The public model rank uses the **FlavourBench Score**:
 
 ```text
-Score = 100 × equal-family exact-choice accuracy without Epicure access
+FlavourBench Score = 100 × Model only correct answers / 32
 ```
 
 Because all four families contain eight tasks, this is also exact accuracy over the common
@@ -28,7 +28,7 @@ Epicure-enabled accuracy, Epicure-enabled reliability, then model ID.
 The paired intervention reports:
 
 ```text
-Epicure uplift = accuracy(with Epicure) − accuracy(model alone)
+Epicure Gain = accuracy(Model + Epicure) − accuracy(Model only)
 ```
 
 No human or LLM judge is used for either metric. Epicure computes the answer key before any model
@@ -64,7 +64,7 @@ python3 -I reproduce_epicure_native.py \
 ```
 
 It checks the content address and full 20 × 32 × 2 observation grid, then recomputes every score,
-family result, reliability value, uplift, and rank. The paper tables and vector figures are built
+family result, completion value, Epicure Gain, and rank. The paper tables and vector figures are built
 from the same release by `build_epicure_native_assets.py`.
 
 ## Outputs
@@ -73,7 +73,7 @@ from the same release by `build_epicure_native_assets.py`.
 - `build/flavourbench-arxiv-source.tar.gz`: self-contained arXiv source archive.
 - `build/ARTIFACTS.sha256`: PDF and archive checksums.
 - `generated/epicure-native/`: public release, tables, case studies, and macros.
-- `figures/epicure-native/`: vector leaderboard, uplift, family, matrix, latency, and 16:9 social figures.
+- `figures/epicure-native/`: vector leaderboard, Epicure Gain, family, matrix, response-time, and 16:9 social figures.
 
 The source archive contains the manuscript, public 1,280-arm release, scorer/replay code, task
 compiler, tests, figures, and licenses. It excludes credentials, internal deployment material,

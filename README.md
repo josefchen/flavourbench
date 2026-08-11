@@ -2,7 +2,7 @@
 
 # FlavourBench
 
-### Can a deterministic culinary evidence engine improve frontier model decisions?
+### What do frontier models know about flavour, and what does Epicure add?
 
 **20 models · 32 tasks · 1,280 matched arms · every score reproducible from public records**
 
@@ -10,14 +10,14 @@
 
 </div>
 
-FlavourBench is an automated benchmark for measuring two things separately:
+FlavourBench measures two things separately:
 
 1. what a model knows without culinary tools, and
 2. how much the same model improves when it can query **Epicure**, a deterministic evidence engine.
 
-Every model answers the same 32 exact-choice tasks twice, once with Epicure disabled and once with it available. The paired design produces an immediately interpretable baseline score, tool-assisted score, and uplift for each model.
+Every model answers the same 32 exact-choice tasks twice. **Model only** produces the ranked **FlavourBench Score**. **Model + Epicure** measures the same endpoint with one read-only call to a specified Epicure operation. Their difference is **Epicure Gain**.
 
-> **Current release:** a complete public automated pilot. It is useful for comparing exact Epicure-grounded retrieval and tool use. It is not a general-purpose measure of model intelligence.
+> **Current release:** a complete public automated benchmark for Epicure-grounded culinary reasoning. It does not claim to rank general intelligence.
 
 ## The result at a glance
 
@@ -26,23 +26,23 @@ Every model answers the same 32 exact-choice tasks twice, once with Epicure disa
 | Models | 20 |
 | Culinary task families | 4 |
 | Tasks | 32 |
-| Matched off/on pairs | 640 |
+| Matched model/Epicure pairs | 640 |
 | Assigned arms | 1,280 |
 | Observed response arms | 1,195 |
-| Best tool-off score | 62.5% |
-| Best tool-on score | 100.0% |
+| Highest FlavourBench Score | 62.5% |
+| Highest Model + Epicure accuracy | 100.0% |
 
 The public panel includes GPT-5.6 Sol, Terra, and Luna; Claude Fable, Sonnet, and Opus 5; Gemini; Kimi K3; Qwen3.8 Max; GLM 5.2; both Cohere Command A routes; DeepSeek; MiniMax; Grok; Mistral; Nemotron; and Tencent HY3.
 
-The primary **Epicure-native score** is exact-choice accuracy without tool access. **Epicure uplift** is the percentage-point improvement when the same model receives read-only Epicure access. Availability failures remain visible instead of being silently converted into capability claims.
+The **FlavourBench Score** is exact-choice Model only accuracy over all 32 tasks. **Epicure Gain** is the percentage-point change for the same tasks in Model + Epicure. Missing responses score zero, while completion remains visible in a separate column.
 
 ![Paired outcomes across the public model panel](paper/figures/epicure-native/frontier-paired-outcome-matrix.png)
 
 ## Why this benchmark is different
 
-- **Matched counterfactual design.** The same model and task are observed under tool-off and tool-on conditions.
+- **Matched intervention.** The same model and task are observed as Model only and Model + Epicure.
 - **Deterministic ground truth.** Each answer is derived from a fixed Epicure operation and a content-addressed result.
-- **Inspectability.** Public records include prompts, choices, answers, bounded tool traces, latency, cost observations, routes, and hashes.
+- **Inspectability.** Public records include prompts, choices, answers, bounded Epicure traces, response times, routes, and hashes.
 - **Failure visibility.** Missing or malformed endpoint responses stay distinguishable from wrong answers.
 - **One-command replay.** The leaderboard is reconstructed from the release artifact, not copied from a dashboard.
 
@@ -87,13 +87,13 @@ The replay performs semantic and content-hash checks before reporting the leader
 
 ## Hugging Face launch direction
 
-The planned Space is an evidence explorer, not another spreadsheet leaderboard. Its center of gravity is a **Pair Lens**: select any model and task, then inspect the tool-off answer, tool-on answer, Epicure operation, bounded trace, correctness, timing, and provenance together. The dataset is split into explicit tables for tasks, models, observations, paired outcomes, and leaderboard rows.
+The Space is an evidence explorer, not another spreadsheet leaderboard. Its center of gravity is a **Pair Lens**: select any model and task, then inspect the Model only answer, Model + Epicure answer, Epicure operation, bounded trace, correctness, timing, and provenance together. The dataset is split into explicit tables for tasks, models, observations, paired outcomes, and leaderboard rows.
 
 The launch files in [`hf`](hf) are intentionally provider-free. They read the checked-in release and make no model or Epicure calls.
 
 ## Research boundaries
 
-The 32-task release is a deliberately inspectable pilot. One correct answer moves a model by 3.125 percentage points, so adjacent ranks should be read with the reported uncertainty and shared-score groups. Nemotron's zero reflects endpoint availability in this run, not a defensible statement that the underlying model has zero culinary capability. Tool-on performance measures successful use of an explicitly available Epicure operation, not open-ended tool discovery.
+The 32-task release is deliberately inspectable. One correct answer moves a model by 3.125 percentage points, so close scores should be read with the reported intervals and task-level matrix. Nemotron's zero reflects endpoint availability in this run, not a claim that the underlying model has zero culinary capability. Model + Epicure measures use of a named operation, not open-ended tool discovery.
 
 ## Citation
 

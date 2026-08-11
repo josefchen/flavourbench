@@ -3,7 +3,7 @@
 ## Product thesis
 
 Most benchmark Spaces begin with a dense sortable table. FlavourBench should begin with its
-scientific advantage: a matched tool-off/tool-on observation for every model-task cell. The first
+scientific advantage: a matched Model only/Model + Epicure observation for every model-task cell. The first
 screen should communicate one idea in under five seconds:
 
 > Blue is what the model knew alone. Gold is what Epicure added.
@@ -38,19 +38,19 @@ flowchart LR
     B --> D["Model fingerprint"]
     B --> E["Pair Lens"]
     E --> F["Prompt and choices"]
-    E --> G["Tool-off and tool-on answers"]
+    E --> G["Model only and Model + Epicure answers"]
     E --> H["Epicure trace and hashes"]
     B --> I["Download and reproduce"]
 ```
 
 ### 1. Evidence hero
 
-A real baseline-plus-uplift rail plot fills the right half of the hero. It uses the checked-in data,
+A real FlavourBench Score plus Epicure Gain rail plot fills the right half of the hero. It uses the checked-in data,
 not a product mockup. Four compact facts establish scale without a row of generic cards.
 
 ### 2. Leaderboard
 
-The table exposes rank, model, tool-off score, tool-on score, uplift, observed-arm count, and route.
+The table exposes rank, model, FlavourBench Score, Model + Epicure accuracy, Epicure Gain, observed-arm count, and route.
 Availability is never collapsed into a capability claim. Tied and near-tied pilot scores should
 eventually appear as visual rank groups.
 
@@ -64,7 +64,7 @@ heatmap and a response-availability strip, not a decorative radar chart.
 This is the signature interaction. A researcher selects a model and task and sees:
 
 - the exact prompt and choices;
-- tool-off and tool-on answers side by side;
+- Model only and Model + Epicure answers side by side;
 - observed choice and correctness;
 - latency and response artifact hash;
 - bounded Epicure tool trace;

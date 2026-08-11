@@ -277,8 +277,8 @@ def _hero_html() -> str:
     return f"""
     <div class="fb-shell fb-hero">
       <section>
-        <div class="fb-kicker">Epicure-native automated pilot</div>
-        <h1>Measure the<br>tool effect.</h1>
+        <div class="fb-kicker">Executable culinary benchmark</div>
+        <h1>Score what models know.</h1>
         <p class="fb-dek">FlavourBench asks every model the same culinary question twice.
         <strong>Blue is what the model knows alone. Gold is what Epicure adds.</strong>
         Open any pair to inspect the prompt, answers, tool trace, and hashes.</p>
@@ -289,11 +289,11 @@ def _hero_html() -> str:
           <div class="fb-stat"><strong>{counts["observed_response_arms"]:,}</strong><span>observed arms</span></div>
         </div>
       </section>
-      <section class="fb-frontier" aria-label="Tool-off scores and Epicure uplift">
-        <div class="fb-frontier-head"><strong>Baseline plus Epicure uplift</strong><span>Top 12 · percent correct</span></div>
+      <section class="fb-frontier" aria-label="FlavourBench Score and Epicure Gain">
+        <div class="fb-frontier-head"><strong>FlavourBench Score plus Epicure Gain</strong><span>Top 12 · percent correct</span></div>
         {_frontier_html()}
         <div class="fb-note">One task equals 3.125 percentage points. Read adjacent rows as a
-        pilot score group, then inspect the underlying pairs.</div>
+        close score group, then inspect the underlying pairs.</div>
       </section>
     </div>
     """
@@ -309,9 +309,9 @@ def _leaderboard_frame() -> pd.DataFrame:
             {
                 "Rank": model["rank"],
                 "Model": model["display_name"],
-                "Tool off": f"{off['accuracy_percent']:.3g}%",
-                "Tool on": f"{on['accuracy_percent']:.3g}%",
-                "Uplift": f"+{model['uplift_percentage_points']:.3g} pp",
+                "Model only": f"{off['accuracy_percent']:.3g}%",
+                "Model + Epicure": f"{on['accuracy_percent']:.3g}%",
+                "Epicure Gain": f"+{model['uplift_percentage_points']:.3g} pp",
                 "Observed arms": f"{observed}/64",
                 "Backend": model["execution_backend"],
             }
@@ -326,14 +326,14 @@ def _model_detail(model_name: str) -> tuple[str, pd.DataFrame]:
     summary = f"""
     <div class="fb-pair-status">
       <div class="fb-condition good">
-        <small>Tool-off exact-choice score</small>
+        <small>FlavourBench Score</small>
         <strong>{off["accuracy_percent"]:.3g}%</strong>
         <span>Wilson 95%: {off["wilson_95"][0] * 100:.1f}% to {off["wilson_95"][1] * 100:.1f}%</span>
       </div>
       <div class="fb-condition good">
-        <small>Epicure-assisted score</small>
+        <small>Model + Epicure accuracy</small>
         <strong>{on["accuracy_percent"]:.3g}%</strong>
-        <span>Uplift: +{model["uplift_percentage_points"]:.3g} percentage points</span>
+        <span>Epicure Gain: +{model["uplift_percentage_points"]:.3g} percentage points</span>
       </div>
     </div>
     """
@@ -342,8 +342,8 @@ def _model_detail(model_name: str) -> tuple[str, pd.DataFrame]:
         family_rows.append(
             {
                 "Family": family.title(),
-                "Tool off": f"{off['family_accuracy'][family] * 100:.1f}%",
-                "Tool on": f"{on['family_accuracy'][family] * 100:.1f}%",
+                "Model only": f"{off['family_accuracy'][family] * 100:.1f}%",
+                "Model + Epicure": f"{on['family_accuracy'][family] * 100:.1f}%",
                 "Change": (
                     f"{(on['family_accuracy'][family] - off['family_accuracy'][family]) * 100:+.1f} pp"
                 ),
@@ -400,8 +400,8 @@ def _pair_detail(
     on = _observation(model["model_id"], task_id, "epicure_on")
     status = (
         "<div class='fb-pair-status'>"
-        + _status_card("Epicure off", off)
-        + _status_card("Epicure on", on)
+        + _status_card("Model only", off)
+        + _status_card("Model + Epicure", on)
         + "</div>"
     )
     reference = json.dumps(
@@ -480,8 +480,8 @@ with gr.Blocks(title="FlavourBench · Epicure evidence explorer") as demo:
                 """
                 <div class="fb-section-title">
                   <div class="fb-kicker">Automated exact-choice track</div>
-                  <h2>The public pilot, without hidden rows</h2>
-                  <p>Rank follows tool-off score. Tool-on and uplift show the paired Epicure effect.</p>
+                  <h2>The complete public benchmark</h2>
+                  <p>Rank follows FlavourBench Score. Model + Epicure and Epicure Gain show the matched intervention.</p>
                 </div>
                 """
             )
@@ -494,7 +494,7 @@ with gr.Blocks(title="FlavourBench · Epicure evidence explorer") as demo:
                 column_widths=[55, 260, 95, 95, 105, 110, 110],
             )
             gr.Markdown(
-                "**Reading the table.** A rank is a deterministic ordering of this 32-task pilot, "
+                "**Reading the table.** Rank follows Model only accuracy over this 32-task release. "
                 "not a claim about general model quality. Equal scores are ordered by the release's "
                 "frozen tie-break rules. Use Pair Lens before interpreting small differences."
             )
@@ -565,8 +565,8 @@ with gr.Blocks(title="FlavourBench · Epicure evidence explorer") as demo:
             )
             choices = gr.JSON(value=initial_pair[2], label="Choices")
             with gr.Row():
-                off_answer = gr.Markdown(value=initial_pair[3], label="Epicure off answer")
-                on_answer = gr.Markdown(value=initial_pair[4], label="Epicure on answer")
+                off_answer = gr.Markdown(value=initial_pair[3], label="Model only answer")
+                on_answer = gr.Markdown(value=initial_pair[4], label="Model + Epicure answer")
             tool_trace = gr.JSON(value=initial_pair[5], label="Observed Epicure trace")
             reference = gr.Textbox(
                 value=initial_pair[6],
@@ -599,9 +599,10 @@ with gr.Blocks(title="FlavourBench · Epicure evidence explorer") as demo:
                 <div class="fb-method-grid">
                   <div>
                     <h3>Scoring contract</h3>
-                    <p><strong>Epicure-native score</strong> is exact-choice accuracy with Epicure
-                    disabled. <strong>Tool-assisted score</strong> uses the same model-task cells with
-                    Epicure available. <strong>Uplift</strong> is the paired percentage-point change.</p>
+                    <p><strong>FlavourBench Score</strong> is Model only exact-choice accuracy over
+                    all 32 tasks. <strong>Model + Epicure</strong> uses the same endpoint-task cells
+                    with one named Epicure operation. <strong>Epicure Gain</strong> is the matched
+                    percentage-point change and does not affect rank.</p>
                     <p>Tasks cover substitution, composition, cookability, and evidence. Every expected
                     answer is derived from a fixed read-only Epicure operation.</p>
                     <h3>Public records</h3>
@@ -642,7 +643,7 @@ public research preview.
     gr.HTML(
         """
         <div class="fb-shell fb-footer">
-          FlavourBench · Evidence-first culinary model evaluation · Public automated pilot
+          FlavourBench · Executable culinary evaluation · Public automated benchmark
         </div>
         """
     )

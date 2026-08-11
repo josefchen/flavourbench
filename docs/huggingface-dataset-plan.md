@@ -12,7 +12,7 @@ writes a checksum manifest.
 ## Publication contract
 
 - Preserve all assigned arms, not only successful responses.
-- Keep tool-off and tool-on observations separate and joinable.
+- Keep Model only and Model + Epicure observations separate and joinable.
 - Preserve route, model, prompt, result, response, and release hashes.
 - Never upload provider credentials, participant data, private databases, or unrestricted Epicure
   payloads.

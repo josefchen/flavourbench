@@ -31,6 +31,6 @@
       "size_bytes": 10524
     }
   ],
-  "release_artifact_sha256": "603e4aa4db86a6e28900736322943dde2593c9e1ffd473f26b9a469bcd5c912a",
+  "release_artifact_sha256": "197b84d75ccaa549650ad08cc88f934a4ac1173c8e51c9fb149a703ce2602ce8",
   "schema_version": "flavourbench-hf-dataset-manifest-v1"
 }

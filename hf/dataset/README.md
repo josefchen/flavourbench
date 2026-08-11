@@ -37,11 +37,11 @@ configs:
     path: data/leaderboard.jsonl
 ---
 
-# FlavourBench Epicure-native Pilot
+# FlavourBench: What Models Know and What Epicure Adds
 
-FlavourBench measures model performance on deterministic culinary evidence tasks before and after
-read-only access to Epicure. This dataset contains the complete public 20-model, 32-task automated
-pilot used by the paper and explorer.
+FlavourBench measures model performance on deterministic culinary evidence tasks as Model only and
+Model + Epicure. This dataset contains the complete public 20-model, 32-task benchmark used by the
+paper and explorer.
 
 [Paper](https://github.com/josefchen/flavourbench/blob/main/paper/build/flavourbench.pdf) ·
 [Interactive explorer](https://huggingface.co/spaces/josefchen/flavourbench) ·
@@ -54,7 +54,7 @@ pilot used by the paper and explorer.
 | `models` | 20 | One evaluated model route |
 | `tasks` | 32 | One exact-choice Epicure-native task |
 | `observations` | 1,280 | One assigned model-task-condition arm |
-| `paired_outcomes` | 640 | One matched tool-off/tool-on model-task pair |
+| `paired_outcomes` | 640 | One matched Model only/Model + Epicure pair |
 | `leaderboard` | 20 | One scored model summary |
 
 ## Key fields
@@ -64,13 +64,13 @@ pilot used by the paper and explorer.
 - `parseable_normal_completion` distinguishes observed answers from endpoint or protocol failures.
 - `response_artifact_sha256`, `prompt_sha256`, and reference-result hashes preserve lineage.
 - `paired_outcome` is one of `both_correct`, `off_only`, `on_only`, `neither`, or `incomplete`.
-- `epicure_benchmark_score` is tool-off exact-choice accuracy for this pilot.
-- `uplift_percentage_points` is the paired gain with Epicure available.
+- `epicure_benchmark_score` stores the FlavourBench Score: Model only exact-choice accuracy.
+- `uplift_percentage_points` stores Epicure Gain: the matched percentage-point change in Model + Epicure.
 
 ## Intended use
 
-Use the dataset to reproduce the public automated leaderboard, study model-tool interaction,
-inspect task-level errors, or build alternative visualizations. The 32-task pilot should not be
+Use the dataset to reproduce the public automated leaderboard, study model-Epicure interaction,
+inspect task-level errors, or build alternative visualizations. The 32-task release should not be
 used as a general ranking of model intelligence. A one-task change equals 3.125 percentage points.
 
 ## Availability and missingness
