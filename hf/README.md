@@ -1,7 +1,7 @@
 # Hugging Face launch kit
 
-This directory contains the two Hugging Face surfaces for FlavourBench, an executable benchmark for
-culinary reasoning without a model judge.
+This directory contains the two Hugging Face surfaces for FlavourBench, the executable culinary
+reasoning benchmark for frontier language models, scored without a human or model judge.
 
 - [`space`](space): a Gradio evidence explorer built around the model-task Pair Lens;
 - [`dataset`](dataset): a multi-configuration dataset card, deterministic exporter, and generated

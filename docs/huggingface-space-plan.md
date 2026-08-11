@@ -2,9 +2,10 @@
 
 ## Product thesis
 
-FlavourBench should own a clear category: an executable benchmark for culinary reasoning without a
-model judge. The hero should state that category directly and let the paired evidence make it
-concrete.
+FlavourBench should own a clear category: the executable culinary reasoning benchmark for frontier
+language models. Its defining mechanism is ground truth from a versioned runtime rather than a
+human or model judge. The hero should state both ideas directly and let the paired evidence make
+them concrete.
 
 Most benchmark Spaces begin with a dense sortable table. FlavourBench should begin with its
 scientific advantage: a matched Model only/Model + Epicure observation for every model-task cell. The first
