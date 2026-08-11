@@ -28,7 +28,7 @@ python hf/dataset/build_dataset.py
 npx @huggingface/hub upload josefchen/flavourbench \
   hf/dataset . \
   --repo-type dataset \
-  --commit-message "Publish FlavourBench Epicure-native pilot"
+  --commit-message "Publish FlavourBench executable benchmark release"
 ```
 
 After creating the Space repository:

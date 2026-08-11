@@ -8,12 +8,13 @@ sdk_version: 6.9.0
 app_file: app.py
 pinned: false
 license: other
-short_description: Inspect how Epicure changes frontier model decisions.
+short_description: Executable culinary reasoning without a model judge.
 ---
 
-# FlavourBench Explorer
+# FlavourBench: An Executable Benchmark for Culinary Reasoning Without a Model Judge
 
-An evidence-first explorer for the FlavourBench Epicure-native automated pilot.
+An evidence explorer and leaderboard for 20 current language-model endpoints, scored against
+executable culinary answer keys without a human or model judge.
 
 [Paper](https://github.com/josefchen/flavourbench/blob/main/paper/build/flavourbench.pdf) ·
 [Dataset](https://huggingface.co/datasets/josefchen/flavourbench) ·

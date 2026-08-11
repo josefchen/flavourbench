@@ -277,10 +277,11 @@ def _hero_html() -> str:
     return f"""
     <div class="fb-shell fb-hero">
       <section>
-        <div class="fb-kicker">Executable culinary benchmark</div>
-        <h1>Score what models know.</h1>
-        <p class="fb-dek">FlavourBench asks every model the same culinary question twice.
-        <strong>Blue is what the model knows alone. Gold is what Epicure adds.</strong>
+        <div class="fb-kicker">20 frontier endpoints · 1,280 scored arms</div>
+        <h1>Culinary reasoning without a model judge.</h1>
+        <p class="fb-dek">FlavourBench scores 20 current language-model endpoints against answer
+        keys compiled by Epicure.
+        <strong>Blue measures Model only. Gold measures the gain from Epicure.</strong>
         Open any pair to inspect the prompt, answers, tool trace, and hashes.</p>
         <div class="fb-stats">
           <div class="fb-stat"><strong>{counts["models"]}</strong><span>models</span></div>
@@ -471,7 +472,7 @@ theme = gr.themes.Base(
 )
 
 
-with gr.Blocks(title="FlavourBench · Epicure evidence explorer") as demo:
+with gr.Blocks(title="FlavourBench · Executable culinary reasoning without a model judge") as demo:
     gr.HTML(_hero_html())
 
     with gr.Tabs():
@@ -494,8 +495,8 @@ with gr.Blocks(title="FlavourBench · Epicure evidence explorer") as demo:
                 column_widths=[55, 260, 95, 95, 105, 110, 110],
             )
             gr.Markdown(
-                "**Reading the table.** Rank follows Model only accuracy over this 32-task release. "
-                "not a claim about general model quality. Equal scores are ordered by the release's "
+                "**Reading the table.** Rank follows Model only accuracy over this 32-task release; "
+                "it is not a claim about general model quality. Equal scores follow the release's "
                 "frozen tie-break rules. Use Pair Lens before interpreting small differences."
             )
 

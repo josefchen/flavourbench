@@ -1,7 +1,7 @@
 # Anonymous NeurIPS Evaluations & Datasets package
 
-This directory contains the anonymous venue version of **FlavourBench: Epicure as an Executable
-Oracle for Ranking Culinary Agents**. The canonical paper lives one directory above; run
+This directory contains the anonymous venue version of **FlavourBench: An Executable Benchmark for
+Culinary Reasoning Without a Model Judge**. The canonical paper lives one directory above; run
 `sync_from_arxiv.py` to regenerate the anonymous body.
 
 The submission presents one automated 20-model leaderboard, a 32-task executable-oracle task set,

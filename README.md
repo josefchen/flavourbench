@@ -2,15 +2,16 @@
 
 # FlavourBench
 
-### What do frontier models know about flavour, and what does Epicure add?
+### An executable benchmark for culinary reasoning without a model judge
 
-**20 models · 32 tasks · 1,280 matched arms · every score reproducible from public records**
+**20 models · 32 tasks · 640 matched pairs · exact offline replay**
 
-[Paper](paper/build/flavourbench.pdf) · [Exact release](paper/generated/epicure-native/epicure-native-release.json) · [Reproduce](#reproduce-the-result) · [Hugging Face plan](docs/huggingface-space-plan.md)
+[Paper](paper/build/flavourbench.pdf) · [Leaderboard](https://huggingface.co/spaces/josefchen/flavourbench) · [Dataset](https://huggingface.co/datasets/josefchen/flavourbench) · [Reproduce](#reproduce-the-result)
 
 </div>
 
-FlavourBench measures two things separately:
+FlavourBench is an executable benchmark of culinary reasoning across 20 current frontier language-model
+endpoints. It measures two things separately:
 
 1. what a model knows without culinary tools, and
 2. how much the same model improves when it can query **Epicure**, a deterministic evidence engine.

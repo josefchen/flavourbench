@@ -29,7 +29,8 @@
   linkcolor=FBBlue,
   citecolor=FBBlue,
   urlcolor=FBBlue,
-  pdftitle={FlavourBench: What Language Models Know and What Epicure Adds},
+  pdftitle={FlavourBench: An Executable Benchmark for Culinary Reasoning
+    Without a Model Judge},
   pdfauthor={Anonymous Authors},
   pdfsubject={An executable culinary benchmark with a matched Epicure intervention},
   pdfkeywords={language models, benchmarks, tool use, culinary reasoning, executable evaluation}
@@ -41,7 +42,7 @@
 \newcommand{\sha}[1]{\texttt{\seqsplit{#1}}}
 \input{../generated/epicure-native/epicure-native-macros.tex}
 
-\title{\system{}: What Language Models Know and What Epicure Adds}
+\title{\system{}: An Executable Benchmark for Culinary Reasoning\\Without a Model Judge}
 \author{Anonymous Authors}
 
 \begin{document}
@@ -49,25 +50,20 @@
 \maketitle
 
 \begin{abstract}
-  Culinary benchmarks usually rely on static question banks or model judges. \system{} uses a
-  versioned \epicure{} runtime instead. Four deterministic \epicure{} operations produce
-  \FBTasks{} multiple-choice tasks and their answer keys before any evaluated model is called. No
-  language model writes or judges the test. For this benchmark, ground truth means agreement with
-  that pinned runtime.
-
-  Each of \FBModels{} model endpoints receives every task twice. In the \emph{Model only}
-  condition, exact accuracy is the FlavourBench Score. In the \emph{Model + Epicure} condition,
-  the model may make one read-only call to the named operation. The difference is Epicure Gain.
-  The release contains \FBPairs{} matched pairs and \FBArms{} scored responses. \FBTopModel{} leads
-  with a FlavourBench Score of \FBTopScore{}. Across the panel, Epicure changes accuracy from
-  \FBAggregateOff\% to \FBAggregateOn\%, a gain of \FBAggregateUplift{} percentage points. The
-  assisted condition measures whether a model can use a specified operation, not whether it can
-  discover the right tool.
-
-  A single content-addressed release contains the tasks, answer keys, routes, responses, and
-  bounded Epicure traces. It reconstructs every score, table, and figure offline. \system{}
-  therefore separates an operational model score from the measured benefit of a domain system,
-  without a human or model judge.
+  \system{} evaluates culinary reasoning against answer keys computed by \epicure{}, a versioned
+  executable culinary system. Four deterministic, read-only operations compile a common
+  \FBTasks{}-task panel before any evaluated model is called; no human or model judge scores the
+  test. We run \FBModels{} current endpoints on every task in two matched conditions. Model only
+  yields the FlavourBench Score.
+  Model + Epicure permits one read-only call to the specified operation, and the accuracy
+  difference defines Epicure Gain. The release contains \FBPairs{} matched pairs and \FBArms{}
+  assigned arms. \FBTopModel{} leads the model-only ranking at \FBTopScore{}\%. Across the panel,
+  Epicure access raises exact accuracy from \FBAggregateOff\% to \FBAggregateOn\%, a
+  \FBAggregateUplift{}-point gain. Because the operation is named in the prompt, this condition
+  tests tool execution rather than tool discovery. A content-addressed release binds every task,
+  answer key, route, response, completion state, and Epicure trace. Its dependency-free verifier
+  reconstructs the leaderboard and paper figures offline. \system{} measures model knowledge and
+  the value of a domain system on the same task set.
   \end{abstract}
 
 \section{Introduction}
@@ -466,27 +462,36 @@ contamination or grounding answers in difficult tasks and executable outcomes
 \begin{table*}[t]
   \centering
   \small
-  \begin{tabularx}{\linewidth}{@{}l l X c c@{}}
+  \begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{0.19\linewidth}
+      >{\raggedright\arraybackslash}p{0.20\linewidth} X c@{}}
     \toprule
-    Benchmark & Scope & Per-answer target & Deterministic score & Matched Epicure intervention \\
+    Benchmark & Scope & Primary target & \shortstack{Paired\\tool?} \\
     \midrule
-    Chatbot Arena & general chat & pairwise preference & No & No \\
-    WildBench & general chat & task checklist & No & No \\
-    BFCL & function calling & structured call & Yes & No \\
-    $\tau$-bench & interactive agents & exact goal state & Yes & No \\
-    \system{} & culinary reasoning & versioned \epicure{} operation & Yes & Yes \\
+    Chatbot Arena & general chat & pairwise human preference & No \\
+    WildBench & general chat & task-specific checklist & No \\
+    BFCL & function calling & executable call match & No \\
+    $\tau$-bench & interactive agents & exact goal state & No \\
+    DiningBench & multimodal food & dish and nutrition labels & No \\
+    FAM-Bench & food-as-medicine & expert suitability label & No \\
+    \system{} & culinary reasoning & versioned executable \epicure{} operation & Yes \\
     \bottomrule
   \end{tabularx}
-  \caption{\system{} complements broad preference and tool-use benchmarks. Its distinctive unit is
-  the same endpoint and task measured as Model only and Model + Epicure.}
+  \caption{\system{} complements broad, tool-use, and food-domain benchmarks. Its distinctive unit
+  is the same endpoint and task measured as Model only and Model + Epicure; ``paired tool'' denotes
+  that matched intervention rather than ordinary tool availability.}
   \label{tab:benchmark-comparison}
 \end{table*}
 
 Culinary datasets such as FlavorDB and Recipe1M organise ingredient and recipe evidence
-\cite{garg2018flavordb,salvador2017recipe1m}. CookingSense and planning-oriented culinary work test
-commonsense and procedural reasoning \cite{choi2024cookingsense,wu2025recipe2plan}. \epicure{}
-occupies a different layer: it exposes a callable structured representation whose outputs can be
-compiled into exact evaluation targets.
+\cite{garg2018flavordb,salvador2017recipe1m}. Recent food benchmarks emphasise other constructs:
+NutriBench estimates carbohydrates from meal descriptions; FoodBench-QA grounds nutrition tasks in
+databases and ontologies; DiningBench tests multimodal dish perception and nutrition reasoning; and
+FAM-Bench evaluates condition-aware food-as-medicine decisions
+\cite{hua2025nutribench,eftimov2026foodbench,jin2026diningbench,mao2026fambench}. CookingSense and
+planning-oriented culinary work test commonsense and procedures
+\cite{choi2024cookingsense,wu2025recipe2plan}. \system{} targets a complementary construct:
+ingredient-space flavour decisions whose targets are compiled from a callable, versioned runtime,
+with access to that runtime measured as a matched intervention.
 
 \section{Limitations}
 
@@ -500,7 +505,8 @@ operations, and repeated route snapshots are the immediate next tests.
 
 \section{Conclusion}
 
-\system{} turns a versioned culinary runtime into a public automated benchmark. \FBTopModel{}
+\system{} turns a versioned culinary runtime into an executable benchmark for frontier language
+models. \FBTopModel{}
 leads the 20-model panel with a FlavourBench Score of \FBTopScore{}. Giving the same endpoints a
 specified \epicure{} operation raises panel accuracy by \FBAggregateUplift{} points. The score,
 gain, completion rates, prompts, responses, and traces all reconstruct from the released 1,280-arm

@@ -1,8 +1,8 @@
 # FlavourBench
 
-**FlavourBench: What Language Models Know and What Epicure Adds**
+**FlavourBench: An Executable Benchmark for Culinary Reasoning Without a Model Judge**
 
-FlavourBench is an automated 20-model culinary benchmark. A versioned Epicure runtime generates
+FlavourBench is an executable 20-model culinary reasoning benchmark. A versioned Epicure runtime generates
 32 four-choice tasks and their exact answer keys across four balanced families:
 
 - nearest-neighbour substitution;

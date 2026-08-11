@@ -2,6 +2,10 @@
 
 ## Product thesis
 
+FlavourBench should own a clear category: an executable benchmark for culinary reasoning without a
+model judge. The hero should state that category directly and let the paired evidence make it
+concrete.
+
 Most benchmark Spaces begin with a dense sortable table. FlavourBench should begin with its
 scientific advantage: a matched Model only/Model + Epicure observation for every model-task cell. The first
 screen should communicate one idea in under five seconds:
@@ -45,7 +49,8 @@ flowchart LR
 
 ### 1. Evidence hero
 
-A real FlavourBench Score plus Epicure Gain rail plot fills the right half of the hero. It uses the checked-in data,
+The hero asks whether language models can reason about flavour without a model judge. A real
+FlavourBench Score plus Epicure Gain rail plot fills the right half. It uses the checked-in data,
 not a product mockup. Four compact facts establish scale without a row of generic cards.
 
 ### 2. Leaderboard
@@ -117,7 +122,7 @@ component-level license is finalized. The Data Viewer should remain enabled for 
 - Select a software license and confirm the dataset component license.
 - Create `josefchen/flavourbench` as a Hugging Face dataset repository.
 - Upload `hf/dataset/README.md` and `hf/dataset/data`.
-- Create `josefchen/flavourbench-explorer` as a Gradio Space.
+- Create `josefchen/flavourbench` as a Gradio Space.
 - Upload the contents of `hf/space`.
 - Pin the Space to the dataset's commit SHA before announcing it.
 

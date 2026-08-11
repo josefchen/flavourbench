@@ -1,7 +1,7 @@
 # Hugging Face launch kit
 
-This directory contains a self-contained public explorer and a dataset export surface for the
-FlavourBench Epicure-native release.
+This directory contains the two Hugging Face surfaces for FlavourBench, an executable benchmark for
+culinary reasoning without a model judge.
 
 - [`space`](space): a Gradio evidence explorer built around the model-task Pair Lens;
 - [`dataset`](dataset): a multi-configuration dataset card, deterministic exporter, and generated

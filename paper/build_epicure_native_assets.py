@@ -623,11 +623,11 @@ def _social_summary(release: dict[str, Any], rows: list[dict[str, Any]], output:
         color="#68717D",
     )
     figure.suptitle(
-        "FlavourBench: what models know, what Epicure adds",
+        "FlavourBench: executable culinary reasoning\nwithout a model judge",
         x=0.08,
         y=0.96,
         ha="left",
-        fontsize=23,
+        fontsize=21,
         color=CHARCOAL,
         weight="bold",
     )

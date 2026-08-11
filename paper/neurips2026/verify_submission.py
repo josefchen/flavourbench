@@ -190,8 +190,9 @@ def main() -> int:
     text = _run("pdftotext", str(PDF), "-").stdout
     if "Anonymous Authors" in text or AUTHOR_IDENTITY in text:
         raise VerificationError("anonymous PDF contains an author identity")
+    normalized_text = " ".join(text.split())
     for phrase in (
-        "What Language Models Know",
+        "An Executable Benchmark for Culinary Reasoning Without a Model Judge",
         "The FlavourBench Score leaderboard",
         "Using the score as a training signal",
         "Command A Plus",
@@ -199,7 +200,7 @@ def main() -> int:
         "Qwen 3.8 Max",
         "Kimi K3",
     ):
-        if phrase not in text:
+        if phrase not in normalized_text:
             raise VerificationError(f"anonymous PDF is missing: {phrase}")
 
     appendix_page = None

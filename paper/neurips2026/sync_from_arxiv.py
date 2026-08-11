@@ -44,7 +44,8 @@ PREAMBLE = r"""\documentclass{article}
   linkcolor=FBBlue,
   citecolor=FBBlue,
   urlcolor=FBBlue,
-  pdftitle={FlavourBench: What Language Models Know and What Epicure Adds},
+  pdftitle={FlavourBench: An Executable Benchmark for Culinary Reasoning
+    Without a Model Judge},
   pdfauthor={Anonymous Authors},
   pdfsubject={An executable culinary benchmark with a matched Epicure intervention},
   pdfkeywords={language models, benchmarks, tool use, culinary reasoning, executable evaluation}
@@ -56,7 +57,7 @@ PREAMBLE = r"""\documentclass{article}
 \newcommand{\sha}[1]{\texttt{\seqsplit{#1}}}
 \input{../generated/epicure-native/epicure-native-macros.tex}
 
-\title{\system{}: What Language Models Know and What Epicure Adds}
+\title{\system{}: An Executable Benchmark for Culinary Reasoning\\Without a Model Judge}
 \author{Anonymous Authors}
 
 \begin{document}

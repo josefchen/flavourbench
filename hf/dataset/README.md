@@ -1,5 +1,5 @@
 ---
-pretty_name: FlavourBench Epicure-native Pilot
+pretty_name: "FlavourBench: Executable Culinary Reasoning Without a Model Judge"
 license: other
 language:
 - en
@@ -12,6 +12,7 @@ tags:
 - tool-use
 - culinary
 - reproducibility
+- frontier-models
 size_categories:
 - 1K<n<10K
 configs:
@@ -37,11 +38,11 @@ configs:
     path: data/leaderboard.jsonl
 ---
 
-# FlavourBench: What Models Know and What Epicure Adds
+# FlavourBench: An Executable Benchmark for Culinary Reasoning Without a Model Judge
 
-FlavourBench measures model performance on deterministic culinary evidence tasks as Model only and
-Model + Epicure. This dataset contains the complete public 20-model, 32-task benchmark used by the
-paper and explorer.
+FlavourBench evaluates 20 current language-model endpoints against executable culinary answer keys,
+with no human or model judge. This dataset contains the complete 32-task release used by the paper
+and leaderboard, including both Model only and Model + Epicure conditions.
 
 [Paper](https://github.com/josefchen/flavourbench/blob/main/paper/build/flavourbench.pdf) ·
 [Interactive explorer](https://huggingface.co/spaces/josefchen/flavourbench) ·
