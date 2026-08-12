@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
 from flavourbench.epicure_native_powered_runner import build_generation_spec
 from flavourbench.epicure_selection_powered_plan_v31 import selection_execution_policy_v31
 from flavourbench.epicure_selection_powered_plan_v32 import (
@@ -73,6 +75,8 @@ def test_v32_changes_only_the_deepseek_route() -> None:
 
 
 def test_v32_binds_and_excludes_the_complete_novita_observation() -> None:
+    if not (PREDECESSOR_RUN / "attempts/provider-attempts.jsonl").is_file():
+        pytest.skip("superseded raw route evidence is outside the compact public checkout")
     predecessor_plan = json.loads(PREDECESSOR_PLAN.read_text())
     observed = deepseek_failure_commitment(
         PREDECESSOR_RUN,

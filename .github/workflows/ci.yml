@@ -21,7 +21,7 @@ jobs:
           cache: pip
 
       - name: Install benchmark and development dependencies
-        run: pip install -e '.[dev]'
+        run: pip install -e '.[dev]' -r hf/space/requirements.txt
 
       - name: Verify the compact statistical release
         shell: bash

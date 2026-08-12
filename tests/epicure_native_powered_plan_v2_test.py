@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
 from flavourbench.epicure_native_powered_plan_v2 import (
     build_repeat_panel,
     calibration_commitment,
@@ -37,6 +39,8 @@ def test_repeat_panel_is_deterministic_and_permuted() -> None:
 
 
 def test_calibration_commitment_binds_exact_twenty_cells() -> None:
+    if not (ROOT / "benchmark/powered-v2/run/attempts/provider-attempts.jsonl").is_file():
+        pytest.skip("raw pre-release calibration is outside the compact public checkout")
     commitment = calibration_commitment(ROOT / "benchmark/powered-v2/run")
     assert commitment["response_count"] == 20
     assert commitment["used_as_primary_data"] is False

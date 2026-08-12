@@ -4,6 +4,8 @@ import hashlib
 import json
 from pathlib import Path
 
+import pytest
+
 from flavourbench.epicure_native_powered_runner import build_generation_spec
 from flavourbench.epicure_selection_powered_plan_v31 import selection_execution_policy_v31
 from flavourbench.epicure_selection_powered_plan_v34 import (
@@ -73,12 +75,15 @@ def test_clean_cohere_successor_plans_are_exact_and_non_pooled() -> None:
 
 
 def test_v35_binds_all_sixteen_predetermined_transport_responses() -> None:
+    raw_run = ROOT / "benchmark/powered-v34/run"
+    if not (raw_run / "attempts/provider-attempts.jsonl").is_file():
+        pytest.skip("raw pre-release transport calibration is outside the compact public checkout")
     v34_path = _only_json(ROOT / "benchmark/powered-v34/plan")
     v35_path = _only_json(ROOT / "benchmark/powered-v35/plan")
     v34 = _load(v34_path)
     v35 = _load(v35_path)
     observed = transport_commitment(
-        ROOT / "benchmark/powered-v34/run",
+        raw_run,
         expected_plan_sha256=str(v34["artifact_sha256"]),
     )
     recorded = v35["inputs"]["calibration_v34"]

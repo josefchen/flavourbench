@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
 from flavourbench.epicure_selection_powered_plan import run_commitment
 from flavourbench.epicure_selection_powered_plan_v32 import TRANSPORT_CHECK_TASK_IDS
 from flavourbench.epicure_selection_powered_plan_v33 import (
@@ -27,6 +29,8 @@ PREDECESSOR = ROOT / "paper/generated/epicure-native/epicure-native-release.json
 
 
 def test_v33_freezes_full_coreweave_block_after_eight_checks() -> None:
+    if not (CALIBRATION / "attempts/provider-attempts.jsonl").is_file():
+        pytest.skip("raw pre-release calibration is outside the compact public checkout")
     document = json.loads(PLAN.read_text())
     assert verify_plan(document)
     calibration = document["inputs"]["calibration_v32"]
