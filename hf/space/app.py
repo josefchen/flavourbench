@@ -78,6 +78,13 @@ body, .gradio-container {
   margin: 0;
   max-width: 640px;
 }
+.fb-byline {
+  color: var(--fb-ink);
+  font-size: 14px;
+  font-weight: 650;
+  letter-spacing: .01em;
+  margin: 16px 0 0;
+}
 .fb-stats {
   display: grid;
   grid-template-columns: repeat(4, minmax(92px, 1fr));
@@ -345,6 +352,7 @@ def _hero_html() -> str:
         <h1>640 decisions.<br>No model judge.</h1>
         <p class="fb-dek">Executable score maps rank 20 frontier endpoints with shared-task
         uncertainty and inspectable responses.</p>
+        <p class="fb-byline">Josef Chen · Jakub Radzikowski · Erim Hayretci</p>
         <div class="fb-stats">
           <div class="fb-stat"><strong>{len(MODELS)}</strong><span>models</span></div>
           <div class="fb-stat"><strong>{len(TASKS)}</strong><span>tasks</span></div>
@@ -689,7 +697,7 @@ make -C paper -f Makefile.powered arxiv
     gr.HTML(
         """
         <div class="fb-shell fb-footer">
-          FlavourBench | Executable culinary evaluation of frontier language models
+          FlavourBench | Josef Chen · Jakub Radzikowski · Erim Hayretci
         </div>
         """
     )

@@ -14,6 +14,8 @@ datasets:
 
 # FlavourBench
 
+**Josef Chen · Jakub Radzikowski · Erim Hayretci**
+
 An interactive explorer for the powered FlavourBench release: 20 frontier endpoints, 640
 executable culinary decisions, 12,800 primary responses, 1,280 label-permuted repeats, and all 190
 paired statistical comparisons.
@@ -32,3 +34,13 @@ The Space reads one content-addressed bundle and makes no provider calls. Use it
 The dataset contains full response records. The Space carries compact excerpts for fast browsing.
 See the repository [rights boundary](https://github.com/josefchen/flavourbench/blob/main/LICENSES.md)
 for component-level licensing.
+
+## Citation
+
+```bibtex
+@article{chen2026flavourbench,
+  title   = {FlavourBench: Ranking Frontier Language Models with Executable Culinary Ground Truth},
+  author  = {Chen, Josef and Radzikowski, Jakub and Hayretci, Erim},
+  year    = {2026}
+}
+```
