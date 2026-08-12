@@ -152,7 +152,7 @@ class Settings(BaseSettings):
     # The retrospective pilot's shorter ceiling produced four provider-declared
     # length completions across three reviewed pairs. The prospective service
     # uses a larger symmetric ceiling and still rejects every non-normal stop.
-    max_output_tokens: int = Field(default=4096, ge=128, le=8192)
+    max_output_tokens: int = Field(default=4096, ge=128, le=16384)
     max_intermediate_tokens: int = Field(default=700, ge=64, le=8192)
     decoding_temperature: float = Field(default=0.2, ge=0, le=2)
     decoding_top_p: float = Field(default=0.95, gt=0, le=1)

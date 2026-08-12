@@ -19,17 +19,20 @@ EVIDENCE_BOUNDARY_POLICY_SCHEMA_VERSION = "flavourbench-real-execution-policy-v7
 MATCHED_TOOL_ACCESS_POLICY_SCHEMA_VERSION = "flavourbench-real-execution-policy-v8"
 REQUIRED_EPICURE_TREATMENT_POLICY_SCHEMA_VERSION = "flavourbench-real-execution-policy-v9"
 PORTABLE_TEXT_TOOL_POLICY_SCHEMA_VERSION = "flavourbench-real-execution-policy-v10"
+SELECTION_TEXT_POLICY_SCHEMA_VERSION = "flavourbench-real-execution-policy-v11"
 DIRECT_TOOL_CONTRACT_PROTOCOL = "direct_tool_first_v1"
 MATCHED_EVIDENCE_PROTOCOL_V1 = "matched_evidence_v1"
 MATCHED_EVIDENCE_PROTOCOL_V2 = "matched_evidence_v2"
 MATCHED_TOOL_ACCESS_PROTOCOL_V1 = "matched_tool_access_v1"
 PORTABLE_TEXT_TOOL_PROTOCOL_V1 = "portable_text_tool_v1"
+SELECTION_TEXT_PROTOCOL_V1 = "selection_text_v1"
 MATCHED_EVIDENCE_PROTOCOLS = frozenset({MATCHED_EVIDENCE_PROTOCOL_V1, MATCHED_EVIDENCE_PROTOCOL_V2})
 GOVERNED_EPICURE_PROTOCOLS = frozenset(
     {
         *MATCHED_EVIDENCE_PROTOCOLS,
         MATCHED_TOOL_ACCESS_PROTOCOL_V1,
         PORTABLE_TEXT_TOOL_PROTOCOL_V1,
+        SELECTION_TEXT_PROTOCOL_V1,
     }
 )
 
@@ -107,7 +110,7 @@ class ExecutionPolicy:
             raise ValueError("execution policy permits at most eight Epicure tool rounds")
         if self.max_tool_calls_total < self.max_tool_calls_per_round:
             raise ValueError("total tool-call cap cannot be below the per-round cap")
-        if self.max_output_tokens < 128 or self.max_output_tokens > 8_192:
+        if self.max_output_tokens < 128 or self.max_output_tokens > 16_384:
             raise ValueError("execution policy output token bound is outside service limits")
         if self.max_intermediate_tokens > self.max_output_tokens:
             raise ValueError("intermediate token bound cannot exceed the final output bound")
@@ -159,7 +162,9 @@ class ExecutionPolicy:
         self.validate()
         payload: dict[str, Any] = {
             "schema_version": (
-                PORTABLE_TEXT_TOOL_POLICY_SCHEMA_VERSION
+                SELECTION_TEXT_POLICY_SCHEMA_VERSION
+                if self.evidence_protocol == SELECTION_TEXT_PROTOCOL_V1
+                else PORTABLE_TEXT_TOOL_POLICY_SCHEMA_VERSION
                 if self.evidence_protocol == PORTABLE_TEXT_TOOL_PROTOCOL_V1
                 else REQUIRED_EPICURE_TREATMENT_POLICY_SCHEMA_VERSION
                 if self.epicure_on_tool_required

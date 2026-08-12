@@ -1,0 +1,173 @@
+SHELL := /bin/bash
+.SHELLFLAGS := -Eeuo pipefail -c
+.ONESHELL:
+
+export LC_ALL := C
+export TZ := UTC
+export SOURCE_DATE_EPOCH := 1786456800
+export FORCE_SOURCE_DATE := 1
+
+PYTHON ?= ../.venv/bin/python
+RUFF ?= ../.venv/bin/ruff
+LATEXMK ?= latexmk
+LOCK_FILE ?= /tmp/flavourbench-powered-paper-$(shell id -u).lock
+
+RELEASE ?= $(firstword $(wildcard generated/powered/flavourbench-powered-release-*.json))
+TASKSET ?= ../benchmark/powered-v16/taskset/epicure-selection-taskset-99932ef2e72d34b61641270670e6d56233f167273a8877d03ac214115c084ff7.json
+MANIFEST ?= ../benchmark/powered-v34/manifest/flavourbench-selection-route-manifest-03a290ae84e8429e56cf66a57e09590b1c473e5c3a61ce5ba3fec1123c53c4cc.json
+PLAN ?= ../benchmark/powered-v35/plan/epicure-selection-analysis-plan-8ca2b5e1d59fb9443ef4e1a3cd69a38b18dd085347cbab6034a410645b69cd64.json
+COHERE_PREDECESSOR_PLAN ?= ../benchmark/powered-v34/plan/epicure-selection-analysis-plan-d5c11267b0437e55d8e4ba226503895521fa8519c1a7640d9d09f1b853dcc849.json
+DEEPSEEK_PLAN ?= ../benchmark/powered-v33/plan/epicure-selection-analysis-plan-51eb938485d5a9126ada5e1843aa33f7b12e4f8f8f7ed9cd7117d287bbb1046a.json
+BASE_PLAN ?= ../benchmark/powered-v31/plan/epicure-selection-analysis-plan-903ad89c44afcf0657b8079c12f01c2487aec2edb2e8ab39b986303d65c7c675.json
+REPEAT ?= ../benchmark/powered-v17/plan/epicure-selection-repeat-panel-c3829d4cdb7039f920411c6edde13691237f42cafc20e463ac326a06895c97fb.json
+RUN_DIRECTORY ?= ../benchmark/powered-v31/run
+DEEPSEEK_RUN_DIRECTORY ?= ../benchmark/powered-v33/run
+COHERE_RUN_DIRECTORY ?= ../benchmark/powered-v35/run
+GENERATED := generated/powered
+FIGURES := figures/powered
+ASSET_BUILDER := build_powered_selection_assets.py
+
+TABLE_ASSETS := \
+	$(GENERATED)/powered-macros.tex \
+	$(GENERATED)/powered-leaderboard-table.tex \
+	$(GENERATED)/powered-route-table.tex \
+	$(GENERATED)/powered-family-table.tex \
+	$(GENERATED)/powered-task-diagnostics-table.tex \
+	$(GENERATED)/powered-case-studies-table.tex \
+	$(GENERATED)/powered-case-studies.json
+
+FIGURE_ASSETS := \
+	$(FIGURES)/powered-leaderboard-forest.pdf \
+	$(FIGURES)/powered-family-heatmap.pdf \
+	$(FIGURES)/powered-pairwise-matrix.pdf \
+	$(FIGURES)/powered-repeatability-scatter.pdf
+
+CORE_INPUTS := main_powered.tex references.bib README.md LICENSES.md Makefile.powered \
+	$(ASSET_BUILDER) $(RELEASE) $(TASKSET) $(MANIFEST) $(PLAN) \
+	$(COHERE_PREDECESSOR_PLAN) $(DEEPSEEK_PLAN) $(BASE_PLAN) $(REPEAT) \
+	$(TABLE_ASSETS) $(FIGURE_ASSETS)
+
+.PHONY: all analysis assets verify verify-static paper _paper arxiv _arxiv clean
+
+all: paper
+
+analysis:
+	$(PYTHON) -m flavourbench.epicure_selection_powered_analysis \
+		--taskset $(TASKSET) \
+		--repeat-panel $(REPEAT) \
+		--plan $(PLAN) \
+		--run-directory $(RUN_DIRECTORY) \
+		--predecessor-plan $(COHERE_PREDECESSOR_PLAN) \
+		--base-plan $(BASE_PLAN) \
+		--deepseek-plan $(DEEPSEEK_PLAN) \
+		--recovery-run-directory $(DEEPSEEK_RUN_DIRECTORY) \
+		--cohere-run-directory $(COHERE_RUN_DIRECTORY) \
+		--output-directory $(GENERATED)
+
+assets:
+	test -n "$(RELEASE)"
+	$(PYTHON) $(ASSET_BUILDER) \
+		--release $(RELEASE) \
+		--taskset $(TASKSET) \
+		--manifest $(MANIFEST) \
+		--run-directory $(RUN_DIRECTORY) \
+		--response-source deepseek/deepseek-v4-pro=$(DEEPSEEK_RUN_DIRECTORY) \
+		--response-source cohere/command-a=$(COHERE_RUN_DIRECTORY) \
+		--response-source cohere/command-r-plus-08-2024=$(COHERE_RUN_DIRECTORY) \
+		--generated-directory $(GENERATED) \
+		--figure-directory $(FIGURES)
+
+verify: assets verify-static
+
+verify-static:
+	for file in $(CORE_INPUTS); do
+		test -f "$$file"
+		test ! -L "$$file"
+	done
+	$(PYTHON) -I reproduce_powered_release.py --release $(RELEASE)
+	$(RUFF) check $(ASSET_BUILDER)
+	$(RUFF) format --check $(ASSET_BUILDER)
+	$(PYTHON) -m pytest -q ../tests/build_powered_selection_assets_test.py
+
+paper:
+	flock -x "$(LOCK_FILE)" $(MAKE) -f Makefile.powered --no-print-directory _paper
+
+_paper: verify-static
+	mkdir -p build
+	$(LATEXMK) -g -pdf -interaction=nonstopmode -halt-on-error -file-line-error \
+		-jobname=flavourbench-powered -outdir=build main_powered.tex
+	install -m 0644 build/flavourbench-powered.pdf build/flavourbench.pdf
+	if grep -Eq 'Overfull \\hbox|There were undefined references|Citation .* undefined' \
+	  build/flavourbench-powered.log; then
+		grep -En 'Overfull \\hbox|There were undefined references|Citation .* undefined' \
+		  build/flavourbench-powered.log >&2
+		exit 1
+	fi
+	test "$$(pdffonts build/flavourbench.pdf | awk 'NR > 2 && NF && $$(NF - 4) != "yes" {bad=1} END {print bad+0}')" = 0
+
+arxiv:
+	flock -x "$(LOCK_FILE)" $(MAKE) -f Makefile.powered --no-print-directory _arxiv
+
+_arxiv: _paper
+	build_dir="$(CURDIR)/build"
+	stage=$$(mktemp -d "$$build_dir/.powered-arxiv-stage.XXXXXX")
+	check=$$(mktemp -d "$$build_dir/.powered-arxiv-check.XXXXXX")
+	archive=$$(mktemp "$$build_dir/.flavourbench-powered-arxiv.XXXXXX.tar.gz")
+	cleanup() { rm -rf -- "$$stage" "$$check"; rm -f -- "$$archive"; }
+	trap cleanup EXIT HUP INT TERM
+
+	install -m 0644 main_powered.tex references.bib README.md LICENSES.md "$$stage/"
+	install -d -m 0755 "$$stage/generated/powered" "$$stage/figures/powered"
+	install -m 0644 $(TABLE_ASSETS) "$$stage/generated/powered/"
+	install -m 0644 $(FIGURE_ASSETS) "$$stage/figures/powered/"
+	(
+		cd "$$stage"
+		find . -type f ! -name SOURCE_MANIFEST.sha256 -printf '%P\0' \
+			| sort -z | xargs -0 sha256sum
+	) > "$$stage/SOURCE_MANIFEST.sha256"
+	if rg -l -I --pcre2 \
+		"/hom[e]/|remy-simpc[4]|(?:AKIA|ASIA)[0-9A-Z]{16}|sk-(?:or-v1|kimi)-[A-Za-z0-9_-]{20,}|sk-(?:sp|ws)-[A-Za-z0-9._-]{20,}|[0-9a-f]{32}\.[A-Za-z0-9_-]{16,}|BEGIN (?:RSA|OPENSSH|EC) PRIVATE KEY" \
+		"$$stage"; then
+		echo "arXiv package refused: local path or credential marker present" >&2
+		exit 1
+	fi
+
+	(
+		cd "$$stage"
+		tar --sort=name --format=ustar --mtime="@$(SOURCE_DATE_EPOCH)" \
+			--owner=0 --group=0 --numeric-owner --mode='u+rwX,go+rX,go-w' \
+			-cf - .
+	) | gzip -n -9 > "$$archive"
+	gzip -t "$$archive"
+	tar -xzf "$$archive" -C "$$check"
+	(
+		cd "$$check"
+		sha256sum --check SOURCE_MANIFEST.sha256
+		mkdir -p build
+		$(LATEXMK) -pdf -interaction=nonstopmode -halt-on-error -file-line-error \
+			-jobname=flavourbench-powered -outdir=build main_powered.tex >/dev/null
+		if grep -Eq 'Overfull \\hbox|There were undefined references|Citation .* undefined' \
+		  build/flavourbench-powered.log; then
+			grep -En 'Overfull \\hbox|There were undefined references|Citation .* undefined' \
+			  build/flavourbench-powered.log >&2
+			exit 1
+		fi
+	)
+	cmp -s build/flavourbench.pdf "$$check/build/flavourbench-powered.pdf"
+	test "$$(pdffonts "$$check/build/flavourbench-powered.pdf" | awk 'NR > 2 && NF && $$(NF - 4) != "yes" {bad=1} END {print bad+0}')" = 0
+
+	chmod 0644 "$$archive"
+	mv -f -- "$$archive" build/flavourbench-arxiv-source.tar.gz
+	(
+		cd build
+		sha256sum flavourbench.pdf flavourbench-arxiv-source.tar.gz
+	) > build/ARTIFACTS.sha256
+	(
+		cd build
+		sha256sum --check ARTIFACTS.sha256
+	)
+	trap - EXIT HUP INT TERM
+
+clean:
+	rm -f build/flavourbench-powered.*
+	rm -rf $(GENERATED) $(FIGURES)

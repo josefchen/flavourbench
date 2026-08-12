@@ -1,0 +1,1108 @@
+{
+  "artifact_sha256": "1557cc079ccf11f7ba36412bc85caa2f874c2fe3d765963d013b8c034e819585",
+  "counts": {
+    "provider_calls": 1280,
+    "tasks": 64,
+    "tasks_per_family": 16
+  },
+  "purpose": {
+    "excluded_from_primary_score": true,
+    "primary": "choice-content agreement after answer-position permutation",
+    "secondary": "position sensitivity and repeated accuracy"
+  },
+  "schema_version": "flavourbench-powered-repeat-panel-v2",
+  "selection_seed": "flavourbench-validated-repeat-panel-20260811",
+  "source_task_set_sha256": "05582246169b315bcb86b321824bbb18c86e67e939fb243e257e6e6d3e511bdb",
+  "source_taskset_artifact_sha256": "95aae66e8180510dc446a5f20c54aba00f18f07f3459b3245fbce41904b139da",
+  "status": "frozen_before_successor_model_execution",
+  "tasks": [
+    {
+      "choices": {
+        "A": "coriander",
+        "B": "parsley",
+        "C": "thyme",
+        "D": "rosemary"
+      },
+      "expected_choice": "C",
+      "family": "substitution",
+      "oracle_reference_sha256": "201620521c9480842e072d1c3ee2a5f4d9ce084e7cf54577be46c8f1dfaacf63",
+      "original_expected_choice": "D",
+      "original_task_id": "fb-validated-substitution-064",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient is the strongest substitute for `chive` while preserving its herb role and regional context?\n\nChoices:\nA. coriander\nB. parsley\nC. thyme\nD. rosemary\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "1ffd2e1661f1ea270b60e952fd9de6577187e3f27c04a4013364bc145a32a26d",
+      "task_id": "repeat-substitution-01"
+    },
+    {
+      "choices": {
+        "A": "borage",
+        "B": "rosemary",
+        "C": "bouquet_garni",
+        "D": "tarragon"
+      },
+      "expected_choice": "C",
+      "family": "substitution",
+      "oracle_reference_sha256": "9f1dc26cf7abbd77647db4a80d13bb9600ce7513e0a1a35ee356c312899350b8",
+      "original_expected_choice": "D",
+      "original_task_id": "fb-validated-substitution-032",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient is the strongest substitute for `caperberry` while preserving its herb role and regional context?\n\nChoices:\nA. borage\nB. rosemary\nC. bouquet garni\nD. tarragon\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "c97f16f693ace94b3e73efb9e6500c63bf13c21b6d401538e204b3607b451ac9",
+      "task_id": "repeat-substitution-02"
+    },
+    {
+      "choices": {
+        "A": "horse_gram",
+        "B": "textured_soy_protein",
+        "C": "mung_bean",
+        "D": "soy_yogurt"
+      },
+      "expected_choice": "A",
+      "family": "substitution",
+      "oracle_reference_sha256": "33a8c47b6adc00803720ecb6ededf1c9e8523ad57871c97f44bf97510fffcebd",
+      "original_expected_choice": "D",
+      "original_task_id": "fb-validated-substitution-008",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient is the strongest substitute for `chana dal` while preserving its legume role and regional context?\n\nChoices:\nA. horse gram\nB. textured soy protein\nC. mung bean\nD. soy yogurt\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "f000ef13f66b4a147efa7f159834b5e2f33ff50ea4439042e1fd35786e3c8241",
+      "task_id": "repeat-substitution-03"
+    },
+    {
+      "choices": {
+        "A": "mayonnaise",
+        "B": "vinaigrette",
+        "C": "pan_drippings",
+        "D": "ghee"
+      },
+      "expected_choice": "B",
+      "family": "substitution",
+      "oracle_reference_sha256": "c08208d5c4783ffd412e0b3ea33f7b31cc9dde15289a50bffae114cbd33689a3",
+      "original_expected_choice": "D",
+      "original_task_id": "fb-validated-substitution-140",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient is the strongest substitute for `pumpkin seed oil` while preserving its fat/oil role and regional context?\n\nChoices:\nA. mayonnaise\nB. vinaigrette\nC. pan drippings\nD. ghee\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "a098fc04936750b6dcf37b94bba60b022f1ebfbb98d26fd6281337e1c292929a",
+      "task_id": "repeat-substitution-04"
+    },
+    {
+      "choices": {
+        "A": "toor_dal",
+        "B": "lentil",
+        "C": "masoor_dal",
+        "D": "chana_dal"
+      },
+      "expected_choice": "A",
+      "family": "substitution",
+      "oracle_reference_sha256": "05a05fc4090258c98c9ce0ef46a9fdd7e34e06d2eb35d0906b8b885058849a87",
+      "original_expected_choice": "D",
+      "original_task_id": "fb-validated-substitution-036",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient is the strongest substitute for `horse gram` while preserving its legume role and regional context?\n\nChoices:\nA. toor dal\nB. lentil\nC. masoor dal\nD. chana dal\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "24a0f9e3d7f11ef2d7fec1783e75e952fca96ee0234dc4f61f02d5a79ce51e54",
+      "task_id": "repeat-substitution-05"
+    },
+    {
+      "choices": {
+        "A": "hair_vegetable",
+        "B": "dragon_whisker_vegetable",
+        "C": "wood_ear_mushroom",
+        "D": "shiitake_mushroom"
+      },
+      "expected_choice": "A",
+      "family": "substitution",
+      "oracle_reference_sha256": "bd23b8b0067dbb3dd98799b46c8ce963020c016dbb8b10caba9b25848a5ad44f",
+      "original_expected_choice": "D",
+      "original_task_id": "fb-validated-substitution-160",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient is the strongest substitute for `ta cai` while preserving its vegetable role and regional context?\n\nChoices:\nA. hair vegetable\nB. dragon whisker vegetable\nC. wood ear mushroom\nD. shiitake mushroom\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "325f05b000252dc8dd243ac49f382c9e6b33f38653f31b986bb20d337498aabc",
+      "task_id": "repeat-substitution-06"
+    },
+    {
+      "choices": {
+        "A": "radicchio",
+        "B": "beet",
+        "C": "arugula",
+        "D": "parsnip"
+      },
+      "expected_choice": "A",
+      "family": "substitution",
+      "oracle_reference_sha256": "a065101a1d8d7d1c3c1046ad5f243863e8b446d72cd28dcac10c226047758e15",
+      "original_expected_choice": "D",
+      "original_task_id": "fb-validated-substitution-052",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient is the strongest substitute for `salad greens` while preserving its vegetable role and regional context?\n\nChoices:\nA. radicchio\nB. beet\nC. arugula\nD. parsnip\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "c8ddc4cb6dc3abb7bfd9695927f0950764710faf31479293e4c22d5ee565901b",
+      "task_id": "repeat-substitution-07"
+    },
+    {
+      "choices": {
+        "A": "lotus_seed",
+        "B": "cashew",
+        "C": "almond",
+        "D": "walnut"
+      },
+      "expected_choice": "A",
+      "family": "substitution",
+      "oracle_reference_sha256": "353e90ddaafa5e38eb339abc4422f46f4f00a3e05e4129162df683a2d35965b7",
+      "original_expected_choice": "C",
+      "original_task_id": "fb-validated-substitution-135",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient is the strongest substitute for `chestnut` while preserving its nut/seed role and regional context?\n\nChoices:\nA. lotus seed\nB. cashew\nC. almond\nD. walnut\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "f12ded3e2d904488e1ff43b8fe0413a7f9466941134edc7d248c5a8449f58366",
+      "task_id": "repeat-substitution-08"
+    },
+    {
+      "choices": {
+        "A": "pastis",
+        "B": "liqueur",
+        "C": "rum",
+        "D": "hazelnut_liqueur"
+      },
+      "expected_choice": "C",
+      "family": "substitution",
+      "oracle_reference_sha256": "b7dc3d19e6babbe6cd86c7da2c172425e89ca1df179df731485f3ab64d75e7d0",
+      "original_expected_choice": "A",
+      "original_task_id": "fb-validated-substitution-141",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient is the strongest substitute for `brandy` while preserving its beverage role and regional context?\n\nChoices:\nA. pastis\nB. liqueur\nC. rum\nD. hazelnut liqueur\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "33b90b8c645af461a27f5007c5fda82cc1fdf78b621b287e4f4fb2fa6d5f9edb",
+      "task_id": "repeat-substitution-09"
+    },
+    {
+      "choices": {
+        "A": "kencur",
+        "B": "litsea_cubeba",
+        "C": "ginger",
+        "D": "galangal"
+      },
+      "expected_choice": "C",
+      "family": "substitution",
+      "oracle_reference_sha256": "131b6fa88f5f93e5c0b42751007880b6c80d1797c060a5f948235b086a1f016c",
+      "original_expected_choice": "D",
+      "original_task_id": "fb-validated-substitution-004",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient is the strongest substitute for `birds eye chili` while preserving its spice role and regional context?\n\nChoices:\nA. kencur\nB. litsea cubeba\nC. ginger\nD. galangal\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "0887a7dc51c25e71cefc331baba16b39bd7ec5ea6179c0a84282d7fb8d3b66ff",
+      "task_id": "repeat-substitution-10"
+    },
+    {
+      "choices": {
+        "A": "snow_vegetable",
+        "B": "dried_lily_bud",
+        "C": "garlic_scape",
+        "D": "termite_mushroom"
+      },
+      "expected_choice": "C",
+      "family": "substitution",
+      "oracle_reference_sha256": "ea559fe3e92abe943266913c377e5891150e79df71f8ce2a5013e6e49c57b8c0",
+      "original_expected_choice": "D",
+      "original_task_id": "fb-validated-substitution-132",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient is the strongest substitute for `shepherds purse` while preserving its vegetable role and regional context?\n\nChoices:\nA. snow vegetable\nB. dried lily bud\nC. garlic scape\nD. termite mushroom\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "ef9ba1ba20abe72f69a46142557e21a8d39a9cfab2a603a5f660904038840b6b",
+      "task_id": "repeat-substitution-11"
+    },
+    {
+      "choices": {
+        "A": "oolong_tea",
+        "B": "liquor",
+        "C": "baijiu",
+        "D": "pu_erh_tea"
+      },
+      "expected_choice": "C",
+      "family": "substitution",
+      "oracle_reference_sha256": "06789856536c9daf604bd90b735bb3d69c612f0514426101745158796044b789",
+      "original_expected_choice": "B",
+      "original_task_id": "fb-validated-substitution-058",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient is the strongest substitute for `wine lees` while preserving its beverage role and regional context?\n\nChoices:\nA. oolong tea\nB. liquor\nC. baijiu\nD. pu erh tea\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "066308ddf6a9c1bb64a36757c74697949dccd5dbbf3f16ad149f7377fbf03e06",
+      "task_id": "repeat-substitution-12"
+    },
+    {
+      "choices": {
+        "A": "pie_crust",
+        "B": "puff_pastry",
+        "C": "wafer",
+        "D": "waffle"
+      },
+      "expected_choice": "C",
+      "family": "substitution",
+      "oracle_reference_sha256": "5f06f76d6b6805b61645bd52475d50f70690c7314975a093765572ecfc8a87f8",
+      "original_expected_choice": "B",
+      "original_task_id": "fb-validated-substitution-110",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient is the strongest substitute for `biscuit` while preserving its grain role and regional context?\n\nChoices:\nA. pie crust\nB. puff pastry\nC. wafer\nD. waffle\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "9e2d3e0700913beca786e0d24b8f6512413eae4a6b375a86cb96427866fbba35",
+      "task_id": "repeat-substitution-13"
+    },
+    {
+      "choices": {
+        "A": "watermelon_radish",
+        "B": "king_oyster_mushroom",
+        "C": "salad_greens",
+        "D": "termite_mushroom"
+      },
+      "expected_choice": "B",
+      "family": "substitution",
+      "oracle_reference_sha256": "40bad3e0055fee442e069c45ce25a000e04d8db1ed901058d4961b43e6031c1d",
+      "original_expected_choice": "C",
+      "original_task_id": "fb-validated-substitution-143",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient is the strongest substitute for `ice plant` while preserving its vegetable role and regional context?\n\nChoices:\nA. watermelon radish\nB. king oyster mushroom\nC. salad greens\nD. termite mushroom\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "b8527c3c88eca5ec4023745086941e95e968e0a9f745aa126e4f7fe3ba8e0079",
+      "task_id": "repeat-substitution-14"
+    },
+    {
+      "choices": {
+        "A": "speck",
+        "B": "linguica",
+        "C": "grasshopper",
+        "D": "lacon"
+      },
+      "expected_choice": "D",
+      "family": "substitution",
+      "oracle_reference_sha256": "fa94e3ce83229a4edf87ae2fae322380710d1a44e372164274fee5e722a7f0ce",
+      "original_expected_choice": "B",
+      "original_task_id": "fb-validated-substitution-062",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient is the strongest substitute for `longaniza` while preserving its meat role and regional context?\n\nChoices:\nA. speck\nB. linguica\nC. grasshopper\nD. lacon\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "37873ccd1cf5b23eaff975e2508d389f7b0d67bd3077cb086710a1e72763fdba",
+      "task_id": "repeat-substitution-15"
+    },
+    {
+      "choices": {
+        "A": "amaro",
+        "B": "absinthe",
+        "C": "maraschino_liqueur",
+        "D": "cynar"
+      },
+      "expected_choice": "B",
+      "family": "substitution",
+      "oracle_reference_sha256": "7f148ca2db9f7911bc20554537360b70259ae5957cdf117c8ca874b8d1a882df",
+      "original_expected_choice": "C",
+      "original_task_id": "fb-validated-substitution-147",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient is the strongest substitute for `lillet` while preserving its beverage role and regional context?\n\nChoices:\nA. amaro\nB. absinthe\nC. maraschino liqueur\nD. cynar\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "6833bbc82259accacd9d57dbd2f8b7dff8e26cda834fce34e6197f31f740b206",
+      "task_id": "repeat-substitution-16"
+    },
+    {
+      "choices": {
+        "A": "fenugreek_leaf",
+        "B": "garam_masala",
+        "C": "kashmiri_chili",
+        "D": "curry_leaf"
+      },
+      "expected_choice": "B",
+      "family": "pairing",
+      "oracle_reference_sha256": "5dfcf036831cbb350e201fde9465bfcae2d30ae49be3ef3f3aea68fa12b8a115",
+      "original_expected_choice": "C",
+      "original_task_id": "fb-validated-pairing-007",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient has the strongest learned culinary pairing with `mutton`?\n\nChoices:\nA. fenugreek leaf\nB. garam masala\nC. kashmiri chili\nD. curry leaf\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "25405bf57971e6974db0e88ab4097d57e65e18e075c1b5ad3a9d7661546ea9b4",
+      "task_id": "repeat-pairing-01"
+    },
+    {
+      "choices": {
+        "A": "sage",
+        "B": "green_peppercorn",
+        "C": "grana_padano",
+        "D": "fines_herbes"
+      },
+      "expected_choice": "A",
+      "family": "pairing",
+      "oracle_reference_sha256": "60cad89871908b247e4d491309e33a8dfedadd429fb14867aee1e2df1de07e77",
+      "original_expected_choice": "C",
+      "original_task_id": "fb-validated-pairing-015",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient has the strongest learned culinary pairing with `black truffle`?\n\nChoices:\nA. sage\nB. green peppercorn\nC. grana padano\nD. fines herbes\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "83e97c451c1449d121e3b6c2fbad8f64f801c55d2ca462d4f21f997ed9c73a9f",
+      "task_id": "repeat-pairing-02"
+    },
+    {
+      "choices": {
+        "A": "lily_bulb",
+        "B": "golden_ear_mushroom",
+        "C": "puffer_fish",
+        "D": "tiger_milk_mushroom"
+      },
+      "expected_choice": "C",
+      "family": "pairing",
+      "oracle_reference_sha256": "c18246f662042f825e49680f2461b2dccb5afa75eed64add6ec883bf91b5dce5",
+      "original_expected_choice": "D",
+      "original_task_id": "fb-validated-pairing-052",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient has the strongest learned culinary pairing with `gardenia flower`?\n\nChoices:\nA. lily bulb\nB. golden ear mushroom\nC. puffer fish\nD. tiger milk mushroom\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "fb192d340872af53375330eb774eeae9ab8d3133bb48cf9ec32e053a972b2cc6",
+      "task_id": "repeat-pairing-03"
+    },
+    {
+      "choices": {
+        "A": "yibin_yacai",
+        "B": "garlic_scape",
+        "C": "pickled_vegetable",
+        "D": "fermented_black_bean"
+      },
+      "expected_choice": "A",
+      "family": "pairing",
+      "oracle_reference_sha256": "a942f184df02391661bd2515af77170201e6a9588984d8fe43c8b41fbd0cf457",
+      "original_expected_choice": "B",
+      "original_task_id": "fb-validated-pairing-158",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient has the strongest learned culinary pairing with `rice tofu`?\n\nChoices:\nA. yibin yacai\nB. garlic scape\nC. pickled vegetable\nD. fermented black bean\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "e7536ada8442fae5db415e1100d6bec39947ea7416b8b6b472c1ca6554c3fab8",
+      "task_id": "repeat-pairing-04"
+    },
+    {
+      "choices": {
+        "A": "mastic",
+        "B": "cottage_cheese",
+        "C": "ryazhenka",
+        "D": "kefir"
+      },
+      "expected_choice": "D",
+      "family": "pairing",
+      "oracle_reference_sha256": "e949934ccfc0f71db2726e6bf5f0b1791e853bf8972db573267eb62a43bde5f2",
+      "original_expected_choice": "C",
+      "original_task_id": "fb-validated-pairing-023",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient has the strongest learned culinary pairing with `semolina`?\n\nChoices:\nA. mastic\nB. cottage cheese\nC. ryazhenka\nD. kefir\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "6e461a4874ddaab67e8e2f9d420a92094dce6f8680d0c7d0d62d94b3235d6752",
+      "task_id": "repeat-pairing-05"
+    },
+    {
+      "choices": {
+        "A": "orange",
+        "B": "mint",
+        "C": "grenadine",
+        "D": "blackberry"
+      },
+      "expected_choice": "A",
+      "family": "pairing",
+      "oracle_reference_sha256": "442d77f98cafe89cb69083a22fa7b59492de97f6982140f53069e167e2dc46ba",
+      "original_expected_choice": "B",
+      "original_task_id": "fb-validated-pairing-026",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient has the strongest learned culinary pairing with `whiskey`?\n\nChoices:\nA. orange\nB. mint\nC. grenadine\nD. blackberry\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "1216f07cc9412175b50ad5233331b149525b03873395cbd06e797c065c4c0827",
+      "task_id": "repeat-pairing-06"
+    },
+    {
+      "choices": {
+        "A": "neufchatel_cheese",
+        "B": "amaretti_cookie",
+        "C": "elderflower",
+        "D": "apple_pie_spice"
+      },
+      "expected_choice": "A",
+      "family": "pairing",
+      "oracle_reference_sha256": "c27fc748ec5ee2bb3d58ce76885b7a5b70c65f495956e0342fe2094cd25ed637",
+      "original_expected_choice": "C",
+      "original_task_id": "fb-validated-pairing-071",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient has the strongest learned culinary pairing with `blood orange`?\n\nChoices:\nA. neufchatel cheese\nB. amaretti cookie\nC. elderflower\nD. apple pie spice\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "ca70baeb4806d89396fda9fc2ae54871b5c190402f82240583af4d2297732921",
+      "task_id": "repeat-pairing-07"
+    },
+    {
+      "choices": {
+        "A": "toffee",
+        "B": "raspberry",
+        "C": "amaretti_cookie",
+        "D": "cherry"
+      },
+      "expected_choice": "B",
+      "family": "pairing",
+      "oracle_reference_sha256": "c0632f783da48b6df58f8d57514dcbcb3087b08fa7b193f8a8206158fe138a37",
+      "original_expected_choice": "C",
+      "original_task_id": "fb-validated-pairing-107",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient has the strongest learned culinary pairing with `grand marnier`?\n\nChoices:\nA. toffee\nB. raspberry\nC. amaretti cookie\nD. cherry\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "19ed34aff7dc3e0fc2c8c5f0ba661049266892aaff2f09f22438691ac04c6aea",
+      "task_id": "repeat-pairing-08"
+    },
+    {
+      "choices": {
+        "A": "tarragon",
+        "B": "black_currant",
+        "C": "juniper_berry",
+        "D": "thyme"
+      },
+      "expected_choice": "A",
+      "family": "pairing",
+      "oracle_reference_sha256": "b289bc2433593d193f04c6de990db545bcf415a8322b28b5dd153c33ba194b8d",
+      "original_expected_choice": "C",
+      "original_task_id": "fb-validated-pairing-131",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient has the strongest learned culinary pairing with `creme fraiche`?\n\nChoices:\nA. tarragon\nB. black currant\nC. juniper berry\nD. thyme\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "14eb013f2b7d20820a0dd6d426071af7e5f797b3e75cb5874748352a75eb42dd",
+      "task_id": "repeat-pairing-09"
+    },
+    {
+      "choices": {
+        "A": "sulguni_cheese",
+        "B": "smoked_cheese",
+        "C": "sauerkraut",
+        "D": "sun_dried_tomato"
+      },
+      "expected_choice": "A",
+      "family": "pairing",
+      "oracle_reference_sha256": "6104e6f3c50aa1962bcf6b735922e427fbc3890f934b0aa332a081f9e47568ed",
+      "original_expected_choice": "B",
+      "original_task_id": "fb-validated-pairing-002",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient has the strongest learned culinary pairing with `wild garlic`?\n\nChoices:\nA. sulguni cheese\nB. smoked cheese\nC. sauerkraut\nD. sun dried tomato\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "77e29fa46f1f862b8b707e8b3e51070887978936c1141dd497371f6e1508a356",
+      "task_id": "repeat-pairing-10"
+    },
+    {
+      "choices": {
+        "A": "apricot",
+        "B": "garlic",
+        "C": "orange",
+        "D": "cherry"
+      },
+      "expected_choice": "A",
+      "family": "pairing",
+      "oracle_reference_sha256": "b748aac192ddd26c5871d5c8ff88ae14dc4ba8268f7e9c2ac49ba568598900bb",
+      "original_expected_choice": "B",
+      "original_task_id": "fb-validated-pairing-022",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient has the strongest learned culinary pairing with `cardamom`?\n\nChoices:\nA. apricot\nB. garlic\nC. orange\nD. cherry\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "3b6517a671c04550b098e8a9b68af1f23de94bd1847a97d2014f7f2f4845a8f0",
+      "task_id": "repeat-pairing-11"
+    },
+    {
+      "choices": {
+        "A": "milk",
+        "B": "pumpkin_pie_spice",
+        "C": "poppy_seed",
+        "D": "apple_pie_spice"
+      },
+      "expected_choice": "C",
+      "family": "pairing",
+      "oracle_reference_sha256": "b6c8ef579e077f6e46065072a5fa3d59b6f715cf23d7f9621d3da00971766bfa",
+      "original_expected_choice": "B",
+      "original_task_id": "fb-validated-pairing-030",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient has the strongest learned culinary pairing with `graham flour`?\n\nChoices:\nA. milk\nB. pumpkin pie spice\nC. poppy seed\nD. apple pie spice\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "e7e09a3575acf53848a23927f01c76270c1a076dbc9cb423b16a25a62ffd1f7d",
+      "task_id": "repeat-pairing-12"
+    },
+    {
+      "choices": {
+        "A": "fermented_black_bean",
+        "B": "goose_egg",
+        "C": "wonton",
+        "D": "stinky_tofu"
+      },
+      "expected_choice": "D",
+      "family": "pairing",
+      "oracle_reference_sha256": "1b5114d8068c70d04a1014762f009ebc3608f3f5c4a08fd8e892472d55d3a45b",
+      "original_expected_choice": "B",
+      "original_task_id": "fb-validated-pairing-006",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient has the strongest learned culinary pairing with `fiddlehead fern`?\n\nChoices:\nA. fermented black bean\nB. goose egg\nC. wonton\nD. stinky tofu\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "cfc741c7b458a097f02702af2b8256ac0d883d5eb3d71b7821df8d25918a352c",
+      "task_id": "repeat-pairing-13"
+    },
+    {
+      "choices": {
+        "A": "shallot",
+        "B": "bacon",
+        "C": "olive",
+        "D": "parmesan_cheese"
+      },
+      "expected_choice": "B",
+      "family": "pairing",
+      "oracle_reference_sha256": "386f36951bfa8935a920672a8b5b4e7df56de183bf58d79a36f323d883b2cdca",
+      "original_expected_choice": "A",
+      "original_task_id": "fb-validated-pairing-141",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient has the strongest learned culinary pairing with `thyme`?\n\nChoices:\nA. shallot\nB. bacon\nC. olive\nD. parmesan cheese\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "44de6ac55ab07145667914d7d572bf068b988f35d8d0762d471812a0d50210e6",
+      "task_id": "repeat-pairing-14"
+    },
+    {
+      "choices": {
+        "A": "raita",
+        "B": "garlic",
+        "C": "turnip",
+        "D": "masoor_dal"
+      },
+      "expected_choice": "B",
+      "family": "pairing",
+      "oracle_reference_sha256": "74e149fed854c85e5226b79d0a5b75693dcbad004fbb6d851a8eac7c71d60ecd",
+      "original_expected_choice": "D",
+      "original_task_id": "fb-validated-pairing-112",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient has the strongest learned culinary pairing with `basmati rice`?\n\nChoices:\nA. raita\nB. garlic\nC. turnip\nD. masoor dal\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "d6f6bf8e6dd0130ed0dfeb011f746555db76490ac6ef1fc270c56ed3e100df8d",
+      "task_id": "repeat-pairing-15"
+    },
+    {
+      "choices": {
+        "A": "cherry",
+        "B": "maraschino_cherry",
+        "C": "grenadine",
+        "D": "brown_sugar"
+      },
+      "expected_choice": "B",
+      "family": "pairing",
+      "oracle_reference_sha256": "8d89d336ad94865efea9de254860c5320e440b8c50d8b418fd7fcb489b180aa0",
+      "original_expected_choice": "A",
+      "original_task_id": "fb-validated-pairing-013",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient has the strongest learned culinary pairing with `bourbon`?\n\nChoices:\nA. cherry\nB. maraschino cherry\nC. grenadine\nD. brown sugar\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "30619162c891cded02c1d4bdfc5d670a0509bc9bff37fb3c66aa739f5278bf1f",
+      "task_id": "repeat-pairing-16"
+    },
+    {
+      "choices": {
+        "A": "vegetable_juice",
+        "B": "strega_liqueur",
+        "C": "ginger_wine",
+        "D": "fruit_tea"
+      },
+      "expected_choice": "B",
+      "family": "constraint",
+      "oracle_reference_sha256": "f4e479eeadbac9151d1cdd933a2d7e528feed02b68c0bc22aa606b67d3f77a8a",
+      "original_expected_choice": "A",
+      "original_task_id": "fb-validated-constraint-137",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient is the most processed option?\n\nChoices:\nA. vegetable juice\nB. strega liqueur\nC. ginger wine\nD. fruit tea\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "52ba0148b8d9ead82580f5d8244ed0029a885ac8bfc159f81e32901846336a12",
+      "task_id": "repeat-constraint-01"
+    },
+    {
+      "choices": {
+        "A": "wine_lees",
+        "B": "creme_de_violette",
+        "C": "brick_tea",
+        "D": "rooibos_tea"
+      },
+      "expected_choice": "B",
+      "family": "constraint",
+      "oracle_reference_sha256": "1ae4c8639ca9d33a4062ed3b70a0f62dcc06fc78afd8f76f159d96fda1c0ef4e",
+      "original_expected_choice": "A",
+      "original_task_id": "fb-validated-constraint-125",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient is the most processed option?\n\nChoices:\nA. wine lees\nB. creme de violette\nC. brick tea\nD. rooibos tea\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "917d9bcbbc5a76d3457d17f6649b905e6a87c129334a9ca9cb05aab06ffe6b60",
+      "task_id": "repeat-constraint-02"
+    },
+    {
+      "choices": {
+        "A": "provolone_cheese",
+        "B": "cajeta",
+        "C": "umeboshi",
+        "D": "grasshopper"
+      },
+      "expected_choice": "C",
+      "family": "constraint",
+      "oracle_reference_sha256": "44c1e76d215538b94b9d19ce4a31864fd9a32c1c330408c972b8ef6a6a1215ff",
+      "original_expected_choice": "D",
+      "original_task_id": "fb-validated-constraint-024",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient is suitable for a strictly vegan dish?\n\nChoices:\nA. provolone cheese\nB. cajeta\nC. umeboshi\nD. grasshopper\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "197e40dadec538c582db34a8cd20b88b1fed4392a79a1593f424cc03bd8548f7",
+      "task_id": "repeat-constraint-03"
+    },
+    {
+      "choices": {
+        "A": "sardine",
+        "B": "sunfish",
+        "C": "fish_ball",
+        "D": "herring"
+      },
+      "expected_choice": "C",
+      "family": "constraint",
+      "oracle_reference_sha256": "21d6adf37d44ab9883a6aa11aa14aa4b11a6db1f54933446aa4aad6f823e8019",
+      "original_expected_choice": "D",
+      "original_task_id": "fb-validated-constraint-124",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient is the most processed option?\n\nChoices:\nA. sardine\nB. sunfish\nC. fish ball\nD. herring\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "ce8a7caebd6126c2f3091033e4ad67e37d583206942303666ffa7381b84f00fa",
+      "task_id": "repeat-constraint-04"
+    },
+    {
+      "choices": {
+        "A": "butternut_squash",
+        "B": "quark",
+        "C": "sour_cream",
+        "D": "pigeon_egg"
+      },
+      "expected_choice": "A",
+      "family": "constraint",
+      "oracle_reference_sha256": "8fa95d2d4364a15f18d2f0e96ab7d30253a4269823830c9af66470fbb150e7ee",
+      "original_expected_choice": "D",
+      "original_task_id": "fb-validated-constraint-036",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient is suitable for a strictly vegan dish?\n\nChoices:\nA. butternut squash\nB. quark\nC. sour cream\nD. pigeon egg\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "a44f85dc0cbfce530dd4efc91cb3e8d3cf6f63cb6bb5295d70c1304f736f2276",
+      "task_id": "repeat-constraint-05"
+    },
+    {
+      "choices": {
+        "A": "cured_chicken",
+        "B": "canadian_bacon",
+        "C": "bluefish",
+        "D": "luffa"
+      },
+      "expected_choice": "D",
+      "family": "constraint",
+      "oracle_reference_sha256": "692cd0b9fb9557d5861bcd9ce9cf9ecbefda5f55e9be18d80ae03cf6cf3aa8e8",
+      "original_expected_choice": "C",
+      "original_task_id": "fb-validated-constraint-019",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient is suitable for a strictly vegan dish?\n\nChoices:\nA. cured chicken\nB. canadian bacon\nC. bluefish\nD. luffa\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "c901129e565842a83550e0b185af7a7c7ac86db5452ab45b0da1d9f041ba23de",
+      "task_id": "repeat-constraint-06"
+    },
+    {
+      "choices": {
+        "A": "chicken",
+        "B": "vegetable_juice",
+        "C": "osmanthus_flower",
+        "D": "vermicelli"
+      },
+      "expected_choice": "A",
+      "family": "constraint",
+      "oracle_reference_sha256": "84a5662a4482698b50f3c0b804f9a9408cfbaad8f2eccbcec1e07df9f094b1ae",
+      "original_expected_choice": "C",
+      "original_task_id": "fb-validated-constraint-075",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient is not suitable for a vegan dish?\n\nChoices:\nA. chicken\nB. vegetable juice\nC. osmanthus flower\nD. vermicelli\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "33fac7991f8ca63e9088aa0749d7df38ebd883977196c44be4f717f5f075ab7f",
+      "task_id": "repeat-constraint-07"
+    },
+    {
+      "choices": {
+        "A": "duck_egg",
+        "B": "cream_cheese",
+        "C": "goat_milk",
+        "D": "pigeon_egg"
+      },
+      "expected_choice": "B",
+      "family": "constraint",
+      "oracle_reference_sha256": "780956acdf6da5ac12839ed81588d433cc1f92fe7933b96c1282c0ae81760e2c",
+      "original_expected_choice": "A",
+      "original_task_id": "fb-validated-constraint-121",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient is the most processed option?\n\nChoices:\nA. duck egg\nB. cream cheese\nC. goat milk\nD. pigeon egg\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "3cab304d7ac90a41ab96f53501136d085f811c84626b497e91b37859ac89f807",
+      "task_id": "repeat-constraint-08"
+    },
+    {
+      "choices": {
+        "A": "green_tomato",
+        "B": "bok_choy",
+        "C": "onion",
+        "D": "yibin_yacai"
+      },
+      "expected_choice": "D",
+      "family": "constraint",
+      "oracle_reference_sha256": "867a4e7790df691066e5939fe22ed9f736b7348df19a3326f6d685b53de84d0a",
+      "original_expected_choice": "A",
+      "original_task_id": "fb-validated-constraint-157",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient is the most processed option?\n\nChoices:\nA. green tomato\nB. bok choy\nC. onion\nD. yibin yacai\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "d5ef5c709a51aa2bc10ce7d1189dbef479dbac8cea840c67955b74c22ab13f9f",
+      "task_id": "repeat-constraint-09"
+    },
+    {
+      "choices": {
+        "A": "pu_erh_tea",
+        "B": "black_tea",
+        "C": "oolong_tea",
+        "D": "marsala_wine"
+      },
+      "expected_choice": "D",
+      "family": "constraint",
+      "oracle_reference_sha256": "62ca526dffdffef21c5e2e1d733d5f1d2868082f109e42827acc7f523e57884f",
+      "original_expected_choice": "C",
+      "original_task_id": "fb-validated-constraint-155",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient is the most processed option?\n\nChoices:\nA. pu erh tea\nB. black tea\nC. oolong tea\nD. marsala wine\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "70c63f6d41c3fc5f41d7408f0e2e1e93f96ebda427daa4dddb46e9b5a0fbdafc",
+      "task_id": "repeat-constraint-10"
+    },
+    {
+      "choices": {
+        "A": "squid",
+        "B": "fermented_glutinous_rice",
+        "C": "perilla",
+        "D": "arrowhead"
+      },
+      "expected_choice": "A",
+      "family": "constraint",
+      "oracle_reference_sha256": "cdc86ec6db60791350aa12ae6380c57b55daa1020ccf9b646c551a72e736fa2f",
+      "original_expected_choice": "D",
+      "original_task_id": "fb-validated-constraint-048",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient is not suitable for a vegan dish?\n\nChoices:\nA. squid\nB. fermented glutinous rice\nC. perilla\nD. arrowhead\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "59e908e0a60d0878018730fa5658a7bb9e280900da1bcc534790c2de546cff7f",
+      "task_id": "repeat-constraint-11"
+    },
+    {
+      "choices": {
+        "A": "ice_cream_cone",
+        "B": "rice_tofu",
+        "C": "ramen_noodle",
+        "D": "veal"
+      },
+      "expected_choice": "D",
+      "family": "constraint",
+      "oracle_reference_sha256": "ec94e7912d9d83acc3522179564f617afe37df44ff449ed97db0870bb5809a34",
+      "original_expected_choice": "A",
+      "original_task_id": "fb-validated-constraint-049",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient is not suitable for a vegan dish?\n\nChoices:\nA. ice cream cone\nB. rice tofu\nC. ramen noodle\nD. veal\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "382975310a6585086420bdf958fc2faa99c6ba9c1022da912a77b09865501a5a",
+      "task_id": "repeat-constraint-12"
+    },
+    {
+      "choices": {
+        "A": "glutinous_rice",
+        "B": "shark",
+        "C": "creme_de_cacao",
+        "D": "vinaigrette"
+      },
+      "expected_choice": "B",
+      "family": "constraint",
+      "oracle_reference_sha256": "06aab3c836a64e2e9a26b38faf7e177a71c3fe9c7d29c43570c6eaab6a65279d",
+      "original_expected_choice": "D",
+      "original_task_id": "fb-validated-constraint-060",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient is not suitable for a vegan dish?\n\nChoices:\nA. glutinous rice\nB. shark\nC. creme de cacao\nD. vinaigrette\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "e85856ae5d82e70a82c8307d45d617eb991349565f59e367090726119452c912",
+      "task_id": "repeat-constraint-13"
+    },
+    {
+      "choices": {
+        "A": "cornmeal",
+        "B": "rice_wine",
+        "C": "topmouth_culter",
+        "D": "tandoori_masala"
+      },
+      "expected_choice": "C",
+      "family": "constraint",
+      "oracle_reference_sha256": "c54500da10859486a9a8571c176eecafcbc9c6e1b4f02a8ea6744545f400dafb",
+      "original_expected_choice": "A",
+      "original_task_id": "fb-validated-constraint-057",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient is not suitable for a vegan dish?\n\nChoices:\nA. cornmeal\nB. rice wine\nC. topmouth culter\nD. tandoori masala\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "4ff27357ab3871cb95dc0225d200d927b313de24db3a700dc540114cc11b9b02",
+      "task_id": "repeat-constraint-14"
+    },
+    {
+      "choices": {
+        "A": "fish_mint",
+        "B": "banana_pepper",
+        "C": "whitebait",
+        "D": "kluwek"
+      },
+      "expected_choice": "C",
+      "family": "constraint",
+      "oracle_reference_sha256": "541c05bd2ef3438ae4390d36d93f2bb154dc233646d717d115efc298fd1259e8",
+      "original_expected_choice": "D",
+      "original_task_id": "fb-validated-constraint-072",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient is not suitable for a vegan dish?\n\nChoices:\nA. fish mint\nB. banana pepper\nC. whitebait\nD. kluwek\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "864e6e50654987c2b6c28d223694fb7ebcbbd1fb56e8239f6dff3c86e0578d03",
+      "task_id": "repeat-constraint-15"
+    },
+    {
+      "choices": {
+        "A": "black_rice",
+        "B": "gluten_free_flour",
+        "C": "rice",
+        "D": "sorghum"
+      },
+      "expected_choice": "B",
+      "family": "constraint",
+      "oracle_reference_sha256": "9291c7c1fd8350a0eab22b94d5e50bae331a9cb719c9345d7476f436db8c06eb",
+      "original_expected_choice": "C",
+      "original_task_id": "fb-validated-constraint-159",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich ingredient is the most processed option?\n\nChoices:\nA. black rice\nB. gluten free flour\nC. rice\nD. sorghum\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "58cccc872f5a642cd591d007aa399205eca37517ccf8d24fd7e5f4ee5dcff547",
+      "task_id": "repeat-constraint-16"
+    },
+    {
+      "choices": {
+        "A": "Western_Atlantic",
+        "B": "Latin_American",
+        "C": "Eastern_European",
+        "D": "Mediterranean"
+      },
+      "expected_choice": "A",
+      "family": "provenance",
+      "oracle_reference_sha256": "cf2531c256a15f1537bbf8509a10fbe90adee583badc162dab2c2046b993228b",
+      "original_expected_choice": "D",
+      "original_task_id": "fb-validated-provenance-140",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich culinary region is most strongly associated with `huckleberry`?\n\nChoices:\nA. Western Atlantic\nB. Latin American\nC. Eastern European\nD. Mediterranean\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "c2a491c905687dcb26335378d7e161e385e25db6bfea6900ceaf516da68b63ac",
+      "task_id": "repeat-provenance-01"
+    },
+    {
+      "choices": {
+        "A": "East_Asian",
+        "B": "Japanese",
+        "C": "South_Asian",
+        "D": "Southeast_Asian"
+      },
+      "expected_choice": "A",
+      "family": "provenance",
+      "oracle_reference_sha256": "c05d621289ce809bb428ac6a5b4efe3c23376856c813b9e4fbfc45cad9051da8",
+      "original_expected_choice": "B",
+      "original_task_id": "fb-validated-provenance-090",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich culinary region is most strongly associated with `fried dough twist`?\n\nChoices:\nA. East Asian\nB. Japanese\nC. South Asian\nD. Southeast Asian\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "7fc9b7b756c9a2e607c623d735b2a0a680422a1c9218734a4ff3bfe1045d3988",
+      "task_id": "repeat-provenance-02"
+    },
+    {
+      "choices": {
+        "A": "Latin_American",
+        "B": "Mediterranean",
+        "C": "Western_Atlantic",
+        "D": "Eastern_European"
+      },
+      "expected_choice": "B",
+      "family": "provenance",
+      "oracle_reference_sha256": "b7a74235aa71d75cc3645b7f2f01c971f96b34be5d557cd7d774dfea07d95dd1",
+      "original_expected_choice": "A",
+      "original_task_id": "fb-validated-provenance-113",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich culinary region is most strongly associated with `chervil`?\n\nChoices:\nA. Latin American\nB. Mediterranean\nC. Western Atlantic\nD. Eastern European\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "55411d9b9bc6040b50085b18e0398799770ddd87cbdb0efdb31917d4fb2d8b4c",
+      "task_id": "repeat-provenance-03"
+    },
+    {
+      "choices": {
+        "A": "Japanese",
+        "B": "East_Asian",
+        "C": "Southeast_Asian",
+        "D": "South_Asian"
+      },
+      "expected_choice": "A",
+      "family": "provenance",
+      "oracle_reference_sha256": "4b917801a5995bec4d1a91b18c3a9bf4365b0d636f13b551884031c1599b3d83",
+      "original_expected_choice": "D",
+      "original_task_id": "fb-validated-provenance-032",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich culinary region is most strongly associated with `kombu`?\n\nChoices:\nA. Japanese\nB. East Asian\nC. Southeast Asian\nD. South Asian\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "901aa305192a88cbc591fc644432a8a9956ab336e986002382608776f03f0933",
+      "task_id": "repeat-provenance-04"
+    },
+    {
+      "choices": {
+        "A": "Southeast_Asian",
+        "B": "East_Asian",
+        "C": "Japanese",
+        "D": "South_Asian"
+      },
+      "expected_choice": "B",
+      "family": "provenance",
+      "oracle_reference_sha256": "a166aeb274f216ab1dc48ec4383fa7d0623664713f250ae80d5809c888cdbad6",
+      "original_expected_choice": "A",
+      "original_task_id": "fb-validated-provenance-025",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich culinary region is most strongly associated with `arrowhead`?\n\nChoices:\nA. Southeast Asian\nB. East Asian\nC. Japanese\nD. South Asian\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "22948f7d98d8f49ca4ca0ba0c5a69ee5a7ee3aedc15b606a7ac41b30550f56fc",
+      "task_id": "repeat-provenance-05"
+    },
+    {
+      "choices": {
+        "A": "Eastern_European",
+        "B": "Mediterranean",
+        "C": "Latin_American",
+        "D": "Western_Atlantic"
+      },
+      "expected_choice": "A",
+      "family": "provenance",
+      "oracle_reference_sha256": "3a92f7ea38513b75c399672b4193470b392ade492efd0296851e53ac4467941b",
+      "original_expected_choice": "D",
+      "original_task_id": "fb-validated-provenance-040",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich culinary region is most strongly associated with `sushki`?\n\nChoices:\nA. Eastern European\nB. Mediterranean\nC. Latin American\nD. Western Atlantic\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "563c0b834947fea884bb4d5a32318e024e59737b7944fbcd5ed20a7b9523a149",
+      "task_id": "repeat-provenance-06"
+    },
+    {
+      "choices": {
+        "A": "Eastern_European",
+        "B": "Latin_American",
+        "C": "Western_Atlantic",
+        "D": "Mediterranean"
+      },
+      "expected_choice": "B",
+      "family": "provenance",
+      "oracle_reference_sha256": "c59b3b03024a5c4fde2a17489ecccd18c78d270806b8e671c1e0cdde2e2f0866",
+      "original_expected_choice": "A",
+      "original_task_id": "fb-validated-provenance-013",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich culinary region is most strongly associated with `cotija cheese`?\n\nChoices:\nA. Eastern European\nB. Latin American\nC. Western Atlantic\nD. Mediterranean\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "973c6c3f02425b58edb8ba9ff86d24a964e20753dde2fc007772852ddfb3ca66",
+      "task_id": "repeat-provenance-07"
+    },
+    {
+      "choices": {
+        "A": "Southeast_Asian",
+        "B": "South_Asian",
+        "C": "Japanese",
+        "D": "East_Asian"
+      },
+      "expected_choice": "A",
+      "family": "provenance",
+      "oracle_reference_sha256": "89d0d0d6a006af6a20528b89e081474ee60613ee7e3015358fab6e7bb49f124a",
+      "original_expected_choice": "C",
+      "original_task_id": "fb-validated-provenance-111",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich culinary region is most strongly associated with `bilimbi`?\n\nChoices:\nA. Southeast Asian\nB. South Asian\nC. Japanese\nD. East Asian\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "0060070b33418b3f349210e69cabb27288460100898a0e323d7244577d619a89",
+      "task_id": "repeat-provenance-08"
+    },
+    {
+      "choices": {
+        "A": "Western_Atlantic",
+        "B": "Latin_American",
+        "C": "Eastern_European",
+        "D": "Mediterranean"
+      },
+      "expected_choice": "A",
+      "family": "provenance",
+      "oracle_reference_sha256": "8bc00ce340fec60f7f6192f0dd2591a07702ec0483b1dc6dcbdb643bc7183155",
+      "original_expected_choice": "B",
+      "original_task_id": "fb-validated-provenance-130",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich culinary region is most strongly associated with `bison`?\n\nChoices:\nA. Western Atlantic\nB. Latin American\nC. Eastern European\nD. Mediterranean\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "ccdabc027c4a889189bcfb3a5cdd73c6d69b2341f2577f7c7293a29af20ecf78",
+      "task_id": "repeat-provenance-09"
+    },
+    {
+      "choices": {
+        "A": "East_Asian",
+        "B": "Japanese",
+        "C": "South_Asian",
+        "D": "Southeast_Asian"
+      },
+      "expected_choice": "A",
+      "family": "provenance",
+      "oracle_reference_sha256": "8eaf7f778fc812544fbbef2afbc0ec5c414a793d583b9e5c1405a75edfdd7423",
+      "original_expected_choice": "B",
+      "original_task_id": "fb-validated-provenance-134",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich culinary region is most strongly associated with `chinese yam`?\n\nChoices:\nA. East Asian\nB. Japanese\nC. South Asian\nD. Southeast Asian\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "96c61a92da88a731713238c8f58deead3f34a60c9a59e39dcff8a31d4ac56018",
+      "task_id": "repeat-provenance-10"
+    },
+    {
+      "choices": {
+        "A": "Southeast_Asian",
+        "B": "East_Asian",
+        "C": "Japanese",
+        "D": "South_Asian"
+      },
+      "expected_choice": "B",
+      "family": "provenance",
+      "oracle_reference_sha256": "6665285000a77202c1ddbf68dbb8b8b63bb4908ef15bee8fb2e471109a56143e",
+      "original_expected_choice": "A",
+      "original_task_id": "fb-validated-provenance-009",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich culinary region is most strongly associated with `shaoxing wine`?\n\nChoices:\nA. Southeast Asian\nB. East Asian\nC. Japanese\nD. South Asian\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "4c7e7b0e0fe4a85ffc3b72ae0f1da1eca1fa9c78ca385e11f307a81a3cb37a18",
+      "task_id": "repeat-provenance-11"
+    },
+    {
+      "choices": {
+        "A": "Southeast_Asian",
+        "B": "South_Asian",
+        "C": "Japanese",
+        "D": "East_Asian"
+      },
+      "expected_choice": "D",
+      "family": "provenance",
+      "oracle_reference_sha256": "f4e173719b7bf63635014ed4e4083e8d73dae4e72a2a0a7de7e6fb04f411de1a",
+      "original_expected_choice": "C",
+      "original_task_id": "fb-validated-provenance-051",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich culinary region is most strongly associated with `shaobing`?\n\nChoices:\nA. Southeast Asian\nB. South Asian\nC. Japanese\nD. East Asian\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "01815929bacc00568fb82195b8faf8113e8d278aaf4c4a1b3969425f7c76c8ea",
+      "task_id": "repeat-provenance-12"
+    },
+    {
+      "choices": {
+        "A": "Eastern_European",
+        "B": "Mediterranean",
+        "C": "Japanese",
+        "D": "Latin_American"
+      },
+      "expected_choice": "B",
+      "family": "provenance",
+      "oracle_reference_sha256": "2d4b40347f8ae121bb4d352da564e6242d2c637b0bb7f0d8e07bbe52973798c8",
+      "original_expected_choice": "C",
+      "original_task_id": "fb-validated-provenance-119",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich culinary region is most strongly associated with `bottarga`?\n\nChoices:\nA. Eastern European\nB. Mediterranean\nC. Japanese\nD. Latin American\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "006b710ff4f4c2f24ebc3bb9bcd0b38f1257901c4c6fcb33d41f47f18dd4ac7a",
+      "task_id": "repeat-provenance-13"
+    },
+    {
+      "choices": {
+        "A": "Mediterranean",
+        "B": "Latin_American",
+        "C": "Eastern_European",
+        "D": "Western_Atlantic"
+      },
+      "expected_choice": "A",
+      "family": "provenance",
+      "oracle_reference_sha256": "71d2006242b077eaa860a68168b965c9226e21e731ad298395204a36c8f33b40",
+      "original_expected_choice": "B",
+      "original_task_id": "fb-validated-provenance-098",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich culinary region is most strongly associated with `bouquet garni`?\n\nChoices:\nA. Mediterranean\nB. Latin American\nC. Eastern European\nD. Western Atlantic\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "d4e8e30746c34bea138f525e3357288f7af64a874ea2a23ecb273983595f9d63",
+      "task_id": "repeat-provenance-14"
+    },
+    {
+      "choices": {
+        "A": "Japanese",
+        "B": "Southeast_Asian",
+        "C": "South_Asian",
+        "D": "East_Asian"
+      },
+      "expected_choice": "D",
+      "family": "provenance",
+      "oracle_reference_sha256": "0fab651d3a0f7854848174ab6b3d01225019791e498200f2b3e9fc06d182339c",
+      "original_expected_choice": "A",
+      "original_task_id": "fb-validated-provenance-097",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich culinary region is most strongly associated with `snow fungus`?\n\nChoices:\nA. Japanese\nB. Southeast Asian\nC. South Asian\nD. East Asian\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "b7ded74e3aae1be295f06f81691d7a8a5397a8ed7f8921cd6e51c55f5cc8986e",
+      "task_id": "repeat-provenance-15"
+    },
+    {
+      "choices": {
+        "A": "East_Asian",
+        "B": "Eastern_European",
+        "C": "Latin_American",
+        "D": "Japanese"
+      },
+      "expected_choice": "C",
+      "family": "provenance",
+      "oracle_reference_sha256": "9b67d97a1bbe351ba52af1b9f82b8459f740658083eca62d6d04d7936cff54c3",
+      "original_expected_choice": "A",
+      "original_task_id": "fb-validated-provenance-081",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench culinary reasoning task. Use culinary knowledge only; do not browse or call external tools.\n\nWhich culinary region is most strongly associated with `chuno`?\n\nChoices:\nA. East Asian\nB. Eastern European\nC. Latin American\nD. Japanese\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "556bbe35637aaaf00ae67d7a915838dddfbfe9953df512b19d6d436f0b89500d",
+      "task_id": "repeat-provenance-16"
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import html
 import json
 import os
@@ -10,36 +11,30 @@ import gradio as gr
 import pandas as pd
 
 HERE = Path(__file__).resolve().parent
-RELEASE_PATH = Path(
-    os.environ.get("FLAVOURBENCH_RELEASE", HERE / "data" / "epicure-native-release.json")
+BUNDLE_PATH = Path(
+    os.environ.get(
+        "FLAVOURBENCH_BUNDLE",
+        HERE / "data-powered" / "flavourbench-powered-space.json",
+    )
 )
 
-BRAND = {
-    "blue": "#1769AA",
-    "gold": "#E6A11A",
-    "teal": "#168C7A",
-    "red": "#C75450",
-    "charcoal": "#262B33",
-    "paper": "#F7F8FA",
-}
+BLUE = "#1769AA"
+CHARCOAL = "#262B33"
 
 CSS = """
 :root {
-  --fb-blue: #1769AA;
-  --fb-blue-soft: #EAF3FA;
-  --fb-gold: #E6A11A;
-  --fb-teal: #168C7A;
-  --fb-red: #C75450;
+  --fb-accent: #1769AA;
+  --fb-accent-soft: #EAF3FA;
   --fb-ink: #262B33;
-  --fb-muted: #66707D;
-  --fb-paper: #F7F8FA;
+  --fb-muted: #657180;
+  --fb-paper: #F6F8FA;
   --fb-panel: #FFFFFF;
-  --fb-rule: #DDE3EA;
+  --fb-rule: #D9E0E7;
   --fb-code: #EEF2F5;
 }
 .dark {
-  --fb-blue-soft: #112B3E;
-  --fb-ink: #ECF1F5;
+  --fb-accent-soft: #102B3E;
+  --fb-ink: #EAF0F4;
   --fb-muted: #A7B2BC;
   --fb-paper: #11171D;
   --fb-panel: #182129;
@@ -49,194 +44,200 @@ CSS = """
 body, .gradio-container {
   background: var(--fb-paper) !important;
   color: var(--fb-ink) !important;
-  font-family: "Geist", "Inter", "Avenir Next", system-ui, sans-serif !important;
+  font-family: "Geist", "Avenir Next", system-ui, sans-serif !important;
 }
-.gradio-container { max-width: 1440px !important; }
-.fb-shell { max-width: 1320px; margin: 0 auto; }
+.gradio-container { max-width: 1460px !important; }
+.fb-shell { max-width: 1360px; margin: 0 auto; }
+.fb-hero {
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(520px, 1.1fr);
+  gap: 54px;
+  padding: 48px 8px 34px;
+  border-bottom: 1px solid var(--fb-rule);
+}
 .fb-kicker {
-  color: var(--fb-blue);
+  color: var(--fb-accent);
   font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: .12em;
   text-transform: uppercase;
 }
-.fb-hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(420px, .95fr);
-  gap: 42px;
-  padding: 54px 8px 38px;
-  border-bottom: 1px solid var(--fb-rule);
-}
 .fb-hero h1 {
   color: var(--fb-ink);
-  font-size: clamp(52px, 7vw, 92px);
-  letter-spacing: -.065em;
-  line-height: .92;
-  margin: 14px 0 24px;
+  font-size: clamp(46px, 6vw, 78px);
+  letter-spacing: -.06em;
+  line-height: .96;
+  margin: 14px 0 18px;
+  max-width: 760px;
 }
 .fb-dek {
   color: var(--fb-muted);
-  font-size: 20px;
-  line-height: 1.5;
+  font-size: 19px;
+  line-height: 1.48;
   margin: 0;
-  max-width: 720px;
+  max-width: 640px;
 }
-.fb-dek strong { color: var(--fb-ink); font-weight: 650; }
 .fb-stats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 18px 30px;
-  margin-top: 34px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(92px, 1fr));
+  gap: 22px;
+  margin-top: 31px;
 }
-.fb-stat { min-width: 118px; }
+.fb-stat { border-top: 2px solid var(--fb-rule); padding-top: 11px; }
 .fb-stat strong {
   color: var(--fb-ink);
   display: block;
-  font-size: 29px;
+  font-size: 26px;
   letter-spacing: -.04em;
   line-height: 1;
 }
 .fb-stat span {
   color: var(--fb-muted);
   display: block;
-  font-size: 12px;
+  font-size: 11px;
   margin-top: 7px;
   text-transform: uppercase;
-  letter-spacing: .08em;
+  letter-spacing: .07em;
 }
 .fb-frontier {
   align-self: end;
   background: var(--fb-panel);
   border: 1px solid var(--fb-rule);
-  border-top: 4px solid var(--fb-blue);
-  padding: 22px 22px 17px;
+  border-top: 4px solid var(--fb-accent);
+  border-radius: 8px;
+  padding: 20px 22px 16px;
 }
 .fb-frontier-head {
   align-items: baseline;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 13px;
 }
 .fb-frontier-head strong { font-size: 14px; }
 .fb-frontier-head span { color: var(--fb-muted); font-size: 12px; }
-.fb-rail-row {
+.fb-forest-row {
   align-items: center;
   display: grid;
-  grid-template-columns: 116px 1fr 34px;
+  grid-template-columns: 150px 1fr 42px 38px;
   gap: 10px;
-  margin: 10px 0;
+  min-height: 26px;
 }
-.fb-rail-label {
+.fb-model {
   color: var(--fb-ink);
   font-size: 12px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.fb-rail {
-  background: var(--fb-code);
-  height: 12px;
-  position: relative;
-}
-.fb-rail-base {
-  background: var(--fb-blue);
-  bottom: 0;
-  height: 7px;
+.fb-axis { height: 13px; position: relative; }
+.fb-axis::before {
+  background: var(--fb-rule);
+  content: "";
+  height: 1px;
   left: 0;
   position: absolute;
+  right: 0;
+  top: 6px;
 }
-.fb-rail-ci {
-  border-left: 1px solid var(--fb-muted);
-  border-right: 1px solid var(--fb-muted);
+.fb-ci {
   border-top: 2px solid var(--fb-muted);
-  height: 4px;
+  height: 1px;
   position: absolute;
-  top: 0;
+  top: 5px;
 }
-.fb-rail-score {
-  color: var(--fb-muted);
+.fb-ci::before, .fb-ci::after {
+  background: var(--fb-muted);
+  content: "";
+  height: 7px;
+  position: absolute;
+  top: -4px;
+  width: 1px;
+}
+.fb-ci::before { left: 0; }
+.fb-ci::after { right: 0; }
+.fb-point {
+  background: var(--fb-accent);
+  height: 11px;
+  position: absolute;
+  top: 1px;
+  width: 3px;
+}
+.fb-number {
+  color: var(--fb-ink);
   font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 11px;
   text-align: right;
 }
-.fb-note {
-  border-left: 3px solid var(--fb-gold);
+.fb-group {
   color: var(--fb-muted);
-  font-size: 13px;
-  line-height: 1.45;
-  margin-top: 17px;
-  padding-left: 12px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 10px;
+  text-align: right;
 }
-.fb-section-title { margin: 30px 0 6px; }
-.fb-section-title h2 {
+.fb-section { margin: 27px 0 8px; }
+.fb-section h2 {
   color: var(--fb-ink);
-  font-size: 31px;
+  font-size: 30px;
   letter-spacing: -.035em;
-  margin: 5px 0 2px;
+  margin: 0 0 4px;
 }
-.fb-section-title p { color: var(--fb-muted); margin: 0; }
-.fb-pair-status {
-  align-items: stretch;
+.fb-section p { color: var(--fb-muted); margin: 0; max-width: 70ch; }
+.fb-metric-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(4, 1fr);
   gap: 12px;
   margin: 8px 0 16px;
 }
-.fb-condition {
+.fb-metric {
   background: var(--fb-panel);
   border: 1px solid var(--fb-rule);
+  border-radius: 8px;
   padding: 16px;
 }
-.fb-condition.good { border-top: 4px solid var(--fb-teal); }
-.fb-condition.bad { border-top: 4px solid var(--fb-red); }
-.fb-condition.unknown { border-top: 4px solid var(--fb-muted); }
-.fb-condition small {
+.fb-metric small {
   color: var(--fb-muted);
   display: block;
   font-size: 11px;
-  letter-spacing: .08em;
+  letter-spacing: .05em;
   text-transform: uppercase;
 }
-.fb-condition strong { display: block; font-size: 22px; margin: 7px 0 4px; }
-.fb-condition code, .fb-hash {
+.fb-metric strong { color: var(--fb-ink); display: block; font-size: 23px; margin-top: 5px; }
+.fb-evidence {
+  background: var(--fb-accent-soft);
+  border-left: 4px solid var(--fb-accent);
+  border-radius: 0 8px 8px 0;
+  color: var(--fb-ink);
+  line-height: 1.48;
+  padding: 17px 19px;
+}
+.fb-evidence code, .fb-hash {
   background: var(--fb-code);
   color: var(--fb-muted);
   font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 11px;
 }
-.fb-method-grid {
+.fb-method {
   display: grid;
-  grid-template-columns: 1.25fr .75fr;
+  grid-template-columns: 1.15fr .85fr;
   gap: 28px;
 }
-.fb-callout {
-  background: var(--fb-blue-soft);
-  border-left: 4px solid var(--fb-blue);
-  padding: 20px;
-}
-.fb-callout h3 { margin-top: 0; }
 .fb-footer {
   border-top: 1px solid var(--fb-rule);
   color: var(--fb-muted);
   font-size: 12px;
-  margin-top: 40px;
-  padding: 20px 8px 36px;
+  margin-top: 36px;
+  padding: 18px 8px 26px;
 }
-.tabs { border-bottom: 1px solid var(--fb-rule) !important; }
-.tab-nav button { font-weight: 600 !important; }
-.tab-nav button.selected { color: var(--fb-blue) !important; }
-button.primary { background: var(--fb-blue) !important; border-color: var(--fb-blue) !important; }
 .gradio-dataframe, .block { border-radius: 8px !important; }
-@media (max-width: 920px) {
-  .fb-hero, .fb-method-grid { grid-template-columns: 1fr; }
+@media (max-width: 980px) {
+  .fb-hero, .fb-method { grid-template-columns: 1fr; }
   .fb-hero { gap: 28px; padding-top: 34px; }
-  .fb-frontier { min-width: 0; }
 }
-@media (max-width: 620px) {
-  .fb-hero h1 { font-size: 52px; }
-  .fb-pair-status { grid-template-columns: 1fr; }
-  .fb-rail-row { grid-template-columns: 92px 1fr 30px; }
+@media (max-width: 700px) {
+  .fb-hero h1 { font-size: 48px; }
+  .fb-stats, .fb-metric-grid { grid-template-columns: repeat(2, 1fr); }
+  .fb-forest-row { grid-template-columns: 105px 1fr 36px 30px; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -244,93 +245,116 @@ button.primary { background: var(--fb-blue) !important; border-color: var(--fb-b
 """
 
 
-def _load_release() -> dict[str, Any]:
-    if not RELEASE_PATH.is_file():
+class SpaceDataError(RuntimeError):
+    """The public explorer bundle is invalid."""
+
+
+def _canonical(value: object) -> bytes:
+    return json.dumps(
+        value,
+        ensure_ascii=False,
+        separators=(",", ":"),
+        sort_keys=True,
+        allow_nan=False,
+    ).encode()
+
+
+def _load_bundle() -> dict[str, Any]:
+    if BUNDLE_PATH.is_symlink() or not BUNDLE_PATH.is_file():
         raise FileNotFoundError(
-            f"Release not found at {RELEASE_PATH}. Set FLAVOURBENCH_RELEASE to its path."
+            f"Powered Space bundle not found at {BUNDLE_PATH}. Set FLAVOURBENCH_BUNDLE."
         )
-    return json.loads(RELEASE_PATH.read_text(encoding="utf-8"))
+    value = json.loads(BUNDLE_PATH.read_text(encoding="utf-8"))
+    payload = dict(value)
+    recorded = str(payload.pop("artifact_sha256", ""))
+    if (
+        recorded != hashlib.sha256(_canonical(payload)).hexdigest()
+        or value.get("schema_version") != "flavourbench-powered-space-bundle-v1"
+        or value.get("status") != "final_complete"
+    ):
+        raise SpaceDataError("powered Space bundle failed verification")
+    return value
 
 
-RELEASE = _load_release()
-MODELS = RELEASE["leaderboard"]["models"]
-TASKS = RELEASE["tasks"]
-MODEL_BY_NAME = {model["display_name"]: model for model in MODELS}
-TASK_BY_ID = {task["task_id"]: task for task in TASKS}
-OBSERVATION_INDEX = {
-    (row["model_id"], row["task_id"], row["condition"]): row for row in RELEASE["observations"]
+BUNDLE = _load_bundle()
+MODELS = BUNDLE["models"]
+TASKS = BUNDLE["tasks"]
+PAIRWISE = BUNDLE["pairwise_comparisons"]
+MODEL_BY_NAME = {str(row["model_name"]): row for row in MODELS}
+MODEL_BY_ID = {str(row["model_id"]): row for row in MODELS}
+TASK_BY_ID = {str(row["task_id"]): row for row in TASKS}
+OBSERVATIONS = {
+    (str(row["model_id"]), str(row["task_id"])): row for row in BUNDLE["primary_observations"]
+}
+PAIR_INDEX: dict[tuple[str, str], dict[str, Any]] = {}
+for _row in PAIRWISE:
+    PAIR_INDEX[(str(_row["left_model_id"]), str(_row["right_model_id"]))] = _row
+
+
+def _rank_key(row: dict[str, Any]) -> tuple[bool, int, str]:
+    rank = row.get("point_estimate_rank")
+    return rank is None, int(rank or 10_000), str(row["model_id"])
+
+
+DISPLAY_MODELS = sorted(MODELS, key=_rank_key)
+MODEL_NAMES = [str(row["model_name"]) for row in DISPLAY_MODELS]
+TASK_LABEL_TO_ID = {
+    f"{row['task_id']} | {str(row['family']).replace('_', ' ')}": str(row["task_id"])
+    for row in TASKS
 }
 
 
-def _score_display_models() -> list[dict[str, Any]]:
-    return sorted(
-        MODELS,
-        key=lambda model: (
-            -float(model["conditions"]["epicure_off"]["accuracy_percent"]),
-            str(model["display_name"]).casefold(),
-        ),
+def _short(value: str) -> str:
+    return (
+        value.replace("GPT-5.6 ", "5.6 ")
+        .replace("Claude ", "")
+        .replace("DeepSeek ", "DS ")
+        .replace("Command ", "Cmd ")
     )
-
-
-DISPLAY_MODELS = _score_display_models()
-SCORE_RANKS: dict[str, int] = {}
-_previous_score: float | None = None
-_current_rank = 0
-for _position, _model in enumerate(DISPLAY_MODELS, start=1):
-    _score = float(_model["conditions"]["epicure_off"]["accuracy_percent"])
-    if _previous_score is None or _score != _previous_score:
-        _current_rank = _position
-        _previous_score = _score
-    SCORE_RANKS[str(_model["model_id"])] = _current_rank
-
-
-def _short_name(display_name: str) -> str:
-    return display_name.split(": ", 1)[-1].replace(" Pro", "")
 
 
 def _frontier_html() -> str:
     rows = []
-    for model in DISPLAY_MODELS[:12]:
-        condition = model["conditions"]["epicure_off"]
-        score = float(condition["accuracy_percent"])
-        lower, upper = (100 * float(value) for value in condition["wilson_95"])
+    for model in DISPLAY_MODELS[:10]:
+        score = float(model["flavourbench_score"])
+        lower, upper = (float(value) for value in model["score_simultaneous_95_ci"])
+        left = max(0.0, min(100.0, lower))
+        right = max(left, min(100.0, upper))
+        group = model.get("statistical_rank_group")
         rows.append(
-            "<div class='fb-rail-row'>"
-            f"<div class='fb-rail-label' title='{html.escape(model['display_name'])}'>"
-            f"{html.escape(_short_name(model['display_name']))}</div>"
-            "<div class='fb-rail'>"
-            f"<span class='fb-rail-ci' style='left:{lower:.3f}%;width:{upper - lower:.3f}%'></span>"
-            f"<span class='fb-rail-base' style='width:{score:.3f}%'></span>"
+            "<div class='fb-forest-row'>"
+            f"<div class='fb-model' title='{html.escape(str(model['model_name']))}'>"
+            f"{html.escape(_short(str(model['model_name'])))}</div>"
+            "<div class='fb-axis'>"
+            f"<span class='fb-ci' style='left:{left:.3f}%;width:{right - left:.3f}%'></span>"
+            f"<span class='fb-point' style='left:{score:.3f}%'></span>"
             "</div>"
-            f"<div class='fb-rail-score'>{score:.0f}</div>"
+            f"<div class='fb-number'>{score:.1f}</div>"
+            f"<div class='fb-group'>G{group if group is not None else '-'}</div>"
             "</div>"
         )
     return "".join(rows)
 
 
 def _hero_html() -> str:
-    counts = RELEASE["counts"]
+    inference = BUNDLE["analysis"]["inference"]
     return f"""
     <div class="fb-shell fb-hero">
       <section>
-        <div class="fb-kicker">The executable culinary benchmark · 20 frontier endpoints</div>
-        <h1>How well do frontier models reason about flavour?</h1>
-        <p class="fb-dek">FlavourBench scores 20 current language-model endpoints against answer
-        keys compiled by Epicure.
-        <strong>Blue is the FlavourBench Score. Gray shows its Wilson 95% interval.</strong>
-        Open any pair to inspect the prompt, answers, tool trace, and hashes.</p>
+        <div class="fb-kicker">Executable culinary evaluation</div>
+        <h1>640 decisions.<br>No model judge.</h1>
+        <p class="fb-dek">Executable score maps rank 20 frontier endpoints with shared-task
+        uncertainty and inspectable responses.</p>
         <div class="fb-stats">
-          <div class="fb-stat"><strong>{counts["models"]}</strong><span>models</span></div>
-          <div class="fb-stat"><strong>{counts["tasks"]}</strong><span>tasks</span></div>
-          <div class="fb-stat"><strong>{counts["models"] * counts["tasks"]}</strong><span>score cells</span></div>
-          <div class="fb-stat"><strong>{counts["families"]}</strong><span>task families</span></div>
+          <div class="fb-stat"><strong>{len(MODELS)}</strong><span>models</span></div>
+          <div class="fb-stat"><strong>{len(TASKS)}</strong><span>tasks</span></div>
+          <div class="fb-stat"><strong>{len(MODELS) * len(TASKS):,}</strong><span>primary cells</span></div>
+          <div class="fb-stat"><strong>{inference["pairwise_hypotheses"]}</strong><span>paired tests</span></div>
         </div>
       </section>
-      <section class="fb-frontier" aria-label="FlavourBench Score with Wilson intervals">
-        <div class="fb-frontier-head"><strong>FlavourBench Score</strong><span>Top 12 · score and Wilson 95%</span></div>
+      <section class="fb-frontier" aria-label="Score forest with simultaneous intervals">
+        <div class="fb-frontier-head"><strong>FlavourBench Score</strong><span>Top 10, simultaneous 95%</span></div>
         {_frontier_html()}
-        <div class="fb-note">One answer equals 3.125 points. The score is exact for these 32 tasks;
-        overlapping intervals mean nearby rows are not a definitive general ordering.</div>
       </section>
     </div>
     """
@@ -339,20 +363,20 @@ def _hero_html() -> str:
 def _leaderboard_frame() -> pd.DataFrame:
     rows = []
     for model in DISPLAY_MODELS:
-        off = model["conditions"]["epicure_off"]
-        lower, upper = (100 * float(value) for value in off["wilson_95"])
+        ci = model["score_simultaneous_95_ci"]
+        repeat = model.get("repeatability") or {}
         rows.append(
             {
-                "Score rank": (
-                    SCORE_RANKS[str(model["model_id"])]
-                    if int(off["parseable_answers"]) > 0
-                    else "DNF"
+                "Rank": model.get("point_estimate_rank") or "DNF",
+                "Group": model.get("statistical_rank_group") or "DNF",
+                "Model": model["model_name"],
+                "Score": round(float(model["flavourbench_score"]), 2),
+                "Simultaneous 95%": f"{ci[0]:.2f} to {ci[1]:.2f}",
+                "Completed": f"{model['availability']['completed']}/640",
+                "Repeat Jaccard": (
+                    round(float(repeat["mean_ingredient_set_jaccard"]), 3) if repeat else None
                 ),
-                "Model": model["display_name"],
-                "FlavourBench Score": f"{off['accuracy_percent']:.3g}%",
-                "Correct": f"{off['correct']}/32",
-                "Wilson 95%": f"{lower:.1f}% to {upper:.1f}%",
-                "Parsed answers": f"{off['parseable_answers']}/32",
+                "Route": model["provider_name"],
             }
         )
     return pd.DataFrame(rows)
@@ -360,127 +384,116 @@ def _leaderboard_frame() -> pd.DataFrame:
 
 def _model_detail(model_name: str) -> tuple[str, pd.DataFrame]:
     model = MODEL_BY_NAME[model_name]
-    off = model["conditions"]["epicure_off"]
-    on = model["conditions"]["epicure_on"]
+    repeat = model.get("repeatability") or {}
+    rank_interval = model.get("bootstrap_rank_95_interval") or [None, None]
     summary = f"""
-    <div class="fb-pair-status">
-      <div class="fb-condition good">
-        <small>FlavourBench Score</small>
-        <strong>{off["accuracy_percent"]:.3g}%</strong>
-        <span>Wilson 95%: {off["wilson_95"][0] * 100:.1f}% to {off["wilson_95"][1] * 100:.1f}%</span>
-      </div>
-      <div class="fb-condition good">
-        <small>Named-operation diagnostic</small>
-        <strong>{on["accuracy_percent"]:.3g}%</strong>
-        <span>Expected ceiling; never a ranking input</span>
-      </div>
+    <div class="fb-metric-grid">
+      <div class="fb-metric"><small>FlavourBench Score</small><strong>{model["flavourbench_score"]:.2f}</strong></div>
+      <div class="fb-metric"><small>Statistical group</small><strong>G{model.get("statistical_rank_group") or "-"}</strong></div>
+      <div class="fb-metric"><small>Bootstrap rank</small><strong>{rank_interval[0]}-{rank_interval[1]}</strong></div>
+      <div class="fb-metric"><small>Repeat Jaccard</small><strong>{float(repeat.get("mean_ingredient_set_jaccard", 0)):.3f}</strong></div>
     </div>
     """
-    family_rows = []
-    for family in RELEASE["leaderboard"]["design"]["families"]:
-        family_rows.append(
-            {
-                "Family": family.title(),
-                "Model only": f"{off['family_accuracy'][family] * 100:.1f}%",
-                "Model + Epicure": f"{on['family_accuracy'][family] * 100:.1f}%",
-                "Change": (
-                    f"{(on['family_accuracy'][family] - off['family_accuracy'][family]) * 100:+.1f} pp"
-                ),
-            }
-        )
+    family_rows = [
+        {
+            "Family": family.replace("_", " ").title(),
+            "Score": round(float(score), 3),
+        }
+        for family, score in model["family_scores"].items()
+    ]
+    chance = model["chance_comparison"]
+    family_rows.append(
+        {
+            "Family": "Exact chance baseline",
+            "Score": round(float(chance["exact_chance_score"]), 3),
+        }
+    )
     return summary, pd.DataFrame(family_rows)
 
 
-def _observation(model_id: str, task_id: str, condition: str) -> dict[str, Any]:
-    return OBSERVATION_INDEX.get(
-        (model_id, task_id, condition),
-        {
-            "answer_markdown": "No observation was recorded.",
-            "correct": False,
-            "parseable_normal_completion": False,
-            "latency_ms": None,
-            "response_artifact_sha256": "unavailable",
-            "source_status": "unavailable",
-            "tool_trace": [],
-        },
-    )
-
-
-def _status_card(label: str, row: dict[str, Any]) -> str:
-    observed = bool(row.get("parseable_normal_completion"))
-    if not observed:
-        css_class = "unknown"
-        status = "Unavailable"
-    elif row.get("correct"):
-        css_class = "good"
-        status = "Correct"
-    else:
-        css_class = "bad"
-        status = "Incorrect"
-    latency = row.get("latency_ms")
-    latency_text = f"{latency:,} ms" if isinstance(latency, int) else "not observed"
-    artifact = html.escape(str(row.get("response_artifact_sha256", "unavailable"))[:16])
-    return f"""
-    <div class="fb-condition {css_class}">
-      <small>{html.escape(label)}</small>
-      <strong>{status}</strong>
-      <span>Choice {html.escape(str(row.get("observed_choice") or "none"))} · {latency_text}</span><br>
-      <code>{artifact}...</code>
+def _task_detail(
+    model_name: str, task_label: str
+) -> tuple[str, str, dict[str, str], pd.DataFrame, str, str]:
+    model = MODEL_BY_NAME[model_name]
+    task_id = TASK_LABEL_TO_ID[task_label]
+    task = TASK_BY_ID[task_id]
+    observation = OBSERVATIONS[(str(model["model_id"]), task_id)]
+    scoring = observation["scoring"]
+    observed = scoring.get("observed_selection")
+    optimum = str(task["optimal_selection"])
+    observed_ingredients = [task["choices"][label] for label in observed] if observed else []
+    optimum_ingredients = [task["choices"][label] for label in optimum]
+    status = f"""
+    <div class="fb-evidence">
+      <strong>{html.escape(model_name)}</strong> selected
+      <code>{html.escape(str(observed or "no valid selection"))}</code> and scored
+      <strong>{float(scoring["score"]):.2f}</strong>. The optimum is
+      <code>{html.escape(optimum)}</code>.
+      <br>Observed: {html.escape(", ".join(observed_ingredients) or "none")}
+      <br>Optimum: {html.escape(", ".join(optimum_ingredients))}
     </div>
     """
-
-
-def _pair_detail(
-    model_name: str, task_id: str
-) -> tuple[str, str, dict[str, str], str, str, list[Any], str]:
-    model = MODEL_BY_NAME[model_name]
-    task = TASK_BY_ID[task_id]
-    off = _observation(model["model_id"], task_id, "epicure_off")
-    on = _observation(model["model_id"], task_id, "epicure_on")
-    status = (
-        "<div class='fb-pair-status'>"
-        + _status_card("Model only", off)
-        + _status_card("Model + Epicure", on)
-        + "</div>"
+    ranked = sorted(
+        task["selection_scores_bps"].items(),
+        key=lambda item: (-int(item[1]), str(item[0])),
     )
-    reference = json.dumps(
+    score_rows = [
         {
-            "call": task["reference_tool_call"],
-            "result": task["reference_tool_result"],
-            "result_sha256": task["reference_tool_result_sha256"],
-        },
-        indent=2,
-        ensure_ascii=False,
-    )
+            "Selection": selection,
+            "Ingredients": ", ".join(task["choices"][label] for label in selection),
+            "Score": int(score) / 100,
+            "Role": (
+                "model selection"
+                if selection == observed
+                else "optimum"
+                if selection == optimum
+                else ""
+            ),
+        }
+        for selection, score in ranked[:12]
+    ]
     provenance = (
-        f"Task family: `{task['family']}`  \n"
-        f"Scoring family: `{task['scoring_family']}`  \n"
-        f"Prompt SHA-256: `{task['prompt_sha256']}`  \n"
-        f"Release artifact: `{RELEASE['artifact_sha256']}`"
+        f"Response SHA-256: `{observation['artifact_sha256']}`  \n"
+        f"Actual model: `{observation.get('actual_model_id')}`  \n"
+        f"Provider: `{observation.get('actual_provider')}`  \n"
+        f"Prompt SHA-256: `{task['prompt_sha256']}`"
     )
+    answer = str(observation.get("answer_excerpt") or "No answer was recorded.")
+    if observation.get("answer_truncated"):
+        answer += "\n\n[Excerpt truncated. The full response is in the dataset.]"
     return (
         status,
-        task["prompt"],
-        task["choices"],
-        str(off.get("answer_markdown") or "No answer recorded."),
-        str(on.get("answer_markdown") or "No answer recorded."),
-        on.get("tool_trace") or [],
-        reference + "\n\n" + provenance,
+        str(task["prompt"]),
+        dict(task["choices"]),
+        pd.DataFrame(score_rows),
+        answer,
+        provenance,
     )
 
 
-def _task_label(task: dict[str, Any]) -> str:
-    return f"{task['task_id']} · {task['family']}"
-
-
-MODEL_NAMES = list(MODEL_BY_NAME)
-TASK_LABEL_TO_ID = {_task_label(task): task["task_id"] for task in TASKS}
-
-
-def _pair_from_label(
-    model_name: str, task_label: str
-) -> tuple[str, str, dict[str, str], str, str, list[Any], str]:
-    return _pair_detail(model_name, TASK_LABEL_TO_ID[task_label])
+def _pair_detail(left_name: str, right_name: str) -> str:
+    left = str(MODEL_BY_NAME[left_name]["model_id"])
+    right = str(MODEL_BY_NAME[right_name]["model_id"])
+    if left == right:
+        return "<div class='fb-evidence'>Choose two different models.</div>"
+    row = PAIR_INDEX.get((left, right))
+    sign = 1.0
+    if row is None:
+        row = PAIR_INDEX[(right, left)]
+        sign = -1.0
+    difference = sign * float(row["mean_difference"])
+    interval = [sign * float(value) for value in row["bootstrap_95_ci"]]
+    interval.sort()
+    verdict = "distinguishable after Holm correction" if row["holm_significant"] else "not resolved"
+    return f"""
+    <div class="fb-evidence">
+      <strong>{html.escape(left_name)}</strong> minus <strong>{html.escape(right_name)}</strong>:
+      <strong>{difference:+.3f} points</strong> (bootstrap 95% {interval[0]:+.3f} to {interval[1]:+.3f}).
+      The comparison is <strong>{verdict}</strong> across all 190 tests.
+      <br>Holm p = <code>{float(row["holm_p"]):.4g}</code>, paired Cohen dz =
+      <code>{row.get("cohen_dz")}</code>.
+    </div>
+    """
 
 
 theme = gr.themes.Base(
@@ -490,7 +503,7 @@ theme = gr.themes.Base(
         c200="#A9D0E9",
         c300="#75B3DA",
         c400="#4292C6",
-        c500=BRAND["blue"],
+        c500=BLUE,
         c600="#12588F",
         c700="#104873",
         c800="#103C5D",
@@ -501,26 +514,24 @@ theme = gr.themes.Base(
     font=gr.themes.GoogleFont("Geist", weights=(400, 500, 600, 700)),
     font_mono=gr.themes.GoogleFont("IBM Plex Mono", weights=(400, 600)),
 ).set(
-    body_background_fill=BRAND["paper"],
+    body_background_fill="#F6F8FA",
     block_background_fill="#FFFFFF",
     block_border_width="1px",
     block_label_text_weight="600",
-    button_primary_background_fill=BRAND["blue"],
+    button_primary_background_fill=BLUE,
     button_primary_background_fill_hover="#12588F",
 )
 
 
-with gr.Blocks(title="FlavourBench · Executable culinary benchmark") as demo:
+with gr.Blocks(title="FlavourBench | Executable culinary evaluation") as demo:
     gr.HTML(_hero_html())
-
     with gr.Tabs():
         with gr.Tab("Leaderboard"):
             gr.HTML(
                 """
-                <div class="fb-section-title">
-                  <div class="fb-kicker">Automated exact-choice track</div>
-                  <h2>The complete public benchmark</h2>
-                  <p>Score rank follows only the FlavourBench Score on the fixed 32-task panel.</p>
+                <div class="fb-section">
+                  <h2>The powered frontier panel</h2>
+                  <p>Point ranks are shown beside statistical groups and simultaneous intervals.</p>
                 </div>
                 """
             )
@@ -530,24 +541,19 @@ with gr.Blocks(title="FlavourBench · Executable culinary benchmark") as demo:
                 wrap=True,
                 show_search="filter",
                 show_row_numbers=False,
-                column_widths=[55, 280, 130, 85, 175, 155],
+                column_widths=[55, 55, 245, 80, 180, 110, 125, 120],
             )
             gr.Markdown(
-                "**Reading the table.** The score is exact for this fixed panel. The Wilson interval "
-                "is a descriptive sampling indicator, not proof about all culinary reasoning. "
-                "Equal scores share a score rank, and leading intervals overlap, so nearby rows "
-                "should be treated as a close score group. "
-                "Parsed answers keeps answer-contract failures visible. Epicure-assisted results "
-                "remain available in Model fingerprint and Pair Lens, but they do not affect rank."
+                "A point rank orders the observed scores. A statistical group keeps models together "
+                "when the shared-task evidence does not separate them after multiplicity control."
             )
 
-        with gr.Tab("Model fingerprint"):
+        with gr.Tab("Model profile"):
             gr.HTML(
                 """
-                <div class="fb-section-title">
-                  <div class="fb-kicker">Family profile</div>
-                  <h2>Where does Epicure change the model?</h2>
-                  <p>Compare substitution, composition, cookability, and evidence tasks.</p>
+                <div class="fb-section">
+                  <h2>Family profile and repeatability</h2>
+                  <p>Inspect where a model earns its score and whether its selection survives relabeling.</p>
                 </div>
                 """
             )
@@ -570,94 +576,98 @@ with gr.Blocks(title="FlavourBench · Executable culinary benchmark") as demo:
                 outputs=[model_summary, family_table],
             )
 
-        with gr.Tab("Pair Lens"):
+        with gr.Tab("Task lens"):
             gr.HTML(
                 """
-                <div class="fb-section-title">
-                  <div class="fb-kicker">Model-task evidence</div>
-                  <h2>Open the score</h2>
-                  <p>Inspect both answers, the exact Epicure reference, the observed trace, and hashes.</p>
+                <div class="fb-section">
+                  <h2>Open one scored decision</h2>
+                  <p>Read the prompt, the model answer, and the top of the precomputed reward surface.</p>
                 </div>
                 """
             )
             with gr.Row():
-                pair_model = gr.Dropdown(
+                task_model = gr.Dropdown(
                     choices=MODEL_NAMES,
                     value=MODEL_NAMES[0],
                     label="Model",
                     filterable=True,
                     scale=1,
                 )
-                pair_task = gr.Dropdown(
+                task_selector = gr.Dropdown(
                     choices=list(TASK_LABEL_TO_ID),
                     value=next(iter(TASK_LABEL_TO_ID)),
                     label="Task",
                     filterable=True,
                     scale=2,
                 )
-                inspect_button = gr.Button("Inspect pair", variant="primary", scale=0)
+                inspect_task = gr.Button("Inspect", variant="primary", scale=0)
+            initial = _task_detail(MODEL_NAMES[0], next(iter(TASK_LABEL_TO_ID)))
+            task_status = gr.HTML(initial[0])
+            prompt = gr.Textbox(value=initial[1], label="Exact prompt", lines=13, interactive=False)
+            choices = gr.JSON(value=initial[2], label="Candidates")
+            score_map = gr.Dataframe(
+                value=initial[3],
+                label="Top 12 of 56 frozen selections",
+                interactive=False,
+                wrap=True,
+                show_row_numbers=False,
+            )
+            answer = gr.Markdown(value=initial[4], label="Model response")
+            provenance = gr.Markdown(value=initial[5], label="Provenance")
+            inspect_task.click(
+                _task_detail,
+                inputs=[task_model, task_selector],
+                outputs=[task_status, prompt, choices, score_map, answer, provenance],
+            )
 
-            initial_pair = _pair_from_label(MODEL_NAMES[0], next(iter(TASK_LABEL_TO_ID)))
-            pair_status = gr.HTML(initial_pair[0])
-            prompt = gr.Textbox(
-                value=initial_pair[1],
-                label="Exact prompt",
-                lines=12,
-                interactive=False,
+        with gr.Tab("Pairwise evidence"):
+            gr.HTML(
+                """
+                <div class="fb-section">
+                  <h2>Is the score gap resolved?</h2>
+                  <p>Query any paired contrast from the 190-test family.</p>
+                </div>
+                """
             )
-            choices = gr.JSON(value=initial_pair[2], label="Choices")
             with gr.Row():
-                off_answer = gr.Markdown(value=initial_pair[3], label="Model only answer")
-                on_answer = gr.Markdown(value=initial_pair[4], label="Model + Epicure answer")
-            tool_trace = gr.JSON(value=initial_pair[5], label="Observed Epicure trace")
-            reference = gr.Textbox(
-                value=initial_pair[6],
-                label="Reference operation and provenance",
-                lines=16,
-                interactive=False,
-            )
-            inspect_button.click(
-                _pair_from_label,
-                inputs=[pair_model, pair_task],
-                outputs=[
-                    pair_status,
-                    prompt,
-                    choices,
-                    off_answer,
-                    on_answer,
-                    tool_trace,
-                    reference,
-                ],
-            )
+                left_model = gr.Dropdown(
+                    choices=MODEL_NAMES,
+                    value=MODEL_NAMES[0],
+                    label="First model",
+                    filterable=True,
+                )
+                right_model = gr.Dropdown(
+                    choices=MODEL_NAMES,
+                    value=MODEL_NAMES[1],
+                    label="Second model",
+                    filterable=True,
+                )
+                compare = gr.Button("Compare", variant="primary", scale=0)
+            pair_result = gr.HTML(_pair_detail(MODEL_NAMES[0], MODEL_NAMES[1]))
+            compare.click(_pair_detail, inputs=[left_model, right_model], outputs=pair_result)
 
         with gr.Tab("Method and download"):
             gr.HTML(
                 f"""
-                <div class="fb-section-title">
-                  <div class="fb-kicker">Reproduce, cite, extend</div>
-                  <h2>One release, five public tables</h2>
-                  <p>The Space reads a content-addressed JSON release and makes no provider calls.</p>
+                <div class="fb-section">
+                  <h2>One metric, complete evidence</h2>
+                  <p>The Space makes no model or provider calls.</p>
                 </div>
-                <div class="fb-method-grid">
+                <div class="fb-method">
                   <div>
                     <h3>Scoring contract</h3>
-                    <p><strong>FlavourBench Score</strong> is model-only exact-choice accuracy over
-                    all 32 tasks and is the only ranking metric. Epicure compiles the reference
-                    answers; it is not a model row. The matched named-operation condition makes the
-                    same runtime output available to the endpoint, so its near-100% result is an
-                    expected execution ceiling, not a second benchmark score.</p>
-                    <p>Tasks cover substitution, composition, cookability, and evidence. Every expected
-                    answer is derived from a fixed read-only Epicure operation.</p>
-                    <h3>Public records</h3>
-                    <p>Downloadable configs cover models, tasks, observations, paired outcomes, and
-                    leaderboard rows. Response and result hashes connect every table.</p>
+                    <p>Every task exposes eight candidates and all 56 three-item scores. The
+                    FlavourBench Score is the equal-family mean over 640 tasks. Invalid and failed
+                    responses remain in the denominator at zero.</p>
+                    <h3>Inference</h3>
+                    <p>Results use 50,000 family-stratified shared-task bootstraps, simultaneous
+                    score bands, 100,000 sign flips, Holm correction, exact-chance tests, and 64
+                    label-permuted repeats per model.</p>
                   </div>
-                  <aside class="fb-callout">
-                    <h3>Exact release</h3>
-                    <p><span class="fb-hash">{RELEASE["artifact_sha256"]}</span></p>
-                    <p>{RELEASE["counts"]["models"]} models · {RELEASE["counts"]["tasks"]} tasks ·
-                    {RELEASE["counts"]["assigned_arms"]:,} assigned arms</p>
-                    <p>Track: {html.escape(RELEASE["track"])}</p>
+                  <aside class="fb-evidence">
+                    <strong>Exact release</strong><br>
+                    <span class="fb-hash">{BUNDLE["release_artifact_sha256"]}</span><br><br>
+                    20 models<br>640 tasks<br>12,800 primary responses<br>1,280 repeats
                   </aside>
                 </div>
                 """
@@ -668,25 +678,18 @@ with gr.Blocks(title="FlavourBench · Executable culinary benchmark") as demo:
 git clone https://github.com/josefchen/flavourbench.git
 cd flavourbench
 pip install -e '.[dev]'
-python -I paper/reproduce_epicure_native.py \\
-  --release paper/generated/epicure-native/epicure-native-release.json
+make -C paper -f Makefile.powered analysis
+make -C paper -f Makefile.powered arxiv
 ```
 
-**Project:** [paper](https://github.com/josefchen/flavourbench/blob/main/paper/build/flavourbench.pdf)
-· [dataset](https://huggingface.co/datasets/josefchen/flavourbench)
-· [source](https://github.com/josefchen/flavourbench)
-
-**Rights note:** tasks and authored metadata are CC BY 4.0. Model responses and third-party
-materials retain the boundaries in
-[`LICENSES.md`](https://github.com/josefchen/flavourbench/blob/main/LICENSES.md). This explorer is a
-public research preview.
+[Paper](https://github.com/josefchen/flavourbench/blob/main/paper/build/flavourbench.pdf) | [Dataset](https://huggingface.co/datasets/josefchen/flavourbench) | [Source](https://github.com/josefchen/flavourbench)
                 """
             )
 
     gr.HTML(
         """
         <div class="fb-shell fb-footer">
-          FlavourBench · Executable culinary evaluation · Public automated benchmark
+          FlavourBench | Executable culinary evaluation of frontier language models
         </div>
         """
     )

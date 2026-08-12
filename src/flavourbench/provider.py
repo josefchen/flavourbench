@@ -21,6 +21,7 @@ from .execution_policy import (
     MATCHED_EVIDENCE_PROTOCOLS,
     MATCHED_TOOL_ACCESS_PROTOCOL_V1,
     PORTABLE_TEXT_TOOL_PROTOCOL_V1,
+    SELECTION_TEXT_PROTOCOL_V1,
 )
 from .mcp_client import McpSession
 from .tool_contract import (
@@ -124,6 +125,16 @@ PORTABLE_FINAL_CHOICE_INSTRUCTION = (
     "Answer now with no analysis or explanation. Return exactly one line in this form: "
     "FINAL_CHOICE: X, replacing X with A, B, C, or D."
 )
+SELECTION_TEXT_SYSTEM_PROMPT = """You are participating in FlavourBench, an executable culinary
+selection benchmark. Choose exactly three distinct labels from A through H using the user's task.
+Do not provide analysis, explanation, bullets, prose, or Markdown decoration. In the final turn,
+emit exactly one line in alphabetical label order: `FINAL_SELECTION: A,C,F`. Never identify
+yourself, your developer, provider, model family, tools, or evaluation condition."""
+SELECTION_TEXT_FINAL_INSTRUCTION = (
+    "Return the selection now with no analysis or explanation. Emit exactly one line in "
+    "alphabetical label order: FINAL_SELECTION: A,C,F, replacing the labels with your three "
+    "distinct choices from A through H."
+)
 PORTABLE_EPICURE_TOOL_NAMES = frozenset(
     {"neighbors", "pairing_score", "compare_on_axis", "cultural_profile"}
 )
@@ -162,6 +173,8 @@ def system_prompt_text(
         prompt = MATCHED_TOOL_ACCESS_SYSTEM_PROMPT
     elif evidence_protocol == PORTABLE_TEXT_TOOL_PROTOCOL_V1:
         prompt = PORTABLE_TEXT_TOOL_SYSTEM_PROMPT
+    elif evidence_protocol == SELECTION_TEXT_PROTOCOL_V1:
+        prompt = SELECTION_TEXT_SYSTEM_PROMPT
     elif evidence_protocol == "legacy_v6":
         base = (
             SYSTEM_PROMPT if final_response_mode == "structured_json" else PLAIN_TEXT_SYSTEM_PROMPT
@@ -1231,6 +1244,7 @@ class OpenRouterProvider:
         matched_evidence = spec.evidence_protocol in MATCHED_EVIDENCE_PROTOCOLS
         matched_tool_access = spec.evidence_protocol == MATCHED_TOOL_ACCESS_PROTOCOL_V1
         portable_text_tool = spec.evidence_protocol == PORTABLE_TEXT_TOOL_PROTOCOL_V1
+        selection_text = spec.evidence_protocol == SELECTION_TEXT_PROTOCOL_V1
         if spec.evidence_protocol not in {"legacy_v6", *GOVERNED_EPICURE_PROTOCOLS}:
             raise ProviderError("unsupported frozen evidence protocol")
         if matched_evidence and not spec.matched_planning:
@@ -2094,6 +2108,8 @@ class OpenRouterProvider:
 
         if portable_text_tool:
             final_instruction = PORTABLE_FINAL_CHOICE_INSTRUCTION
+        elif selection_text:
+            final_instruction = SELECTION_TEXT_FINAL_INSTRUCTION
         else:
             final_instruction = (
                 MATCHED_EVIDENCE_V2_FINAL_INSTRUCTION

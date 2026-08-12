@@ -1,41 +1,34 @@
 ---
 title: FlavourBench
-emoji: 🥘
+emoji: 🍲
 colorFrom: blue
-colorTo: yellow
+colorTo: blue
 sdk: gradio
 sdk_version: 6.9.0
 app_file: app.py
 pinned: false
 license: other
-short_description: The executable culinary benchmark for frontier LLMs.
+datasets:
+- josefchen/flavourbench
 ---
 
-# FlavourBench: Executable Culinary Evaluation of Frontier Language Models
+# FlavourBench
 
-The executable culinary benchmark and evidence explorer for 20 frontier language-model endpoints,
-scored against answer keys computed before evaluation.
+An interactive explorer for the powered FlavourBench release: 20 frontier endpoints, 640
+executable culinary decisions, 12,800 primary responses, 1,280 label-permuted repeats, and all 190
+paired statistical comparisons.
 
-[Paper](https://github.com/josefchen/flavourbench/blob/main/paper/build/flavourbench.pdf) ·
-[Dataset](https://huggingface.co/datasets/josefchen/flavourbench) ·
-[Source and reproduction](https://github.com/josefchen/flavourbench)
+The Space reads one content-addressed bundle and makes no provider calls. Use it to inspect:
 
-The Space presents the complete 20-model, 32-task public release. Its primary table contains only
-FlavourBench Score, correct count, Wilson 95% interval, and parsed-answer count. Equal scores share
-a score rank. Epicure-assisted results remain available in the model and pair views as a secondary
-execution diagnostic. The Space does not call models or Epicure at runtime; the checked-in release
-JSON is the sole data source.
+- the FlavourBench Score, simultaneous 95% intervals, and statistical rank groups;
+- family-level model profiles and label-permutation repeatability;
+- exact prompts, candidate sets, frozen 56-portfolio score maps, and real model responses; and
+- any paired model contrast with its bootstrap interval and Holm-adjusted result.
 
-## Local launch
+[Paper](https://github.com/josefchen/flavourbench/blob/main/paper/build/flavourbench.pdf) |
+[Dataset](https://huggingface.co/datasets/josefchen/flavourbench) |
+[Source](https://github.com/josefchen/flavourbench)
 
-```bash
-pip install -r requirements.txt
-python app.py
-```
-
-For a Hugging Face deployment, upload the contents of this directory as the Space repository. The
-release file under `data/` keeps the first launch self-contained. A later revision can load the
-same content-addressed table configs from the companion dataset repository.
-
+The dataset contains full response records. The Space carries compact excerpts for fast browsing.
 See the repository [rights boundary](https://github.com/josefchen/flavourbench/blob/main/LICENSES.md)
-before publishing or mirroring records.
+for component-level licensing.

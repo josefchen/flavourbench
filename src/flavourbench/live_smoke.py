@@ -88,16 +88,32 @@ def endpoint_execution_contract_sha256(endpoint: dict[str, Any]) -> str:
     return _sha256(endpoint_execution_contract(endpoint))
 
 
-def frozen_generation_contract(model: dict[str, Any], endpoint: dict[str, Any]) -> dict[str, Any]:
+def frozen_generation_contract(
+    model: dict[str, Any],
+    endpoint: dict[str, Any],
+    *,
+    max_output_tokens: int | None = None,
+    decoding_temperature: float | None = None,
+    decoding_top_p: float | None = None,
+    decoding_seed: int | None = None,
+) -> dict[str, Any]:
     """Derive the exact GenerationSpec contract before any paid request."""
 
     settings = get_settings()
+    configured_max_output_tokens = (
+        settings.max_output_tokens if max_output_tokens is None else max_output_tokens
+    )
+    configured_temperature = (
+        settings.decoding_temperature if decoding_temperature is None else decoding_temperature
+    )
+    configured_top_p = settings.decoding_top_p if decoding_top_p is None else decoding_top_p
+    configured_seed = settings.decoding_seed if decoding_seed is None else decoding_seed
     supported = frozenset(str(item) for item in endpoint.get("supported_parameters") or [])
     decoding_candidates: dict[str, int | float] = {
-        "max_tokens": settings.max_output_tokens,
-        "temperature": settings.decoding_temperature,
-        "top_p": settings.decoding_top_p,
-        "seed": settings.decoding_seed,
+        "max_tokens": configured_max_output_tokens,
+        "temperature": configured_temperature,
+        "top_p": configured_top_p,
+        "seed": configured_seed,
     }
     decoding = {name: value for name, value in decoding_candidates.items() if name in supported}
     expected_model = str(model.get("canonical_slug") or "")
@@ -114,7 +130,7 @@ def frozen_generation_contract(model: dict[str, Any], endpoint: dict[str, Any]) 
         not isinstance(max_completion_tokens, int)
         or isinstance(max_completion_tokens, bool)
         or max_completion_tokens <= 0
-        or settings.max_output_tokens > max_completion_tokens
+        or configured_max_output_tokens > max_completion_tokens
     ):
         raise RuntimeError("configured max output exceeds the endpoint completion limit")
     return {

@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import asyncio
 import hashlib
+import itertools
 import json
 import re
 import time
@@ -23,6 +24,7 @@ import httpx
 from .budget_policy import provider_account_scope_sha256
 from .cohere_compatibility import project_cohere_strict_schema
 from .config import get_settings
+from .execution_policy import PORTABLE_TEXT_TOOL_PROTOCOL_V1, SELECTION_TEXT_PROTOCOL_V1
 from .provider import (
     PORTABLE_EPICURE_TOOL_NAMES,
     AttemptIdFactory,
@@ -45,13 +47,16 @@ COHERE_ACCOUNTING_BASIS = "frozen_rate_card_times_cohere_returned_usage"
 COHERE_REQUIRED_TOOL_INSTRUCTION = (
     "Call at least one of the supplied tools now. Do not return a text-only response in this turn."
 )
-COHERE_PORTABLE_SELECTION_MODE = "thinking_disabled_for_exact_json_selection"
-COHERE_PORTABLE_FINAL_MODE = "thinking_disabled_for_exact_choice"
+COHERE_REASONING_PORTABLE_SELECTION_MODE = "thinking_disabled_for_exact_json_selection"
+COHERE_REASONING_PORTABLE_FINAL_MODE = "thinking_disabled_for_exact_choice"
 COHERE_REASONING_MODEL = "command-a-reasoning-08-2025"
 COHERE_PLUS_MODEL = "command-a-plus-05-2026"
 COHERE_PLUS_SELECTION_FORMAT = "cohere_json_schema_tool_selection_v1"
 COHERE_PLUS_FINAL_FORMAT = "cohere_json_schema_choice_v1"
 COHERE_PLUS_PHASE_REASONING = "thinking_enabled_512_for_schema"
+COHERE_SELECTION_VALUES = tuple(
+    ",".join(labels) for labels in itertools.combinations("ABCDEFGH", 3)
+)
 
 
 def _safe_http_error_detail(response: httpx.Response) -> str:
@@ -396,6 +401,55 @@ def _normalize_cohere_plus_phase(value: dict[str, Any], *, phase: str) -> dict[s
     return value
 
 
+def _cohere_plus_selection_payload(
+    payload: dict[str, Any], *, contract: Mapping[str, Any]
+) -> dict[str, Any]:
+    if contract.get("portable_phase_reasoning") != COHERE_PLUS_PHASE_REASONING:
+        raise ProviderError("Cohere A Plus bounded reasoning is absent from its contract")
+    return {
+        **payload,
+        "response_format": _json_schema_payload(
+            "flavourbench_selection",
+            {
+                "type": "object",
+                "properties": {
+                    "selection": {
+                        "type": "string",
+                        "enum": list(COHERE_SELECTION_VALUES),
+                    }
+                },
+                "required": ["selection"],
+                "additionalProperties": False,
+            },
+        ),
+        "reasoning": {"effort": "low", "exclude": True},
+    }
+
+
+def _normalize_cohere_plus_selection(value: dict[str, Any]) -> dict[str, Any]:
+    choices = value.get("choices")
+    message = choices[0].get("message") if isinstance(choices, list) and choices else None
+    if not isinstance(message, dict):
+        raise ProviderError("Cohere A Plus selection response omitted its assistant message")
+    try:
+        parsed = json.loads(str(message.get("content") or ""))
+    except json.JSONDecodeError as error:
+        raise ProviderError("Cohere A Plus selection response is not JSON") from error
+    selection = parsed.get("selection") if isinstance(parsed, dict) else None
+    labels = str(selection or "").split(",")
+    if (
+        not isinstance(parsed, dict)
+        or set(parsed) != {"selection"}
+        or len(labels) != 3
+        or len(set(labels)) != 3
+        or labels != sorted(labels)
+        or any(label not in set("ABCDEFGH") for label in labels)
+    ):
+        raise ProviderError("Cohere A Plus selection response has an invalid shape")
+    message["content"] = f"FINAL_SELECTION: {selection}"
+    return value
+
+
 def _openai_response(value: Mapping[str, Any], *, response_model: str) -> dict[str, Any]:
     message = value.get("message")
     if not isinstance(message, Mapping):
@@ -584,19 +638,27 @@ class CohereDirectProvider(OpenRouterProvider):
         governance_metadata: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         spec = self._spec_by_arm.get(arm_id)
+        selection_text = bool(
+            spec is not None and spec.evidence_protocol == SELECTION_TEXT_PROTOCOL_V1
+        )
         reasoning_override = {
             "portable_tool_selection": (
                 "portable_tool_selection_reasoning",
-                COHERE_PORTABLE_SELECTION_MODE,
+                COHERE_REASONING_PORTABLE_SELECTION_MODE,
             ),
             "final": (
                 "portable_final_reasoning",
-                COHERE_PORTABLE_FINAL_MODE,
+                COHERE_REASONING_PORTABLE_FINAL_MODE,
             ),
         }.get(phase)
         if (
             reasoning_override is not None
             and str(payload.get("model") or "") == COHERE_REASONING_MODEL
+            and spec is not None
+            and (
+                spec.evidence_protocol == PORTABLE_TEXT_TOOL_PROTOCOL_V1
+                or (selection_text and phase == "final")
+            )
         ):
             contract_field, expected_mode = reasoning_override
             if spec is None or spec.backend_contract_json.get(contract_field) != expected_mode:
@@ -607,9 +669,22 @@ class CohereDirectProvider(OpenRouterProvider):
                 **payload,
                 "reasoning": {"effort": "none", "exclude": True},
             }
-        if str(payload.get("model") or "") == COHERE_PLUS_MODEL:
+        if (
+            str(payload.get("model") or "") == COHERE_PLUS_MODEL
+            and spec is not None
+            and spec.evidence_protocol == PORTABLE_TEXT_TOOL_PROTOCOL_V1
+        ):
             contract = spec.backend_contract_json if spec is not None else {}
             payload = _cohere_plus_phase_payload(payload, phase=phase, contract=contract)
+        elif (
+            str(payload.get("model") or "") == COHERE_PLUS_MODEL
+            and selection_text
+            and phase == "final"
+        ):
+            payload = _cohere_plus_selection_payload(
+                payload,
+                contract=spec.backend_contract_json,
+            )
         request_payload = _request_payload(payload)
         last_error: Exception | None = None
         for attempt in range(self.settings.max_provider_attempts):
@@ -635,8 +710,17 @@ class CohereDirectProvider(OpenRouterProvider):
                 if not generation_id or spec is None:
                     raise ProviderError("Cohere response omitted its generation identity")
                 value = _openai_response(raw, response_model=spec.expected_actual_model_id)
-                if spec.expected_actual_model_id == COHERE_PLUS_MODEL:
+                if (
+                    spec.expected_actual_model_id == COHERE_PLUS_MODEL
+                    and spec.evidence_protocol == PORTABLE_TEXT_TOOL_PROTOCOL_V1
+                ):
                     value = _normalize_cohere_plus_phase(value, phase=phase)
+                elif (
+                    spec.expected_actual_model_id == COHERE_PLUS_MODEL
+                    and spec.evidence_protocol == SELECTION_TEXT_PROTOCOL_V1
+                    and phase == "final"
+                ):
+                    value = _normalize_cohere_plus_selection(value)
                 usage = value.get("usage")
                 usage = usage if isinstance(usage, Mapping) else {}
                 accounting = self._rate_card_accounting(

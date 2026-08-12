@@ -1,5 +1,5 @@
 ---
-pretty_name: "FlavourBench: Executable Culinary Evaluation of Frontier Language Models"
+pretty_name: "FlavourBench: Executable Culinary Reasoning"
 license: other
 language:
 - en
@@ -9,101 +9,130 @@ task_categories:
 tags:
 - leaderboard
 - llm-evaluation
-- tool-use
 - culinary
 - reproducibility
 - frontier-models
+- executable-ground-truth
 size_categories:
-- 1K<n<10K
+- 10K<n<100K
 configs:
 - config_name: models
   data_files:
   - split: train
-    path: data/models.jsonl
+    path: data-powered/models.jsonl
 - config_name: tasks
   data_files:
   - split: test
-    path: data/tasks.jsonl
-- config_name: observations
+    path: data-powered/tasks.jsonl
+- config_name: primary_observations
   data_files:
   - split: test
-    path: data/observations.jsonl
-- config_name: paired_outcomes
+    path: data-powered/primary_observations.jsonl
+- config_name: repeat_observations
   data_files:
   - split: test
-    path: data/paired_outcomes.jsonl
+    path: data-powered/repeat_observations.jsonl
 - config_name: leaderboard
   data_files:
   - split: test
-    path: data/leaderboard.jsonl
+    path: data-powered/leaderboard.jsonl
+- config_name: pairwise_comparisons
+  data_files:
+  - split: test
+    path: data-powered/pairwise_comparisons.jsonl
 ---
 
-# FlavourBench: Executable Culinary Evaluation of Frontier Language Models
+# FlavourBench: Executable Culinary Reasoning
 
-FlavourBench evaluates 20 frontier language-model endpoints against executable culinary answer
-keys computed before evaluation. This dataset contains the complete 32-task release used by the
-paper and leaderboard, including both Model only and Model + Epicure conditions.
-
-It is the machine-readable evidence layer for evaluating culinary reasoning across the current
-frontier panel; it is not a general model-intelligence or food-safety ranking.
+FlavourBench evaluates 20 frontier language-model endpoints on 640 culinary decisions with an
+executable answer surface. Each task asks for a three-ingredient portfolio from eight candidates.
+Before any evaluated model is called, Epicure scores all 56 portfolios. A response therefore earns
+graded credit from a fixed table rather than from another language model.
 
 [Paper](https://github.com/josefchen/flavourbench/blob/main/paper/build/flavourbench.pdf) ·
 [Interactive explorer](https://huggingface.co/spaces/josefchen/flavourbench) ·
 [Source and reproduction](https://github.com/josefchen/flavourbench)
 
-## Configurations
+## Release at a glance
 
 | Config | Rows | Unit |
 |---|---:|---|
-| `models` | 20 | One evaluated model route |
-| `tasks` | 32 | One exact-choice Epicure-native task |
-| `observations` | 1,280 | One assigned model-task-condition arm |
-| `paired_outcomes` | 640 | One matched Model only/Model + Epicure pair |
-| `leaderboard` | 20 | One scored model summary |
+| `models` | 20 | One exact evaluated route and statistical summary |
+| `tasks` | 640 | One task with eight candidates and all 56 frozen scores |
+| `primary_observations` | 12,800 | One model--task response; failures remain as zeroes |
+| `repeat_observations` | 1,280 | One label-permuted repeat response |
+| `leaderboard` | 20 | One model score, uncertainty interval, and rank group |
+| `pairwise_comparisons` | 190 | One paired contrast with Holm-adjusted inference |
 
-## Key fields
+The FlavourBench Score is the equal-family mean of the 640 task scores. The four equally weighted
+families are substitution, pairing, dietary constraints, and regional composition. Invalid or
+failed responses remain in the denominator at zero. A model must complete at least 608 primary
+tasks to be rank-eligible.
 
-- `task_id`, `model_id`, and `condition` form the observation key.
-- `correct` records exact-choice correctness.
-- `parseable_normal_completion` distinguishes observed answers from endpoint or protocol failures.
-- `response_artifact_sha256`, `prompt_sha256`, and reference-result hashes preserve lineage.
-- `paired_outcome` is one of `both_correct`, `off_only`, `on_only`, `neither`, or `incomplete`.
-- `epicure_benchmark_score` stores the FlavourBench Score: Model only exact-choice accuracy.
-- `rank` is the shared score rank; `release_order` preserves the source artifact's deterministic
-  row order without treating an assisted metric as evidence that tied scores differ.
-- `uplift_percentage_points` stores the secondary matched change with Epicure available. It is an
-  integration diagnostic and does not enter score rank.
+## Statistical outputs
 
-## Intended use
+The release reports 50,000 family-stratified shared-task bootstrap replicates, simultaneous 95%
+score bands, all 190 paired model contrasts with 100,000 sign-flip resamples and Holm correction,
+exact-chance tests, bootstrap rank intervals, statistical rank groups, and label-permutation
+repeatability. Point ranks and rank groups are both included because a numerical ordering can be
+finer than the data support.
 
-Use the dataset to reproduce the public automated leaderboard, inspect task-level errors, study the
-secondary model-Epicure interaction, or build alternative visualizations. The primary leaderboard
-uses only `epicure_benchmark_score`; equal scores share a displayed score rank. The 32-task release
-should not be used as a general ranking of model intelligence. One task changes the score by 3.125
-points, and leading Wilson intervals overlap.
+## What is included
 
-## Availability and missingness
+- exact prompts, candidate labels, ingredient names, and all frozen portfolio scores;
+- complete primary and repeat response records, including answer text, parsed selection, score,
+  completion state, exact route identity, latency, token use, cost, and content hashes;
+- route-level model metadata and clean-source lineage for the 17 base blocks, the DeepSeek rerun,
+  and the two Cohere reruns;
+- the complete leaderboard and every multiplicity-adjusted pairwise comparison; and
+- a manifest binding every table by row count, byte size, and SHA-256.
 
-The release preserves assigned arms even when an endpoint did not produce a parseable normal
-completion. This is essential for distinguishing service availability from demonstrated model
-capability. In particular, a zero score with zero observed responses is not evidence that the
-underlying model has zero capability.
+## Interpretation
+
+Epicure is the benchmark environment, not a contestant. A score of 100 means that a model selected
+Epicure's optimum on every task. It does not mean that Epicure has been assigned 100% accuracy.
+FlavourBench measures agreement with this published culinary reward surface. External culinary
+validity is a separate scientific question, just as simulator fidelity is separate from agent
+performance in an embodied benchmark.
+
+The primary release is fully automated; no human or model judge determines the leaderboard. The
+fixed tasks, common response format, intention-to-evaluate accounting, and shared-task inference
+make the release useful for comparing systems on this domain. It should not be read as a universal
+ranking of general intelligence or food safety.
+
+## Reproduction
+
+The repository contains the task compiler, route manifests, frozen analysis plans, scorer,
+statistical analysis, paper asset builder, and this dataset exporter. The response files on this
+dataset are the large evidence layer omitted from GitHub.
+
+```bash
+git clone https://github.com/josefchen/flavourbench.git
+cd flavourbench
+pip install -e '.[dev]'
+
+hf download josefchen/flavourbench --repo-type dataset \
+  --include 'data-powered/*' --local-dir hf-release
+
+python -I hf/dataset/restore_powered_runs.py \
+  --release paper/generated/powered/flavourbench-powered-release-<sha256>.json \
+  --primary hf-release/data-powered/primary_observations.jsonl \
+  --repeat hf-release/data-powered/repeat_observations.jsonl \
+  --base-run benchmark/powered-v31/run \
+  --deepseek-run benchmark/powered-v33/run \
+  --cohere-run benchmark/powered-v35/run
+
+make -C paper -f Makefile.powered analysis assets arxiv
+```
+
+The restore step accepts only the complete 12,800 + 1,280 content-addressed response grid and
+refuses conflicts. Re-running it with `--check` verifies every restored file byte-for-byte.
 
 ## Licensing and rights
 
 Benchmark prompts, choices, identifiers, authored metadata, derived tables, and original figures
-are released under CC BY 4.0. Model responses are included as research records but do not grant
-rights in provider software, weights, services, or marks. The underlying Epicure ingredient data,
-embeddings, and unrestricted payloads are not redistributed. See the repository
-[`LICENSES.md`](https://github.com/josefchen/flavourbench/blob/main/LICENSES.md) for the complete
+are released under CC BY 4.0. Model responses are research records and do not grant rights in
+provider software, weights, services, or marks. The underlying Epicure ingredient data and
+embeddings are not redistributed. See
+[`LICENSES.md`](https://github.com/josefchen/flavourbench/blob/main/LICENSES.md) for the
 component-level boundary.
-
-## Reproduction
-
-```bash
-python hf/dataset/build_dataset.py --check
-python -I paper/reproduce_epicure_native.py \
-  --release paper/generated/epicure-native/epicure-native-release.json
-```
-
-The exporter verifies the release semantic hash and every generated table byte-for-byte.

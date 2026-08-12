@@ -370,6 +370,7 @@ async def test_cohere_reasoning_disables_thinking_only_for_portable_json_selecti
             **spec.__dict__,
             "model_id": "cohere/command-a-reasoning-08-2025",
             "expected_actual_model_id": "command-a-reasoning-08-2025",
+            "evidence_protocol": "portable_text_tool_v1",
             "backend_contract_json": {
                 **spec.backend_contract_json,
                 "requested_model_id": "command-a-reasoning-08-2025",
@@ -390,7 +391,7 @@ async def test_cohere_reasoning_disables_thinking_only_for_portable_json_selecti
             {
                 "model": "command-a-reasoning-08-2025",
                 "messages": [{"role": "user", "content": "Return exact JSON."}],
-                "max_tokens": 128,
+                "max_tokens": 1024,
             },
             "selection-key",
             arm_id=spec.arm_id,
@@ -414,3 +415,66 @@ async def test_cohere_reasoning_disables_thinking_only_for_portable_json_selecti
         {"type": "disabled"},
         {"type": "disabled"},
     ]
+
+
+@pytest.mark.asyncio
+async def test_cohere_plus_selection_protocol_preserves_three_labels(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr("flavourbench.service_cohere.get_settings", _settings)
+    requests: list[dict[str, object]] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        requests.append(json.loads(request.content))
+        return httpx.Response(
+            200,
+            json={
+                "id": "cohere-selection-legacy-1",
+                "finish_reason": "COMPLETE",
+                "message": {
+                    "role": "assistant",
+                    "content": [{"type": "text", "text": '{"selection":"A,C,F"}'}],
+                },
+                "usage": {"tokens": {"input_tokens": 10, "output_tokens": 5}},
+            },
+        )
+
+    spec = GenerationSpec(
+        **{
+            **_spec().__dict__,
+            "final_response_mode": "plain_text",
+            "evidence_protocol": "selection_text_v1",
+            "backend_contract_json": {
+                **_spec().backend_contract_json,
+                "portable_phase_reasoning": "thinking_enabled_512_for_schema",
+            },
+        }
+    )
+    provider = CohereDirectProvider()
+    await provider.client.aclose()
+    provider.client = httpx.AsyncClient(
+        base_url="https://api.cohere.test/",
+        transport=httpx.MockTransport(handler),
+    )
+    provider._spec_by_arm[spec.arm_id] = spec
+    try:
+        value = await provider._post(
+            {
+                "model": "command-a-plus-05-2026",
+                "messages": [{"role": "user", "content": "Select three labels."}],
+                "max_tokens": 1024,
+            },
+            "selection-legacy-key",
+            arm_id=spec.arm_id,
+            phase="final",
+        )
+    finally:
+        provider._spec_by_arm.pop(spec.arm_id, None)
+        await provider.aclose()
+
+    assert requests[0]["response_format"]["type"] == "json_object"
+    selection_schema = requests[0]["response_format"]["schema"]["properties"]["selection"]
+    assert len(selection_schema["enum"]) == 56
+    assert "pattern" not in selection_schema
+    assert requests[0]["thinking"] == {"type": "enabled", "token_budget": 512}
+    assert value["choices"][0]["message"]["content"] == "FINAL_SELECTION: A,C,F"

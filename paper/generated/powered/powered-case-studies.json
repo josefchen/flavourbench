@@ -1,0 +1,181 @@
+{
+  "artifact_sha256": "1ef531e1b872af32576b98a60f7e40931814bf8cfd14e360561fbdd90517f479",
+  "cases": [
+    {
+      "choices": {
+        "A": "cereal",
+        "B": "cannoli_shell",
+        "C": "wheat",
+        "D": "pancake",
+        "E": "buckwheat",
+        "F": "sponge_cake",
+        "G": "waffle",
+        "H": "wheat_germ"
+      },
+      "family": "substitution",
+      "higher_ranked": {
+        "answer_markdown": "FINAL_SELECTION: C,E,H",
+        "model_id": "google/gemini-3.1-pro-preview",
+        "observed_selection": "CEH",
+        "score": 50.36,
+        "selected_ingredients": [
+          "wheat",
+          "buckwheat",
+          "wheat germ"
+        ]
+      },
+      "lower_ranked": {
+        "answer_markdown": "FINAL_SELECTION: A,C,F",
+        "model_id": "cohere/command-r-plus-08-2024",
+        "observed_selection": "ACF",
+        "score": 43.6,
+        "selected_ingredients": [
+          "cereal",
+          "wheat",
+          "sponge cake"
+        ]
+      },
+      "optimal_ingredients": [
+        "sponge cake",
+        "waffle",
+        "wheat germ"
+      ],
+      "optimal_selection": "FGH",
+      "prompt": "FlavourBench executable culinary decision task. Epicure is the deterministic scoring environment. Select the best portfolio using culinary knowledge; do not browse or call external tools. Partial credit reflects the quality of the complete selection.\n\nFamily: substitution\nSelect three alternatives to `gluten free flour` that best preserve its grain role, regional context, and mutual portfolio coherence.\n\nCandidates:\nA. cereal\nB. cannoli shell\nC. wheat\nD. pancake\nE. buckwheat\nF. sponge cake\nG. waffle\nH. wheat germ\n\nChoose exactly 3 distinct labels. Return exactly one line in alphabetical label order: `FINAL_SELECTION: A,C,F`.",
+      "task_id": "fb-executable-substitution-001"
+    },
+    {
+      "choices": {
+        "A": "white_truffle",
+        "B": "basil",
+        "C": "barley",
+        "D": "red_pepper",
+        "E": "tomato",
+        "F": "wheat",
+        "G": "aleppo_pepper",
+        "H": "portobello_mushroom"
+      },
+      "family": "pairing",
+      "higher_ranked": {
+        "answer_markdown": "FINAL_SELECTION: B,D,E",
+        "model_id": "google/gemini-3.1-pro-preview",
+        "observed_selection": "BDE",
+        "score": 97.3,
+        "selected_ingredients": [
+          "basil",
+          "red pepper",
+          "tomato"
+        ]
+      },
+      "lower_ranked": {
+        "answer_markdown": "FINAL_SELECTION: A,C,F",
+        "model_id": "cohere/command-r-plus-08-2024",
+        "observed_selection": "ACF",
+        "score": 41.96,
+        "selected_ingredients": [
+          "white truffle",
+          "barley",
+          "wheat"
+        ]
+      },
+      "optimal_ingredients": [
+        "red pepper",
+        "tomato",
+        "portobello mushroom"
+      ],
+      "optimal_selection": "DEH",
+      "prompt": "FlavourBench executable culinary decision task. Epicure is the deterministic scoring environment. Select the best portfolio using culinary knowledge; do not browse or call external tools. Partial credit reflects the quality of the complete selection.\n\nFamily: pairing\nSelect the three-ingredient bundle with the strongest learned pairing to `cannellini bean` and the best internal coherence.\n\nCandidates:\nA. white truffle\nB. basil\nC. barley\nD. red pepper\nE. tomato\nF. wheat\nG. aleppo pepper\nH. portobello mushroom\n\nChoose exactly 3 distinct labels. Return exactly one line in alphabetical label order: `FINAL_SELECTION: A,C,F`.",
+      "task_id": "fb-executable-pairing-001"
+    },
+    {
+      "choices": {
+        "A": "almond_milk",
+        "B": "blackberry",
+        "C": "orange_liqueur",
+        "D": "bran",
+        "E": "graham_flour",
+        "F": "coffee_liqueur",
+        "G": "whey",
+        "H": "creme_de_cassis"
+      },
+      "family": "constraint",
+      "higher_ranked": {
+        "answer_markdown": "FINAL_SELECTION: B,D,E",
+        "model_id": "google/gemini-3.1-pro-preview",
+        "observed_selection": "BDE",
+        "score": 63.2,
+        "selected_ingredients": [
+          "blackberry",
+          "bran",
+          "graham flour"
+        ]
+      },
+      "lower_ranked": {
+        "answer_markdown": "FINAL_SELECTION: A,C,F",
+        "model_id": "cohere/command-r-plus-08-2024",
+        "observed_selection": "ACF",
+        "score": 0.0,
+        "selected_ingredients": [
+          "almond milk",
+          "orange liqueur",
+          "coffee liqueur"
+        ]
+      },
+      "optimal_ingredients": [
+        "blackberry",
+        "bran",
+        "whey"
+      ],
+      "optimal_selection": "BDG",
+      "prompt": "FlavourBench executable culinary decision task. Epicure is the deterministic scoring environment. Select the best portfolio using culinary knowledge; do not browse or call external tools. Partial credit reflects the quality of the complete selection.\n\nFamily: constraint\nFor a dish centered on `muscovado sugar`, select three vegetarian complements with NOVA processing level at most 3; among valid portfolios, maximize learned pairing and coherence.\n\nCandidates:\nA. almond milk\nB. blackberry\nC. orange liqueur\nD. bran\nE. graham flour\nF. coffee liqueur\nG. whey\nH. creme de cassis\n\nChoose exactly 3 distinct labels. Return exactly one line in alphabetical label order: `FINAL_SELECTION: A,C,F`.",
+      "task_id": "fb-executable-constraint-001"
+    },
+    {
+      "choices": {
+        "A": "oyster_mushroom",
+        "B": "youtiao",
+        "C": "tofu_skin",
+        "D": "crescent_roll",
+        "E": "napa_cabbage",
+        "F": "ranch_dressing",
+        "G": "colby_cheese",
+        "H": "poultry_seasoning"
+      },
+      "family": "cultural_composition",
+      "higher_ranked": {
+        "answer_markdown": "FINAL_SELECTION: D,F,G",
+        "model_id": "google/gemini-3.1-pro-preview",
+        "observed_selection": "DFG",
+        "score": 100.0,
+        "selected_ingredients": [
+          "crescent roll",
+          "ranch dressing",
+          "colby cheese"
+        ]
+      },
+      "lower_ranked": {
+        "answer_markdown": "FINAL_SELECTION: A,C,F",
+        "model_id": "cohere/command-r-plus-08-2024",
+        "observed_selection": "ACF",
+        "score": 21.68,
+        "selected_ingredients": [
+          "oyster mushroom",
+          "tofu skin",
+          "ranch dressing"
+        ]
+      },
+      "optimal_ingredients": [
+        "crescent roll",
+        "ranch dressing",
+        "colby cheese"
+      ],
+      "optimal_selection": "DFG",
+      "prompt": "FlavourBench executable culinary decision task. Epicure is the deterministic scoring environment. Select the best portfolio using culinary knowledge; do not browse or call external tools. Partial credit reflects the quality of the complete selection.\n\nFamily: regional cuisine selection\nTarget cuisine label: Western Atlantic. Select three ingredients that best fit this culinary profile. The selected ingredients must represent three distinct primary roles.\n\nCandidates:\nA. oyster mushroom\nB. youtiao\nC. tofu skin\nD. crescent roll\nE. napa cabbage\nF. ranch dressing\nG. colby cheese\nH. poultry seasoning\n\nChoose exactly 3 distinct labels. Return exactly one line in alphabetical label order: `FINAL_SELECTION: A,C,F`.",
+      "task_id": "fb-executable-cultural_composition-001"
+    }
+  ],
+  "higher_ranked_model_id": "google/gemini-3.1-pro-preview",
+  "lower_ranked_model_id": "cohere/command-r-plus-08-2024",
+  "schema_version": "flavourbench-powered-paper-case-studies-v1",
+  "selection": "lexicographically first frozen task in each family"
+}

@@ -1,0 +1,21 @@
+rank,rank_group,model,model_id,flavourbench_score,simultaneous_ci_low,simultaneous_ci_high,completed,parseable,repeat_jaccard,eligible
+1,1,Google: Gemini 3.1 Pro Preview,google/gemini-3.1-pro-preview,72.901188,69.707017,76.095358,640,640,0.807813,true
+2,1,SpaceXAI: Grok 4.5,x-ai/grok-4.5,72.399031,69.236509,75.561554,640,640,0.787500,true
+3,1,OpenAI: GPT-5.6 Sol Pro,openai/gpt-5.6-sol-pro,71.989469,68.749652,75.229286,640,640,0.862500,true
+4,1,OpenAI: GPT-5.6 Terra Pro,openai/gpt-5.6-terra-pro,71.482141,68.265929,74.698352,640,640,0.798438,true
+5,1,Qwen: Qwen3.8 Max,qwen/qwen3.8-max,71.407203,68.102292,74.712114,640,640,0.795312,true
+6,1,Claude Opus 5,anthropic/claude-opus-5,70.756250,67.548880,73.963620,640,640,0.748437,true
+7,1,MoonshotAI: Kimi K3,moonshotai/kimi-k3,70.310375,67.079852,73.540898,640,640,0.742188,true
+8,1,Google: Gemini 3.6 Flash,google/gemini-3.6-flash,70.074828,66.871994,73.277662,640,640,0.795312,true
+9,1,Anthropic: Claude Sonnet 5,anthropic/claude-sonnet-5,69.435109,66.188873,72.681346,640,640,0.790625,true
+10,2,OpenAI: GPT-5.6 Luna Pro,openai/gpt-5.6-luna-pro,69.159266,65.919713,72.398818,639,639,0.718750,true
+11,2,DeepSeek: DeepSeek V4 Pro,deepseek/deepseek-v4-pro,69.026062,65.662431,72.389694,634,634,0.706250,true
+12,2,Tencent: Hy3,tencent/hy3,68.893828,65.603629,72.184027,640,640,0.520312,true
+13,2,Z.ai: GLM 5.2,z-ai/glm-5.2,66.875266,63.574181,70.176350,635,634,0.665625,true
+14,2,MiniMax: MiniMax M3,minimax/minimax-m3,66.726062,63.404917,70.047208,627,627,0.704687,true
+15,2,NVIDIA: Nemotron 3.5 Lightning,nvidia/nemotron-3.5-lightning,65.151203,61.706595,68.595811,629,629,0.756250,true
+16,3,DeepSeek: DeepSeek V4 Flash 0731,deepseek/deepseek-v4-flash-0731,62.686156,59.252117,66.120195,640,640,0.557813,true
+17,3,Mistral: Mistral Large 3 2512,mistralai/mistral-large-2512,61.401109,57.960853,64.841366,640,639,0.640625,true
+18,3,Meta: Llama 4 Maverick,meta-llama/llama-4-maverick,60.171906,56.715746,63.628066,638,629,0.526563,true
+19,4,Cohere: Command A,cohere/command-a,58.106703,54.896269,61.317137,640,640,0.571875,true
+20,5,Cohere: Command R+ (08-2024),cohere/command-r-plus-08-2024,36.671516,33.729385,39.613646,640,639,0.229687,true
