@@ -14,7 +14,7 @@ datasets:
 
 # FlavourBench
 
-**Josef Chen · Jakub Radzikowski · Erim Hayretci**
+**Josef Chen** — Independent Researcher · **Jakub Radzikowski** — Independent Researcher · **Erim Hayretci** — Independent Researcher
 
 An interactive explorer for the powered FlavourBench release: 20 frontier endpoints, 640
 executable culinary decisions, 12,800 primary responses, 1,280 label-permuted repeats, and all 190

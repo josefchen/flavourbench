@@ -4,7 +4,7 @@
 
 ### Ranking frontier language models with executable culinary ground truth
 
-**Josef Chen · Jakub Radzikowski · Erim Hayretci**
+**Josef Chen** — Independent Researcher · **Jakub Radzikowski** — Independent Researcher · **Erim Hayretci** — Independent Researcher
 
 **20 models · 640 tasks · 12,800 primary responses · 1,280 repeats · 190 paired tests**
 
