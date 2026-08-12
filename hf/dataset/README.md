@@ -44,7 +44,7 @@ configs:
 
 # FlavourBench: Executable Culinary Reasoning
 
-**Josef Chen · Jakub Radzikowski · Erim Hayretci**
+**Josef Chen** — Independent Researcher · **Jakub Radzikowski** — Independent Researcher · **Erim Hayretci** — Independent Researcher
 
 FlavourBench evaluates 20 frontier language-model endpoints on 640 culinary decisions with an
 executable answer surface. Each task asks for a three-ingredient portfolio from eight candidates.

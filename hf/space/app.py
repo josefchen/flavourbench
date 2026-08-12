@@ -79,11 +79,25 @@ body, .gradio-container {
   max-width: 640px;
 }
 .fb-byline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  margin: 16px 0 0;
+}
+.fb-byline span {
   color: var(--fb-ink);
+  display: flex;
+  flex-direction: column;
   font-size: 14px;
   font-weight: 650;
   letter-spacing: .01em;
-  margin: 16px 0 0;
+}
+.fb-byline small {
+  color: var(--fb-muted);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .04em;
+  margin-top: 2px;
 }
 .fb-stats {
   display: grid;
@@ -352,7 +366,11 @@ def _hero_html() -> str:
         <h1>640 decisions.<br>No model judge.</h1>
         <p class="fb-dek">Executable score maps rank 20 frontier endpoints with shared-task
         uncertainty and inspectable responses.</p>
-        <p class="fb-byline">Josef Chen · Jakub Radzikowski · Erim Hayretci</p>
+        <div class="fb-byline">
+          <span>Josef Chen<small>Independent Researcher</small></span>
+          <span>Jakub Radzikowski<small>Independent Researcher</small></span>
+          <span>Erim Hayretci<small>Independent Researcher</small></span>
+        </div>
         <div class="fb-stats">
           <div class="fb-stat"><strong>{len(MODELS)}</strong><span>models</span></div>
           <div class="fb-stat"><strong>{len(TASKS)}</strong><span>tasks</span></div>
@@ -697,7 +715,7 @@ make -C paper -f Makefile.powered arxiv
     gr.HTML(
         """
         <div class="fb-shell fb-footer">
-          FlavourBench | Josef Chen · Jakub Radzikowski · Erim Hayretci
+          FlavourBench | Josef Chen · Jakub Radzikowski · Erim Hayretci | Independent Researchers
         </div>
         """
     )

@@ -5,11 +5,14 @@ type: software
 authors:
   - family-names: Chen
     given-names: Josef
+    affiliation: Independent Researcher
   - family-names: Radzikowski
     given-names: Jakub
+    affiliation: Independent Researcher
   - family-names: Hayretci
     given-names: Erim
-version: 1.0.1
+    affiliation: Independent Researcher
+version: 1.0.2
 date-released: 2026-08-13
 repository-code: "https://github.com/josefchen/flavourbench"
 url: "https://github.com/josefchen/flavourbench"
@@ -18,9 +21,12 @@ preferred-citation:
   authors:
     - family-names: Chen
       given-names: Josef
+      affiliation: Independent Researcher
     - family-names: Radzikowski
       given-names: Jakub
+      affiliation: Independent Researcher
     - family-names: Hayretci
       given-names: Erim
+      affiliation: Independent Researcher
   title: "FlavourBench: Ranking Frontier Language Models with Executable Culinary Ground Truth"
   year: 2026
