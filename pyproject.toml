@@ -137,7 +137,7 @@ flavourbench-freeze-reasoning-sensitivity = "flavourbench.reasoning_effort_sensi
 packages = ["src/flavourbench"]
 
 [tool.pytest.ini_options]
-pythonpath = ["src"]
+pythonpath = [".", "src"]
 testpaths = ["tests"]
 
 [tool.ruff]
