@@ -44,6 +44,8 @@ configs:
 
 # FlavourBench: Executable Culinary Reasoning
 
+**Josef Chen · Jakub Radzikowski · Erim Hayretci**
+
 FlavourBench evaluates 20 frontier language-model endpoints on 640 culinary decisions with an
 executable answer surface. Each task asks for a three-ingredient portfolio from eight candidates.
 Before any evaluated model is called, Epicure scores all 56 portfolios. A response therefore earns
@@ -127,6 +129,16 @@ make -C paper -f Makefile.powered analysis assets arxiv
 
 The restore step accepts only the complete 12,800 + 1,280 content-addressed response grid and
 refuses conflicts. Re-running it with `--check` verifies every restored file byte-for-byte.
+
+## Citation
+
+```bibtex
+@article{chen2026flavourbench,
+  title   = {FlavourBench: Ranking Frontier Language Models with Executable Culinary Ground Truth},
+  author  = {Chen, Josef and Radzikowski, Jakub and Hayretci, Erim},
+  year    = {2026}
+}
+```
 
 ## Licensing and rights
 

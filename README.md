@@ -4,6 +4,8 @@
 
 ### Ranking frontier language models with executable culinary ground truth
 
+**Josef Chen · Jakub Radzikowski · Erim Hayretci**
+
 **20 models · 640 tasks · 12,800 primary responses · 1,280 repeats · 190 paired tests**
 
 [Paper](paper/build/flavourbench.pdf) · [Leaderboard](https://huggingface.co/spaces/josefchen/flavourbench) · [Dataset](https://huggingface.co/datasets/josefchen/flavourbench) · [Reproduce](#reproduce-the-release)
@@ -140,8 +142,16 @@ unresolved top groups where the data do not support a sharper claim.
 
 ## Citation
 
-The arXiv identifier will be added after submission. Until then, cite this repository and powered
-release `4bd53e485cd48dbb65b86c9ddd3ff4ad26e34069dd2e163a5b67d2bb47d4f7df`.
+The arXiv identifier will be added after submission. Until then, cite the paper and powered release
+`4bd53e485cd48dbb65b86c9ddd3ff4ad26e34069dd2e163a5b67d2bb47d4f7df`:
+
+```bibtex
+@article{chen2026flavourbench,
+  title   = {FlavourBench: Ranking Frontier Language Models with Executable Culinary Ground Truth},
+  author  = {Chen, Josef and Radzikowski, Jakub and Hayretci, Erim},
+  year    = {2026}
+}
+```
 
 ## Licensing and security
 

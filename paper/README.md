@@ -2,6 +2,8 @@
 
 **FlavourBench: Ranking Frontier Language Models with Executable Culinary Ground Truth**
 
+Josef Chen · Jakub Radzikowski · Erim Hayretci
+
 FlavourBench is an executable 20-model benchmark of culinary reasoning across current frontier
 language-model endpoints. A versioned Epicure runtime generates 640 three-of-eight selection
 tasks and dense score maps across four balanced families:
