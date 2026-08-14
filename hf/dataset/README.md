@@ -32,6 +32,10 @@ configs:
   data_files:
   - split: test
     path: data-powered/repeat_observations.jsonl
+- config_name: provider_attempt_events
+  data_files:
+  - split: test
+    path: data-powered/provider_attempt_events.jsonl
 - config_name: leaderboard
   data_files:
   - split: test
@@ -63,6 +67,7 @@ graded credit from a fixed table rather than from another language model.
 | `tasks` | 640 | One task with eight candidates and all 56 frozen scores |
 | `primary_observations` | 16,640 | One model--task response; failures remain as zeroes |
 | `repeat_observations` | 1,664 | One label-permuted repeat response |
+| `provider_attempt_events` | 55,254 | Content-addressed request, response, and accounting events referenced by response cells |
 | `leaderboard` | 26 | One model score, uncertainty interval, and rank group |
 | `pairwise_comparisons` | 325 | One paired contrast with Holm-adjusted inference |
 
@@ -84,6 +89,8 @@ finer than the data support.
 - exact prompts, candidate labels, ingredient names, and all frozen portfolio scores;
 - complete primary and repeat response records, including answer text, parsed selection, score,
   completion state, exact route identity, latency, token use, cost, and content hashes;
+- every content-addressed provider-attempt event referenced by those response records, including
+  normalized and native finish reasons;
 - route-level model metadata and clean-source lineage for 16 retained base blocks, two Cohere
   blocks, six retained frontier-refresh blocks, the clean DeepSeek 0813 repair, and the complete
   Fable 5 replacement block;
@@ -97,6 +104,12 @@ Epicure's optimum on every task. It does not mean that Epicure has been assigned
 FlavourBench measures agreement with this published culinary reward surface. External culinary
 validity is a separate scientific question, just as simulator fidelity is separate from agent
 performance in an embodied benchmark.
+
+Claude Fable 5 is deliberately reported as DNF rather than ranked last. Its failure-adjusted score
+is 42.32, but 227/640 primary cells terminate as provider refusals, including 139/160 regional
+composition tasks. The equal-family mean over completed cells is 73.05. That completed-only number
+is diagnostic rather than rankable because the missing cells are plainly not random; the exact
+refusal events can be audited in `provider_attempt_events`.
 
 The primary release is fully automated; no human or model judge determines the leaderboard. The
 fixed tasks, common response format, intention-to-evaluate accounting, and shared-task inference

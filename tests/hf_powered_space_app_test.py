@@ -97,6 +97,14 @@ def test_powered_space_loads_and_exposes_score_task_and_pairwise_views(
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     assert module._leaderboard_frame().shape == (2, 8)
+    diagnostic = module._completion_diagnostic("model/a")
+    assert diagnostic["completed"] == 1
+    assert diagnostic["failed"] == 0
+    assert diagnostic["conditional_equal_family_score"] == 100.0
+    model_summary, family_frame = module._model_detail("Model 0")
+    assert "100.00" in model_summary
+    assert "1/1" in model_summary
+    assert family_frame.loc[0, "Completed-only*"] == 100.0
     detail = module._task_detail("Model 0", "task-1 | substitution")
     assert "100.00" in detail[0]
     assert "FINAL_SELECTION: ABC" in detail[4]

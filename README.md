@@ -66,6 +66,12 @@ prespecified contrasts remain significant after multiplicity correction. Scores 
 family-stratified shared-task bootstrap replicates;
 pairwise tests use 100,000 shared-task sign flips. Label-permuted repeats measure response stability.
 
+Fable's 42.32 is an operational, failure-adjusted score—not a clean estimate of completed-answer
+quality. Its provider ledger records 227 primary refusals, including 139/160 regional-composition
+tasks. On completed cells, its equal-family descriptive mean is 73.05 (65.58 without family
+reweighting). Because those omissions are strongly non-random, neither complete-case value is used
+for ranking; the release reports Fable as DNF rather than as the worst model.
+
 ![FlavourBench leaderboard with simultaneous confidence bands](paper/figures/powered/powered-leaderboard-forest.png)
 
 ## What the score means

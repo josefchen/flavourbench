@@ -27,6 +27,7 @@ TABLE_ORDER = (
     "tasks",
     "primary_observations",
     "repeat_observations",
+    "provider_attempt_events",
     "leaderboard",
     "pairwise_comparisons",
 )
@@ -116,6 +117,76 @@ def _response_documents(
     return output
 
 
+def _attempt_event_valid(document: Mapping[str, Any]) -> bool:
+    payload = dict(document)
+    recorded = str(payload.pop("event_sha256", ""))
+    return bool(recorded and recorded == hashlib.sha256(_canonical(payload)).hexdigest())
+
+
+def _provider_attempt_documents(
+    *,
+    response_documents: Sequence[Mapping[str, Any]],
+    source_directories: Mapping[str, Path],
+) -> list[dict[str, Any]]:
+    """Return every provider event referenced by the exported response cells."""
+    required: dict[str, tuple[str, str]] = {}
+    for response in response_documents:
+        arm_id = str(response["arm_id"])
+        plan_sha256 = str(response["plan_sha256"])
+        hashes = response.get("attempt_event_sha256s")
+        if not isinstance(hashes, list) or not hashes:
+            raise PoweredDatasetBuildError(f"response has no provider-attempt lineage: {arm_id}")
+        for value in hashes:
+            event_sha256 = str(value)
+            if event_sha256 in required:
+                raise PoweredDatasetBuildError(
+                    f"provider-attempt event is referenced by multiple responses: {event_sha256}"
+                )
+            required[event_sha256] = (arm_id, plan_sha256)
+
+    observed: dict[str, dict[str, Any]] = {}
+    for directory in sorted(set(source_directories.values()), key=str):
+        journal = directory / "attempts/provider-attempts.jsonl"
+        if journal.is_symlink() or not journal.is_file():
+            raise PoweredDatasetBuildError(f"provider-attempt journal is missing: {journal}")
+        for line in journal.read_bytes().splitlines():
+            try:
+                document = json.loads(line)
+            except json.JSONDecodeError as exc:
+                raise PoweredDatasetBuildError(
+                    f"provider-attempt journal contains invalid JSON: {journal}"
+                ) from exc
+            if not isinstance(document, dict) or not _attempt_event_valid(document):
+                raise PoweredDatasetBuildError(
+                    f"provider-attempt event failed its semantic hash: {journal}"
+                )
+            event_sha256 = str(document["event_sha256"])
+            if event_sha256 not in required:
+                continue
+            if event_sha256 in observed:
+                raise PoweredDatasetBuildError(
+                    f"duplicate provider-attempt event across journals: {event_sha256}"
+                )
+            arm_id, plan_sha256 = required[event_sha256]
+            event = document.get("event")
+            if (
+                document.get("plan_sha256") != plan_sha256
+                or not isinstance(event, Mapping)
+                or event.get("arm_id") != arm_id
+            ):
+                raise PoweredDatasetBuildError(
+                    f"provider-attempt event differs from its response binding: {event_sha256}"
+                )
+            observed[event_sha256] = document
+
+    missing = sorted(set(required) - set(observed))
+    if missing:
+        raise PoweredDatasetBuildError(
+            f"provider-attempt lineage is incomplete: {len(missing)} events missing"
+        )
+    return [observed[event_sha256] for event_sha256 in sorted(observed)]
+
+
 def _tables(
     *,
     release: Mapping[str, Any],
@@ -124,6 +195,7 @@ def _tables(
     plan: Mapping[str, Any],
     primary_documents: Sequence[Mapping[str, Any]],
     repeat_documents: Sequence[Mapping[str, Any]],
+    provider_attempt_documents: Sequence[Mapping[str, Any]],
 ) -> dict[str, list[dict[str, Any]]]:
     analysis_by_model = {str(row["model_id"]): row for row in release["analysis"]["models"]}
     source_lineage = release["inputs"]["model_response_sources"]
@@ -206,6 +278,7 @@ def _tables(
         "tasks": list(taskset["tasks"]),
         "primary_observations": [dict(row) for row in primary_documents],
         "repeat_observations": [dict(row) for row in repeat_documents],
+        "provider_attempt_events": [dict(row) for row in provider_attempt_documents],
         "leaderboard": leaderboard,
         "pairwise_comparisons": list(release["analysis"]["pairwise_comparisons"]),
     }
@@ -219,6 +292,7 @@ def _expected_files(
     plan: Mapping[str, Any],
     primary_documents: Sequence[Mapping[str, Any]],
     repeat_documents: Sequence[Mapping[str, Any]],
+    provider_attempt_documents: Sequence[Mapping[str, Any]],
 ) -> dict[str, bytes]:
     tables = _tables(
         release=release,
@@ -227,10 +301,11 @@ def _expected_files(
         plan=plan,
         primary_documents=primary_documents,
         repeat_documents=repeat_documents,
+        provider_attempt_documents=provider_attempt_documents,
     )
     files = {f"{name}.jsonl": _jsonl(tables[name]) for name in TABLE_ORDER}
     manifest: dict[str, Any] = {
-        "schema_version": "flavourbench-hf-powered-dataset-manifest-v1",
+        "schema_version": "flavourbench-hf-powered-dataset-manifest-v2",
         "release_artifact_sha256": release["artifact_sha256"],
         "plan_artifact_sha256": plan["artifact_sha256"],
         "taskset_artifact_sha256": taskset["artifact_sha256"],
@@ -512,6 +587,10 @@ def build(
         task_ids=repeat.task_ids,
         source_directories=source_directories,
     )
+    provider_attempt_documents = _provider_attempt_documents(
+        response_documents=(*primary_documents, *repeat_documents),
+        source_directories=source_directories,
+    )
     if (
         release["inputs"]["primary_responses"]["artifact_set_sha256"]
         != hashlib.sha256(_canonical(list(primary.response_artifact_sha256s))).hexdigest()
@@ -526,6 +605,7 @@ def build(
         plan=plan,
         primary_documents=primary_documents,
         repeat_documents=repeat_documents,
+        provider_attempt_documents=provider_attempt_documents,
     )
     if check:
         mismatches = [

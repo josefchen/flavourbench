@@ -206,7 +206,7 @@ body, .gradio-container {
 .fb-section p { color: var(--fb-muted); margin: 0; max-width: 70ch; }
 .fb-metric-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 12px;
   margin: 8px 0 16px;
 }
@@ -330,6 +330,37 @@ TASK_LABEL_TO_ID = {
 }
 
 
+def _completion_diagnostic(model_id: str) -> dict[str, Any]:
+    family_rows: dict[str, list[dict[str, Any]]] = {}
+    for task_id, task in TASK_BY_ID.items():
+        family = str(task["family"])
+        family_rows.setdefault(family, []).append(OBSERVATIONS[(model_id, task_id)])
+    conditional_family_scores: dict[str, float] = {}
+    completed_by_family: dict[str, int] = {}
+    scheduled_by_family: dict[str, int] = {}
+    for family, rows in family_rows.items():
+        completed = [row for row in rows if row["status"] == "completed"]
+        scheduled_by_family[family] = len(rows)
+        completed_by_family[family] = len(completed)
+        conditional_family_scores[family] = (
+            sum(float(row["scoring"]["score"]) for row in completed) / len(completed)
+            if completed
+            else 0.0
+        )
+    completed = sum(completed_by_family.values())
+    return {
+        "scheduled": len(TASK_BY_ID),
+        "completed": completed,
+        "failed": len(TASK_BY_ID) - completed,
+        "completion_rate": completed / len(TASK_BY_ID),
+        "conditional_family_scores": conditional_family_scores,
+        "completed_by_family": completed_by_family,
+        "scheduled_by_family": scheduled_by_family,
+        "conditional_equal_family_score": sum(conditional_family_scores.values())
+        / len(conditional_family_scores),
+    }
+
+
 def _short(value: str) -> str:
     return (
         value.replace("GPT-5.6 ", "5.6 ")
@@ -415,20 +446,41 @@ def _leaderboard_frame() -> pd.DataFrame:
 
 def _model_detail(model_name: str) -> tuple[str, pd.DataFrame]:
     model = MODEL_BY_NAME[model_name]
+    diagnostic = _completion_diagnostic(str(model["model_id"]))
     repeat = model.get("repeatability") or {}
     rank_interval = model.get("bootstrap_rank_95_interval") or [None, None]
+    eligibility_note = ""
+    if not model.get("eligible"):
+        eligibility_note = f"""
+        <div class="fb-evidence">
+          <strong>DNF is an availability result, not a bottom-place capability rank.</strong>
+          {diagnostic["failed"]} of {diagnostic["scheduled"]} primary cells did not complete and
+          remain zero in the official score. The completed-only equal-family value is descriptive
+          only: failures are not missing at random, so it must not be ranked against official scores.
+        </div>
+        """
     summary = f"""
     <div class="fb-metric-grid">
       <div class="fb-metric"><small>FlavourBench Score</small><strong>{model["flavourbench_score"]:.2f}</strong></div>
+      <div class="fb-metric"><small>Completed-only*</small><strong>{diagnostic["conditional_equal_family_score"]:.2f}</strong></div>
+      <div class="fb-metric"><small>Completion</small><strong>{diagnostic["completed"]}/{diagnostic["scheduled"]}</strong></div>
       <div class="fb-metric"><small>Statistical group</small><strong>G{model.get("statistical_rank_group") or "-"}</strong></div>
       <div class="fb-metric"><small>Bootstrap rank</small><strong>{rank_interval[0]}-{rank_interval[1]}</strong></div>
       <div class="fb-metric"><small>Repeat Jaccard</small><strong>{float(repeat.get("mean_ingredient_set_jaccard", 0)):.3f}</strong></div>
     </div>
+    {eligibility_note}
     """
     family_rows = [
         {
             "Family": family.replace("_", " ").title(),
-            "Score": round(float(score), 3),
+            "Official score": round(float(score), 3),
+            "Completed": (
+                f"{diagnostic['completed_by_family'].get(family, 0)}/"
+                f"{diagnostic['scheduled_by_family'].get(family, 0)}"
+            ),
+            "Completed-only*": round(
+                float(diagnostic["conditional_family_scores"].get(family, 0.0)), 3
+            ),
         }
         for family, score in model["family_scores"].items()
     ]
@@ -436,7 +488,9 @@ def _model_detail(model_name: str) -> tuple[str, pd.DataFrame]:
     family_rows.append(
         {
             "Family": "Exact chance baseline",
-            "Score": round(float(chance["exact_chance_score"]), 3),
+            "Official score": round(float(chance["exact_chance_score"]), 3),
+            "Completed": "—",
+            "Completed-only*": "—",
         }
     )
     return summary, pd.DataFrame(family_rows)

@@ -327,6 +327,17 @@ contrasts, \FBSignificantEligiblePairs{} remain significant after Holm correctio
 \cref{fig:leaderboard} shows the score scale, simultaneous intervals, and rank groups;
 \cref{tab:leaderboard} gives exact values.
 
+Fable 5 illustrates why completion is separated from rank. It completed 413 of 640 primary tasks;
+the remaining 227 primary cells, plus 21 repeats, terminate as \texttt{content\_filter} with native
+reason \texttt{refusal} in the provider-attempt ledger. The failures are concentrated in regional
+composition (139 of 160 tasks). Its official intention-to-evaluate score is therefore 42.32, while
+the equal-family mean over completed cells is 73.05; the 21 completed regional-composition cells
+average 99.69. The latter values are diagnostic, not alternative leaderboard scores: completion is
+strongly non-random, so complete-case ranking would be biased. The behavior also appears in the
+pre-run route probes (16 of 28 Anthropic-route responses and three of four Azure-route responses),
+which argues against interpreting Fable's DNF as either a bottom-place capability result or a
+Google-only transport failure.
+
 \begin{figure*}[t]
   \centering
   \includegraphics[width=0.92\linewidth]{figures/powered/powered-leaderboard-forest.pdf}
@@ -343,7 +354,8 @@ contrasts, \FBSignificantEligiblePairs{} remain significant after Holm correctio
   \input{generated/powered/powered-leaderboard-table.tex}
   \caption{The complete automated leaderboard. ``Repeat'' is ingredient-set Jaccard agreement on
   64 label-permuted tasks and does not enter the score. Failed and invalid primary responses are
-  included at zero; completion is also shown explicitly.}
+  included at zero; completion is also shown explicitly. Fable 5 is DNF because provider refusals
+  leave 413/640 completed cells, not because it occupies a statistically ranked last place.}
   \label{tab:leaderboard}
 \end{table*}
 
@@ -442,6 +454,8 @@ The release is organized around content-addressed inputs and append-only outputs
   parameters, endpoint contract, and route digest;
   \item \FBPrimaryCells{} primary and \FBRepeatCells{} repeat response records, including raw
   text, completion state, usage, latency, parser output, task score, and response digest;
+  \item 55,254 content-addressed provider-attempt events referenced by those responses, including
+  normalized and native finish reasons used to distinguish refusals from ordinary completions;
   \item the frozen analysis plan, seeds, 50,000 bootstrap and 100,000 sign-flip counts, all \FBPairs{}
   pairwise rows, and the final statistical release; and
   \item a verifier and asset builder that reconstruct the leaderboard CSV, pairwise CSV, LaTeX
