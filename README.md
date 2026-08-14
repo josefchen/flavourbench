@@ -56,21 +56,24 @@ reports both point ranks and statistical rank groups instead of manufacturing a 
 | 23 | Llama 4 Maverick | 60.17 | 56.63–63.71 | 3 | 52.7% |
 | 24 | Cohere Command A | 58.11 | 54.82–61.40 | 4 | 57.2% |
 | 25 | Cohere Command R+ (08-2024) | 36.67 | 33.66–39.69 | 5 | 23.0% |
-| DNF | Claude Fable 5 | 42.32 | 37.88–46.76 | — | 48.4% |
+| DNF | Claude Fable 5 | 26.19 | 22.77–29.61 | — | 26.6% |
 
 Twenty-five systems meet the preregistered eligibility floor and all 25 score above the taskwise
 exact-chance baseline after Holm correction. Claude Fable 5 is retained as an intention-to-evaluate
-DNF because only 413 of 640 primary responses completed, although its failure-adjusted score is
-itself significantly above chance. **143 of 300** eligible-model contrasts and **167 of 325** total
+DNF because only 242 of 640 primary responses completed; its failure-adjusted score is 6.36 points
+below the exact-chance baseline. **143 of 300** eligible-model contrasts and **168 of 325** total
 prespecified contrasts remain significant after multiplicity correction. Scores use 50,000
 family-stratified shared-task bootstrap replicates;
 pairwise tests use 100,000 shared-task sign flips. Label-permuted repeats measure response stability.
+The repeat column is mean ingredient-set Jaccard agreement; repeats do not enter the score.
 
-Fable's 42.32 is an operational, failure-adjusted score—not a clean estimate of completed-answer
-quality. Its provider ledger records 227 primary refusals, including 139/160 regional-composition
-tasks. On completed cells, its equal-family descriptive mean is 73.05 (65.58 without family
-reweighting). Because those omissions are strongly non-random, neither complete-case value is used
-for ranking; the release reports Fable as DNF rather than as the worst model.
+Fable's 26.19 is an operational, failure-adjusted score—not a clean estimate of completed-answer
+quality. Its exact OpenRouter Anthropic-route ledger records 398 primary refusals, including
+154/160 regional-composition tasks. On completed cells, its equal-family descriptive mean is 73.72
+(69.26 without family reweighting). Because those omissions are strongly non-random, neither
+complete-case value is used for ranking; the release reports Fable as DNF rather than as the worst
+model. A complete earlier Google-route block is retained as route-sensitivity evidence but
+contributes no rows to this release.
 
 ![FlavourBench leaderboard with simultaneous confidence bands](paper/figures/powered/powered-leaderboard-forest.png)
 
@@ -111,7 +114,7 @@ python3.12 -m venv .venv
 pip install -e '.[dev]'
 
 python3 -I paper/reproduce_powered_release.py \
-  --release paper/generated/powered/flavourbench-powered-release-d4d2d65eddea8c324028f2fcad0c14361a8cee87f8a953cede9babaeba75be9c.json
+  --release paper/generated/powered/flavourbench-powered-release-7aeddf27998b0a8ed0b961cab035e4793305ea120f73ce8f3baa47e4db612cf7.json
 
 make -C paper -f Makefile.powered arxiv
 cd paper/build && sha256sum --check ARTIFACTS.sha256
@@ -125,14 +128,14 @@ hf download josefchen/flavourbench --repo-type dataset \
   --include 'data-powered/*' --local-dir hf-release
 
 python3 -I hf/dataset/restore_powered_runs.py \
-  --release paper/generated/powered/flavourbench-powered-release-d4d2d65eddea8c324028f2fcad0c14361a8cee87f8a953cede9babaeba75be9c.json \
+  --release paper/generated/powered/flavourbench-powered-release-7aeddf27998b0a8ed0b961cab035e4793305ea120f73ce8f3baa47e4db612cf7.json \
   --primary hf-release/data-powered/primary_observations.jsonl \
   --repeat hf-release/data-powered/repeat_observations.jsonl \
   --base-run benchmark/powered-v31/run \
   --cohere-run benchmark/powered-v35/run \
   --frontier-run benchmark/powered-v38/run \
   --deepseek-run benchmark/powered-v39/run \
-  --successor-run benchmark/powered-v42/run
+  --successor-run benchmark/powered-v43/run
 
 make -C paper -f Makefile.powered analysis assets arxiv
 ```
@@ -161,7 +164,7 @@ unresolved top groups where the data do not support a sharper claim.
 ## Citation
 
 The arXiv identifier will be added after submission. Until then, cite the paper and powered release
-`d4d2d65eddea8c324028f2fcad0c14361a8cee87f8a953cede9babaeba75be9c`:
+`7aeddf27998b0a8ed0b961cab035e4793305ea120f73ce8f3baa47e4db612cf7`:
 
 ```bibtex
 @article{chen2026flavourbench,

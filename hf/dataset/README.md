@@ -106,10 +106,12 @@ validity is a separate scientific question, just as simulator fidelity is separa
 performance in an embodied benchmark.
 
 Claude Fable 5 is deliberately reported as DNF rather than ranked last. Its failure-adjusted score
-is 42.32, but 227/640 primary cells terminate as provider refusals, including 139/160 regional
-composition tasks. The equal-family mean over completed cells is 73.05. That completed-only number
-is diagnostic rather than rankable because the missing cells are plainly not random; the exact
-refusal events can be audited in `provider_attempt_events`.
+is 26.19, but 398/640 primary cells terminate as provider refusals on the exact OpenRouter
+Anthropic route, including 154/160 regional-composition tasks. The equal-family mean over completed
+cells is 73.72. That completed-only number is diagnostic rather than rankable because the missing
+cells are plainly not random; the exact refusal events can be audited in
+`provider_attempt_events`. The superseded full Google-route block is retained in the repository
+lineage but contributes no observation rows to this dataset release.
 
 The primary release is fully automated; no human or model judge determines the leaderboard. The
 fixed tasks, common response format, intention-to-evaluate accounting, and shared-task inference
@@ -138,7 +140,7 @@ python -I hf/dataset/restore_powered_runs.py \
   --cohere-run benchmark/powered-v35/run \
   --frontier-run benchmark/powered-v38/run \
   --deepseek-run benchmark/powered-v39/run \
-  --successor-run benchmark/powered-v42/run
+  --successor-run benchmark/powered-v43/run
 
 make -C paper -f Makefile.powered analysis assets arxiv
 ```

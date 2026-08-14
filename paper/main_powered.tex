@@ -327,16 +327,17 @@ contrasts, \FBSignificantEligiblePairs{} remain significant after Holm correctio
 \cref{fig:leaderboard} shows the score scale, simultaneous intervals, and rank groups;
 \cref{tab:leaderboard} gives exact values.
 
-Fable 5 illustrates why completion is separated from rank. It completed 413 of 640 primary tasks;
-the remaining 227 primary cells, plus 21 repeats, terminate as \texttt{content\_filter} with native
-reason \texttt{refusal} in the provider-attempt ledger. The failures are concentrated in regional
-composition (139 of 160 tasks). Its official intention-to-evaluate score is therefore 42.32, while
-the equal-family mean over completed cells is 73.05; the 21 completed regional-composition cells
-average 99.69. The latter values are diagnostic, not alternative leaderboard scores: completion is
-strongly non-random, so complete-case ranking would be biased. The behavior also appears in the
-pre-run route probes (16 of 28 Anthropic-route responses and three of four Azure-route responses),
-which argues against interpreting Fable's DNF as either a bottom-place capability result or a
-Google-only transport failure.
+Fable 5 illustrates why completion is separated from rank. On the exact public Anthropic upstream
+through OpenRouter, it completed 242 of 640 primary tasks; the remaining 398 primary cells, plus 38
+repeats, terminate as \texttt{content\_filter} with native reason \texttt{refusal}. Its official
+intention-to-evaluate score is therefore 26.19, 6.36 points below the exact-chance baseline. The
+equal-family mean over completed cells is 73.72, and the six completed regional-composition cells
+average 99.08. These complete-case values are diagnostic, not alternative leaderboard scores:
+completion is strongly non-random, so ranking them would be biased. A superseded full block on
+OpenRouter's Google upstream completed 413 tasks and scored 42.32; it contributes no rows to the
+release. Of the primary cells, 199 were refused on both routes, 28 Google refusals completed on the
+Anthropic route, and 199 previously completed cells were newly refused. The route sensitivity is
+substantial, but switching to Anthropic did not resolve the model's benchmark-wide refusal pattern.
 
 \begin{figure*}[t]
   \centering
@@ -355,7 +356,7 @@ Google-only transport failure.
   \caption{The complete automated leaderboard. ``Repeat'' is ingredient-set Jaccard agreement on
   64 label-permuted tasks and does not enter the score. Failed and invalid primary responses are
   included at zero; completion is also shown explicitly. Fable 5 is DNF because provider refusals
-  leave 413/640 completed cells, not because it occupies a statistically ranked last place.}
+  leave 242/640 completed cells, not because it occupies a statistically ranked last place.}
   \label{tab:leaderboard}
 \end{table*}
 
