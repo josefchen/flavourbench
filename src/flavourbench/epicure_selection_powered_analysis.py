@@ -76,6 +76,14 @@ from .epicure_selection_powered_plan_v38 import PLAN_SCHEMA_VERSION as PLAN_SCHE
 from .epicure_selection_powered_plan_v38 import verify_plan as verify_plan_v38
 from .epicure_selection_powered_plan_v39 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V39
 from .epicure_selection_powered_plan_v39 import verify_plan as verify_plan_v39
+from .epicure_selection_powered_plan_v40 import DEEPSEEK_ID as V40_DEEPSEEK_ID
+from .epicure_selection_powered_plan_v40 import FABLE_ID as V40_FABLE_ID
+from .epicure_selection_powered_plan_v40 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V40
+from .epicure_selection_powered_plan_v40 import verify_plan as verify_plan_v40
+from .epicure_selection_powered_plan_v41 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V41
+from .epicure_selection_powered_plan_v41 import verify_plan as verify_plan_v41
+from .epicure_selection_powered_plan_v42 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V42
+from .epicure_selection_powered_plan_v42 import verify_plan as verify_plan_v42
 from .epicure_selection_taskset_v1 import score_answer, verify_taskset
 
 ANALYSIS_SCHEMA_VERSION = "flavourbench-selection-powered-analysis-v1"
@@ -832,6 +840,8 @@ def run(argv: Sequence[str] | None = None) -> None:
     parser.add_argument("--deepseek-plan", type=Path)
     parser.add_argument("--recovery-run-directory", type=Path)
     parser.add_argument("--frontier-run-directory", type=Path)
+    parser.add_argument("--frontier-plan", type=Path)
+    parser.add_argument("--deepseek-run-directory", type=Path)
     parser.add_argument("--cohere-run-directory", type=Path)
     parser.add_argument("--cohere-plan", type=Path)
     parser.add_argument("--output-directory", type=Path, required=True)
@@ -865,6 +875,9 @@ def run(argv: Sequence[str] | None = None) -> None:
         PLAN_SCHEMA_VERSION_V37: verify_plan_v37,
         PLAN_SCHEMA_VERSION_V38: verify_plan_v38,
         PLAN_SCHEMA_VERSION_V39: verify_plan_v39,
+        PLAN_SCHEMA_VERSION_V40: verify_plan_v40,
+        PLAN_SCHEMA_VERSION_V41: verify_plan_v41,
+        PLAN_SCHEMA_VERSION_V42: verify_plan_v42,
     }
     plan_valid = plan_schema in plan_verifiers and plan_verifiers[plan_schema](plan)
     if (
@@ -888,6 +901,8 @@ def run(argv: Sequence[str] | None = None) -> None:
         or args.deepseek_plan is not None
         or args.recovery_run_directory is not None
         or args.frontier_run_directory is not None
+        or args.frontier_plan is not None
+        or args.deepseek_run_directory is not None
         or args.cohere_run_directory is not None
         or args.cohere_plan is not None
     )
@@ -902,13 +917,263 @@ def run(argv: Sequence[str] | None = None) -> None:
             PLAN_SCHEMA_VERSION_V37,
             PLAN_SCHEMA_VERSION_V38,
             PLAN_SCHEMA_VERSION_V39,
+            PLAN_SCHEMA_VERSION_V40,
+            PLAN_SCHEMA_VERSION_V41,
+            PLAN_SCHEMA_VERSION_V42,
         }:
             raise SelectionPoweredAnalysisError("composite recovery requires a recovery plan")
         if args.predecessor_plan is None or args.recovery_run_directory is None:
             raise SelectionPoweredAnalysisError(
                 "composite analysis requires both predecessor plan and recovery run directory"
             )
-        if plan_schema == PLAN_SCHEMA_VERSION_V39:
+        if plan_schema == PLAN_SCHEMA_VERSION_V42:
+            if (
+                args.base_plan is None
+                or args.cohere_plan is None
+                or args.cohere_run_directory is None
+                or args.frontier_plan is None
+                or args.frontier_run_directory is None
+                or args.deepseek_plan is None
+                or args.deepseek_run_directory is None
+            ):
+                raise SelectionPoweredAnalysisError(
+                    "v42 composite analysis requires base, Cohere, v38 frontier, "
+                    "v39 DeepSeek, and v41 predecessor sources"
+                )
+            predecessor_plan = _load(args.predecessor_plan)
+            predecessor_pin = plan["inputs"]["plan_v41_predecessor"]
+            if (
+                not verify_plan_v41(predecessor_plan)
+                or predecessor_pin["semantic_sha256"] != predecessor_plan["artifact_sha256"]
+                or predecessor_pin["physical_sha256"] != _sha256_file(args.predecessor_plan)
+            ):
+                raise SelectionPoweredAnalysisError("v42 predecessor v41 binding failed")
+            deepseek_plan = _load(args.deepseek_plan)
+            deepseek_pin = plan["inputs"]["plan_v39_predecessor"]
+            if (
+                not verify_plan_v39(deepseek_plan)
+                or deepseek_pin["semantic_sha256"] != deepseek_plan["artifact_sha256"]
+                or deepseek_pin["physical_sha256"] != _sha256_file(args.deepseek_plan)
+            ):
+                raise SelectionPoweredAnalysisError("v42 DeepSeek v39 binding failed")
+            frontier_plan = _load(args.frontier_plan)
+            frontier_pin = plan["inputs"]["plan_v38_predecessor"]
+            if (
+                not verify_plan_v38(frontier_plan)
+                or frontier_pin["semantic_sha256"] != frontier_plan["artifact_sha256"]
+                or frontier_pin["physical_sha256"] != _sha256_file(args.frontier_plan)
+            ):
+                raise SelectionPoweredAnalysisError("v42 frontier v38 binding failed")
+            base_plan = _load(args.base_plan)
+            base_pin = plan["inputs"]["retained_base_response_source_plan"]
+            if (
+                not verify_plan_v31(base_plan)
+                or base_pin["semantic_sha256"] != base_plan["artifact_sha256"]
+                or base_pin["physical_sha256"] != _sha256_file(args.base_plan)
+            ):
+                raise SelectionPoweredAnalysisError("v42 base v31 binding failed")
+            cohere_plan = _load(args.cohere_plan)
+            cohere_pin = plan["inputs"]["retained_cohere_response_source_plan"]
+            if (
+                not verify_plan_v35(cohere_plan)
+                or cohere_pin["semantic_sha256"] != cohere_plan["artifact_sha256"]
+                or cohere_pin["physical_sha256"] != _sha256_file(args.cohere_plan)
+            ):
+                raise SelectionPoweredAnalysisError("v42 Cohere v35 binding failed")
+            successor = plan["execution"]["frontier_refresh_successor"]
+            base_ids = {str(value) for value in successor["retained_base_model_ids"]}
+            cohere_ids = {str(value) for value in successor["retained_cohere_model_ids"]}
+            frontier_ids = {str(value) for value in successor["retained_v38_new_model_ids"]}
+            deepseek_ids = {str(value) for value in successor["retained_v39_new_model_ids"]}
+            rerun_ids = {str(value) for value in successor["rerun_model_ids"]}
+            roster_ids = {str(row["model_id"]) for row in plan["roster"]["models"]}
+            groups = (base_ids, cohere_ids, frontier_ids, deepseek_ids, rerun_ids)
+            if (
+                tuple(map(len, groups)) != (16, 2, 6, 1, 1)
+                or deepseek_ids != {V40_DEEPSEEK_ID}
+                or rerun_ids != {V40_FABLE_ID}
+                or any(
+                    left & right
+                    for index, left in enumerate(groups)
+                    for right in groups[index + 1 :]
+                )
+                or set().union(*groups) != roster_ids
+            ):
+                raise SelectionPoweredAnalysisError("v42 response-source partition is invalid")
+            model_sources = {model_id: (args.run_directory, base_plan) for model_id in base_ids}
+            model_sources.update(
+                {model_id: (args.cohere_run_directory, cohere_plan) for model_id in cohere_ids}
+            )
+            model_sources.update(
+                {
+                    model_id: (args.frontier_run_directory, frontier_plan)
+                    for model_id in frontier_ids
+                }
+            )
+            model_sources.update(
+                {
+                    model_id: (args.deepseek_run_directory, deepseek_plan)
+                    for model_id in deepseek_ids
+                }
+            )
+            model_sources.update(
+                {model_id: (args.recovery_run_directory, plan) for model_id in rerun_ids}
+            )
+            response_source_lineage = {
+                "schema_version": "flavourbench-selection-composite-response-sources-v7",
+                "base_model_ids": sorted(base_ids),
+                "base_plan": {
+                    "semantic_sha256": base_plan["artifact_sha256"],
+                    "physical_sha256": _sha256_file(args.base_plan),
+                },
+                "cohere_model_ids": sorted(cohere_ids),
+                "cohere_plan": {
+                    "semantic_sha256": cohere_plan["artifact_sha256"],
+                    "physical_sha256": _sha256_file(args.cohere_plan),
+                },
+                "frontier_model_ids": sorted(frontier_ids),
+                "frontier_plan": {
+                    "semantic_sha256": frontier_plan["artifact_sha256"],
+                    "physical_sha256": _sha256_file(args.frontier_plan),
+                },
+                "deepseek_model_ids": sorted(deepseek_ids),
+                "deepseek_plan": {
+                    "semantic_sha256": deepseek_plan["artifact_sha256"],
+                    "physical_sha256": _sha256_file(args.deepseek_plan),
+                },
+                "successor_model_ids": sorted(rerun_ids),
+                "successor_plan": {
+                    "semantic_sha256": plan["artifact_sha256"],
+                    "physical_sha256": _sha256_file(args.plan),
+                },
+                "cross_provider_response_pooling_within_model": False,
+                "superseded_model_responses_used": False,
+                "v38_deepseek_responses_used_as_score_data": False,
+                "v38_fable_responses_used_as_score_data": False,
+                "v39_deepseek_responses_used_as_score_data": True,
+                "v40_fable_responses_used_as_score_data": False,
+                "v41_fable_responses_used_as_score_data": False,
+                "v42_fable_responses_used_as_score_data": True,
+                "route_probe_responses_used_as_score_data": False,
+            }
+        elif plan_schema == PLAN_SCHEMA_VERSION_V40:
+            if (
+                args.base_plan is None
+                or args.cohere_plan is None
+                or args.cohere_run_directory is None
+                or args.frontier_plan is None
+                or args.frontier_run_directory is None
+                or args.deepseek_run_directory is None
+            ):
+                raise SelectionPoweredAnalysisError(
+                    "v40 composite analysis requires base, Cohere, v38 frontier, "
+                    "and v39 DeepSeek sources"
+                )
+            predecessor_plan = _load(args.predecessor_plan)
+            predecessor_pin = plan["inputs"]["plan_v39_predecessor"]
+            if (
+                not verify_plan_v39(predecessor_plan)
+                or predecessor_pin["semantic_sha256"] != predecessor_plan["artifact_sha256"]
+                or predecessor_pin["physical_sha256"] != _sha256_file(args.predecessor_plan)
+            ):
+                raise SelectionPoweredAnalysisError("v40 predecessor v39 binding failed")
+            frontier_plan = _load(args.frontier_plan)
+            frontier_pin = predecessor_plan["inputs"]["plan_v38_predecessor"]
+            if (
+                not verify_plan_v38(frontier_plan)
+                or frontier_pin["semantic_sha256"] != frontier_plan["artifact_sha256"]
+                or frontier_pin["physical_sha256"] != _sha256_file(args.frontier_plan)
+            ):
+                raise SelectionPoweredAnalysisError("v40 frontier v38 binding failed")
+            base_plan = _load(args.base_plan)
+            base_pin = plan["inputs"]["retained_base_response_source_plan"]
+            if (
+                not verify_plan_v31(base_plan)
+                or base_pin["semantic_sha256"] != base_plan["artifact_sha256"]
+                or base_pin["physical_sha256"] != _sha256_file(args.base_plan)
+            ):
+                raise SelectionPoweredAnalysisError("v40 base v31 binding failed")
+            cohere_plan = _load(args.cohere_plan)
+            cohere_pin = plan["inputs"]["retained_cohere_response_source_plan"]
+            if (
+                not verify_plan_v35(cohere_plan)
+                or cohere_pin["semantic_sha256"] != cohere_plan["artifact_sha256"]
+                or cohere_pin["physical_sha256"] != _sha256_file(args.cohere_plan)
+            ):
+                raise SelectionPoweredAnalysisError("v40 Cohere v35 binding failed")
+            successor = plan["execution"]["frontier_refresh_successor"]
+            base_ids = {str(value) for value in successor["retained_base_model_ids"]}
+            cohere_ids = {str(value) for value in successor["retained_cohere_model_ids"]}
+            frontier_ids = {str(value) for value in successor["retained_v38_new_model_ids"]}
+            deepseek_ids = {str(value) for value in successor["retained_v39_new_model_ids"]}
+            rerun_ids = {str(value) for value in successor["rerun_model_ids"]}
+            roster_ids = {str(row["model_id"]) for row in plan["roster"]["models"]}
+            groups = (base_ids, cohere_ids, frontier_ids, deepseek_ids, rerun_ids)
+            if (
+                tuple(map(len, groups)) != (16, 2, 6, 1, 1)
+                or deepseek_ids != {V40_DEEPSEEK_ID}
+                or rerun_ids != {V40_FABLE_ID}
+                or any(
+                    left & right
+                    for index, left in enumerate(groups)
+                    for right in groups[index + 1 :]
+                )
+                or set().union(*groups) != roster_ids
+            ):
+                raise SelectionPoweredAnalysisError("v40 response-source partition is invalid")
+            model_sources = {model_id: (args.run_directory, base_plan) for model_id in base_ids}
+            model_sources.update(
+                {model_id: (args.cohere_run_directory, cohere_plan) for model_id in cohere_ids}
+            )
+            model_sources.update(
+                {
+                    model_id: (args.frontier_run_directory, frontier_plan)
+                    for model_id in frontier_ids
+                }
+            )
+            model_sources.update(
+                {
+                    model_id: (args.deepseek_run_directory, predecessor_plan)
+                    for model_id in deepseek_ids
+                }
+            )
+            model_sources.update(
+                {model_id: (args.recovery_run_directory, plan) for model_id in rerun_ids}
+            )
+            response_source_lineage = {
+                "schema_version": "flavourbench-selection-composite-response-sources-v6",
+                "base_model_ids": sorted(base_ids),
+                "base_plan": {
+                    "semantic_sha256": base_plan["artifact_sha256"],
+                    "physical_sha256": _sha256_file(args.base_plan),
+                },
+                "cohere_model_ids": sorted(cohere_ids),
+                "cohere_plan": {
+                    "semantic_sha256": cohere_plan["artifact_sha256"],
+                    "physical_sha256": _sha256_file(args.cohere_plan),
+                },
+                "frontier_model_ids": sorted(frontier_ids),
+                "frontier_plan": {
+                    "semantic_sha256": frontier_plan["artifact_sha256"],
+                    "physical_sha256": _sha256_file(args.frontier_plan),
+                },
+                "deepseek_model_ids": sorted(deepseek_ids),
+                "deepseek_plan": {
+                    "semantic_sha256": predecessor_plan["artifact_sha256"],
+                    "physical_sha256": _sha256_file(args.predecessor_plan),
+                },
+                "successor_model_ids": sorted(rerun_ids),
+                "successor_plan": {
+                    "semantic_sha256": plan["artifact_sha256"],
+                    "physical_sha256": _sha256_file(args.plan),
+                },
+                "cross_provider_response_pooling_within_model": False,
+                "superseded_model_responses_used": False,
+                "v38_deepseek_responses_used_as_score_data": False,
+                "v38_fable_responses_used_as_score_data": False,
+                "v39_deepseek_responses_used_as_score_data": True,
+            }
+        elif plan_schema == PLAN_SCHEMA_VERSION_V39:
             if (
                 args.base_plan is None
                 or args.cohere_plan is None

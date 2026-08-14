@@ -25,7 +25,27 @@ from flavourbench.epicure_selection_powered_plan_v39 import (
 from flavourbench.epicure_selection_powered_plan_v39 import (
     verify_plan as verify_plan_v39,
 )
+from flavourbench.epicure_selection_powered_plan_v40 import FABLE_ID
+from flavourbench.epicure_selection_powered_plan_v40 import (
+    build_plan as build_plan_v40,
+)
+from flavourbench.epicure_selection_powered_plan_v40 import (
+    verify_plan as verify_plan_v40,
+)
+from flavourbench.epicure_selection_powered_plan_v41 import (
+    verify_plan as verify_plan_v41,
+)
+from flavourbench.epicure_selection_powered_plan_v42 import (
+    verify_plan as verify_plan_v42,
+)
 from flavourbench.epicure_selection_powered_runner import build_cells
+from flavourbench.epicure_selection_route_manifest_v41 import SELECTED_PROVIDER, SELECTED_TAG
+from flavourbench.epicure_selection_route_manifest_v41 import (
+    verify_manifest as verify_manifest_v41,
+)
+from flavourbench.epicure_selection_route_manifest_v42 import (
+    verify_manifest as verify_manifest_v42,
+)
 from flavourbench.epicure_selection_taskset_v1 import verify_taskset
 from flavourbench.frontier_contract_runner import load_candidate_manifest, select_candidates
 from flavourbench.frontier_manifest import verify_manifest_content_address
@@ -153,3 +173,133 @@ def test_v39_attempt_integrity_covers_the_complete_envelope() -> None:
     document["recorded_at"] = "2026-08-14T00:00:01Z"
     with pytest.raises(SelectionPoweredPlanV39Error, match="journal failed integrity"):
         _verified_attempt_event(document, plan_sha256=plan_sha256)
+
+
+def test_v40_replaces_the_complete_fable_block_without_changing_its_contract() -> None:
+    predecessor_path = _sole("benchmark/powered-v39/plan/*.json")
+    manifest_path = _sole("benchmark/powered-v37/manifest/*.json")
+    predecessor = json.loads(predecessor_path.read_text(encoding="utf-8"))
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    assert verify_plan_v39(predecessor)
+
+    fable_transport = {
+        "plan_sha256": predecessor["inputs"]["plan_v38_predecessor"]["semantic_sha256"],
+        "primary_response_count": 640,
+        "repeat_response_count": 64,
+        "primary_status_counts": {"completed": 244, "failed": 396},
+        "repeat_status_counts": {"completed": 27, "failed": 37},
+        "primary_completion_rate": 244 / 640,
+        "repeat_completion_rate": 27 / 64,
+        "failed_error_type_counts": {"ProviderError": 433},
+        "failed_error_message_sha256_counts": {"1" * 64: 433},
+        "response_artifact_set_sha256": "2" * 64,
+        "attempt_journal_physical_sha256": "3" * 64,
+        "spend_micros": 2_110_682,
+        "aggregate_fable_score_was_inspected_before_repair": True,
+        "task_level_scores_or_selections_used_to_change_execution_contract": False,
+        "execution_contract_changed": False,
+        "complete_old_fable_block_used_as_final_score_data": False,
+    }
+    deepseek_source = {
+        "plan_sha256": predecessor["artifact_sha256"],
+        "primary_response_count": 640,
+        "repeat_response_count": 64,
+        "primary_status_counts": {"completed": 629, "failed": 11},
+        "repeat_status_counts": {"completed": 55, "failed": 9},
+        "response_artifact_set_sha256": "4" * 64,
+        "spend_micros": 6_307_482,
+        "responses_used_as_final_deepseek_score_data": True,
+    }
+    plan = build_plan_v40(
+        predecessor=predecessor,
+        predecessor_physical_sha256=_physical_sha256(predecessor_path),
+        manifest=manifest,
+        manifest_physical_sha256=_physical_sha256(manifest_path),
+        fable_transport=fable_transport,
+        deepseek_source=deepseek_source,
+    )
+
+    assert verify_plan_v40(plan)
+    predecessor_rows = {row["model_id"]: row for row in predecessor["roster"]["models"]}
+    final_rows = {row["model_id"]: row for row in plan["roster"]["models"]}
+    assert final_rows == predecessor_rows
+    successor = plan["execution"]["frontier_refresh_successor"]
+    assert successor["rerun_model_ids"] == [FABLE_ID]
+    assert successor["retained_v39_new_model_ids"] == [DEEPSEEK_ID]
+    assert successor["selective_failed_cell_retry"] is False
+    assert successor["v38_fable_responses_used_as_score_data"] is False
+    assert plan["budget"]["hard_cap"] == "170.457085"
+
+    plan["inputs"]["calibration_v38_fable_transport"]["execution_contract_changed"] = True
+    assert not verify_plan_v40(plan)
+
+
+def test_v41_changes_only_fables_provider_route_after_content_filter_failure() -> None:
+    source_manifest = json.loads(_sole("benchmark/powered-v37/manifest/*.json").read_text())
+    manifest = json.loads(_sole("benchmark/powered-v41/manifest/*.json").read_text())
+    predecessor = json.loads(_sole("benchmark/powered-v40/plan/*.json").read_text())
+    plan = json.loads(_sole("benchmark/powered-v41/plan/*.json").read_text())
+
+    assert verify_manifest_v41(manifest)
+    assert verify_plan_v41(plan)
+    source_rows = {row["model"]["id"]: row for row in source_manifest["models"]}
+    final_rows = {row["model"]["id"]: row for row in manifest["models"]}
+    assert {key: value for key, value in source_rows.items() if key != FABLE_ID} == {
+        key: value for key, value in final_rows.items() if key != FABLE_ID
+    }
+    assert final_rows[FABLE_ID]["endpoint"]["tag"] == SELECTED_TAG
+    assert final_rows[FABLE_ID]["endpoint"]["provider_name"] == SELECTED_PROVIDER
+    assert (
+        final_rows[FABLE_ID]["model"]["canonical_slug"]
+        == source_rows[FABLE_ID]["model"]["canonical_slug"]
+    )
+
+    predecessor_rows = {row["model_id"]: row for row in predecessor["roster"]["models"]}
+    plan_rows = {row["model_id"]: row for row in plan["roster"]["models"]}
+    assert {key: value for key, value in predecessor_rows.items() if key != FABLE_ID} == {
+        key: value for key, value in plan_rows.items() if key != FABLE_ID
+    }
+    assert plan_rows[FABLE_ID]["provider_tag"] == SELECTED_TAG
+    assert plan_rows[FABLE_ID]["provider_name"] == SELECTED_PROVIDER
+    transport = plan["inputs"]["calibration_v40_fable_transport"]
+    assert transport["response_count"] == 26
+    assert transport["status_counts"] == {"completed": 11, "failed": 15}
+    assert transport["provider_finish_reason_counts"] == {"content_filter": 16, "stop": 12}
+    assert transport["response_received_count"] == 28
+    assert transport["artifactless_response_received_count"] == 2
+    assert transport["bounded_exposure_micros"] == 1_804_536
+    assert transport["task_scores_or_selections_used_for_route_choice"] is False
+    assert (
+        plan["execution"]["frontier_refresh_successor"]["v40_fable_responses_used_as_score_data"]
+        is False
+    )
+
+
+def test_v42_freezes_google_global_before_the_complete_fable_block() -> None:
+    source_manifest = json.loads(_sole("benchmark/powered-v41/manifest/*.json").read_text())
+    manifest = json.loads(_sole("benchmark/powered-v42/manifest/*.json").read_text())
+    predecessor = json.loads(_sole("benchmark/powered-v41/plan/*.json").read_text())
+    plan = json.loads(_sole("benchmark/powered-v42/plan/*.json").read_text())
+
+    assert verify_manifest_v42(manifest)
+    assert verify_plan_v42(plan)
+    source_rows = {row["model"]["id"]: row for row in source_manifest["models"]}
+    final_rows = {row["model"]["id"]: row for row in manifest["models"]}
+    assert {key: value for key, value in source_rows.items() if key != FABLE_ID} == {
+        key: value for key, value in final_rows.items() if key != FABLE_ID
+    }
+    assert final_rows[FABLE_ID]["endpoint"]["tag"] == "google-vertex/global"
+    assert final_rows[FABLE_ID]["endpoint"]["provider_name"] == "Google"
+
+    predecessor_rows = {row["model_id"]: row for row in predecessor["roster"]["models"]}
+    plan_rows = {row["model_id"]: row for row in plan["roster"]["models"]}
+    assert {key: value for key, value in predecessor_rows.items() if key != FABLE_ID} == {
+        key: value for key, value in plan_rows.items() if key != FABLE_ID
+    }
+    assert plan_rows[FABLE_ID]["provider_tag"] == "google-vertex/global"
+    assert plan_rows[FABLE_ID]["provider_name"] == "Google"
+    probe = plan["inputs"]["bounded_fable_route_probe"]
+    assert probe["answers_or_scores_used"] is False
+    assert probe["selected_provider_tag"] == "google-vertex/global"
+    assert probe["provider_calls"] == 16
+    assert plan["budget"]["hard_cap"] == "154.884415"

@@ -75,6 +75,12 @@ from .epicure_selection_powered_plan_v38 import PLAN_SCHEMA_VERSION as PLAN_SCHE
 from .epicure_selection_powered_plan_v38 import verify_plan as verify_plan_v38
 from .epicure_selection_powered_plan_v39 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V39
 from .epicure_selection_powered_plan_v39 import verify_plan as verify_plan_v39
+from .epicure_selection_powered_plan_v40 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V40
+from .epicure_selection_powered_plan_v40 import verify_plan as verify_plan_v40
+from .epicure_selection_powered_plan_v41 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V41
+from .epicure_selection_powered_plan_v41 import verify_plan as verify_plan_v41
+from .epicure_selection_powered_plan_v42 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V42
+from .epicure_selection_powered_plan_v42 import verify_plan as verify_plan_v42
 from .epicure_selection_taskset_v1 import FAMILIES, score_answer, verify_taskset
 from .frontier_contract_runner import (
     ContractCandidate,
@@ -233,6 +239,9 @@ def validate_inputs(
         PLAN_SCHEMA_VERSION_V37: verify_plan_v37,
         PLAN_SCHEMA_VERSION_V38: verify_plan_v38,
         PLAN_SCHEMA_VERSION_V39: verify_plan_v39,
+        PLAN_SCHEMA_VERSION_V40: verify_plan_v40,
+        PLAN_SCHEMA_VERSION_V41: verify_plan_v41,
+        PLAN_SCHEMA_VERSION_V42: verify_plan_v42,
     }
     plan_valid = plan_schema in plan_verifiers and plan_verifiers[plan_schema](plan)
     if (
@@ -303,6 +312,9 @@ async def _async_run(args: argparse.Namespace) -> None:
             PLAN_SCHEMA_VERSION_V37,
             PLAN_SCHEMA_VERSION_V38,
             PLAN_SCHEMA_VERSION_V39,
+            PLAN_SCHEMA_VERSION_V40,
+            PLAN_SCHEMA_VERSION_V41,
+            PLAN_SCHEMA_VERSION_V42,
         }
         else selection_execution_policy()
     )

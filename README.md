@@ -56,13 +56,14 @@ reports both point ranks and statistical rank groups instead of manufacturing a 
 | 23 | Llama 4 Maverick | 60.17 | 56.63–63.71 | 3 | 52.7% |
 | 24 | Cohere Command A | 58.11 | 54.82–61.40 | 4 | 57.2% |
 | 25 | Cohere Command R+ (08-2024) | 36.67 | 33.66–39.69 | 5 | 23.0% |
-| DNF | Claude Fable 5 | 26.08 | 22.72–29.44 | — | 21.1% |
+| DNF | Claude Fable 5 | 42.32 | 37.88–46.76 | — | 48.4% |
 
 Twenty-five systems meet the preregistered eligibility floor and all 25 score above the taskwise
 exact-chance baseline after Holm correction. Claude Fable 5 is retained as an intention-to-evaluate
-DNF because only 244 of 640 primary responses completed. **168 of 325** paired model contrasts
-remain significant
-after multiplicity correction. Scores use 50,000 family-stratified shared-task bootstrap replicates;
+DNF because only 413 of 640 primary responses completed, although its failure-adjusted score is
+itself significantly above chance. **143 of 300** eligible-model contrasts and **167 of 325** total
+prespecified contrasts remain significant after multiplicity correction. Scores use 50,000
+family-stratified shared-task bootstrap replicates;
 pairwise tests use 100,000 shared-task sign flips. Label-permuted repeats measure response stability.
 
 ![FlavourBench leaderboard with simultaneous confidence bands](paper/figures/powered/powered-leaderboard-forest.png)
@@ -104,27 +105,28 @@ python3.12 -m venv .venv
 pip install -e '.[dev]'
 
 python3 -I paper/reproduce_powered_release.py \
-  --release paper/generated/powered/flavourbench-powered-release-886473ef5c7fb451906610b5cffec2ef5ebd69ad46be56783b1308cbc3540d13.json
+  --release paper/generated/powered/flavourbench-powered-release-d4d2d65eddea8c324028f2fcad0c14361a8cee87f8a953cede9babaeba75be9c.json
 
 make -C paper -f Makefile.powered arxiv
 cd paper/build && sha256sum --check ARTIFACTS.sha256
 ```
 
 To reconstruct the release from every raw response, download the larger evidence layer from
-Hugging Face and restore the four content-addressed run directories:
+Hugging Face and restore the five content-addressed run directories:
 
 ```bash
 hf download josefchen/flavourbench --repo-type dataset \
   --include 'data-powered/*' --local-dir hf-release
 
 python3 -I hf/dataset/restore_powered_runs.py \
-  --release paper/generated/powered/flavourbench-powered-release-886473ef5c7fb451906610b5cffec2ef5ebd69ad46be56783b1308cbc3540d13.json \
+  --release paper/generated/powered/flavourbench-powered-release-d4d2d65eddea8c324028f2fcad0c14361a8cee87f8a953cede9babaeba75be9c.json \
   --primary hf-release/data-powered/primary_observations.jsonl \
   --repeat hf-release/data-powered/repeat_observations.jsonl \
   --base-run benchmark/powered-v31/run \
   --cohere-run benchmark/powered-v35/run \
   --frontier-run benchmark/powered-v38/run \
-  --successor-run benchmark/powered-v39/run
+  --deepseek-run benchmark/powered-v39/run \
+  --successor-run benchmark/powered-v42/run
 
 make -C paper -f Makefile.powered analysis assets arxiv
 ```
@@ -153,7 +155,7 @@ unresolved top groups where the data do not support a sharper claim.
 ## Citation
 
 The arXiv identifier will be added after submission. Until then, cite the paper and powered release
-`886473ef5c7fb451906610b5cffec2ef5ebd69ad46be56783b1308cbc3540d13`:
+`d4d2d65eddea8c324028f2fcad0c14361a8cee87f8a953cede9babaeba75be9c`:
 
 ```bibtex
 @article{chen2026flavourbench,

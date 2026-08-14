@@ -93,3 +93,67 @@ def test_powered_dataset_tables_and_manifest_are_deterministic() -> None:
         "leaderboard.jsonl": 4,
         "pairwise_comparisons.jsonl": 1,
     }
+
+
+def test_v42_dataset_labels_each_response_lineage() -> None:
+    module = _module()
+    groups = {
+        "base_model_ids": [f"base-{index:02d}" for index in range(16)],
+        "cohere_model_ids": ["cohere-a", "cohere-r"],
+        "frontier_model_ids": [f"frontier-{index:02d}" for index in range(6)],
+        "deepseek_model_ids": ["deepseek-v4-pro"],
+        "successor_model_ids": ["fable-5"],
+    }
+    model_ids = [model_id for values in groups.values() for model_id in values]
+    release = {
+        "inputs": {
+            "model_response_sources": {
+                "schema_version": "flavourbench-selection-composite-response-sources-v7",
+                **groups,
+            }
+        },
+        "analysis": {
+            "models": [
+                {
+                    "model_id": model_id,
+                    "point_estimate_rank": index + 1,
+                    "flavourbench_score": 80.0 - index,
+                }
+                for index, model_id in enumerate(model_ids)
+            ],
+            "pairwise_comparisons": [],
+        },
+    }
+    plan = {
+        "roster": {
+            "models": [
+                {
+                    "model_id": model_id,
+                    "canonical_model_slug": f"{model_id}-dated",
+                    "execution_backend": "openrouter",
+                    "provider_tag": "provider",
+                    "provider_name": "Provider",
+                    "endpoint_execution_sha256": str(index % 10) * 64,
+                }
+                for index, model_id in enumerate(model_ids)
+            ]
+        }
+    }
+    tables = module._tables(
+        release=release,
+        taskset={"tasks": []},
+        repeat_panel={"tasks": []},
+        plan=plan,
+        primary_documents=[],
+        repeat_documents=[],
+    )
+    sources = {row["model_id"]: row["response_source"] for row in tables["models"]}
+    assert {sources[model_id] for model_id in groups["base_model_ids"]} == {"powered-v31-base"}
+    assert {sources[model_id] for model_id in groups["cohere_model_ids"]} == {
+        "powered-v35-clean-cohere"
+    }
+    assert {sources[model_id] for model_id in groups["frontier_model_ids"]} == {
+        "powered-v38-frontier-refresh"
+    }
+    assert sources["deepseek-v4-pro"] == "powered-v39-deepseek-repair"
+    assert sources["fable-5"] == "powered-v42-fable-complete-block"

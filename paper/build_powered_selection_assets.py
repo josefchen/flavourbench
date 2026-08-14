@@ -176,11 +176,21 @@ def _macros(release: Mapping[str, Any], taskset: Mapping[str, Any]) -> str:
     models = _ranked_models(release)
     top = models[0]
     eligible = [row for row in models if row["eligible"]]
+    eligible_ids = {str(row["model_id"]) for row in eligible}
+    eligible_pairs = [
+        row
+        for row in release["analysis"]["pairwise_comparisons"]
+        if str(row["left_model_id"]) in eligible_ids and str(row["right_model_id"]) in eligible_ids
+    ]
     significant = sum(
         bool(row["holm_significant"]) for row in release["analysis"]["pairwise_comparisons"]
     )
+    significant_eligible = sum(bool(row["holm_significant"]) for row in eligible_pairs)
     above_chance = sum(
         bool(row["chance_comparison"]["holm_significant_above_chance"]) for row in models
+    )
+    above_chance_eligible = sum(
+        bool(row["chance_comparison"]["holm_significant_above_chance"]) for row in eligible
     )
     total_complete = sum(int(row["availability"]["completed"]) for row in models)
     total_parseable = sum(int(row["availability"]["parseable"]) for row in models)
@@ -210,7 +220,10 @@ def _macros(release: Mapping[str, Any], taskset: Mapping[str, Any]) -> str:
         "FBTopRepeat": f"{float(repeat['mean_ingredient_set_jaccard']):.2f}",
         "FBSignificantPairs": significant,
         "FBPairs": len(release["analysis"]["pairwise_comparisons"]),
+        "FBSignificantEligiblePairs": significant_eligible,
+        "FBEligiblePairs": len(eligible_pairs),
         "FBAboveChance": above_chance,
+        "FBAboveChanceEligible": above_chance_eligible,
         "FBDefinitiveTop": "yes" if definitive else "no",
         "FBBootstrapResamples": release["analysis"]["inference"]["bootstrap_resamples"],
         "FBPermutationResamples": release["analysis"]["inference"]["permutation_resamples"],

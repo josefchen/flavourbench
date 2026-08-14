@@ -85,7 +85,8 @@ finer than the data support.
 - complete primary and repeat response records, including answer text, parsed selection, score,
   completion state, exact route identity, latency, token use, cost, and content hashes;
 - route-level model metadata and clean-source lineage for 16 retained base blocks, two Cohere
-  blocks, seven frontier-refresh blocks, and the clean DeepSeek 0813 repair;
+  blocks, six retained frontier-refresh blocks, the clean DeepSeek 0813 repair, and the complete
+  Fable 5 replacement block;
 - the complete leaderboard and every multiplicity-adjusted pairwise comparison; and
 - a manifest binding every table by row count, byte size, and SHA-256.
 
@@ -123,7 +124,8 @@ python -I hf/dataset/restore_powered_runs.py \
   --base-run benchmark/powered-v31/run \
   --cohere-run benchmark/powered-v35/run \
   --frontier-run benchmark/powered-v38/run \
-  --successor-run benchmark/powered-v39/run
+  --deepseek-run benchmark/powered-v39/run \
+  --successor-run benchmark/powered-v42/run
 
 make -C paper -f Makefile.powered analysis assets arxiv
 ```

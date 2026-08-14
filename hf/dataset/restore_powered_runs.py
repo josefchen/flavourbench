@@ -158,7 +158,22 @@ def restore(
         raise PoweredRunRestoreError("response table panel assignment failed")
 
     lineage = release["inputs"]["model_response_sources"]
-    if "frontier_model_ids" in lineage:
+    if "deepseek_model_ids" in lineage:
+        base_models = {str(value) for value in lineage["base_model_ids"]}
+        cohere_models = {str(value) for value in lineage["cohere_model_ids"]}
+        frontier_models = {str(value) for value in lineage["frontier_model_ids"]}
+        deepseek_models = {str(value) for value in lineage["deepseek_model_ids"]}
+        successor_models = {str(value) for value in lineage["successor_model_ids"]}
+        if (
+            len(base_models) != 16
+            or len(cohere_models) != 2
+            or len(frontier_models) != 6
+            or len(deepseek_models) != 1
+            or len(successor_models) != 1
+        ):
+            raise PoweredRunRestoreError("v42 source lineage cardinality failed")
+        deepseek_model = next(iter(deepseek_models))
+    elif "frontier_model_ids" in lineage:
         base_models = {str(value) for value in lineage["base_model_ids"]}
         cohere_models = {str(value) for value in lineage["cohere_model_ids"]}
         frontier_models = {str(value) for value in lineage["frontier_model_ids"]}

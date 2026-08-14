@@ -74,9 +74,9 @@ Executable Culinary Ground Truth}
   all \FBPairs{} paired model contrasts with Holm control, exact-chance tests, and ingredient-set
   repeatability. \FBTopModel{} has the highest point estimate at \FBTopScore{}
   (simultaneous 95\% CI \FBTopCILow{}--\FBTopCIHigh{}); the data resolve
-  \FBSignificantPairs{} of \FBPairs{} model pairs. The release includes every prompt, response,
-  route, score map, completion state, and content hash, together with an offline verifier that
-  reconstructs the leaderboard, tables, and figures.
+  \FBSignificantEligiblePairs{} of \FBEligiblePairs{} pairs among rank-eligible endpoints. The
+  release includes every prompt, response, route, score map, completion state, and content hash,
+  together with an offline verifier that reconstructs the leaderboard, tables, and figures.
   \end{abstract}
   \vspace{0.5em}
   \end{@twocolumnfalse}
@@ -320,9 +320,12 @@ paired tests and bootstrap precision, not on this planning approximation.
 
 \FBEligibleModels{} of \FBModels{} endpoints meet the completion threshold. \FBTopModel{} has the
 largest score point estimate, \FBTopScore{}, with simultaneous 95\% interval
-[\FBTopCILow{}, \FBTopCIHigh{}]. Across all \FBPairs{} paired contrasts,
-\FBSignificantPairs{} remain significant after Holm correction. \cref{fig:leaderboard} shows the
-score scale, simultaneous intervals, and rank groups; \cref{tab:leaderboard} gives exact values.
+[\FBTopCILow{}, \FBTopCIHigh{}]. All \FBAboveChanceEligible{} eligible models outperform the exact
+taskwise chance baseline after Holm correction. Among the \FBEligiblePairs{} ranked-model
+contrasts, \FBSignificantEligiblePairs{} remain significant after Holm correction; across all
+\FBPairs{} prespecified contrasts, including DNF endpoints, the count is \FBSignificantPairs{}.
+\cref{fig:leaderboard} shows the score scale, simultaneous intervals, and rank groups;
+\cref{tab:leaderboard} gives exact values.
 
 \begin{figure*}[t]
   \centering
