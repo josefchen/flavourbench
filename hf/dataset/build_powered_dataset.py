@@ -17,6 +17,7 @@ from flavourbench.epicure_selection_powered_plan_v35 import verify_plan as verif
 from flavourbench.epicure_selection_powered_plan_v38 import verify_plan as verify_v38_plan
 from flavourbench.epicure_selection_powered_plan_v39 import verify_plan as verify_v39_plan
 from flavourbench.epicure_selection_powered_plan_v42 import verify_plan as verify_v42_plan
+from flavourbench.epicure_selection_powered_plan_v43 import verify_plan as verify_v43_plan
 from flavourbench.epicure_selection_taskset_v1 import verify_taskset
 
 HERE = Path(__file__).resolve().parent
@@ -242,7 +243,11 @@ def _tables(
             source = "powered-v35-clean-cohere"
         elif model_id in successor_models:
             source = (
-                "powered-v42-fable-complete-block"
+                (
+                    "powered-v43-fable-openrouter-anthropic-complete-block"
+                    if source_lineage.get("v43_fable_responses_used_as_score_data") is True
+                    else "powered-v42-fable-complete-block"
+                )
                 if "deepseek_model_ids" in source_lineage
                 else (
                     "powered-v39-deepseek-repair"
@@ -364,6 +369,7 @@ def build(
     repeat_panel = _load(repeat_panel_path)
     plan = _load(plan_path)
     base_plan = _load(base_plan_path)
+    plan_is_v43 = verify_v43_plan(plan)
     plan_is_v42 = verify_v42_plan(plan)
     plan_is_v39 = verify_v39_plan(plan)
     plan_is_v38 = verify_v38_plan(plan)
@@ -375,10 +381,10 @@ def build(
         or release.get("status") != "final_complete"
         or not verify_taskset(taskset)
         or not verify_repeat_panel(repeat_panel, taskset=taskset)
-        or not (plan_is_v42 or plan_is_v39 or plan_is_v38 or verify_v35_plan(plan))
+        or not (plan_is_v43 or plan_is_v42 or plan_is_v39 or plan_is_v38 or verify_v35_plan(plan))
     ):
         raise PoweredDatasetBuildError("powered release inputs failed verification")
-    if plan_is_v42:
+    if plan_is_v43 or plan_is_v42:
         if (
             cohere_plan_path is None
             or cohere_plan is None
@@ -391,7 +397,7 @@ def build(
             or successor_run is None
         ):
             raise PoweredDatasetBuildError(
-                "v42 export requires exact Cohere/v38/v39 plans and all successor runs"
+                "v42/v43 export requires exact Cohere/v38/v39 plans and all successor runs"
             )
         _verify_pin(
             document=base_plan,
@@ -436,7 +442,7 @@ def build(
             )
             or set().union(*groups) != roster
         ):
-            raise PoweredDatasetBuildError("v42 response-source partition failed")
+            raise PoweredDatasetBuildError("v42/v43 response-source partition failed")
         source_directories = {model_id: base_run for model_id in base_models}
         source_directories.update({model_id: cohere_run for model_id in cohere_models})
         source_directories.update({model_id: frontier_run for model_id in frontier_models})

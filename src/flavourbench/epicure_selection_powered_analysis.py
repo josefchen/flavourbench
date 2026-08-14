@@ -84,6 +84,8 @@ from .epicure_selection_powered_plan_v41 import PLAN_SCHEMA_VERSION as PLAN_SCHE
 from .epicure_selection_powered_plan_v41 import verify_plan as verify_plan_v41
 from .epicure_selection_powered_plan_v42 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V42
 from .epicure_selection_powered_plan_v42 import verify_plan as verify_plan_v42
+from .epicure_selection_powered_plan_v43 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V43
+from .epicure_selection_powered_plan_v43 import verify_plan as verify_plan_v43
 from .epicure_selection_taskset_v1 import score_answer, verify_taskset
 
 ANALYSIS_SCHEMA_VERSION = "flavourbench-selection-powered-analysis-v1"
@@ -878,6 +880,7 @@ def run(argv: Sequence[str] | None = None) -> None:
         PLAN_SCHEMA_VERSION_V40: verify_plan_v40,
         PLAN_SCHEMA_VERSION_V41: verify_plan_v41,
         PLAN_SCHEMA_VERSION_V42: verify_plan_v42,
+        PLAN_SCHEMA_VERSION_V43: verify_plan_v43,
     }
     plan_valid = plan_schema in plan_verifiers and plan_verifiers[plan_schema](plan)
     if (
@@ -920,13 +923,14 @@ def run(argv: Sequence[str] | None = None) -> None:
             PLAN_SCHEMA_VERSION_V40,
             PLAN_SCHEMA_VERSION_V41,
             PLAN_SCHEMA_VERSION_V42,
+            PLAN_SCHEMA_VERSION_V43,
         }:
             raise SelectionPoweredAnalysisError("composite recovery requires a recovery plan")
         if args.predecessor_plan is None or args.recovery_run_directory is None:
             raise SelectionPoweredAnalysisError(
                 "composite analysis requires both predecessor plan and recovery run directory"
             )
-        if plan_schema == PLAN_SCHEMA_VERSION_V42:
+        if plan_schema in {PLAN_SCHEMA_VERSION_V42, PLAN_SCHEMA_VERSION_V43}:
             if (
                 args.base_plan is None
                 or args.cohere_plan is None
@@ -937,17 +941,24 @@ def run(argv: Sequence[str] | None = None) -> None:
                 or args.deepseek_run_directory is None
             ):
                 raise SelectionPoweredAnalysisError(
-                    "v42 composite analysis requires base, Cohere, v38 frontier, "
+                    "v42/v43 composite analysis requires base, Cohere, v38 frontier, "
                     "v39 DeepSeek, and v41 predecessor sources"
                 )
             predecessor_plan = _load(args.predecessor_plan)
-            predecessor_pin = plan["inputs"]["plan_v41_predecessor"]
+            if plan_schema == PLAN_SCHEMA_VERSION_V43:
+                predecessor_pin = plan["inputs"]["plan_v42_predecessor"]
+                predecessor_valid = verify_plan_v42(predecessor_plan)
+                predecessor_label = "v43 predecessor v42"
+            else:
+                predecessor_pin = plan["inputs"]["plan_v41_predecessor"]
+                predecessor_valid = verify_plan_v41(predecessor_plan)
+                predecessor_label = "v42 predecessor v41"
             if (
-                not verify_plan_v41(predecessor_plan)
+                not predecessor_valid
                 or predecessor_pin["semantic_sha256"] != predecessor_plan["artifact_sha256"]
                 or predecessor_pin["physical_sha256"] != _sha256_file(args.predecessor_plan)
             ):
-                raise SelectionPoweredAnalysisError("v42 predecessor v41 binding failed")
+                raise SelectionPoweredAnalysisError(f"{predecessor_label} binding failed")
             deepseek_plan = _load(args.deepseek_plan)
             deepseek_pin = plan["inputs"]["plan_v39_predecessor"]
             if (
@@ -955,7 +966,7 @@ def run(argv: Sequence[str] | None = None) -> None:
                 or deepseek_pin["semantic_sha256"] != deepseek_plan["artifact_sha256"]
                 or deepseek_pin["physical_sha256"] != _sha256_file(args.deepseek_plan)
             ):
-                raise SelectionPoweredAnalysisError("v42 DeepSeek v39 binding failed")
+                raise SelectionPoweredAnalysisError("v42/v43 DeepSeek v39 binding failed")
             frontier_plan = _load(args.frontier_plan)
             frontier_pin = plan["inputs"]["plan_v38_predecessor"]
             if (
@@ -963,7 +974,7 @@ def run(argv: Sequence[str] | None = None) -> None:
                 or frontier_pin["semantic_sha256"] != frontier_plan["artifact_sha256"]
                 or frontier_pin["physical_sha256"] != _sha256_file(args.frontier_plan)
             ):
-                raise SelectionPoweredAnalysisError("v42 frontier v38 binding failed")
+                raise SelectionPoweredAnalysisError("v42/v43 frontier v38 binding failed")
             base_plan = _load(args.base_plan)
             base_pin = plan["inputs"]["retained_base_response_source_plan"]
             if (
@@ -971,7 +982,7 @@ def run(argv: Sequence[str] | None = None) -> None:
                 or base_pin["semantic_sha256"] != base_plan["artifact_sha256"]
                 or base_pin["physical_sha256"] != _sha256_file(args.base_plan)
             ):
-                raise SelectionPoweredAnalysisError("v42 base v31 binding failed")
+                raise SelectionPoweredAnalysisError("v42/v43 base v31 binding failed")
             cohere_plan = _load(args.cohere_plan)
             cohere_pin = plan["inputs"]["retained_cohere_response_source_plan"]
             if (
@@ -979,7 +990,7 @@ def run(argv: Sequence[str] | None = None) -> None:
                 or cohere_pin["semantic_sha256"] != cohere_plan["artifact_sha256"]
                 or cohere_pin["physical_sha256"] != _sha256_file(args.cohere_plan)
             ):
-                raise SelectionPoweredAnalysisError("v42 Cohere v35 binding failed")
+                raise SelectionPoweredAnalysisError("v42/v43 Cohere v35 binding failed")
             successor = plan["execution"]["frontier_refresh_successor"]
             base_ids = {str(value) for value in successor["retained_base_model_ids"]}
             cohere_ids = {str(value) for value in successor["retained_cohere_model_ids"]}
@@ -999,7 +1010,7 @@ def run(argv: Sequence[str] | None = None) -> None:
                 )
                 or set().union(*groups) != roster_ids
             ):
-                raise SelectionPoweredAnalysisError("v42 response-source partition is invalid")
+                raise SelectionPoweredAnalysisError("v42/v43 response-source partition is invalid")
             model_sources = {model_id: (args.run_directory, base_plan) for model_id in base_ids}
             model_sources.update(
                 {model_id: (args.cohere_run_directory, cohere_plan) for model_id in cohere_ids}
@@ -1020,7 +1031,11 @@ def run(argv: Sequence[str] | None = None) -> None:
                 {model_id: (args.recovery_run_directory, plan) for model_id in rerun_ids}
             )
             response_source_lineage = {
-                "schema_version": "flavourbench-selection-composite-response-sources-v7",
+                "schema_version": (
+                    "flavourbench-selection-composite-response-sources-v8"
+                    if plan_schema == PLAN_SCHEMA_VERSION_V43
+                    else "flavourbench-selection-composite-response-sources-v7"
+                ),
                 "base_model_ids": sorted(base_ids),
                 "base_plan": {
                     "semantic_sha256": base_plan["artifact_sha256"],
@@ -1053,7 +1068,8 @@ def run(argv: Sequence[str] | None = None) -> None:
                 "v39_deepseek_responses_used_as_score_data": True,
                 "v40_fable_responses_used_as_score_data": False,
                 "v41_fable_responses_used_as_score_data": False,
-                "v42_fable_responses_used_as_score_data": True,
+                "v42_fable_responses_used_as_score_data": (plan_schema == PLAN_SCHEMA_VERSION_V42),
+                "v43_fable_responses_used_as_score_data": (plan_schema == PLAN_SCHEMA_VERSION_V43),
                 "route_probe_responses_used_as_score_data": False,
             }
         elif plan_schema == PLAN_SCHEMA_VERSION_V40:
