@@ -6,7 +6,7 @@
 
 **Josef Chen** — Independent Researcher · **Jakub Radzikowski** — Independent Researcher · **Erim Hayretci** — Independent Researcher
 
-**20 models · 640 tasks · 12,800 primary responses · 1,280 repeats · 190 paired tests**
+**26 models · 640 tasks · 16,640 primary responses · 1,664 repeats · 325 paired tests**
 
 [Paper](paper/build/flavourbench.pdf) · [Leaderboard](https://huggingface.co/spaces/josefchen/flavourbench) · [Dataset](https://huggingface.co/datasets/josefchen/flavourbench) · [Reproduce](#reproduce-the-release)
 
@@ -18,41 +18,50 @@ scores all 56 possible portfolios for each task, producing a fixed continuous re
 Models never see Epicure at inference time, and no language model or human grades their answers.
 
 The public release covers current frontier systems from OpenAI, Anthropic, Google, xAI, Alibaba,
-Moonshot, Zhipu, DeepSeek, Meta, MiniMax, NVIDIA, Mistral, Tencent, and Cohere. It ships the complete
+Moonshot, Zhipu, DeepSeek, Meta, ByteDance, Thinking Machines, MiniMax, NVIDIA, Mistral, Tencent,
+and Cohere. It ships the complete
 response grid, repeat panel, route identities, statistical analysis, paper, and provider-free
 reproduction path.
 
 ## Result
 
-Gemini 3.1 Pro Preview has the highest point estimate at **72.90**, followed by Grok 4.5 at
-**72.40** and GPT-5.6 Sol Pro at **71.99**. The leading confidence bands overlap, so the release
+Grok 4.6 has the highest point estimate at **73.36**, followed by Gemini 3.1 Pro Preview at
+**72.90** and Muse Spark 1.2 at **72.38**. The leading confidence bands overlap, so the release
 reports both point ranks and statistical rank groups instead of manufacturing a unique winner.
 
 | Rank | Model | FlavourBench Score | Simultaneous 95% band | Group | Repeat agreement |
 |---:|---|---:|---:|:---:|---:|
-| 1 | Gemini 3.1 Pro Preview | 72.90 | 69.71–76.10 | 1 | 80.8% |
-| 2 | Grok 4.5 | 72.40 | 69.24–75.56 | 1 | 78.7% |
-| 3 | GPT-5.6 Sol Pro | 71.99 | 68.75–75.23 | 1 | 86.3% |
-| 4 | GPT-5.6 Terra Pro | 71.48 | 68.27–74.70 | 1 | 79.8% |
-| 5 | Qwen3.8 Max | 71.41 | 68.10–74.71 | 1 | 79.5% |
-| 6 | Claude Opus 5 | 70.76 | 67.55–73.96 | 1 | 74.8% |
-| 7 | Kimi K3 | 70.31 | 67.08–73.54 | 1 | 74.2% |
-| 8 | Gemini 3.6 Flash | 70.08 | 66.87–73.28 | 1 | 79.5% |
-| 9 | Claude Sonnet 5 | 69.44 | 66.19–72.68 | 1 | 79.1% |
-| 10 | GPT-5.6 Luna Pro | 69.16 | 65.92–72.40 | 2 | 71.9% |
-| 11 | DeepSeek V4 Pro | 69.03 | 65.66–72.39 | 2 | 70.6% |
-| 12 | Tencent HY3 | 68.89 | 65.60–72.18 | 2 | 52.0% |
-| 13 | GLM 5.2 | 66.88 | 63.57–70.18 | 2 | 66.6% |
-| 14 | MiniMax M3 | 66.73 | 63.41–70.05 | 2 | 70.5% |
-| 15 | Nemotron 3.5 Lightning | 65.15 | 61.71–68.60 | 2 | 75.6% |
-| 16 | DeepSeek V4 Flash | 62.69 | 59.25–66.12 | 3 | 55.8% |
-| 17 | Mistral Large 3 | 61.40 | 57.96–64.84 | 3 | 64.1% |
-| 18 | Llama 4 Maverick | 60.17 | 56.72–63.63 | 3 | 52.7% |
-| 19 | Cohere Command A | 58.11 | 54.90–61.32 | 4 | 57.2% |
-| 20 | Cohere Command R+ | 36.67 | 33.73–39.61 | 5 | 23.0% |
+| 1 | Grok 4.6 | 73.36 | 70.10–76.62 | 1 | 77.8% |
+| 2 | Gemini 3.1 Pro Preview | 72.90 | 69.63–76.17 | 1 | 80.8% |
+| 3 | Muse Spark 1.2 | 72.38 | 69.07–75.68 | 1 | 83.4% |
+| 4 | GPT-5.6 Sol Pro | 71.99 | 68.67–75.31 | 1 | 86.2% |
+| 5 | GPT-5.6 Terra Pro | 71.48 | 68.19–74.78 | 1 | 79.8% |
+| 6 | Qwen3.8 Max | 71.41 | 68.02–74.79 | 1 | 79.5% |
+| 7 | Qwen3.8 2.4T A95B | 71.20 | 67.88–74.53 | 1 | 78.1% |
+| 8 | Claude Opus 5 | 70.76 | 67.47–74.04 | 1 | 74.8% |
+| 9 | Kimi K3 | 70.31 | 67.00–73.62 | 1 | 74.2% |
+| 10 | Gemini 3.6 Flash | 70.07 | 66.79–73.36 | 1 | 79.5% |
+| 11 | Claude Sonnet 5 | 69.44 | 66.11–72.76 | 1 | 79.1% |
+| 12 | Seed 2.1 Turbo | 69.18 | 65.81–72.55 | 2 | 82.2% |
+| 13 | GPT-5.6 Luna Pro | 69.16 | 65.84–72.48 | 2 | 71.9% |
+| 14 | Hy3 | 68.89 | 65.52–72.26 | 2 | 52.0% |
+| 15 | DeepSeek V4 Pro 0813 | 68.45 | 64.86–72.04 | 2 | 66.2% |
+| 16 | Muse Glimmer 30B | 68.38 | 65.02–71.74 | 2 | 79.5% |
+| 17 | GLM 5.2 | 66.88 | 63.49–70.26 | 2 | 66.6% |
+| 18 | MiniMax M3 | 66.73 | 63.32–70.13 | 2 | 70.5% |
+| 19 | Nemotron 3.5 Lightning | 65.15 | 61.62–68.68 | 2 | 75.6% |
+| 20 | Inkling | 64.46 | 60.75–68.17 | 3 | 65.2% |
+| 21 | DeepSeek V4 Flash 0731 | 62.69 | 59.17–66.20 | 3 | 55.8% |
+| 22 | Mistral Large 3 2512 | 61.40 | 57.88–64.92 | 3 | 64.1% |
+| 23 | Llama 4 Maverick | 60.17 | 56.63–63.71 | 3 | 52.7% |
+| 24 | Cohere Command A | 58.11 | 54.82–61.40 | 4 | 57.2% |
+| 25 | Cohere Command R+ (08-2024) | 36.67 | 33.66–39.69 | 5 | 23.0% |
+| DNF | Claude Fable 5 | 26.08 | 22.72–29.44 | — | 21.1% |
 
-All 20 systems complete the preregistered eligibility floor. All 20 score above the taskwise exact
-chance baseline after Holm correction, and **102 of 190** paired model contrasts remain significant
+Twenty-five systems meet the preregistered eligibility floor and all 25 score above the taskwise
+exact-chance baseline after Holm correction. Claude Fable 5 is retained as an intention-to-evaluate
+DNF because only 244 of 640 primary responses completed. **168 of 325** paired model contrasts
+remain significant
 after multiplicity correction. Scores use 50,000 family-stratified shared-task bootstrap replicates;
 pairwise tests use 100,000 shared-task sign flips. Label-permuted repeats measure response stability.
 
@@ -95,31 +104,32 @@ python3.12 -m venv .venv
 pip install -e '.[dev]'
 
 python3 -I paper/reproduce_powered_release.py \
-  --release paper/generated/powered/flavourbench-powered-release-4bd53e485cd48dbb65b86c9ddd3ff4ad26e34069dd2e163a5b67d2bb47d4f7df.json
+  --release paper/generated/powered/flavourbench-powered-release-886473ef5c7fb451906610b5cffec2ef5ebd69ad46be56783b1308cbc3540d13.json
 
 make -C paper -f Makefile.powered arxiv
 cd paper/build && sha256sum --check ARTIFACTS.sha256
 ```
 
 To reconstruct the release from every raw response, download the larger evidence layer from
-Hugging Face and restore the three content-addressed run directories:
+Hugging Face and restore the four content-addressed run directories:
 
 ```bash
 hf download josefchen/flavourbench --repo-type dataset \
   --include 'data-powered/*' --local-dir hf-release
 
 python3 -I hf/dataset/restore_powered_runs.py \
-  --release paper/generated/powered/flavourbench-powered-release-4bd53e485cd48dbb65b86c9ddd3ff4ad26e34069dd2e163a5b67d2bb47d4f7df.json \
+  --release paper/generated/powered/flavourbench-powered-release-886473ef5c7fb451906610b5cffec2ef5ebd69ad46be56783b1308cbc3540d13.json \
   --primary hf-release/data-powered/primary_observations.jsonl \
   --repeat hf-release/data-powered/repeat_observations.jsonl \
   --base-run benchmark/powered-v31/run \
-  --deepseek-run benchmark/powered-v33/run \
-  --cohere-run benchmark/powered-v35/run
+  --cohere-run benchmark/powered-v35/run \
+  --frontier-run benchmark/powered-v38/run \
+  --successor-run benchmark/powered-v39/run
 
 make -C paper -f Makefile.powered analysis assets arxiv
 ```
 
-The restore path validates the complete 12,800 + 1,280 grid and refuses conflicts. No reproduction
+The restore path validates the complete 16,640 + 1,664 grid and refuses conflicts. No reproduction
 command calls a model provider.
 
 ## Repository map
@@ -143,7 +153,7 @@ unresolved top groups where the data do not support a sharper claim.
 ## Citation
 
 The arXiv identifier will be added after submission. Until then, cite the paper and powered release
-`4bd53e485cd48dbb65b86c9ddd3ff4ad26e34069dd2e163a5b67d2bb47d4f7df`:
+`886473ef5c7fb451906610b5cffec2ef5ebd69ad46be56783b1308cbc3540d13`:
 
 ```bibtex
 @article{chen2026flavourbench,

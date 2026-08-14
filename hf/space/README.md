@@ -16,8 +16,8 @@ datasets:
 
 **Josef Chen** — Independent Researcher · **Jakub Radzikowski** — Independent Researcher · **Erim Hayretci** — Independent Researcher
 
-An interactive explorer for the powered FlavourBench release: 20 frontier endpoints, 640
-executable culinary decisions, 12,800 primary responses, 1,280 label-permuted repeats, and all 190
+An interactive explorer for the powered FlavourBench release: 26 frontier endpoints, 640
+executable culinary decisions, 16,640 primary responses, 1,664 label-permuted repeats, and all 325
 paired statistical comparisons.
 
 The Space reads one content-addressed bundle and makes no provider calls. Use it to inspect:

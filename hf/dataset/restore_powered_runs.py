@@ -1,4 +1,4 @@
-"""Restore the three clean powered response lineages from Hugging Face JSONL.
+"""Restore the clean powered response lineages from Hugging Face JSONL.
 
 The public Git repository omits the large per-response directory trees.  The
 Hugging Face dataset stores the same content-addressed response documents as two
@@ -74,19 +74,33 @@ def _destination(
     *,
     row: Mapping[str, Any],
     base_models: set[str],
-    deepseek_model: str,
+    deepseek_model: str | None,
     cohere_models: set[str],
+    frontier_models: set[str],
+    successor_models: set[str],
     base_run: Path,
-    deepseek_run: Path,
+    deepseek_run: Path | None,
     cohere_run: Path,
+    frontier_run: Path | None,
+    successor_run: Path | None,
 ) -> Path:
     model_id = str(row.get("model_id", ""))
     if model_id in base_models:
         root = base_run
-    elif model_id == deepseek_model:
+    elif deepseek_model is not None and model_id == deepseek_model:
+        if deepseek_run is None:
+            raise PoweredRunRestoreError("DeepSeek run directory is missing")
         root = deepseek_run
     elif model_id in cohere_models:
         root = cohere_run
+    elif model_id in frontier_models:
+        if frontier_run is None:
+            raise PoweredRunRestoreError("frontier run directory is missing")
+        root = frontier_run
+    elif model_id in successor_models:
+        if successor_run is None:
+            raise PoweredRunRestoreError("successor run directory is missing")
+        root = successor_run
     else:
         raise PoweredRunRestoreError(f"response model is outside the final roster: {model_id}")
     panel = str(row.get("panel", ""))
@@ -129,29 +143,60 @@ def restore(
     primary_path: Path,
     repeat_path: Path,
     base_run: Path,
-    deepseek_run: Path,
+    deepseek_run: Path | None,
     cohere_run: Path,
     check: bool,
+    frontier_run: Path | None = None,
+    successor_run: Path | None = None,
 ) -> dict[str, Any]:
     release = _load_release(release_path)
     primary = _load_jsonl(primary_path)
     repeat = _load_jsonl(repeat_path)
-    if len(primary) != 12_800 or len(repeat) != 1_280:
-        raise PoweredRunRestoreError("downloaded response table cardinality failed")
     if any(row.get("panel") != "primary" for row in primary) or any(
         row.get("panel") != "repeat" for row in repeat
     ):
         raise PoweredRunRestoreError("response table panel assignment failed")
 
     lineage = release["inputs"]["model_response_sources"]
-    base_models = {str(value) for value in lineage["base_models"]}
-    deepseek_model = str(lineage["deepseek_model_id"])
-    cohere_models = {str(value) for value in lineage["cohere_model_ids"]}
-    if len(base_models) != 17 or len(cohere_models) != 2:
-        raise PoweredRunRestoreError("release source lineage cardinality failed")
+    if "frontier_model_ids" in lineage:
+        base_models = {str(value) for value in lineage["base_model_ids"]}
+        cohere_models = {str(value) for value in lineage["cohere_model_ids"]}
+        frontier_models = {str(value) for value in lineage["frontier_model_ids"]}
+        successor_models = {str(value) for value in lineage["successor_model_ids"]}
+        deepseek_model = None
+        if (
+            len(base_models) != 16
+            or len(cohere_models) != 2
+            or len(frontier_models) != 7
+            or len(successor_models) != 1
+        ):
+            raise PoweredRunRestoreError("v39 source lineage cardinality failed")
+    elif "successor_model_ids" in lineage:
+        base_models = {str(value) for value in lineage["base_model_ids"]}
+        cohere_models = {str(value) for value in lineage["cohere_model_ids"]}
+        frontier_models = set()
+        successor_models = {str(value) for value in lineage["successor_model_ids"]}
+        deepseek_model = None
+        if len(base_models) != 16 or len(cohere_models) != 2 or len(successor_models) != 8:
+            raise PoweredRunRestoreError("v38 source lineage cardinality failed")
+    else:
+        base_models = {str(value) for value in lineage["base_models"]}
+        deepseek_model = str(lineage["deepseek_model_id"])
+        cohere_models = {str(value) for value in lineage["cohere_model_ids"]}
+        frontier_models = set()
+        successor_models = set()
+        if len(base_models) != 17 or len(cohere_models) != 2:
+            raise PoweredRunRestoreError("release source lineage cardinality failed")
+
+    roster = base_models | cohere_models | frontier_models | successor_models
+    if deepseek_model is not None:
+        roster.add(deepseek_model)
+    expected_primary = len(roster) * 640
+    expected_repeat = len(roster) * 64
+    if len(primary) != expected_primary or len(repeat) != expected_repeat:
+        raise PoweredRunRestoreError("downloaded response table cardinality failed")
 
     counts = Counter((str(row["model_id"]), str(row["panel"])) for row in primary + repeat)
-    roster = base_models | {deepseek_model} | cohere_models
     expected = Counter(
         {
             **{(model_id, "primary"): 640 for model_id in roster},
@@ -163,7 +208,7 @@ def restore(
     identities = {
         (str(row["panel"]), str(row["model_id"]), str(row["task_id"])) for row in primary + repeat
     }
-    if len(identities) != 14_080:
+    if len(identities) != expected_primary + expected_repeat:
         raise PoweredRunRestoreError("response task identities are not unique")
 
     outcomes = Counter()
@@ -173,9 +218,13 @@ def restore(
             base_models=base_models,
             deepseek_model=deepseek_model,
             cohere_models=cohere_models,
+            frontier_models=frontier_models,
+            successor_models=successor_models,
             base_run=base_run,
             deepseek_run=deepseek_run,
             cohere_run=cohere_run,
+            frontier_run=frontier_run,
+            successor_run=successor_run,
         )
         payload = (json.dumps(row, ensure_ascii=False, indent=2, sort_keys=True) + "\n").encode()
         if check:
@@ -201,8 +250,10 @@ def main() -> None:
     parser.add_argument("--primary", type=Path, required=True)
     parser.add_argument("--repeat", type=Path, required=True)
     parser.add_argument("--base-run", type=Path, required=True)
-    parser.add_argument("--deepseek-run", type=Path, required=True)
+    parser.add_argument("--deepseek-run", type=Path)
     parser.add_argument("--cohere-run", type=Path, required=True)
+    parser.add_argument("--frontier-run", type=Path)
+    parser.add_argument("--successor-run", type=Path)
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
     print(
@@ -214,6 +265,8 @@ def main() -> None:
                 base_run=args.base_run,
                 deepseek_run=args.deepseek_run,
                 cohere_run=args.cohere_run,
+                frontier_run=args.frontier_run,
+                successor_run=args.successor_run,
                 check=args.check,
             ),
             sort_keys=True,

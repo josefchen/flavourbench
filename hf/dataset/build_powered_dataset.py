@@ -14,6 +14,8 @@ from flavourbench.epicure_selection_powered_plan import verify_repeat_panel
 from flavourbench.epicure_selection_powered_plan_v31 import verify_plan as verify_v31_plan
 from flavourbench.epicure_selection_powered_plan_v33 import verify_plan as verify_v33_plan
 from flavourbench.epicure_selection_powered_plan_v35 import verify_plan as verify_v35_plan
+from flavourbench.epicure_selection_powered_plan_v38 import verify_plan as verify_v38_plan
+from flavourbench.epicure_selection_powered_plan_v39 import verify_plan as verify_v39_plan
 from flavourbench.epicure_selection_taskset_v1 import verify_taskset
 
 HERE = Path(__file__).resolve().parent
@@ -124,18 +126,39 @@ def _tables(
 ) -> dict[str, list[dict[str, Any]]]:
     analysis_by_model = {str(row["model_id"]): row for row in release["analysis"]["models"]}
     source_lineage = release["inputs"]["model_response_sources"]
-    base_models = set(source_lineage["base_models"])
-    deepseek_model = str(source_lineage["deepseek_model_id"])
-    cohere_models = set(source_lineage["cohere_model_ids"])
+    if "frontier_model_ids" in source_lineage:
+        base_models = set(source_lineage["base_model_ids"])
+        cohere_models = set(source_lineage["cohere_model_ids"])
+        frontier_models = set(source_lineage["frontier_model_ids"])
+        successor_models = set(source_lineage["successor_model_ids"])
+        deepseek_model = None
+    elif "successor_model_ids" in source_lineage:
+        base_models = set(source_lineage["base_model_ids"])
+        cohere_models = set(source_lineage["cohere_model_ids"])
+        frontier_models = set()
+        successor_models = set(source_lineage["successor_model_ids"])
+        deepseek_model = None
+    else:
+        base_models = set(source_lineage["base_models"])
+        deepseek_model = str(source_lineage["deepseek_model_id"])
+        cohere_models = set(source_lineage["cohere_model_ids"])
+        frontier_models = set()
+        successor_models = set()
     model_rows = []
     for route in plan["roster"]["models"]:
         model_id = str(route["model_id"])
         if model_id in base_models:
             source = "powered-v31-base"
-        elif model_id == deepseek_model:
+        elif deepseek_model is not None and model_id == deepseek_model:
             source = "powered-v33-clean-deepseek"
         elif model_id in cohere_models:
             source = "powered-v35-clean-cohere"
+        elif model_id in successor_models:
+            source = (
+                "powered-v39-deepseek-repair" if frontier_models else "powered-v38-frontier-refresh"
+            )
+        elif model_id in frontier_models:
+            source = "powered-v38-frontier-refresh"
         else:
             raise PoweredDatasetBuildError(f"model has no response lineage: {model_id}")
         model_rows.append(
@@ -229,10 +252,14 @@ def build(
     repeat_panel_path: Path,
     plan_path: Path,
     base_plan_path: Path,
-    deepseek_plan_path: Path,
+    deepseek_plan_path: Path | None,
+    cohere_plan_path: Path | None,
+    frontier_plan_path: Path | None,
     base_run: Path,
-    deepseek_run: Path,
+    deepseek_run: Path | None,
     cohere_run: Path,
+    frontier_run: Path | None,
+    successor_run: Path | None,
     output: Path,
     check: bool,
 ) -> None:
@@ -241,42 +268,127 @@ def build(
     repeat_panel = _load(repeat_panel_path)
     plan = _load(plan_path)
     base_plan = _load(base_plan_path)
-    deepseek_plan = _load(deepseek_plan_path)
+    plan_is_v39 = verify_v39_plan(plan)
+    plan_is_v38 = verify_v38_plan(plan)
+    deepseek_plan = _load(deepseek_plan_path) if deepseek_plan_path is not None else None
+    cohere_plan = _load(cohere_plan_path) if cohere_plan_path is not None else None
+    frontier_plan = _load(frontier_plan_path) if frontier_plan_path is not None else None
     if (
         not _semantic_valid(release)
         or release.get("status") != "final_complete"
         or not verify_taskset(taskset)
         or not verify_repeat_panel(repeat_panel, taskset=taskset)
-        or not verify_v35_plan(plan)
+        or not (plan_is_v39 or plan_is_v38 or verify_v35_plan(plan))
     ):
         raise PoweredDatasetBuildError("powered release inputs failed verification")
-    _verify_pin(
-        document=base_plan,
-        path=base_plan_path,
-        pin=plan["inputs"]["plan_v31_predecessor"],
-        verifier=verify_v31_plan,
-        label="base",
-    )
-    _verify_pin(
-        document=deepseek_plan,
-        path=deepseek_plan_path,
-        pin=plan["inputs"]["plan_v33_predecessor"],
-        verifier=verify_v33_plan,
-        label="DeepSeek",
-    )
-    deepseek_model = str(plan["execution"]["deepseek_route_recovery"]["model_id"])
-    cohere_models = tuple(
-        str(value) for value in plan["execution"]["cohere_route_successor"]["successor_model_ids"]
-    )
-    source_directories = {str(row["model_id"]): base_run for row in plan["roster"]["models"]}
-    source_plans: dict[str, tuple[Path, Mapping[str, Any]]] = {
-        str(row["model_id"]): (base_run, base_plan) for row in plan["roster"]["models"]
-    }
-    source_directories[deepseek_model] = deepseek_run
-    source_plans[deepseek_model] = (deepseek_run, deepseek_plan)
-    for model_id in cohere_models:
-        source_directories[model_id] = cohere_run
-        source_plans[model_id] = (cohere_run, plan)
+    if plan_is_v39:
+        if (
+            cohere_plan_path is None
+            or cohere_plan is None
+            or frontier_plan_path is None
+            or frontier_plan is None
+            or frontier_run is None
+            or successor_run is None
+        ):
+            raise PoweredDatasetBuildError(
+                "v39 export requires exact Cohere/v38 plans and frontier/successor runs"
+            )
+        _verify_pin(
+            document=base_plan,
+            path=base_plan_path,
+            pin=plan["inputs"]["retained_base_response_source_plan"],
+            verifier=verify_v31_plan,
+            label="base",
+        )
+        _verify_pin(
+            document=cohere_plan,
+            path=cohere_plan_path,
+            pin=plan["inputs"]["retained_cohere_response_source_plan"],
+            verifier=verify_v35_plan,
+            label="Cohere",
+        )
+        _verify_pin(
+            document=frontier_plan,
+            path=frontier_plan_path,
+            pin=plan["inputs"]["plan_v38_predecessor"],
+            verifier=verify_v38_plan,
+            label="v38 frontier",
+        )
+        successor = plan["execution"]["frontier_refresh_successor"]
+        base_models = {str(value) for value in successor["retained_base_model_ids"]}
+        cohere_models = {str(value) for value in successor["retained_cohere_model_ids"]}
+        frontier_models = {str(value) for value in successor["retained_v38_new_model_ids"]}
+        successor_models = {str(value) for value in successor["rerun_model_ids"]}
+        source_directories = {model_id: base_run for model_id in base_models}
+        source_directories.update({model_id: cohere_run for model_id in cohere_models})
+        source_directories.update({model_id: frontier_run for model_id in frontier_models})
+        source_directories.update({model_id: successor_run for model_id in successor_models})
+        source_plans = {model_id: (base_run, base_plan) for model_id in base_models}
+        source_plans.update({model_id: (cohere_run, cohere_plan) for model_id in cohere_models})
+        source_plans.update(
+            {model_id: (frontier_run, frontier_plan) for model_id in frontier_models}
+        )
+        source_plans.update({model_id: (successor_run, plan) for model_id in successor_models})
+    elif plan_is_v38:
+        if cohere_plan_path is None or cohere_plan is None or successor_run is None:
+            raise PoweredDatasetBuildError(
+                "v38 export requires the exact Cohere plan and successor run"
+            )
+        _verify_pin(
+            document=base_plan,
+            path=base_plan_path,
+            pin=plan["inputs"]["retained_base_response_source_plan"],
+            verifier=verify_v31_plan,
+            label="base",
+        )
+        _verify_pin(
+            document=cohere_plan,
+            path=cohere_plan_path,
+            pin=plan["inputs"]["retained_cohere_response_source_plan"],
+            verifier=verify_v35_plan,
+            label="Cohere",
+        )
+        successor = plan["execution"]["frontier_refresh_successor"]
+        base_models = {str(value) for value in successor["retained_base_model_ids"]}
+        cohere_models = {str(value) for value in successor["retained_cohere_model_ids"]}
+        successor_models = {str(value) for value in successor["new_model_ids"]}
+        source_directories = {model_id: base_run for model_id in base_models}
+        source_directories.update({model_id: cohere_run for model_id in cohere_models})
+        source_directories.update({model_id: successor_run for model_id in successor_models})
+        source_plans = {model_id: (base_run, base_plan) for model_id in base_models}
+        source_plans.update({model_id: (cohere_run, cohere_plan) for model_id in cohere_models})
+        source_plans.update({model_id: (successor_run, plan) for model_id in successor_models})
+    else:
+        if deepseek_plan_path is None or deepseek_plan is None or deepseek_run is None:
+            raise PoweredDatasetBuildError("v35 export requires the exact DeepSeek plan and run")
+        _verify_pin(
+            document=base_plan,
+            path=base_plan_path,
+            pin=plan["inputs"]["plan_v31_predecessor"],
+            verifier=verify_v31_plan,
+            label="base",
+        )
+        _verify_pin(
+            document=deepseek_plan,
+            path=deepseek_plan_path,
+            pin=plan["inputs"]["plan_v33_predecessor"],
+            verifier=verify_v33_plan,
+            label="DeepSeek",
+        )
+        deepseek_model = str(plan["execution"]["deepseek_route_recovery"]["model_id"])
+        cohere_models = tuple(
+            str(value)
+            for value in plan["execution"]["cohere_route_successor"]["successor_model_ids"]
+        )
+        source_directories = {str(row["model_id"]): base_run for row in plan["roster"]["models"]}
+        source_plans = {
+            str(row["model_id"]): (base_run, base_plan) for row in plan["roster"]["models"]
+        }
+        source_directories[deepseek_model] = deepseek_run
+        source_plans[deepseek_model] = (deepseek_run, deepseek_plan)
+        for model_id in cohere_models:
+            source_directories[model_id] = cohere_run
+            source_plans[model_id] = (cohere_run, plan)
     primary = load_panel(
         run_directory=base_run,
         panel="primary",
@@ -342,10 +454,14 @@ def main() -> None:
     parser.add_argument("--repeat-panel", type=Path, required=True)
     parser.add_argument("--plan", type=Path, required=True)
     parser.add_argument("--base-plan", type=Path, required=True)
-    parser.add_argument("--deepseek-plan", type=Path, required=True)
+    parser.add_argument("--deepseek-plan", type=Path)
+    parser.add_argument("--cohere-plan", type=Path)
+    parser.add_argument("--frontier-plan", type=Path)
     parser.add_argument("--base-run", type=Path, required=True)
-    parser.add_argument("--deepseek-run", type=Path, required=True)
+    parser.add_argument("--deepseek-run", type=Path)
     parser.add_argument("--cohere-run", type=Path, required=True)
+    parser.add_argument("--frontier-run", type=Path)
+    parser.add_argument("--successor-run", type=Path)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
@@ -356,9 +472,13 @@ def main() -> None:
         plan_path=args.plan,
         base_plan_path=args.base_plan,
         deepseek_plan_path=args.deepseek_plan,
+        cohere_plan_path=args.cohere_plan,
+        frontier_plan_path=args.frontier_plan,
         base_run=args.base_run,
         deepseek_run=args.deepseek_run,
         cohere_run=args.cohere_run,
+        frontier_run=args.frontier_run,
+        successor_run=args.successor_run,
         output=args.output,
         check=args.check,
     )

@@ -46,6 +46,14 @@ SHORT_NAMES = {
     "cohere/command-r-plus-08-2024": "Command R+",
     "cohere/command-a-plus-05-2026": "Command A Plus",
     "cohere/command-a-reasoning-08-2025": "Command A Reasoning",
+    "meta/muse-spark-1.2": "Muse Spark 1.2",
+    "meta/muse-glimmer-30b": "Muse Glimmer 30B",
+    "x-ai/grok-4.6": "Grok 4.6",
+    "anthropic/claude-fable-5": "Claude Fable 5",
+    "deepseek/deepseek-v4-pro-0813": "DeepSeek V4 Pro 0813",
+    "qwen/qwen3.8-2.4t-a95b": "Qwen3.8 A95B",
+    "bytedance-seed/seed-2-1-turbo": "Seed 2.1 Turbo",
+    "thinkingmachines/inkling": "Inkling",
 }
 
 
@@ -83,13 +91,17 @@ def _read_release(path: Path) -> dict[str, Any]:
     payload = dict(release)
     recorded = str(payload.pop("artifact_sha256", ""))
     analysis = release.get("analysis") or {}
+    models = analysis.get("models") or []
+    pairwise = analysis.get("pairwise_comparisons") or []
+    repeats = analysis.get("repeatability") or []
+    model_count = len(models)
     if (
         recorded != _sha256(payload)
         or release.get("schema_version") != "flavourbench-selection-powered-release-v1"
         or release.get("status") != "final_complete"
-        or len(analysis.get("models") or []) != 20
-        or len(analysis.get("pairwise_comparisons") or []) != 190
-        or len(analysis.get("repeatability") or []) != 20
+        or model_count < 2
+        or len(pairwise) != model_count * (model_count - 1) // 2
+        or len(repeats) != model_count
     ):
         raise PoweredAssetError("release is not the complete powered statistical release")
     return release
@@ -439,7 +451,7 @@ def _leaderboard_figure(release: Mapping[str, Any], output: Path) -> None:
     intervals = np.asarray([row["score_simultaneous_95_ci"] for row in rows])
     labels = [_short(str(row["model_id"])) for row in rows]
     colors = [BLUE if row["eligible"] else "#9AA1AA" for row in rows]
-    figure, axis = plt.subplots(figsize=(7.5, 7.0))
+    figure, axis = plt.subplots(figsize=(7.5, max(7.0, 1.15 + 0.26 * len(rows))))
     y = np.arange(len(rows))
     axis.hlines(y, intervals[:, 0], intervals[:, 1], color=LIGHT, linewidth=6, zorder=1)
     axis.scatter(scores, y, c=colors, s=38, edgecolor="white", linewidth=0.7, zorder=2)
@@ -467,7 +479,7 @@ def _family_heatmap(release: Mapping[str, Any], output: Path) -> None:
     matrix = np.asarray(
         [[row["family_scores"][family] for family in FAMILIES] for row in rows], dtype=float
     )
-    figure, axis = plt.subplots(figsize=(6.6, 7.0))
+    figure, axis = plt.subplots(figsize=(6.6, max(7.0, 1.15 + 0.26 * len(rows))))
     image = axis.imshow(matrix, cmap="YlGnBu", vmin=0, vmax=100, aspect="auto")
     for row_index in range(matrix.shape[0]):
         for column_index in range(matrix.shape[1]):

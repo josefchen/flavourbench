@@ -1,5 +1,5 @@
 {
-  "artifact_sha256": "1ef531e1b872af32576b98a60f7e40931814bf8cfd14e360561fbdd90517f479",
+  "artifact_sha256": "37fa53529e276b23a7818689a5882570fee5a645d4bb3b6b35467c44e9b83b75",
   "cases": [
     {
       "choices": {
@@ -14,12 +14,12 @@
       },
       "family": "substitution",
       "higher_ranked": {
-        "answer_markdown": "FINAL_SELECTION: C,E,H",
-        "model_id": "google/gemini-3.1-pro-preview",
-        "observed_selection": "CEH",
-        "score": 50.36,
+        "answer_markdown": "FINAL_SELECTION: A,E,H",
+        "model_id": "x-ai/grok-4.6",
+        "observed_selection": "AEH",
+        "score": 65.4,
         "selected_ingredients": [
-          "wheat",
+          "cereal",
           "buckwheat",
           "wheat germ"
         ]
@@ -57,14 +57,14 @@
       },
       "family": "pairing",
       "higher_ranked": {
-        "answer_markdown": "FINAL_SELECTION: B,D,E",
-        "model_id": "google/gemini-3.1-pro-preview",
-        "observed_selection": "BDE",
-        "score": 97.3,
+        "answer_markdown": "FINAL_SELECTION: B,E,F",
+        "model_id": "x-ai/grok-4.6",
+        "observed_selection": "BEF",
+        "score": 36.96,
         "selected_ingredients": [
           "basil",
-          "red pepper",
-          "tomato"
+          "tomato",
+          "wheat"
         ]
       },
       "lower_ranked": {
@@ -101,7 +101,7 @@
       "family": "constraint",
       "higher_ranked": {
         "answer_markdown": "FINAL_SELECTION: B,D,E",
-        "model_id": "google/gemini-3.1-pro-preview",
+        "model_id": "x-ai/grok-4.6",
         "observed_selection": "BDE",
         "score": 63.2,
         "selected_ingredients": [
@@ -144,7 +144,7 @@
       "family": "cultural_composition",
       "higher_ranked": {
         "answer_markdown": "FINAL_SELECTION: D,F,G",
-        "model_id": "google/gemini-3.1-pro-preview",
+        "model_id": "x-ai/grok-4.6",
         "observed_selection": "DFG",
         "score": 100.0,
         "selected_ingredients": [
@@ -174,7 +174,7 @@
       "task_id": "fb-executable-cultural_composition-001"
     }
   ],
-  "higher_ranked_model_id": "google/gemini-3.1-pro-preview",
+  "higher_ranked_model_id": "x-ai/grok-4.6",
   "lower_ranked_model_id": "cohere/command-r-plus-08-2024",
   "schema_version": "flavourbench-powered-paper-case-studies-v1",
   "selection": "lexicographically first frozen task in each family"
