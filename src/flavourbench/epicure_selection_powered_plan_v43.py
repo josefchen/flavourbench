@@ -296,6 +296,7 @@ def verify_plan(document: Mapping[str, Any]) -> bool:
         and transport.get("primary_status_counts") == {"completed": 413, "failed": 227}
         and transport.get("repeat_status_counts") == {"completed": 43, "failed": 21}
         and transport.get("provider_finish_reason_counts") == {"content_filter": 248, "stop": 456}
+        and transport.get("settled_spend_micros") == v42_spend == 2_911_055
         and transport.get("aggregate_score_inspected_before_repair") is True
         and transport.get("complete_old_block_used_as_final_score_data") is False
         and release.get("fable_eligible") is False
@@ -311,6 +312,7 @@ def verify_plan(document: Mapping[str, Any]) -> bool:
         and successor.get("aggregate_result_inspected_before_transport_change") is True
         and successor.get("task_level_scores_or_selections_used_to_select_provider") is False
         and successor.get("new_provider_calls") == PRIMARY_TASKS + REPEAT_TASKS
+        and prior == 48_026_640
         and verify_policy_document(policy_document)
         and policy_document == policy.document()
         and document["execution"].get("execution_policy_sha256") == policy.sha256
