@@ -27,10 +27,12 @@ jobs:
         shell: bash
         run: |
           set -Eeuo pipefail
-          mapfile -t releases < <(find paper/generated/powered -maxdepth 1 \
-            -type f -name 'flavourbench-powered-release-*.json' -print)
-          test "${#releases[@]}" = 1
-          python -I paper/reproduce_powered_release.py --release "${releases[0]}"
+          release="$(awk '$1 == "RELEASE" && $2 == ":=" {print "paper/" $3}' \
+            paper/Makefile.powered)"
+          test -n "$release"
+          test -f "$release"
+          test ! -L "$release"
+          python -I paper/reproduce_powered_release.py --release "$release"
 
       - name: Verify powered benchmark and publication code
         shell: bash
@@ -40,6 +42,7 @@ jobs:
             tests/epicure_native_powered*_test.py \
             tests/epicure_native_taskset_v*_test.py \
             tests/epicure_selection_*_test.py \
+            tests/frontier_refresh_*_test.py \
             tests/build_powered*_test.py \
             tests/hf_powered_space_app_test.py \
             tests/reproduce_powered_release_test.py \
@@ -71,6 +74,7 @@ jobs:
             src/flavourbench/epicure_native_powered*.py
             src/flavourbench/epicure_native_taskset_v*.py
             src/flavourbench/epicure_selection_*.py
+            src/flavourbench/frontier_refresh_*.py
             paper/build_powered_selection_assets.py
             paper/reproduce_powered_release.py
             hf/dataset/build_powered_dataset.py
@@ -81,6 +85,7 @@ jobs:
             tests/epicure_native_powered*_test.py
             tests/epicure_native_taskset_v*_test.py
             tests/epicure_selection_*_test.py
+            tests/frontier_refresh_*_test.py
             tests/build_powered*_test.py
             tests/hf_powered_space_app_test.py
             tests/reproduce_powered_release_test.py

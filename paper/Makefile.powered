@@ -12,17 +12,29 @@ RUFF ?= ../.venv/bin/ruff
 LATEXMK ?= latexmk
 LOCK_FILE ?= /tmp/flavourbench-powered-paper-$(shell id -u).lock
 
-RELEASE ?= $(firstword $(wildcard generated/powered/flavourbench-powered-release-*.json))
+RELEASE := generated/powered/flavourbench-powered-release-886473ef5c7fb451906610b5cffec2ef5ebd69ad46be56783b1308cbc3540d13.json
 TASKSET ?= ../benchmark/powered-v16/taskset/epicure-selection-taskset-99932ef2e72d34b61641270670e6d56233f167273a8877d03ac214115c084ff7.json
-MANIFEST ?= ../benchmark/powered-v34/manifest/flavourbench-selection-route-manifest-03a290ae84e8429e56cf66a57e09590b1c473e5c3a61ce5ba3fec1123c53c4cc.json
-PLAN ?= ../benchmark/powered-v35/plan/epicure-selection-analysis-plan-8ca2b5e1d59fb9443ef4e1a3cd69a38b18dd085347cbab6034a410645b69cd64.json
-COHERE_PREDECESSOR_PLAN ?= ../benchmark/powered-v34/plan/epicure-selection-analysis-plan-d5c11267b0437e55d8e4ba226503895521fa8519c1a7640d9d09f1b853dcc849.json
-DEEPSEEK_PLAN ?= ../benchmark/powered-v33/plan/epicure-selection-analysis-plan-51eb938485d5a9126ada5e1843aa33f7b12e4f8f8f7ed9cd7117d287bbb1046a.json
+MANIFEST := ../benchmark/powered-v37/manifest/flavourbench-frontier-refresh-26-39dcbf59a283730af013ed9474599c6560e71cea14cc184997db821bb6e172a3.json
+PLAN := ../benchmark/powered-v39/plan/epicure-selection-analysis-plan-892e6178e645c6691adc27acc2a45a391834c665cb303e0987ef96b1a8974e84.json
+PREDECESSOR_PLAN := ../benchmark/powered-v38/plan/epicure-selection-analysis-plan-a96ee871e1ee99efdd3a0b47173831de4bf033cc71a4999d82b6af085d491195.json
 BASE_PLAN ?= ../benchmark/powered-v31/plan/epicure-selection-analysis-plan-903ad89c44afcf0657b8079c12f01c2487aec2edb2e8ab39b986303d65c7c675.json
+COHERE_PLAN := ../benchmark/powered-v35/plan/epicure-selection-analysis-plan-8ca2b5e1d59fb9443ef4e1a3cd69a38b18dd085347cbab6034a410645b69cd64.json
 REPEAT ?= ../benchmark/powered-v17/plan/epicure-selection-repeat-panel-c3829d4cdb7039f920411c6edde13691237f42cafc20e463ac326a06895c97fb.json
 RUN_DIRECTORY ?= ../benchmark/powered-v31/run
-DEEPSEEK_RUN_DIRECTORY ?= ../benchmark/powered-v33/run
 COHERE_RUN_DIRECTORY ?= ../benchmark/powered-v35/run
+FRONTIER_RUN_DIRECTORY := ../benchmark/powered-v38/run
+SUCCESSOR_RUN_DIRECTORY := ../benchmark/powered-v39/run
+FRONTIER_MODELS := \
+	x-ai/grok-4.6 \
+	meta/muse-spark-1.2 \
+	meta/muse-glimmer-30b \
+	anthropic/claude-fable-5 \
+	qwen/qwen3.8-2.4t-a95b \
+	bytedance-seed/seed-2-1-turbo \
+	thinkingmachines/inkling
+SUCCESSOR_MODELS := deepseek/deepseek-v4-pro-0813
+FRONTIER_RESPONSE_SOURCES := $(foreach model,$(FRONTIER_MODELS),--response-source $(model)=$(FRONTIER_RUN_DIRECTORY))
+SUCCESSOR_RESPONSE_SOURCES := $(foreach model,$(SUCCESSOR_MODELS),--response-source $(model)=$(SUCCESSOR_RUN_DIRECTORY))
 GENERATED := generated/powered
 FIGURES := figures/powered
 ASSET_BUILDER := build_powered_selection_assets.py
@@ -44,7 +56,7 @@ FIGURE_ASSETS := \
 
 CORE_INPUTS := main_powered.tex references.bib README.md LICENSES.md Makefile.powered \
 	$(ASSET_BUILDER) $(RELEASE) $(TASKSET) $(MANIFEST) $(PLAN) \
-	$(COHERE_PREDECESSOR_PLAN) $(DEEPSEEK_PLAN) $(BASE_PLAN) $(REPEAT) \
+	$(PREDECESSOR_PLAN) $(COHERE_PLAN) $(BASE_PLAN) $(REPEAT) \
 	$(TABLE_ASSETS) $(FIGURE_ASSETS)
 
 .PHONY: all analysis assets verify verify-static paper _paper arxiv _arxiv clean
@@ -57,10 +69,11 @@ analysis:
 		--repeat-panel $(REPEAT) \
 		--plan $(PLAN) \
 		--run-directory $(RUN_DIRECTORY) \
-		--predecessor-plan $(COHERE_PREDECESSOR_PLAN) \
+		--predecessor-plan $(PREDECESSOR_PLAN) \
 		--base-plan $(BASE_PLAN) \
-		--deepseek-plan $(DEEPSEEK_PLAN) \
-		--recovery-run-directory $(DEEPSEEK_RUN_DIRECTORY) \
+		--cohere-plan $(COHERE_PLAN) \
+		--frontier-run-directory $(FRONTIER_RUN_DIRECTORY) \
+		--recovery-run-directory $(SUCCESSOR_RUN_DIRECTORY) \
 		--cohere-run-directory $(COHERE_RUN_DIRECTORY) \
 		--output-directory $(GENERATED)
 
@@ -71,9 +84,10 @@ assets:
 		--taskset $(TASKSET) \
 		--manifest $(MANIFEST) \
 		--run-directory $(RUN_DIRECTORY) \
-		--response-source deepseek/deepseek-v4-pro=$(DEEPSEEK_RUN_DIRECTORY) \
 		--response-source cohere/command-a=$(COHERE_RUN_DIRECTORY) \
 		--response-source cohere/command-r-plus-08-2024=$(COHERE_RUN_DIRECTORY) \
+		$(FRONTIER_RESPONSE_SOURCES) \
+		$(SUCCESSOR_RESPONSE_SOURCES) \
 		--generated-directory $(GENERATED) \
 		--figure-directory $(FIGURES)
 

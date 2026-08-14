@@ -42,7 +42,7 @@ from .run_journal import JournalIntegrityError, verify_journal_descriptor
 CURRENT_CANDIDATE_MANIFEST_SHA256 = (
     "eb9e9b591d1695c38aeb79d65b59904d848b41dea449090eaeff8ebbed2138a2"
 )
-AUTHORIZED_TOTAL_CAP_USD = Decimal("100")
+AUTHORIZED_TOTAL_CAP_USD = Decimal("200")
 DEFAULT_ADMISSION_FRACTION = Decimal("0.85")
 EXECUTION_CONFIRMATION = "RUN_SEQUENTIAL_UNRANKED_FRONTIER_CONTRACTS"
 RUNNER_SCHEMA_VERSION = "flavourbench-frontier-contract-runner-v1"

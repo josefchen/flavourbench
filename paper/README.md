@@ -4,7 +4,7 @@
 
 Josef Chen — Independent Researcher · Jakub Radzikowski — Independent Researcher · Erim Hayretci — Independent Researcher
 
-FlavourBench is an executable 20-model benchmark of culinary reasoning across current frontier
+FlavourBench is an executable 26-model benchmark of culinary reasoning across current frontier
 language-model endpoints. A versioned Epicure runtime generates 640 three-of-eight selection
 tasks and dense score maps across four balanced families:
 
@@ -14,8 +14,8 @@ tasks and dense score maps across four balanced families:
 - regional composition.
 
 Every model answers the same 640 tasks without access to Epicure. Epicure exhaustively scores all
-56 candidate portfolios before model execution. The release contains 12,800 primary responses
-and 1,280 label-permuted repeats.
+56 candidate portfolios before model execution. The release contains 16,640 primary responses
+and 1,664 label-permuted repeats.
 
 ## Score
 
@@ -31,8 +31,9 @@ computes the complete reward surface before any evaluated endpoint is called.
 
 ## Panel
 
-The release covers GPT-5.6 Sol/Terra/Luna; Claude Opus/Sonnet 5; Gemini 3.1 Pro and 3.6 Flash;
-Grok 4.5; Llama 4 Maverick; Kimi K3; Qwen 3.8 Max; GLM 5.2; DeepSeek V4 Pro and Flash;
+The release covers GPT-5.6 Sol/Terra/Luna; Claude Opus/Sonnet/Fable 5; Gemini 3.1 Pro and 3.6
+Flash; Grok 4.6; Llama 4 Maverick; Muse Spark 1.2 and Muse Glimmer 30B; Kimi K3; Qwen 3.8 Max
+and Qwen3.8 2.4T A95B; GLM 5.2; DeepSeek V4 Pro 0813 and Flash; Seed 2.1 Turbo; Inkling;
 MiniMax M3; Nemotron 3.5 Lightning; Mistral Large 3; Tencent HY 3; Cohere Command A; and Cohere
 Command R+ (08-2024). Every scored block uses a pinned OpenRouter provider endpoint with fallback
 disabled. Superseded route-calibration responses are retained separately and never pooled.
@@ -56,7 +57,7 @@ python3 -I reproduce_powered_release.py \
   --release generated/powered/flavourbench-powered-release-<sha256>.json
 ```
 
-It checks the release content address, complete 20-model result, all 190 pairwise rows, 20 repeat
+It checks the release content address, complete 26-model result, all 325 pairwise rows, 26 repeat
 rows, and the committed leaderboard and pairwise table hashes without provider access. The raw
 response release on Hugging Face contains every prompt and response; the statistical release,
 tables, figures, and manuscript are generated from the same frozen analysis.

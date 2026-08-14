@@ -301,6 +301,11 @@ BUNDLE = _load_bundle()
 MODELS = BUNDLE["models"]
 TASKS = BUNDLE["tasks"]
 PAIRWISE = BUNDLE["pairwise_comparisons"]
+MODEL_COUNT = len(MODELS)
+TASK_COUNT = len(TASKS)
+PAIR_COUNT = len(PAIRWISE)
+PRIMARY_COUNT = MODEL_COUNT * TASK_COUNT
+REPEAT_COUNT = MODEL_COUNT * 64
 MODEL_BY_NAME = {str(row["model_name"]): row for row in MODELS}
 MODEL_BY_ID = {str(row["model_id"]): row for row in MODELS}
 TASK_BY_ID = {str(row["task_id"]): row for row in TASKS}
@@ -364,7 +369,7 @@ def _hero_html() -> str:
       <section>
         <div class="fb-kicker">Executable culinary evaluation</div>
         <h1>640 decisions.<br>No model judge.</h1>
-        <p class="fb-dek">Executable score maps rank 20 frontier endpoints with shared-task
+        <p class="fb-dek">Executable score maps rank {MODEL_COUNT} frontier endpoints with shared-task
         uncertainty and inspectable responses.</p>
         <div class="fb-byline">
           <span>Josef Chen<small>Independent Researcher</small></span>
@@ -372,9 +377,9 @@ def _hero_html() -> str:
           <span>Erim Hayretci<small>Independent Researcher</small></span>
         </div>
         <div class="fb-stats">
-          <div class="fb-stat"><strong>{len(MODELS)}</strong><span>models</span></div>
-          <div class="fb-stat"><strong>{len(TASKS)}</strong><span>tasks</span></div>
-          <div class="fb-stat"><strong>{len(MODELS) * len(TASKS):,}</strong><span>primary cells</span></div>
+          <div class="fb-stat"><strong>{MODEL_COUNT}</strong><span>models</span></div>
+          <div class="fb-stat"><strong>{TASK_COUNT}</strong><span>tasks</span></div>
+          <div class="fb-stat"><strong>{PRIMARY_COUNT:,}</strong><span>primary cells</span></div>
           <div class="fb-stat"><strong>{inference["pairwise_hypotheses"]}</strong><span>paired tests</span></div>
         </div>
       </section>
@@ -515,7 +520,7 @@ def _pair_detail(left_name: str, right_name: str) -> str:
     <div class="fb-evidence">
       <strong>{html.escape(left_name)}</strong> minus <strong>{html.escape(right_name)}</strong>:
       <strong>{difference:+.3f} points</strong> (bootstrap 95% {interval[0]:+.3f} to {interval[1]:+.3f}).
-      The comparison is <strong>{verdict}</strong> across all 190 tests.
+      The comparison is <strong>{verdict}</strong> across all {PAIR_COUNT} tests.
       <br>Holm p = <code>{float(row["holm_p"]):.4g}</code>, paired Cohen dz =
       <code>{row.get("cohen_dz")}</code>.
     </div>
@@ -648,10 +653,10 @@ with gr.Blocks(title="FlavourBench | Executable culinary evaluation") as demo:
 
         with gr.Tab("Pairwise evidence"):
             gr.HTML(
-                """
+                f"""
                 <div class="fb-section">
                   <h2>Is the score gap resolved?</h2>
-                  <p>Query any paired contrast from the 190-test family.</p>
+                  <p>Query any paired contrast from the {PAIR_COUNT}-test family.</p>
                 </div>
                 """
             )
@@ -693,7 +698,7 @@ with gr.Blocks(title="FlavourBench | Executable culinary evaluation") as demo:
                   <aside class="fb-evidence">
                     <strong>Exact release</strong><br>
                     <span class="fb-hash">{BUNDLE["release_artifact_sha256"]}</span><br><br>
-                    20 models<br>640 tasks<br>12,800 primary responses<br>1,280 repeats
+                    {MODEL_COUNT} models<br>{TASK_COUNT} tasks<br>{PRIMARY_COUNT:,} primary responses<br>{REPEAT_COUNT:,} repeats
                   </aside>
                 </div>
                 """

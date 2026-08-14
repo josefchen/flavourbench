@@ -136,7 +136,7 @@ The paper makes three contributions:
     \node[oracle] (runtime) at (0,0) {\textbf{Epicure runtime}\\1,790 ingredients\\versioned 300-D space};
     \node[oracle] (compiler) at (3.65,0) {\textbf{Task compiler}\\640 frozen prompts\\4 balanced families};
     \node[oracle] (enumerate) at (7.25,0) {\textbf{Exhaustive oracle}\\$\binom{8}{3}=56$ portfolios\\dense 0--100 map};
-    \node[box] (models) at (10.8,0) {\textbf{Frontier panel}\\20 exact endpoints\\no fallback};
+    \node[box] (models) at (10.8,0) {\textbf{Frontier panel}\\\FBModels{} exact endpoints\\no fallback};
     \node[box] (parser) at (14.25,0) {\textbf{Set parser}\\three distinct labels\\failure $\mapsto 0$};
     \node[score] (inference) at (17.85,0) {\textbf{Statistical release}\\score + simultaneous CI\\Holm pairs + repeats};
 
@@ -261,23 +261,26 @@ zero in \cref{eq:fb-score}; there is no complete-case inflation.
 
 \subsection{Frontier endpoint panel}
 
-The panel spans OpenAI, Anthropic, Google, xAI, Meta, Kimi, Qwen, Z.ai, DeepSeek, MiniMax, NVIDIA,
-Mistral, Tencent, and Cohere. It includes GPT-5.6 Sol, Terra, and Luna; Claude Opus and Sonnet 5;
-Gemini 3.1 Pro and 3.6 Flash; Grok 4.5; Llama 4 Maverick; Kimi K3; Qwen 3.8 Max; GLM 5.2;
-DeepSeek V4 Pro and Flash; MiniMax M3; Nemotron 3.5 Lightning; Mistral Large 3; Tencent HY 3;
-Cohere Command A; and Cohere Command R+ (08-2024).
+The panel spans OpenAI, Anthropic, Google, xAI, Meta, Kimi, Qwen, Z.ai, DeepSeek, ByteDance,
+Thinking Machines, MiniMax, NVIDIA, Mistral, Tencent, and Cohere. It includes GPT-5.6 Sol, Terra,
+and Luna; Claude Opus, Sonnet, and Fable 5; Gemini 3.1 Pro and 3.6 Flash; Grok 4.6; Llama 4
+Maverick; Muse Spark 1.2 and Muse Glimmer 30B; Kimi K3; Qwen 3.8 Max and Qwen3.8 2.4T A95B;
+GLM 5.2; DeepSeek V4 Pro 0813 and V4 Flash; Seed 2.1 Turbo; Inkling; MiniMax M3; Nemotron 3.5
+Lightning; Mistral Large 3; Tencent HY 3; Cohere Command A; and Cohere Command R+ (08-2024).
 
 All scored blocks use exact OpenRouter routes. Automatic fallback is disabled. The two Cohere
 successor blocks are restricted to OpenRouter's Cohere endpoint; they replace, rather than pool
 with, earlier direct-account calibration responses that hit a monthly request ceiling. The
 manifest binds the requested model, canonical identity, endpoint tag, provider, supported
 parameters, price envelope, and execution contract.
-For endpoints that advertise a reasoning-effort control, hidden reasoning is excluded and the
-effort is fixed to the lowest stable setting: \texttt{none} for DeepSeek V4 Flash and GLM 5.2,
-and \texttt{minimal} for the other twelve controllable routes. The remaining six endpoints use
-their documented provider-fixed behavior. This prevents hidden deliberation from consuming the
-answer budget while leaving the scored response format identical across routes. The complete route
-table appears in \cref{app:routes}.
+For endpoints that advertise a reasoning-effort control, hidden reasoning is excluded and effort
+is fixed to the lowest transport-stable setting recorded in the exact analysis plan. Endpoints
+without that control use their provider-fixed behavior. This prevents hidden deliberation from
+silently consuming the answer budget while leaving the scored response format identical across
+routes. Before any score inspection, a transport audit found that 155 of 640 DeepSeek V4 Pro 0813
+calls terminated at the original 4,096-token ceiling. We therefore replaced that entire block
+with an otherwise identical 16,384-token run; no truncated response is pooled into the release.
+The complete route table appears in \cref{app:routes}.
 
 \subsection{Label-permutation repeatability}
 
@@ -294,20 +297,20 @@ All inferential choices were fixed before the clean primary run.
 \begin{itemize}
   \item \textbf{Scores.} \FBBootstrapResamples{} shared-task bootstrap samples are drawn within
   each family. We report pointwise percentile intervals and a simultaneous max-$t$ band across all
-  20 model scores.
+  \FBModels{} model scores.
   \item \textbf{Pairs.} Every one of the \FBPairs{} model pairs uses the 640 paired task
   differences. Two-sided sign-flip tests use \FBPermutationResamples{} Monte Carlo draws and Holm
   correction at familywise $\alpha=.05$. We also report paired mean differences, bootstrap
   intervals, and Cohen's $d_z$.
   \item \textbf{Chance.} Each model is compared with the exact taskwise mean over all 56
-  portfolios. The 20 paired sign-flip tests form a separate Holm family.
+  portfolios. The \FBModels{} paired sign-flip tests form a separate Holm family.
   \item \textbf{Ranks.} Point ranks are accompanied by bootstrap rank intervals and contiguous
   statistical groups. Models that are not significantly separated are not presented as a resolved
   total order.
 \end{itemize}
 
 The preregistered approximation gives greater than 0.99 power for a five-point paired difference
-at paired task SD 20 after a 190-comparison Bonferroni threshold. Final claims rely on the observed
+at paired task SD 20 after a \FBPairs{}-comparison Bonferroni threshold. Final claims rely on the observed
 paired tests and bootstrap precision, not on this planning approximation.
 
 \section{Results}
@@ -432,11 +435,11 @@ The release is organized around content-addressed inputs and append-only outputs
 \begin{itemize}
   \item the exact 640-task JSON, with prompts, candidates, all 56 portfolio scores, oracle
   provenance, task strata, and task-set digest;
-  \item the 20-model manifest, exact provider route per model, fallback policy, supported
+  \item the \FBModels{}-model manifest, exact provider route per model, fallback policy, supported
   parameters, endpoint contract, and route digest;
   \item \FBPrimaryCells{} primary and \FBRepeatCells{} repeat response records, including raw
   text, completion state, usage, latency, parser output, task score, and response digest;
-  \item the frozen analysis plan, seeds, 50,000 bootstrap and 100,000 sign-flip counts, all 190
+  \item the frozen analysis plan, seeds, 50,000 bootstrap and 100,000 sign-flip counts, all \FBPairs{}
   pairwise rows, and the final statistical release; and
   \item a verifier and asset builder that reconstruct the leaderboard CSV, pairwise CSV, LaTeX
   tables, and vector figures from local files without provider access.
@@ -479,7 +482,7 @@ not demonstrate that optimizing \epicure{} reward transfers to human cooking out
 \section{Conclusion}
 
 \system{} makes culinary reasoning measurable without asking one language model to grade another.
-A versioned runtime enumerates every candidate decision, a 20-model common-task panel produces a
+A versioned runtime enumerates every candidate decision, a \FBModels{}-model common-task panel produces a
 single continuous score, and paired uncertainty distinguishes resolved differences from apparent
 rank order. The result is an automated leaderboard that can be rerun, audited, and used as a dense
 training environment. Its central claim is deliberately concrete: under this executable culinary
@@ -523,18 +526,18 @@ fully reconstructable from public artifacts.
     \toprule
     Quantity & Frozen value \\
     \midrule
-    Models & 20 \\
+    Models & \FBModels{} \\
     Primary tasks per model & 640 \\
     Tasks per family & 160 \\
     Candidate ingredients & 8 \\
     Selected ingredients & 3 \\
     Scored portfolios per task & 56 \\
-    Primary response cells & 12,800 \\
+    Primary response cells & \FBPrimaryCells{} \\
     Repeat tasks per model & 64 \\
-    Repeat response cells & 1,280 \\
+    Repeat response cells & \FBRepeatCells{} \\
     Bootstrap replicates & 50,000 \\
     Sign-flip replicates & 100,000 \\
-    Pairwise hypotheses & 190 \\
+    Pairwise hypotheses & \FBPairs{} \\
     Ranked completion floor & 608/640 \\
     \bottomrule
   \end{tabular}

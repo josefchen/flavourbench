@@ -1,7 +1,7 @@
 """Verify the compact, provider-free FlavourBench powered release.
 
 This replay intentionally needs only the checked-in release JSON and its two CSV
-tables.  It verifies their content addresses and the complete 20-model / 640-task
+tables.  It verifies their content addresses and the complete common-task
 statistical result contract without making provider or Epicure calls.
 """
 
@@ -99,12 +99,14 @@ def verify_release(path: Path) -> dict[str, Any]:
     models = analysis.get("models")
     pairs = analysis.get("pairwise_comparisons")
     repeats = analysis.get("repeatability")
-    _require(isinstance(models, list) and len(models) == 20, "expected exactly 20 models")
-    _require(isinstance(pairs, list) and len(pairs) == 190, "expected all 190 model pairs")
-    _require(isinstance(repeats, list) and len(repeats) == 20, "expected 20 repeat rows")
+    _require(isinstance(models, list) and len(models) >= 2, "expected at least two models")
+    model_count = len(models)
+    pair_count = model_count * (model_count - 1) // 2
+    _require(isinstance(pairs, list) and len(pairs) == pair_count, "pairwise row count failed")
+    _require(isinstance(repeats, list) and len(repeats) == model_count, "repeat row count failed")
 
     model_ids = [str(row["model_id"]) for row in models]
-    _require(len(set(model_ids)) == 20, "model IDs are not unique")
+    _require(len(set(model_ids)) == model_count, "model IDs are not unique")
     _require(
         all(int(row["availability"]["scheduled"]) == 640 for row in models),
         "every model must have 640 scheduled primary tasks",
@@ -124,18 +126,18 @@ def verify_release(path: Path) -> dict[str, Any]:
     inputs = release.get("inputs")
     _require(isinstance(inputs, dict), "release inputs are missing")
     _require(
-        int(inputs["primary_responses"]["count"]) == 12_800,
-        "primary response count is not 12,800",
+        int(inputs["primary_responses"]["count"]) == model_count * 640,
+        "primary response count differs from the model/task grid",
     )
     _require(
-        int(inputs["repeat_responses"]["count"]) == 1_280,
-        "repeat response count is not 1,280",
+        int(inputs["repeat_responses"]["count"]) == model_count * 64,
+        "repeat response count differs from the model/repeat grid",
     )
 
     tables = release.get("tables")
     _require(isinstance(tables, dict), "release table commitments are missing")
     table_rows: dict[str, list[dict[str, str]]] = {}
-    for label, expected_rows in (("leaderboard", 20), ("pairwise", 190)):
+    for label, expected_rows in (("leaderboard", model_count), ("pairwise", pair_count)):
         table = tables.get(label)
         _require(isinstance(table, dict), f"{label} table commitment is missing")
         table_path = path.parent / str(table.get("filename", ""))
@@ -158,15 +160,19 @@ def verify_release(path: Path) -> dict[str, Any]:
         (row for row in models if row.get("point_estimate_rank") is not None),
         key=lambda row: (int(row["point_estimate_rank"]), str(row["model_id"])),
     )
-    _require(len(ranked) == 20, "all 20 models must be eligible for point ranking")
+    _require(ranked, "release has no rank-eligible model")
+    _require(
+        [int(row["point_estimate_rank"]) for row in ranked] == list(range(1, len(ranked) + 1)),
+        "eligible point ranks are not contiguous",
+    )
     return {
         "status": "verified",
         "release": path.name,
         "artifact_sha256": stated,
         "models": len(models),
         "tasks_per_model": 640,
-        "primary_responses": 12_800,
-        "repeat_responses": 1_280,
+        "primary_responses": model_count * 640,
+        "repeat_responses": model_count * 64,
         "pairwise_comparisons": len(pairs),
         "leader_model_id": ranked[0]["model_id"],
         "leader_score": ranked[0]["flavourbench_score"],

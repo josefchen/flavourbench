@@ -1,0 +1,27 @@
+rank,rank_group,model,model_id,flavourbench_score,simultaneous_ci_low,simultaneous_ci_high,completed,parseable,repeat_jaccard,eligible
+1,1,SpaceXAI: Grok 4.6,x-ai/grok-4.6,73.358672,70.097031,76.620313,640,640,0.778125,true
+2,1,Google: Gemini 3.1 Pro Preview,google/gemini-3.1-pro-preview,72.901188,69.629460,76.172915,640,640,0.807813,true
+3,1,Meta: Muse Spark 1.2,meta/muse-spark-1.2,72.376469,69.074803,75.678135,640,640,0.834375,true
+4,1,OpenAI: GPT-5.6 Sol Pro,openai/gpt-5.6-sol-pro,71.989469,68.670986,75.307951,640,640,0.862500,true
+5,1,OpenAI: GPT-5.6 Terra Pro,openai/gpt-5.6-terra-pro,71.482141,68.187837,74.776444,640,640,0.798438,true
+6,1,Qwen: Qwen3.8 Max,qwen/qwen3.8-max,71.407203,68.022046,74.792360,640,640,0.795312,true
+7,1,Qwen: Qwen3.8 2.4T A95B,qwen/qwen3.8-2.4t-a95b,71.204891,67.876075,74.533706,627,627,0.781250,true
+8,1,Claude Opus 5,anthropic/claude-opus-5,70.756250,67.471003,74.041497,640,640,0.748437,true
+9,1,MoonshotAI: Kimi K3,moonshotai/kimi-k3,70.310375,67.001413,73.619337,640,640,0.742188,true
+10,1,Google: Gemini 3.6 Flash,google/gemini-3.6-flash,70.074828,66.794227,73.355429,640,640,0.795312,true
+11,1,Anthropic: Claude Sonnet 5,anthropic/claude-sonnet-5,69.435109,66.110051,72.760167,640,640,0.790625,true
+12,2,ByteDance Seed: Seed 2.1 Turbo,bytedance-seed/seed-2-1-turbo,69.183266,65.814849,72.551682,640,640,0.821875,true
+13,2,OpenAI: GPT-5.6 Luna Pro,openai/gpt-5.6-luna-pro,69.159266,65.841054,72.477477,639,639,0.718750,true
+14,2,Tencent: Hy3,tencent/hy3,68.893828,65.523741,72.263916,640,640,0.520312,true
+15,2,DeepSeek: DeepSeek V4 Pro 0813,deepseek/deepseek-v4-pro-0813,68.448203,64.858700,72.037707,629,629,0.662500,true
+16,2,Meta: Muse Glimmer 30B,meta/muse-glimmer-30b,68.377016,65.016534,71.737497,640,640,0.795312,true
+17,2,Z.ai: GLM 5.2,z-ai/glm-5.2,66.875266,63.494028,70.256503,635,634,0.665625,true
+18,2,MiniMax: MiniMax M3,minimax/minimax-m3,66.726062,63.324276,70.127849,627,627,0.704687,true
+19,2,NVIDIA: Nemotron 3.5 Lightning,nvidia/nemotron-3.5-lightning,65.151203,61.622957,68.679449,629,629,0.756250,true
+20,3,Thinking Machines: Inkling,thinkingmachines/inkling,64.456719,60.746743,68.166695,616,616,0.651562,true
+21,3,DeepSeek: DeepSeek V4 Flash 0731,deepseek/deepseek-v4-flash-0731,62.686156,59.168736,66.203576,640,640,0.557813,true
+22,3,Mistral: Mistral Large 3 2512,mistralai/mistral-large-2512,61.401109,57.877321,64.924898,640,639,0.640625,true
+23,3,Meta: Llama 4 Maverick,meta-llama/llama-4-maverick,60.171906,56.631828,63.711984,638,629,0.526563,true
+24,4,Cohere: Command A,cohere/command-a,58.106703,54.818317,61.395089,640,640,0.571875,true
+25,5,Cohere: Command R+ (08-2024),cohere/command-r-plus-08-2024,36.671516,33.657948,39.685083,640,639,0.229687,true
+,,Anthropic: Claude Fable 5,anthropic/claude-fable-5,26.078359,22.720162,29.436557,244,244,0.210938,false

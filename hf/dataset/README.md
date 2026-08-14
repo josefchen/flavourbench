@@ -46,7 +46,7 @@ configs:
 
 **Josef Chen** — Independent Researcher · **Jakub Radzikowski** — Independent Researcher · **Erim Hayretci** — Independent Researcher
 
-FlavourBench evaluates 20 frontier language-model endpoints on 640 culinary decisions with an
+FlavourBench evaluates 26 frontier language-model endpoints on 640 culinary decisions with an
 executable answer surface. Each task asks for a three-ingredient portfolio from eight candidates.
 Before any evaluated model is called, Epicure scores all 56 portfolios. A response therefore earns
 graded credit from a fixed table rather than from another language model.
@@ -59,12 +59,12 @@ graded credit from a fixed table rather than from another language model.
 
 | Config | Rows | Unit |
 |---|---:|---|
-| `models` | 20 | One exact evaluated route and statistical summary |
+| `models` | 26 | One exact evaluated route and statistical summary |
 | `tasks` | 640 | One task with eight candidates and all 56 frozen scores |
-| `primary_observations` | 12,800 | One model--task response; failures remain as zeroes |
-| `repeat_observations` | 1,280 | One label-permuted repeat response |
-| `leaderboard` | 20 | One model score, uncertainty interval, and rank group |
-| `pairwise_comparisons` | 190 | One paired contrast with Holm-adjusted inference |
+| `primary_observations` | 16,640 | One model--task response; failures remain as zeroes |
+| `repeat_observations` | 1,664 | One label-permuted repeat response |
+| `leaderboard` | 26 | One model score, uncertainty interval, and rank group |
+| `pairwise_comparisons` | 325 | One paired contrast with Holm-adjusted inference |
 
 The FlavourBench Score is the equal-family mean of the 640 task scores. The four equally weighted
 families are substitution, pairing, dietary constraints, and regional composition. Invalid or
@@ -74,7 +74,7 @@ tasks to be rank-eligible.
 ## Statistical outputs
 
 The release reports 50,000 family-stratified shared-task bootstrap replicates, simultaneous 95%
-score bands, all 190 paired model contrasts with 100,000 sign-flip resamples and Holm correction,
+score bands, all 325 paired model contrasts with 100,000 sign-flip resamples and Holm correction,
 exact-chance tests, bootstrap rank intervals, statistical rank groups, and label-permutation
 repeatability. Point ranks and rank groups are both included because a numerical ordering can be
 finer than the data support.
@@ -84,8 +84,8 @@ finer than the data support.
 - exact prompts, candidate labels, ingredient names, and all frozen portfolio scores;
 - complete primary and repeat response records, including answer text, parsed selection, score,
   completion state, exact route identity, latency, token use, cost, and content hashes;
-- route-level model metadata and clean-source lineage for the 17 base blocks, the DeepSeek rerun,
-  and the two Cohere reruns;
+- route-level model metadata and clean-source lineage for 16 retained base blocks, two Cohere
+  blocks, seven frontier-refresh blocks, and the clean DeepSeek 0813 repair;
 - the complete leaderboard and every multiplicity-adjusted pairwise comparison; and
 - a manifest binding every table by row count, byte size, and SHA-256.
 
@@ -121,13 +121,14 @@ python -I hf/dataset/restore_powered_runs.py \
   --primary hf-release/data-powered/primary_observations.jsonl \
   --repeat hf-release/data-powered/repeat_observations.jsonl \
   --base-run benchmark/powered-v31/run \
-  --deepseek-run benchmark/powered-v33/run \
-  --cohere-run benchmark/powered-v35/run
+  --cohere-run benchmark/powered-v35/run \
+  --frontier-run benchmark/powered-v38/run \
+  --successor-run benchmark/powered-v39/run
 
 make -C paper -f Makefile.powered analysis assets arxiv
 ```
 
-The restore step accepts only the complete 12,800 + 1,280 content-addressed response grid and
+The restore step accepts only the complete 16,640 + 1,664 content-addressed response grid and
 refuses conflicts. Re-running it with `--check` verifies every restored file byte-for-byte.
 
 ## Citation
