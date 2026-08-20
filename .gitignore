@@ -33,6 +33,8 @@ hf/.cache/
 hf/**/.gradio/
 hf/dataset/data-powered/
 hf/space/data-powered/
+hf/dataset/data-complete-core/
+hf/space/data-complete-core/
 
 # Raw powered-run journals and responses are published as the Hugging Face
 # dataset. GitHub retains the frozen task/route/analysis inputs, compact final
@@ -40,6 +42,8 @@ hf/space/data-powered/
 # hundreds of megabytes across thousands of small API-response files.
 benchmark/**/run/attempts/
 benchmark/**/run/responses/
+benchmark/**/run-*/attempts/
+benchmark/**/run-*/responses/
 
 # Private deployment-recovery forensics are not part of the public benchmark package.
 tests/legacy_0001_upgrade_bridge_test.py

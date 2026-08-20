@@ -53,6 +53,7 @@ from .provider import (
 )
 from .service_cohere import CohereDirectProvider
 from .service_kimi import KimiDirectProvider
+from .service_zai import ZaiCodingDirectProvider
 from .tool_contract import required_tool_contract
 
 RUNNER_SCHEMA_VERSION = "flavourbench-powered-runner-v1"
@@ -63,6 +64,12 @@ SECRET_KEYS = {
     "OPENROUTER_API_KEY": "FLAVOURBENCH_OPENROUTER_API_KEY",
     "KIMI_API_KEY": "FLAVOURBENCH_KIMI_API_KEY",
     "COHERE_API_KEY": "FLAVOURBENCH_COHERE_API_KEY",
+    "ZAI_CODING_API_KEY": "FLAVOURBENCH_ZAI_CODING_API_KEY",
+}
+OPTIONAL_SECRET_KEYS = {
+    # A continuation credential can replace an exhausted finite coding-plan
+    # allocation without changing model, endpoint, or benchmark protocol.
+    "ZAI_CODING_API_KEY2": "FLAVOURBENCH_ZAI_CODING_API_KEY2",
 }
 SECRET_PATTERN = re.compile(
     r"(?:sk-(?:[A-Za-z0-9._-]{8,})|hf_[A-Za-z0-9]{8,}|Bearer\s+\S+)", re.IGNORECASE
@@ -167,15 +174,15 @@ def _read_secret_file(path: Path) -> dict[str, str]:
             continue
         name, value = line.split("=", 1)
         name = name.strip()
-        if name not in SECRET_KEYS:
+        if name not in SECRET_KEYS and name not in OPTIONAL_SECRET_KEYS:
             continue
         value = value.strip().strip('"').strip("'")
         if value:
-            values[SECRET_KEYS[name]] = value
+            values[(SECRET_KEYS | OPTIONAL_SECRET_KEYS)[name]] = value
     missing = sorted(set(SECRET_KEYS.values()) - set(values))
     if missing:
         raise PoweredRunnerError(
-            "credential source lacks required OpenRouter, Kimi, or Cohere key material"
+            "credential source lacks required OpenRouter, Kimi, Cohere, or Z.ai key material"
         )
     return values
 
@@ -213,6 +220,7 @@ def configure_live_environment(
         or not settings.openrouter_api_key
         or not settings.kimi_api_key
         or not settings.cohere_api_key
+        or not settings.zai_coding_api_key
     ):
         raise PoweredRunnerError("live provider settings did not validate")
 
@@ -638,6 +646,7 @@ class ProviderPool:
         self.openrouter = OpenRouterProvider(attempt_sink=attempt_sink)
         self.kimi = KimiDirectProvider(attempt_sink=attempt_sink)
         self.cohere = CohereDirectProvider(attempt_sink=attempt_sink)
+        self.zai = ZaiCodingDirectProvider(attempt_sink=attempt_sink)
 
     def get(self, backend: str) -> Any:
         if backend == "openrouter":
@@ -646,10 +655,17 @@ class ProviderPool:
             return self.kimi
         if backend == "cohere_direct":
             return self.cohere
+        if backend == "zai_coding_direct":
+            return self.zai
         raise PoweredRunnerError(f"powered panel has unsupported backend: {backend}")
 
     async def close(self) -> None:
-        await asyncio.gather(self.openrouter.aclose(), self.kimi.aclose(), self.cohere.aclose())
+        await asyncio.gather(
+            self.openrouter.aclose(),
+            self.kimi.aclose(),
+            self.cohere.aclose(),
+            self.zai.aclose(),
+        )
 
 
 class RequestPacer:

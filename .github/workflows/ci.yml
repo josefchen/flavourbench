@@ -23,7 +23,7 @@ jobs:
       - name: Install benchmark and development dependencies
         run: pip install -e '.[dev]' -r hf/space/requirements.txt
 
-      - name: Verify the compact statistical release
+      - name: Verify the complete common-core statistical release
         shell: bash
         run: |
           set -Eeuo pipefail
@@ -32,7 +32,7 @@ jobs:
           test -n "$release"
           test -f "$release"
           test ! -L "$release"
-          python -I paper/reproduce_powered_release.py --release "$release"
+          python -I paper/verify_complete_core_release.py --release "$release"
 
       - name: Verify powered benchmark and publication code
         shell: bash
@@ -44,14 +44,28 @@ jobs:
             tests/epicure_selection_*_test.py \
             tests/frontier_refresh_*_test.py \
             tests/build_powered*_test.py \
+            tests/build_joint_powered_dataset_test.py \
             tests/hf_powered_space_app_test.py \
             tests/reproduce_powered_release_test.py \
-            tests/restore_powered_runs_test.py
+            tests/restore_powered_runs_test.py \
+            tests/restore_joint_powered_runs_test.py \
+            tests/selection_response_parser_v3_test.py \
+            tests/test_service_internals.py \
+            tests/test_service_zai.py
           python -m py_compile \
+            paper/build_complete_core_assets.py \
             paper/build_powered_selection_assets.py \
+            paper/reproduce_complete_core_release.py \
             paper/reproduce_powered_release.py \
+            paper/verify_complete_core_release.py \
+            hf/dataset/build_complete_core_dataset.py \
+            hf/dataset/build_joint_powered_dataset.py \
             hf/dataset/build_powered_dataset.py \
+            hf/dataset/restore_complete_core_sources.py \
+            hf/dataset/restore_joint_powered_runs.py \
             hf/dataset/restore_powered_runs.py \
+            hf/dataset/verify_complete_core_dataset.py \
+            hf/space/build_complete_core_space_bundle.py \
             hf/space/build_powered_space_bundle.py \
             hf/space/app.py
 
@@ -75,10 +89,19 @@ jobs:
             src/flavourbench/epicure_native_taskset_v*.py
             src/flavourbench/epicure_selection_*.py
             src/flavourbench/frontier_refresh_*.py
+            paper/build_complete_core_assets.py
             paper/build_powered_selection_assets.py
+            paper/reproduce_complete_core_release.py
             paper/reproduce_powered_release.py
+            paper/verify_complete_core_release.py
+            hf/dataset/build_complete_core_dataset.py
+            hf/dataset/build_joint_powered_dataset.py
             hf/dataset/build_powered_dataset.py
+            hf/dataset/restore_complete_core_sources.py
+            hf/dataset/restore_joint_powered_runs.py
             hf/dataset/restore_powered_runs.py
+            hf/dataset/verify_complete_core_dataset.py
+            hf/space/build_complete_core_space_bundle.py
             hf/space/build_powered_space_bundle.py
             hf/space/app.py
             scripts/scan_public_release.py
@@ -87,9 +110,14 @@ jobs:
             tests/epicure_selection_*_test.py
             tests/frontier_refresh_*_test.py
             tests/build_powered*_test.py
+            tests/build_joint_powered_dataset_test.py
             tests/hf_powered_space_app_test.py
             tests/reproduce_powered_release_test.py
             tests/restore_powered_runs_test.py
+            tests/restore_joint_powered_runs_test.py
+            tests/selection_response_parser_v3_test.py
+            tests/test_service_internals.py
+            tests/test_service_zai.py
           )
           ruff check "${files[@]}"
           ruff format --check "${files[@]}"

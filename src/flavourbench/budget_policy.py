@@ -17,6 +17,7 @@ PROVIDER_ACCOUNT_HARD_CAP_MICROS = {
     "kimi_direct": 100_000_000,
     "openrouter": 100_000_000,
     "qwencloud_direct": 100_000_000,
+    "zai_coding_direct": 100_000_000,
 }
 
 

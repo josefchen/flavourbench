@@ -75,16 +75,79 @@ from .epicure_selection_powered_plan_v38 import PLAN_SCHEMA_VERSION as PLAN_SCHE
 from .epicure_selection_powered_plan_v38 import verify_plan as verify_plan_v38
 from .epicure_selection_powered_plan_v39 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V39
 from .epicure_selection_powered_plan_v39 import verify_plan as verify_plan_v39
+from .epicure_selection_powered_plan_v40 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V40
+from .epicure_selection_powered_plan_v40 import verify_plan as verify_plan_v40
+from .epicure_selection_powered_plan_v41 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V41
+from .epicure_selection_powered_plan_v41 import verify_plan as verify_plan_v41
+from .epicure_selection_powered_plan_v42 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V42
+from .epicure_selection_powered_plan_v42 import verify_plan as verify_plan_v42
+from .epicure_selection_powered_plan_v43 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V43
+from .epicure_selection_powered_plan_v43 import verify_plan as verify_plan_v43
+from .epicure_selection_powered_plan_v44 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V44
+from .epicure_selection_powered_plan_v44 import selection_execution_policy_v44
+from .epicure_selection_powered_plan_v44 import verify_plan as verify_plan_v44
+from .epicure_selection_powered_plan_v45 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V45
+from .epicure_selection_powered_plan_v45 import verify_plan as verify_plan_v45
+from .epicure_selection_powered_plan_v46 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V46
+from .epicure_selection_powered_plan_v46 import verify_plan as verify_plan_v46
+from .epicure_selection_powered_plan_v49 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V49
+from .epicure_selection_powered_plan_v49 import verify_plan as verify_plan_v49
+from .epicure_selection_powered_plan_v50 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V50
+from .epicure_selection_powered_plan_v50 import verify_plan as verify_plan_v50
+from .epicure_selection_powered_plan_v52 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V52
+from .epicure_selection_powered_plan_v52 import verify_plan as verify_plan_v52
+from .epicure_selection_powered_plan_v54 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V54
+from .epicure_selection_powered_plan_v54 import verify_plan as verify_plan_v54
+from .epicure_selection_powered_plan_v55 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V55
+from .epicure_selection_powered_plan_v55 import verify_plan as verify_plan_v55
+from .epicure_selection_powered_plan_v58 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V58
+from .epicure_selection_powered_plan_v58 import verify_plan as verify_plan_v58
+from .epicure_selection_powered_plan_v59 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V59
+from .epicure_selection_powered_plan_v59 import verify_plan as verify_plan_v59
+from .epicure_selection_powered_plan_v62 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V62
+from .epicure_selection_powered_plan_v62 import verify_plan as verify_plan_v62
+from .epicure_selection_powered_plan_v63 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V63
+from .epicure_selection_powered_plan_v63 import verify_plan as verify_plan_v63
+from .epicure_selection_powered_plan_v65 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V65
+from .epicure_selection_powered_plan_v65 import verify_plan as verify_plan_v65
+from .epicure_selection_powered_plan_v66 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V66
+from .epicure_selection_powered_plan_v66 import verify_plan as verify_plan_v66
+from .epicure_selection_powered_plan_v70 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V70
+from .epicure_selection_powered_plan_v70 import verify_plan as verify_plan_v70
+from .epicure_selection_powered_plan_v71 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V71
+from .epicure_selection_powered_plan_v71 import verify_plan as verify_plan_v71
+from .epicure_selection_powered_plan_v74 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V74
+from .epicure_selection_powered_plan_v74 import verify_plan as verify_plan_v74
+from .epicure_selection_powered_plan_v75 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V75
+from .epicure_selection_powered_plan_v75 import verify_plan as verify_plan_v75
+from .epicure_selection_powered_plan_v80 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V80
+from .epicure_selection_powered_plan_v80 import verify_plan as verify_plan_v80
+from .epicure_selection_powered_plan_v81 import PLAN_SCHEMA_VERSION as PLAN_SCHEMA_VERSION_V81
+from .epicure_selection_powered_plan_v81 import verify_plan as verify_plan_v81
+from .epicure_selection_repeat_panel_replication_v1 import (
+    SCHEMA_VERSION as REPEAT_SCHEMA_VERSION_REPLICATION_2,
+)
+from .epicure_selection_repeat_panel_replication_v1 import (
+    verify_repeat_panel as verify_repeat_panel_replication_2,
+)
+from .epicure_selection_repeat_panel_v2 import (
+    SCHEMA_VERSION as REPEAT_SCHEMA_VERSION_V2,
+)
+from .epicure_selection_repeat_panel_v2 import verify_repeat_panel as verify_repeat_panel_v2
+from .epicure_selection_taskset_replication_v1 import (
+    verify_taskset as verify_taskset_replication_2,
+)
 from .epicure_selection_taskset_v1 import FAMILIES, score_answer, verify_taskset
+from .epicure_selection_taskset_v2 import verify_taskset as verify_taskset_v2
 from .frontier_contract_runner import (
     ContractCandidate,
     load_candidate_manifest,
     select_candidates,
 )
 
-RUNNER_SCHEMA_VERSION = "flavourbench-selection-powered-runner-v29"
-PREFLIGHT_SCHEMA_VERSION = "flavourbench-selection-powered-preflight-v29"
-CONFIRMATION = "RUN_EPICURE_SELECTION_FLAVOURBENCH_V28"
+RUNNER_SCHEMA_VERSION = "flavourbench-selection-powered-runner-v30"
+PREFLIGHT_SCHEMA_VERSION = "flavourbench-selection-powered-preflight-v30"
+CONFIRMATION = "RUN_EPICURE_SELECTION_FLAVOURBENCH_V29_ANCHOR_FREE"
 
 
 def _order_key(
@@ -233,13 +296,130 @@ def validate_inputs(
         PLAN_SCHEMA_VERSION_V37: verify_plan_v37,
         PLAN_SCHEMA_VERSION_V38: verify_plan_v38,
         PLAN_SCHEMA_VERSION_V39: verify_plan_v39,
+        PLAN_SCHEMA_VERSION_V40: verify_plan_v40,
+        PLAN_SCHEMA_VERSION_V41: verify_plan_v41,
+        PLAN_SCHEMA_VERSION_V42: verify_plan_v42,
+        PLAN_SCHEMA_VERSION_V43: verify_plan_v43,
+        PLAN_SCHEMA_VERSION_V44: verify_plan_v44,
+        PLAN_SCHEMA_VERSION_V45: verify_plan_v45,
+        PLAN_SCHEMA_VERSION_V46: verify_plan_v46,
+        PLAN_SCHEMA_VERSION_V49: verify_plan_v49,
+        PLAN_SCHEMA_VERSION_V50: verify_plan_v50,
+        PLAN_SCHEMA_VERSION_V52: verify_plan_v52,
+        PLAN_SCHEMA_VERSION_V54: verify_plan_v54,
+        PLAN_SCHEMA_VERSION_V55: verify_plan_v55,
+        PLAN_SCHEMA_VERSION_V58: verify_plan_v58,
+        PLAN_SCHEMA_VERSION_V59: verify_plan_v59,
+        PLAN_SCHEMA_VERSION_V62: verify_plan_v62,
+        PLAN_SCHEMA_VERSION_V63: verify_plan_v63,
+        PLAN_SCHEMA_VERSION_V65: verify_plan_v65,
+        PLAN_SCHEMA_VERSION_V66: verify_plan_v66,
+        PLAN_SCHEMA_VERSION_V70: verify_plan_v70,
+        PLAN_SCHEMA_VERSION_V71: verify_plan_v71,
+        PLAN_SCHEMA_VERSION_V74: verify_plan_v74,
+        PLAN_SCHEMA_VERSION_V75: verify_plan_v75,
+        PLAN_SCHEMA_VERSION_V80: verify_plan_v80,
+        PLAN_SCHEMA_VERSION_V81: verify_plan_v81,
     }
     plan_valid = plan_schema in plan_verifiers and plan_verifiers[plan_schema](plan)
+    taskset_valid = (
+        verify_taskset_replication_2(taskset)
+        if plan_schema
+        in {
+            PLAN_SCHEMA_VERSION_V46,
+            PLAN_SCHEMA_VERSION_V49,
+            PLAN_SCHEMA_VERSION_V52,
+            PLAN_SCHEMA_VERSION_V54,
+            PLAN_SCHEMA_VERSION_V59,
+            PLAN_SCHEMA_VERSION_V63,
+            PLAN_SCHEMA_VERSION_V66,
+            PLAN_SCHEMA_VERSION_V71,
+            PLAN_SCHEMA_VERSION_V75,
+            PLAN_SCHEMA_VERSION_V81,
+        }
+        else verify_taskset_v2(taskset)
+        if plan_schema
+        in {
+            PLAN_SCHEMA_VERSION_V44,
+            PLAN_SCHEMA_VERSION_V45,
+            PLAN_SCHEMA_VERSION_V50,
+            PLAN_SCHEMA_VERSION_V55,
+            PLAN_SCHEMA_VERSION_V58,
+            PLAN_SCHEMA_VERSION_V62,
+            PLAN_SCHEMA_VERSION_V65,
+            PLAN_SCHEMA_VERSION_V70,
+            PLAN_SCHEMA_VERSION_V74,
+            PLAN_SCHEMA_VERSION_V80,
+        }
+        else verify_taskset(taskset)
+    )
+    repeat_valid = (
+        verify_repeat_panel_replication_2(repeat, taskset=taskset)
+        if plan_schema
+        in {
+            PLAN_SCHEMA_VERSION_V46,
+            PLAN_SCHEMA_VERSION_V49,
+            PLAN_SCHEMA_VERSION_V52,
+            PLAN_SCHEMA_VERSION_V54,
+            PLAN_SCHEMA_VERSION_V59,
+            PLAN_SCHEMA_VERSION_V63,
+            PLAN_SCHEMA_VERSION_V66,
+            PLAN_SCHEMA_VERSION_V71,
+            PLAN_SCHEMA_VERSION_V75,
+            PLAN_SCHEMA_VERSION_V81,
+        }
+        else verify_repeat_panel_v2(repeat, taskset=taskset)
+        if plan_schema
+        in {
+            PLAN_SCHEMA_VERSION_V44,
+            PLAN_SCHEMA_VERSION_V45,
+            PLAN_SCHEMA_VERSION_V50,
+            PLAN_SCHEMA_VERSION_V55,
+            PLAN_SCHEMA_VERSION_V58,
+            PLAN_SCHEMA_VERSION_V62,
+            PLAN_SCHEMA_VERSION_V65,
+            PLAN_SCHEMA_VERSION_V70,
+            PLAN_SCHEMA_VERSION_V74,
+            PLAN_SCHEMA_VERSION_V80,
+        }
+        else verify_repeat_panel(repeat, taskset=taskset)
+    )
+    expected_repeat_schema = (
+        REPEAT_SCHEMA_VERSION_REPLICATION_2
+        if plan_schema
+        in {
+            PLAN_SCHEMA_VERSION_V46,
+            PLAN_SCHEMA_VERSION_V49,
+            PLAN_SCHEMA_VERSION_V52,
+            PLAN_SCHEMA_VERSION_V54,
+            PLAN_SCHEMA_VERSION_V59,
+            PLAN_SCHEMA_VERSION_V63,
+            PLAN_SCHEMA_VERSION_V66,
+            PLAN_SCHEMA_VERSION_V71,
+            PLAN_SCHEMA_VERSION_V75,
+            PLAN_SCHEMA_VERSION_V81,
+        }
+        else REPEAT_SCHEMA_VERSION_V2
+        if plan_schema
+        in {
+            PLAN_SCHEMA_VERSION_V44,
+            PLAN_SCHEMA_VERSION_V45,
+            PLAN_SCHEMA_VERSION_V50,
+            PLAN_SCHEMA_VERSION_V55,
+            PLAN_SCHEMA_VERSION_V58,
+            PLAN_SCHEMA_VERSION_V62,
+            PLAN_SCHEMA_VERSION_V65,
+            PLAN_SCHEMA_VERSION_V70,
+            PLAN_SCHEMA_VERSION_V74,
+            PLAN_SCHEMA_VERSION_V80,
+        }
+        else REPEAT_SCHEMA_VERSION
+    )
     if (
-        not verify_taskset(taskset)
-        or not verify_repeat_panel(repeat, taskset=taskset)
+        not taskset_valid
+        or not repeat_valid
         or not plan_valid
-        or repeat.get("schema_version") != REPEAT_SCHEMA_VERSION
+        or repeat.get("schema_version") != expected_repeat_schema
     ):
         raise PoweredRunnerError("Epicure selection input verification failed")
     inputs = plan["inputs"]
@@ -262,7 +442,33 @@ def validate_inputs(
         "predecessor": (
             predecessor["artifact_sha256"],
             _sha256_file(predecessor_release_path),
-            inputs["development_predecessor"],
+            inputs[
+                "superseded_anchor_contaminated_release"
+                if plan_schema
+                in {
+                    PLAN_SCHEMA_VERSION_V44,
+                    PLAN_SCHEMA_VERSION_V45,
+                    PLAN_SCHEMA_VERSION_V46,
+                    PLAN_SCHEMA_VERSION_V49,
+                    PLAN_SCHEMA_VERSION_V50,
+                    PLAN_SCHEMA_VERSION_V52,
+                    PLAN_SCHEMA_VERSION_V54,
+                    PLAN_SCHEMA_VERSION_V55,
+                    PLAN_SCHEMA_VERSION_V58,
+                    PLAN_SCHEMA_VERSION_V59,
+                    PLAN_SCHEMA_VERSION_V62,
+                    PLAN_SCHEMA_VERSION_V63,
+                    PLAN_SCHEMA_VERSION_V65,
+                    PLAN_SCHEMA_VERSION_V66,
+                    PLAN_SCHEMA_VERSION_V70,
+                    PLAN_SCHEMA_VERSION_V71,
+                    PLAN_SCHEMA_VERSION_V74,
+                    PLAN_SCHEMA_VERSION_V75,
+                    PLAN_SCHEMA_VERSION_V80,
+                    PLAN_SCHEMA_VERSION_V81,
+                }
+                else "development_predecessor"
+            ],
         ),
     }
     for label, (semantic, physical, recorded) in exact.items():
@@ -291,7 +497,31 @@ async def _async_run(args: argparse.Namespace) -> None:
         predecessor_release_path=args.predecessor_release,
     )
     policy = (
-        selection_execution_policy_v31()
+        selection_execution_policy_v44()
+        if plan.get("schema_version")
+        in {
+            PLAN_SCHEMA_VERSION_V44,
+            PLAN_SCHEMA_VERSION_V45,
+            PLAN_SCHEMA_VERSION_V46,
+            PLAN_SCHEMA_VERSION_V49,
+            PLAN_SCHEMA_VERSION_V50,
+            PLAN_SCHEMA_VERSION_V52,
+            PLAN_SCHEMA_VERSION_V54,
+            PLAN_SCHEMA_VERSION_V55,
+            PLAN_SCHEMA_VERSION_V58,
+            PLAN_SCHEMA_VERSION_V59,
+            PLAN_SCHEMA_VERSION_V62,
+            PLAN_SCHEMA_VERSION_V63,
+            PLAN_SCHEMA_VERSION_V65,
+            PLAN_SCHEMA_VERSION_V66,
+            PLAN_SCHEMA_VERSION_V70,
+            PLAN_SCHEMA_VERSION_V71,
+            PLAN_SCHEMA_VERSION_V74,
+            PLAN_SCHEMA_VERSION_V75,
+            PLAN_SCHEMA_VERSION_V80,
+            PLAN_SCHEMA_VERSION_V81,
+        }
+        else selection_execution_policy_v31()
         if plan.get("schema_version")
         in {
             PLAN_SCHEMA_VERSION_V31,
@@ -303,6 +533,10 @@ async def _async_run(args: argparse.Namespace) -> None:
             PLAN_SCHEMA_VERSION_V37,
             PLAN_SCHEMA_VERSION_V38,
             PLAN_SCHEMA_VERSION_V39,
+            PLAN_SCHEMA_VERSION_V40,
+            PLAN_SCHEMA_VERSION_V41,
+            PLAN_SCHEMA_VERSION_V42,
+            PLAN_SCHEMA_VERSION_V43,
         }
         else selection_execution_policy()
     )
@@ -337,6 +571,24 @@ async def _async_run(args: argparse.Namespace) -> None:
         if not successor_ids:
             raise PoweredRunnerError("plan has no frozen successor-only model set")
         cells = [cell for cell in cells if cell.candidate.model_id in successor_ids]
+    if args.coverage_repair_only:
+        execution = plan.get("execution", {})
+        repair = (
+            execution.get("deepseek_gmicloud_contract_refresh_v74")
+            or execution.get("deepseek_gmicloud_contract_refresh_v75")
+            or execution.get("deepseek_price_contract_refresh_v70")
+            or execution.get("deepseek_price_contract_refresh_v71")
+            or execution.get("deepseek_complete_block_replacement_v62")
+            or execution.get("deepseek_complete_block_replacement_v63")
+            or execution.get("deepseek_complete_block_replacement_v58")
+            or execution.get("deepseek_complete_block_replacement_v59")
+            or execution.get("complete_coverage_route_replacements_v54")
+            or execution.get("complete_coverage_route_replacements_v55")
+        )
+        repair_ids = set((repair or {}).get("replacement_model_ids", []))
+        if not repair_ids:
+            raise PoweredRunnerError("plan has no frozen complete-coverage repair model set")
+        cells = [cell for cell in cells if cell.candidate.model_id in repair_ids]
     if args.task_id:
         requested_tasks = set(args.task_id)
         cells = [cell for cell in cells if str(cell.task["task_id"]) in requested_tasks]
@@ -411,6 +663,7 @@ def run(argv: Sequence[str] | None = None) -> None:
     parser.add_argument("--model-id")
     parser.add_argument("--exclude-model-id", action="append")
     parser.add_argument("--successor-only", action="store_true")
+    parser.add_argument("--coverage-repair-only", action="store_true")
     parser.add_argument("--task-id", action="append")
     args = parser.parse_args(argv)
     if not 1 <= args.global_concurrency <= 80:

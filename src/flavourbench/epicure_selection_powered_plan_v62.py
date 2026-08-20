@@ -1,0 +1,271 @@
+"""Freeze the panel-1 DeepSeek all-cell GMICloud replacement."""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import tempfile
+from collections.abc import Callable, Mapping, Sequence
+from pathlib import Path
+from typing import Any
+
+from .epicure_selection_powered_plan_v23 import _roster_row
+from .epicure_selection_powered_plan_v44 import selection_execution_policy_v44
+from .epicure_selection_powered_plan_v54 import _sha256, _sha256_file
+from .epicure_selection_powered_plan_v55 import verify_plan as verify_plan_v55
+from .epicure_selection_route_manifest_v61 import (
+    BASE_TEN_ROUTE,
+    DEEPSEEK_PRO_MODEL_ID,
+    PROVIDER_NAME,
+    ROUTE_TAG,
+)
+from .epicure_selection_route_manifest_v61 import verify_manifest as verify_manifest_v61
+from .execution_policy import verify_policy_document
+from .frontier_contract_runner import select_candidates
+
+PLAN_SCHEMA_VERSION = "flavourbench-selection-powered-analysis-plan-v62"
+PLAN_VERSION = "flavourbench-selection-26x640-panel-1-deepseek-gmicloud-block-v62"
+PRIMARY_TASKS = 640
+REPEAT_TASKS = 64
+
+
+class SelectionPoweredPlanV62Error(RuntimeError):
+    """The panel-1 GMICloud replacement plan failed verification."""
+
+
+def _load(path: Path) -> dict[str, Any]:
+    if path.is_symlink() or not path.is_file():
+        raise SelectionPoweredPlanV62Error(f"input is not a regular file: {path}")
+    value = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(value, dict):
+        raise SelectionPoweredPlanV62Error("plan input is not a JSON object")
+    return value
+
+
+def _build_panel_plan(
+    *,
+    predecessor: Mapping[str, Any],
+    predecessor_physical_sha256: str,
+    manifest: Mapping[str, Any],
+    manifest_physical_sha256: str,
+    verify_predecessor: Callable[[Mapping[str, Any]], bool],
+    schema_version: str,
+    plan_version: str,
+    status: str,
+    predecessor_key: str,
+    execution_key: str,
+    panel: int,
+) -> dict[str, Any]:
+    if not verify_predecessor(predecessor) or not verify_manifest_v61(manifest):
+        raise SelectionPoweredPlanV62Error("GMI plan predecessor or manifest failed verification")
+    prior_rows = {str(row["model_id"]): row for row in predecessor["roster"]["models"]}
+    candidates = {candidate.model_id: candidate for candidate in select_candidates(manifest)}
+    if list(prior_rows) != list(candidates):
+        raise SelectionPoweredPlanV62Error("GMI plan roster differs from its predecessor")
+
+    document = json.loads(json.dumps(predecessor))
+    document.pop("artifact_sha256")
+    document["schema_version"] = schema_version
+    document["plan_version"] = plan_version
+    document["status"] = status
+    document["inputs"][predecessor_key] = {
+        "semantic_sha256": predecessor["artifact_sha256"],
+        "physical_sha256": predecessor_physical_sha256,
+    }
+    document["inputs"]["superseded_route_manifest_v54"] = document["inputs"]["route_manifest"]
+    document["inputs"]["route_manifest"] = {
+        "semantic_sha256": manifest["content_address"]["digest"],
+        "physical_sha256": manifest_physical_sha256,
+    }
+
+    final_rows = json.loads(json.dumps(predecessor["roster"]["models"]))
+    index = next(i for i, row in enumerate(final_rows) if row["model_id"] == DEEPSEEK_PRO_MODEL_ID)
+    prior = prior_rows[DEEPSEEK_PRO_MODEL_ID]
+    replacement = _roster_row(
+        candidates[DEEPSEEK_PRO_MODEL_ID], str(prior["final_reasoning_effort"])
+    )
+    if "final_max_output_tokens" in prior:
+        replacement["final_max_output_tokens"] = int(prior["final_max_output_tokens"])
+    final_rows[index] = replacement
+    document["roster"]["models"] = final_rows
+    document["execution"][execution_key] = {
+        "schema_version": "flavourbench-score-blind-complete-block-route-replacement-v4",
+        "source_plan_sha256": predecessor["artifact_sha256"],
+        "replacement_model_ids": [DEEPSEEK_PRO_MODEL_ID],
+        "replacement_provider_tags": {DEEPSEEK_PRO_MODEL_ID: ROUTE_TAG},
+        "replacement_provider_names": {DEEPSEEK_PRO_MODEL_ID: PROVIDER_NAME},
+        "superseded_provider_tags": {DEEPSEEK_PRO_MODEL_ID: ["deepseek", BASE_TEN_ROUTE]},
+        "replacement_primary_cells_per_model": PRIMARY_TASKS,
+        "replacement_repeat_cells_per_model": REPEAT_TASKS,
+        "replacement_blocks_must_be_complete": True,
+        "superseded_responses_used": False,
+        "cross_route_response_pooling": False,
+        "selective_failed_cell_retry": False,
+        "selection_uses_scores_or_selections": False,
+        "selection_uses_transport_status_only": True,
+        "automatic_fallback": False,
+        "quality_score_definition": "successful_and_parseable_only",
+    }
+    document["execution"]["reasoning_control"] = (
+        f"replace all 640 primary and 64 repeat panel-{panel} DeepSeek cells through exact "
+        "GMICloud FP8; preserve tasks, prompts, decoding, scoring, and inference"
+    )
+    document["execution"]["collection_concurrency"] = {
+        "global": 1,
+        "per_model_default": 1,
+        "per_model_by_backend": {"openrouter": 1},
+        "per_model_by_model_id": {DEEPSEEK_PRO_MODEL_ID: 1},
+        "reason": "single exact-route complete block with one-call concurrency",
+    }
+    document["budget"].update(
+        {
+            "aggregate_program_cap": "800",
+            "program_cap": "800",
+            "hard_cap": "800",
+            "successor_scope": (
+                f"one complete 640+64 panel-{panel} DeepSeek GMICloud replacement block"
+            ),
+        }
+    )
+    document["artifact_sha256"] = _sha256(document)
+    return document
+
+
+def _verify_panel_plan(
+    document: Mapping[str, Any],
+    *,
+    verify_predecessor: Callable[[Mapping[str, Any]], bool],
+    schema_version: str,
+    plan_version: str,
+    status: str,
+    predecessor_key: str,
+    execution_key: str,
+) -> bool:
+    payload = dict(document)
+    recorded = str(payload.pop("artifact_sha256", ""))
+    try:
+        replacement = document["execution"][execution_key]
+        rows = {str(row["model_id"]): row for row in document["roster"]["models"]}
+        policy_document = document["execution"]["execution_policy"]
+        predecessor = document["inputs"][predecessor_key]
+        manifest = document["inputs"]["route_manifest"]
+        superseded_manifest = document["inputs"]["superseded_route_manifest_v54"]
+    except (KeyError, TypeError):
+        return False
+    row = rows.get(DEEPSEEK_PRO_MODEL_ID) or {}
+    policy = selection_execution_policy_v44()
+    return bool(
+        document.get("schema_version") == schema_version
+        and document.get("plan_version") == plan_version
+        and recorded == _sha256(payload)
+        and document.get("status") == status
+        and len(rows) == 26
+        and row.get("provider_tag") == ROUTE_TAG
+        and row.get("provider_name") == PROVIDER_NAME
+        and replacement.get("replacement_model_ids") == [DEEPSEEK_PRO_MODEL_ID]
+        and replacement.get("replacement_provider_tags") == {DEEPSEEK_PRO_MODEL_ID: ROUTE_TAG}
+        and replacement.get("superseded_provider_tags")
+        == {DEEPSEEK_PRO_MODEL_ID: ["deepseek", BASE_TEN_ROUTE]}
+        and replacement.get("replacement_primary_cells_per_model") == PRIMARY_TASKS
+        and replacement.get("replacement_repeat_cells_per_model") == REPEAT_TASKS
+        and replacement.get("replacement_blocks_must_be_complete") is True
+        and replacement.get("superseded_responses_used") is False
+        and replacement.get("cross_route_response_pooling") is False
+        and replacement.get("selective_failed_cell_retry") is False
+        and replacement.get("selection_uses_scores_or_selections") is False
+        and replacement.get("selection_uses_transport_status_only") is True
+        and replacement.get("automatic_fallback") is False
+        and document["outcomes"].get("failed_content_filtered_or_unparseable")
+        == "excluded_from_quality_score"
+        and policy_document == policy.document()
+        and verify_policy_document(policy_document)
+        and document["execution"].get("execution_policy_sha256") == policy.sha256
+        and all(
+            isinstance(pin.get("semantic_sha256"), str)
+            and len(pin["semantic_sha256"]) == 64
+            and isinstance(pin.get("physical_sha256"), str)
+            and len(pin["physical_sha256"]) == 64
+            for pin in (predecessor, manifest, superseded_manifest)
+        )
+        and callable(verify_predecessor)
+    )
+
+
+def build_plan(
+    *,
+    predecessor: Mapping[str, Any],
+    predecessor_physical_sha256: str,
+    manifest: Mapping[str, Any],
+    manifest_physical_sha256: str,
+) -> dict[str, Any]:
+    document = _build_panel_plan(
+        predecessor=predecessor,
+        predecessor_physical_sha256=predecessor_physical_sha256,
+        manifest=manifest,
+        manifest_physical_sha256=manifest_physical_sha256,
+        verify_predecessor=verify_plan_v55,
+        schema_version=PLAN_SCHEMA_VERSION,
+        plan_version=PLAN_VERSION,
+        status="panel_1_deepseek_gmicloud_block_frozen_before_execution",
+        predecessor_key="plan_v55_predecessor",
+        execution_key="deepseek_complete_block_replacement_v62",
+        panel=1,
+    )
+    if not verify_plan(document):
+        raise SelectionPoweredPlanV62Error("constructed v62 plan failed verification")
+    return document
+
+
+def verify_plan(document: Mapping[str, Any]) -> bool:
+    return _verify_panel_plan(
+        document,
+        verify_predecessor=verify_plan_v55,
+        schema_version=PLAN_SCHEMA_VERSION,
+        plan_version=PLAN_VERSION,
+        status="panel_1_deepseek_gmicloud_block_frozen_before_execution",
+        predecessor_key="plan_v55_predecessor",
+        execution_key="deepseek_complete_block_replacement_v62",
+    )
+
+
+def _write(document: Mapping[str, Any], directory: Path) -> Path:
+    directory.mkdir(parents=True, exist_ok=True)
+    destination = directory / f"epicure-selection-analysis-plan-{document['artifact_sha256']}.json"
+    data = json.dumps(document, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
+    if destination.exists():
+        if destination.is_symlink() or destination.read_text(encoding="utf-8") != data:
+            raise SelectionPoweredPlanV62Error("content-addressed plan conflict")
+        return destination
+    with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=directory, delete=False) as handle:
+        handle.write(data)
+        handle.flush()
+        os.fsync(handle.fileno())
+        temporary = Path(handle.name)
+    try:
+        os.link(temporary, destination)
+        destination.chmod(0o644)
+    finally:
+        temporary.unlink(missing_ok=True)
+    return destination
+
+
+def run(argv: Sequence[str] | None = None) -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--predecessor", type=Path, required=True)
+    parser.add_argument("--manifest", type=Path, required=True)
+    parser.add_argument("--output-directory", type=Path, required=True)
+    args = parser.parse_args(argv)
+    predecessor = _load(args.predecessor)
+    manifest = _load(args.manifest)
+    document = build_plan(
+        predecessor=predecessor,
+        predecessor_physical_sha256=_sha256_file(args.predecessor),
+        manifest=manifest,
+        manifest_physical_sha256=_sha256_file(args.manifest),
+    )
+    print(_write(document, args.output_directory))
+
+
+if __name__ == "__main__":
+    run()

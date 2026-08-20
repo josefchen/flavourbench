@@ -4,97 +4,94 @@
 
 ### Ranking frontier language models with executable culinary ground truth
 
-**Josef Chen** — Independent Researcher · **Jakub Radzikowski** — Independent Researcher · **Erim Hayretci** — Independent Researcher
+**Josef Chen** · **Erim Hayretci**<br>
+Josef Chen, Independent Researcher · Erim Hayretci, Imperial College London
 
-**26 models · 640 tasks · 16,640 primary responses · 1,664 repeats · 325 paired tests**
+**27 models · 534 identical tasks per model · 14,418 scored responses · 351 paired tests**
 
-[Paper](paper/build/flavourbench.pdf) · [Leaderboard](https://huggingface.co/spaces/josefchen/flavourbench) · [Dataset](https://huggingface.co/datasets/josefchen/flavourbench) · [Reproduce](#reproduce-the-release)
+[Paper](paper/build/flavourbench.pdf) · [Leaderboard](https://huggingface.co/spaces/josefchen/flavourbench) · [Dataset](https://huggingface.co/datasets/josefchen/flavourbench) · [arXiv source](paper/build/flavourbench-arxiv-source.tar.gz)
 
 </div>
 
-FlavourBench is an automated benchmark for culinary reasoning. Every model solves the same 640
-three-of-eight ingredient-selection tasks. Before model execution, a versioned Epicure runtime
-scores all 56 possible portfolios for each task, producing a fixed continuous reward surface.
-Models never see Epicure at inference time, and no language model or human grades their answers.
+FlavourBench measures culinary decision quality without a human panel or an LLM judge. Each task
+presents eight ingredients and asks a model to choose three. Before any model is called, Epicure
+scores all 56 legal portfolios. The model's choice receives a continuous score from 0 to 100 on
+that fixed reward surface.
 
-The public release covers current frontier systems from OpenAI, Anthropic, Google, xAI, Alibaba,
-Moonshot, Zhipu, DeepSeek, Meta, ByteDance, Thinking Machines, MiniMax, NVIDIA, Mistral, Tencent,
-and Cohere. It ships the complete
-response grid, repeat panel, route identities, statistical analysis, paper, and provider-free
-reproduction path.
+The ranked release uses an identical 534-task common core for every endpoint. It contains two
+independently compiled panels and three balanced families: substitution, pairing, and culinary
+constraints. Every one of the 14,418 model-task cells is complete and parseable. Failed calls,
+content filters, and model-specific task subsets do not enter this leaderboard.
 
 ## Result
 
-Grok 4.6 has the highest point estimate at **73.36**, followed by Gemini 3.1 Pro Preview at
-**72.90** and Muse Spark 1.2 at **72.38**. The leading confidence bands overlap, so the release
-reports both point ranks and statistical rank groups instead of manufacturing a unique winner.
+Grok 4.6 has the highest point estimate, followed by Gemini 3.1 Pro and GPT-5.6 Sol Pro. The leading
+simultaneous confidence intervals overlap, so the data do not identify one statistically unique
+winner. Point ranks and rank groups answer different questions and both are reported.
 
-| Rank | Model | FlavourBench Score | Simultaneous 95% band | Group | Repeat agreement |
-|---:|---|---:|---:|:---:|---:|
-| 1 | Grok 4.6 | 73.36 | 70.10–76.62 | 1 | 77.8% |
-| 2 | Gemini 3.1 Pro Preview | 72.90 | 69.63–76.17 | 1 | 80.8% |
-| 3 | Muse Spark 1.2 | 72.38 | 69.07–75.68 | 1 | 83.4% |
-| 4 | GPT-5.6 Sol Pro | 71.99 | 68.67–75.31 | 1 | 86.2% |
-| 5 | GPT-5.6 Terra Pro | 71.48 | 68.19–74.78 | 1 | 79.8% |
-| 6 | Qwen3.8 Max | 71.41 | 68.02–74.79 | 1 | 79.5% |
-| 7 | Qwen3.8 2.4T A95B | 71.20 | 67.88–74.53 | 1 | 78.1% |
-| 8 | Claude Opus 5 | 70.76 | 67.47–74.04 | 1 | 74.8% |
-| 9 | Kimi K3 | 70.31 | 67.00–73.62 | 1 | 74.2% |
-| 10 | Gemini 3.6 Flash | 70.07 | 66.79–73.36 | 1 | 79.5% |
-| 11 | Claude Sonnet 5 | 69.44 | 66.11–72.76 | 1 | 79.1% |
-| 12 | Seed 2.1 Turbo | 69.18 | 65.81–72.55 | 2 | 82.2% |
-| 13 | GPT-5.6 Luna Pro | 69.16 | 65.84–72.48 | 2 | 71.9% |
-| 14 | Hy3 | 68.89 | 65.52–72.26 | 2 | 52.0% |
-| 15 | DeepSeek V4 Pro 0813 | 68.45 | 64.86–72.04 | 2 | 66.2% |
-| 16 | Muse Glimmer 30B | 68.38 | 65.02–71.74 | 2 | 79.5% |
-| 17 | GLM 5.2 | 66.88 | 63.49–70.26 | 2 | 66.6% |
-| 18 | MiniMax M3 | 66.73 | 63.32–70.13 | 2 | 70.5% |
-| 19 | Nemotron 3.5 Lightning | 65.15 | 61.62–68.68 | 2 | 75.6% |
-| 20 | Inkling | 64.46 | 60.75–68.17 | 3 | 65.2% |
-| 21 | DeepSeek V4 Flash 0731 | 62.69 | 59.17–66.20 | 3 | 55.8% |
-| 22 | Mistral Large 3 2512 | 61.40 | 57.88–64.92 | 3 | 64.1% |
-| 23 | Llama 4 Maverick | 60.17 | 56.63–63.71 | 3 | 52.7% |
-| 24 | Cohere Command A | 58.11 | 54.82–61.40 | 4 | 57.2% |
-| 25 | Cohere Command R+ (08-2024) | 36.67 | 33.66–39.69 | 5 | 23.0% |
-| DNF | Claude Fable 5 | 26.08 | 22.72–29.44 | — | 21.1% |
+| Rank | Model | Score | Simultaneous 95% CI | Bootstrap rank 95% | Group |
+|---:|---|---:|---:|---:|:---:|
+| 1 | Grok 4.6 | 65.07 | 60.98-69.15 | 1-5 | 1 |
+| 2 | Gemini 3.1 Pro Preview | 64.95 | 60.80-69.10 | 1-6 | 1 |
+| 3 | GPT-5.6 Sol Pro | 64.23 | 60.09-68.37 | 1-8 | 1 |
+| 4 | Muse Spark 1.2 | 63.75 | 59.63-67.88 | 1-10 | 1 |
+| 5 | GPT-5.6 Terra Pro | 63.67 | 59.53-67.81 | 1-11 | 1 |
+| 6 | Claude Fable 5 | 63.36 | 59.18-67.54 | 2-13 | 1 |
+| 7 | GPT-5.6 Luna Pro | 62.64 | 58.52-66.77 | 4-14 | 1 |
+| 8 | Claude Opus 5 | 62.50 | 58.39-66.61 | 3-15 | 1 |
+| 9 | Qwen3.8 2.4T A95B | 62.08 | 57.93-66.24 | 4-17 | 1 |
+| 10 | Kimi K3 | 62.05 | 57.92-66.18 | 5-16 | 1 |
+| 11 | Gemini 3.6 Flash | 61.98 | 57.72-66.24 | 4-17 | 1 |
+| 12 | DeepSeek V4 Pro 0813 | 61.95 | 57.80-66.11 | 5-17 | 1 |
+| 13 | Qwen3.8 Max | 61.50 | 57.36-65.65 | 7-18 | 1 |
+| 14 | Hy3 | 61.48 | 57.29-65.67 | 6-19 | 1 |
+| 15 | MiniMax M3 | 60.94 | 56.78-65.10 | 8-20 | 1 |
+| 16 | GLM-5.3 | 60.57 | 56.36-64.79 | 8-20 | 1 |
+| 17 | Muse Glimmer 30B | 59.89 | 55.86-63.91 | 12-21 | 2 |
+| 18 | Seed 2.1 Turbo | 59.72 | 55.44-64.01 | 12-22 | 2 |
+| 19 | Inkling | 59.61 | 55.44-63.78 | 12-22 | 2 |
+| 20 | Claude Sonnet 5 | 59.52 | 55.39-63.65 | 13-22 | 2 |
+| 21 | GLM 5.2 | 58.45 | 54.19-62.71 | 16-23 | 2 |
+| 22 | Nemotron 3.5 Lightning | 57.39 | 53.23-61.56 | 19-25 | 2 |
+| 23 | Command A | 56.71 | 52.48-60.94 | 20-25 | 2 |
+| 24 | DeepSeek V4 Flash 0731 | 55.43 | 51.12-59.75 | 22-26 | 2 |
+| 25 | Mistral Large 3 2512 | 55.42 | 51.35-59.48 | 22-26 | 2 |
+| 26 | Llama 4 Maverick | 53.65 | 49.61-57.70 | 24-26 | 3 |
+| 27 | Command R+ (08-2024) | 47.86 | 43.73-51.98 | 27-27 | 3 |
 
-Twenty-five systems meet the preregistered eligibility floor and all 25 score above the taskwise
-exact-chance baseline after Holm correction. Claude Fable 5 is retained as an intention-to-evaluate
-DNF because only 244 of 640 primary responses completed. **168 of 325** paired model contrasts
-remain significant
-after multiplicity correction. Scores use 50,000 family-stratified shared-task bootstrap replicates;
-pairwise tests use 100,000 shared-task sign flips. Label-permuted repeats measure response stability.
+All models score above their taskwise exact-chance baselines after Holm correction. Of the 351
+pairwise model contrasts, 101 remain significant after familywise correction. Each contrast uses
+the same 534 paired cells. Cross-panel agreement is 0.885 by Pearson correlation and 0.804 by
+Spearman correlation.
 
-![FlavourBench leaderboard with simultaneous confidence bands](paper/figures/powered/powered-leaderboard-forest.png)
+## The FlavourBench Score
 
-## What the score means
+For task \(t\), Epicure supplies a score for each legal three-item portfolio. The chosen portfolio
+is normalized to a 0-100 scale between that task's worst and best portfolio. A model's final score
+is the equal-weight mean of its substitution, pairing, and constraint means across both panels.
 
-For each task, Epicure assigns a utility to every legal three-ingredient portfolio. The model's
-chosen portfolio is placed on a 0–100 task scale between the task's worst and best portfolio. The
-**FlavourBench Score** is the equal-family mean across substitution, pairing, dietary constraints,
-and regional composition. Invalid, failed, or unparseable responses remain in the denominator at
-zero.
+A score of 100 means that the model chose Epicure's optimum on every task. Epicure is the reference
+environment, not a contestant. The benchmark measures alignment with a published culinary reward
+surface; it does not claim to rank general intelligence or sensory taste.
 
-Epicure is the executable environment, not a contestant. A score of 100 means that a model selected
-Epicure's optimum on every task; it does not mean that Epicure was awarded 100% by itself. The
-benchmark measures decision quality against a published, versioned culinary reward surface.
+## Statistical design
 
-## Why it is useful
+- 27 models and exactly 534 valid scored tasks per model
+- 178 tasks per family, split evenly across two independently compiled panels
+- 534 ingredient-anchor clusters, the unit used for uncertainty
+- 50,000 shared cluster-bootstrap replicates
+- simultaneous 95% score intervals and bootstrap rank intervals
+- 100,000 cluster sign flips for each of 351 paired contrasts
+- Holm correction across the full pairwise family
+- exact taskwise chance tests for every model
 
-- **Dense, deterministic supervision.** Every task has 56 scored actions, not one brittle answer key.
-- **No judge-model circularity.** The leaderboard does not depend on another LLM's preferences.
-- **Common-task inference.** Models are compared on the same tasks with paired uncertainty.
-- **Modern routes.** Qwen3.8 Max, Kimi K3, Cohere Command A, GPT-5.6 Sol/Terra/Luna, and the rest of
-  the panel are measured in the same clean lineage with provider fallback disabled.
-- **Training-ready rewards.** The exhaustive action maps support reward modeling, reranking, search,
-  and held-out reinforcement-learning experiments without leaking the public test set.
-- **Auditability.** Prompts, candidate sets, scores, raw responses, failures, routes, seeds, and
-  content hashes are distributed as explicit tables.
+The common core was selected using completion and parseability only. No score or observed selection
+was inspected during task selection. This removes the missing-cell ambiguity that affected earlier
+development releases while retaining a fixed, shared estimand for all models.
 
 ## Reproduce the release
 
-Python 3.12 is recommended. The compact statistical release is checked into GitHub and verifies
-without network access:
+Python 3.12 is recommended.
 
 ```bash
 git clone https://github.com/josefchen/flavourbench.git
@@ -103,69 +100,67 @@ python3.12 -m venv .venv
 . .venv/bin/activate
 pip install -e '.[dev]'
 
-python3 -I paper/reproduce_powered_release.py \
-  --release paper/generated/powered/flavourbench-powered-release-886473ef5c7fb451906610b5cffec2ef5ebd69ad46be56783b1308cbc3540d13.json
-
+make -C paper -f Makefile.powered verify
 make -C paper -f Makefile.powered arxiv
-cd paper/build && sha256sum --check ARTIFACTS.sha256
+cd paper/build
+sha256sum --check ARTIFACTS.sha256
 ```
 
-To reconstruct the release from every raw response, download the larger evidence layer from
-Hugging Face and restore the four content-addressed run directories:
+The compact release verifier has no provider dependency:
+
+```bash
+python3 -I paper/verify_complete_core_release.py \
+  --release paper/generated/complete-core/flavourbench-complete-core-release-0a20655c97aa1363c2266e247f3dd03b759d0f80bca9154c6619c5549b2fac99.json
+```
+
+The Hugging Face dataset carries the 14,418 selected source responses and the exact task records:
 
 ```bash
 hf download josefchen/flavourbench --repo-type dataset \
-  --include 'data-powered/*' --local-dir hf-release
+  --include 'data-complete-core/*' --local-dir hf-release
 
-python3 -I hf/dataset/restore_powered_runs.py \
-  --release paper/generated/powered/flavourbench-powered-release-886473ef5c7fb451906610b5cffec2ef5ebd69ad46be56783b1308cbc3540d13.json \
-  --primary hf-release/data-powered/primary_observations.jsonl \
-  --repeat hf-release/data-powered/repeat_observations.jsonl \
-  --base-run benchmark/powered-v31/run \
-  --cohere-run benchmark/powered-v35/run \
-  --frontier-run benchmark/powered-v38/run \
-  --successor-run benchmark/powered-v39/run
+python3 -I hf/dataset/verify_complete_core_dataset.py \
+  --dataset-directory hf-release/data-complete-core
 
-make -C paper -f Makefile.powered analysis assets arxiv
+python3 -I hf/dataset/restore_complete_core_sources.py \
+  --dataset-directory hf-release/data-complete-core \
+  --repository . \
+  --restore
 ```
 
-The restore path validates the complete 16,640 + 1,664 grid and refuses conflicts. No reproduction
-command calls a model provider.
+No reproduction command calls a model provider.
+
+## Release artifacts
+
+| Artifact | SHA-256 |
+|---|---|
+| Statistical release | `709452f8cf54ebc1947f2a3c24e6ee19580be1c115ba3a9effbac441de556db4` |
+| Release semantic ID | `0a20655c97aa1363c2266e247f3dd03b759d0f80bca9154c6619c5549b2fac99` |
+| Analysis plan | `17ac5aea6eb25a0c0af440124849c926fdcafaf36956fd2e676f2c70ca80faa6` |
+| Final PDF | `e3538932fb3b58a6869793bd5ea3ee8688a9abb06dbdc6536e3ae1c783395fc2` |
+| arXiv source tarball | `50ac9a26b359577111f7217a0b3b4f02131fdf7c247b94b690bc6ff3e937657b` |
 
 ## Repository map
 
 | Path | Contents |
 |---|---|
-| [`src/flavourbench`](src/flavourbench) | Task construction, route contracts, runners, scoring, and inference |
-| [`benchmark`](benchmark) | Content-addressed task sets, plans, manifests, and compact run evidence |
-| [`paper`](paper) | Manuscript, generated tables and figures, final PDF, and arXiv source tarball |
-| [`hf/dataset`](hf/dataset) | Six-table Hugging Face dataset exporter and strict run restorer |
-| [`hf/space`](hf/space) | Interactive evidence explorer and compact verified bundle |
-| [`tests`](tests) | Statistical, route, integrity, reproduction, and publication tests |
-
-## Scientific scope
-
-FlavourBench ranks models on constrained culinary selection under the released Epicure reward
-surface. It is not a universal intelligence, food-safety, sensory-quality, or full-recipe benchmark.
-Endpoint results bind the exact routes and collection period in the release. The paper reports
-unresolved top groups where the data do not support a sharper claim.
+| [`src/flavourbench`](src/flavourbench) | Task construction, route contracts, response parsing, scoring, and inference |
+| [`benchmark`](benchmark) | Frozen task sets, route manifests, analysis plans, and compact evidence |
+| [`paper`](paper) | Manuscript, figures, tables, PDF, and arXiv source package |
+| [`hf/dataset`](hf/dataset) | Deterministic final-dataset builder |
+| [`hf/space`](hf/space) | Interactive leaderboard and evidence explorer |
+| [`tests`](tests) | Statistical, route, integrity, and publication tests |
 
 ## Citation
 
-The arXiv identifier will be added after submission. Until then, cite the paper and powered release
-`886473ef5c7fb451906610b5cffec2ef5ebd69ad46be56783b1308cbc3540d13`:
-
 ```bibtex
 @article{chen2026flavourbench,
-  title   = {FlavourBench: Ranking Frontier Language Models with Executable Culinary Ground Truth},
-  author  = {Chen, Josef and Radzikowski, Jakub and Hayretci, Erim},
-  year    = {2026}
+  title  = {FlavourBench: Ranking Frontier Language Models with Executable Culinary Ground Truth},
+  author = {Chen, Josef and Hayretci, Erim},
+  year   = {2026}
 }
 ```
 
-## Licensing and security
-
-Benchmark prompts, choices, identifiers, authored metadata, derived tables, and original figures
-are CC BY 4.0. Model responses retain the provider and research-use boundaries in
-[`LICENSES.md`](LICENSES.md). Credentials, private databases, and unrestricted Epicure source data
-must never be committed; see [`SECURITY.md`](SECURITY.md).
+Prompts, candidate sets, derived tables, and original figures are released under CC BY 4.0.
+Provider responses retain their source terms. See [`LICENSES.md`](LICENSES.md) for the component
+rights boundary and [`SECURITY.md`](SECURITY.md) for credential handling.

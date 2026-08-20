@@ -14,33 +14,33 @@ datasets:
 
 # FlavourBench
 
-**Josef Chen** — Independent Researcher · **Jakub Radzikowski** — Independent Researcher · **Erim Hayretci** — Independent Researcher
+**Josef Chen · Erim Hayretci**<br>
+Josef Chen, Independent Researcher · Erim Hayretci, Imperial College London
 
-An interactive explorer for the powered FlavourBench release: 26 frontier endpoints, 640
-executable culinary decisions, 16,640 primary responses, 1,664 label-permuted repeats, and all 325
-paired statistical comparisons.
+This Space explores the final FlavourBench complete common core: 27 frontier endpoints, 534
+identical tasks per model, 14,418 valid scored responses, and all 351 paired comparisons.
 
-The Space reads one content-addressed bundle and makes no provider calls. Use it to inspect:
+Epicure scores all 56 legal three-ingredient portfolios before a model is called. The Space lets
+you inspect the resulting leaderboard without relying on an LLM judge. It includes:
 
-- the FlavourBench Score, simultaneous 95% intervals, and statistical rank groups;
-- family-level model profiles and label-permutation repeatability;
-- exact prompts, candidate sets, frozen 56-portfolio score maps, and real model responses; and
-- any paired model contrast with its bootstrap interval and Holm-adjusted result.
+- the full score table with simultaneous 95% intervals and bootstrap rank intervals;
+- statistical rank groups and all Holm-adjusted pairwise comparisons;
+- family profiles and score replication across two independently compiled panels; and
+- exact prompts, candidate lists, Epicure score maps, model answers, and response hashes.
+
+Every ranked endpoint has one valid response for every task. The Space bundle is content-addressed
+and makes no provider calls.
 
 [Paper](https://github.com/josefchen/flavourbench/blob/main/paper/build/flavourbench.pdf) |
 [Dataset](https://huggingface.co/datasets/josefchen/flavourbench) |
 [Source](https://github.com/josefchen/flavourbench)
 
-The dataset contains full response records. The Space carries compact excerpts for fast browsing.
-See the repository [rights boundary](https://github.com/josefchen/flavourbench/blob/main/LICENSES.md)
-for component-level licensing.
-
 ## Citation
 
 ```bibtex
 @article{chen2026flavourbench,
-  title   = {FlavourBench: Ranking Frontier Language Models with Executable Culinary Ground Truth},
-  author  = {Chen, Josef and Radzikowski, Jakub and Hayretci, Erim},
-  year    = {2026}
+  title  = {FlavourBench: Ranking Frontier Language Models with Executable Culinary Ground Truth},
+  author = {Chen, Josef and Hayretci, Erim},
+  year   = {2026}
 }
 ```

@@ -14,7 +14,7 @@ HERE = Path(__file__).resolve().parent
 BUNDLE_PATH = Path(
     os.environ.get(
         "FLAVOURBENCH_BUNDLE",
-        HERE / "data-powered" / "flavourbench-powered-space.json",
+        HERE / "data-complete-core" / "flavourbench-complete-core-space.json",
     )
 )
 
@@ -206,7 +206,7 @@ body, .gradio-container {
 .fb-section p { color: var(--fb-muted); margin: 0; max-width: 70ch; }
 .fb-metric-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 12px;
   margin: 8px 0 16px;
 }
@@ -283,17 +283,17 @@ def _canonical(value: object) -> bytes:
 def _load_bundle() -> dict[str, Any]:
     if BUNDLE_PATH.is_symlink() or not BUNDLE_PATH.is_file():
         raise FileNotFoundError(
-            f"Powered Space bundle not found at {BUNDLE_PATH}. Set FLAVOURBENCH_BUNDLE."
+            f"Complete-core Space bundle not found at {BUNDLE_PATH}. Set FLAVOURBENCH_BUNDLE."
         )
     value = json.loads(BUNDLE_PATH.read_text(encoding="utf-8"))
     payload = dict(value)
     recorded = str(payload.pop("artifact_sha256", ""))
     if (
         recorded != hashlib.sha256(_canonical(payload)).hexdigest()
-        or value.get("schema_version") != "flavourbench-powered-space-bundle-v1"
-        or value.get("status") != "final_complete"
+        or value.get("schema_version") != "flavourbench-complete-core-space-bundle-v1"
+        or value.get("status") != "final_complete_common_core"
     ):
-        raise SpaceDataError("powered Space bundle failed verification")
+        raise SpaceDataError("complete-core Space bundle failed verification")
     return value
 
 
@@ -304,8 +304,10 @@ PAIRWISE = BUNDLE["pairwise_comparisons"]
 MODEL_COUNT = len(MODELS)
 TASK_COUNT = len(TASKS)
 PAIR_COUNT = len(PAIRWISE)
+DESIGN = BUNDLE["design"]
+PANEL_COUNT = int(DESIGN.get("panel_count", 1))
+INDEPENDENT_CLUSTER_COUNT = int(DESIGN.get("unique_anchor_clusters", TASK_COUNT))
 PRIMARY_COUNT = MODEL_COUNT * TASK_COUNT
-REPEAT_COUNT = MODEL_COUNT * 64
 MODEL_BY_NAME = {str(row["model_name"]): row for row in MODELS}
 MODEL_BY_ID = {str(row["model_id"]): row for row in MODELS}
 TASK_BY_ID = {str(row["task_id"]): row for row in TASKS}
@@ -328,6 +330,41 @@ TASK_LABEL_TO_ID = {
     f"{row['task_id']} | {str(row['family']).replace('_', ' ')}": str(row["task_id"])
     for row in TASKS
 }
+
+
+def _completion_diagnostic(model_id: str) -> dict[str, Any]:
+    family_rows: dict[str, list[dict[str, Any]]] = {}
+    for task_id, task in TASK_BY_ID.items():
+        family = str(task["family"])
+        family_rows.setdefault(family, []).append(OBSERVATIONS[(model_id, task_id)])
+    conditional_family_scores: dict[str, float] = {}
+    completed_by_family: dict[str, int] = {}
+    scheduled_by_family: dict[str, int] = {}
+    for family, rows in family_rows.items():
+        completed = [
+            row
+            for row in rows
+            if row["status"] == "completed" and bool(row.get("scoring", {}).get("parseable", True))
+        ]
+        scheduled_by_family[family] = len(rows)
+        completed_by_family[family] = len(completed)
+        conditional_family_scores[family] = (
+            sum(float(row["scoring"]["score"]) for row in completed) / len(completed)
+            if completed
+            else 0.0
+        )
+    completed = sum(completed_by_family.values())
+    return {
+        "scheduled": len(TASK_BY_ID),
+        "completed": completed,
+        "failed": len(TASK_BY_ID) - completed,
+        "completion_rate": completed / len(TASK_BY_ID),
+        "conditional_family_scores": conditional_family_scores,
+        "completed_by_family": completed_by_family,
+        "scheduled_by_family": scheduled_by_family,
+        "conditional_equal_family_score": sum(conditional_family_scores.values())
+        / len(conditional_family_scores),
+    }
 
 
 def _short(value: str) -> str:
@@ -364,17 +401,17 @@ def _frontier_html() -> str:
 
 def _hero_html() -> str:
     inference = BUNDLE["analysis"]["inference"]
+    panel_phrase = f" across {PANEL_COUNT} collection panels" if PANEL_COUNT > 1 else ""
     return f"""
     <div class="fb-shell fb-hero">
       <section>
         <div class="fb-kicker">Executable culinary evaluation</div>
-        <h1>640 decisions.<br>No model judge.</h1>
-        <p class="fb-dek">Executable score maps rank {MODEL_COUNT} frontier endpoints with shared-task
-        uncertainty and inspectable responses.</p>
+        <h1>{TASK_COUNT:,} decisions.<br>No model judge.</h1>
+        <p class="fb-dek">Executable score maps rank {MODEL_COUNT} frontier endpoints{panel_phrase}
+        with anchor-clustered uncertainty and inspectable responses.</p>
         <div class="fb-byline">
           <span>Josef Chen<small>Independent Researcher</small></span>
-          <span>Jakub Radzikowski<small>Independent Researcher</small></span>
-          <span>Erim Hayretci<small>Independent Researcher</small></span>
+          <span>Erim Hayretci<small>Imperial College London</small></span>
         </div>
         <div class="fb-stats">
           <div class="fb-stat"><strong>{MODEL_COUNT}</strong><span>models</span></div>
@@ -395,19 +432,17 @@ def _leaderboard_frame() -> pd.DataFrame:
     rows = []
     for model in DISPLAY_MODELS:
         ci = model["score_simultaneous_95_ci"]
-        repeat = model.get("repeatability") or {}
+        rank_ci = model["bootstrap_rank_95_interval"]
         rows.append(
             {
-                "Rank": model.get("point_estimate_rank") or "DNF",
-                "Group": model.get("statistical_rank_group") or "DNF",
+                "Rank": model["point_estimate_rank"],
+                "Group": model["statistical_rank_group"],
                 "Model": model["model_name"],
                 "Score": round(float(model["flavourbench_score"]), 2),
                 "Simultaneous 95%": f"{ci[0]:.2f} to {ci[1]:.2f}",
-                "Completed": f"{model['availability']['completed']}/640",
-                "Repeat Jaccard": (
-                    round(float(repeat["mean_ingredient_set_jaccard"]), 3) if repeat else None
-                ),
-                "Route": model["provider_name"],
+                "Rank 95%": f"{rank_ci[0]} to {rank_ci[1]}",
+                "Cells": f"{model['coverage']['valid_scored']}/{TASK_COUNT}",
+                "Backend": model["execution_backend"],
             }
         )
     return pd.DataFrame(rows)
@@ -415,29 +450,40 @@ def _leaderboard_frame() -> pd.DataFrame:
 
 def _model_detail(model_name: str) -> tuple[str, pd.DataFrame]:
     model = MODEL_BY_NAME[model_name]
-    repeat = model.get("repeatability") or {}
-    rank_interval = model.get("bootstrap_rank_95_interval") or [None, None]
+    rank_interval = model["bootstrap_rank_95_interval"]
+    coverage = model["coverage"]
+    panel_replication = model["panel_replication"]
     summary = f"""
     <div class="fb-metric-grid">
       <div class="fb-metric"><small>FlavourBench Score</small><strong>{model["flavourbench_score"]:.2f}</strong></div>
-      <div class="fb-metric"><small>Statistical group</small><strong>G{model.get("statistical_rank_group") or "-"}</strong></div>
+      <div class="fb-metric"><small>Complete cells</small><strong>{coverage["valid_scored"]}/{coverage["scheduled"]}</strong></div>
+      <div class="fb-metric"><small>Point rank</small><strong>#{model["point_estimate_rank"]}</strong></div>
+      <div class="fb-metric"><small>Statistical group</small><strong>G{model["statistical_rank_group"]}</strong></div>
       <div class="fb-metric"><small>Bootstrap rank</small><strong>{rank_interval[0]}-{rank_interval[1]}</strong></div>
-      <div class="fb-metric"><small>Repeat Jaccard</small><strong>{float(repeat.get("mean_ingredient_set_jaccard", 0)):.3f}</strong></div>
+      <div class="fb-metric"><small>Backend</small><strong>{html.escape(str(model["execution_backend"]))}</strong></div>
+    </div>
+    <div class="fb-evidence">
+      <strong>Identical evidence for every model.</strong> This score uses all {TASK_COUNT} common-core
+      cells: {coverage["valid_scored_per_family"]["substitution"]} substitution,
+      {coverage["valid_scored_per_family"]["pairing"]} pairing, and
+      {coverage["valid_scored_per_family"]["constraint"]} constraint tasks. Panel scores are
+      {float(panel_replication["panel_1"]):.2f} and
+      {float(panel_replication["panel_2"]):.2f}
+      ({float(panel_replication["difference"]):+.2f}).
     </div>
     """
     family_rows = [
         {
             "Family": family.replace("_", " ").title(),
             "Score": round(float(score), 3),
+            "Cells": coverage["valid_scored_per_family"][family],
         }
         for family, score in model["family_scores"].items()
     ]
     chance = model["chance_comparison"]
+    chance_score = round(float(chance["exact_chance_score"]), 3)
     family_rows.append(
-        {
-            "Family": "Exact chance baseline",
-            "Score": round(float(chance["exact_chance_score"]), 3),
-        }
+        {"Family": "Exact chance baseline", "Score": chance_score, "Cells": TASK_COUNT}
     )
     return summary, pd.DataFrame(family_rows)
 
@@ -454,13 +500,15 @@ def _task_detail(
     optimum = str(task["optimal_selection"])
     observed_ingredients = [task["choices"][label] for label in observed] if observed else []
     optimum_ingredients = [task["choices"][label] for label in optimum]
+    if observation.get("status") != "completed" or not bool(scoring.get("parseable")):
+        raise SpaceDataError("common-core observation is not release-valid")
     status = f"""
     <div class="fb-evidence">
       <strong>{html.escape(model_name)}</strong> selected
-      <code>{html.escape(str(observed or "no valid selection"))}</code> and scored
+      <code>{html.escape(str(observed))}</code> and scored
       <strong>{float(scoring["score"]):.2f}</strong>. The optimum is
       <code>{html.escape(optimum)}</code>.
-      <br>Observed: {html.escape(", ".join(observed_ingredients) or "none")}
+      <br>Observed: {html.escape(", ".join(observed_ingredients))}
       <br>Optimum: {html.escape(", ".join(optimum_ingredients))}
     </div>
     """
@@ -520,7 +568,8 @@ def _pair_detail(left_name: str, right_name: str) -> str:
     <div class="fb-evidence">
       <strong>{html.escape(left_name)}</strong> minus <strong>{html.escape(right_name)}</strong>:
       <strong>{difference:+.3f} points</strong> (bootstrap 95% {interval[0]:+.3f} to {interval[1]:+.3f}).
-      The comparison is <strong>{verdict}</strong> across all {PAIR_COUNT} tests.
+      The comparison is <strong>{verdict}</strong> across all {PAIR_COUNT} tests
+      (shared valid tasks: <code>{row.get("shared_valid_tasks", TASK_COUNT)}</code>).
       <br>Holm p = <code>{float(row["holm_p"]):.4g}</code>, paired Cohen dz =
       <code>{row.get("cohen_dz")}</code>.
     </div>
@@ -561,8 +610,8 @@ with gr.Blocks(title="FlavourBench | Executable culinary evaluation") as demo:
             gr.HTML(
                 """
                 <div class="fb-section">
-                  <h2>The powered frontier panel</h2>
-                  <p>Point ranks are shown beside statistical groups and simultaneous intervals.</p>
+                  <h2>The complete common-core leaderboard</h2>
+                  <p>Every model is scored on the same 534 tasks. Point ranks sit beside statistical groups and simultaneous intervals.</p>
                 </div>
                 """
             )
@@ -583,8 +632,8 @@ with gr.Blocks(title="FlavourBench | Executable culinary evaluation") as demo:
             gr.HTML(
                 """
                 <div class="fb-section">
-                  <h2>Family profile and repeatability</h2>
-                  <p>Inspect where a model earns its score and whether its selection survives relabeling.</p>
+                  <h2>Family profile and panel replication</h2>
+                  <p>Inspect where a model earns its score and how its estimate moves across the two independently compiled panels.</p>
                 </div>
                 """
             )
@@ -688,17 +737,19 @@ with gr.Blocks(title="FlavourBench | Executable culinary evaluation") as demo:
                   <div>
                     <h3>Scoring contract</h3>
                     <p>Every task exposes eight candidates and all 56 three-item scores. The
-                    FlavourBench Score is the equal-family mean over 640 tasks. Invalid and failed
-                    responses remain in the denominator at zero.</p>
+                    FlavourBench Score is the equal-family mean across substitution, pairing, and
+                    constraint tasks. The release uses a complete 27-by-534 matrix: every ranked
+                    model contributes one valid response to every scored task.</p>
                     <h3>Inference</h3>
-                    <p>Results use 50,000 family-stratified shared-task bootstraps, simultaneous
-                    score bands, 100,000 sign flips, Holm correction, exact-chance tests, and 64
-                    label-permuted repeats per model.</p>
+                    <p>Results use {INDEPENDENT_CLUSTER_COUNT:,} ingredient-anchor clusters,
+                    50,000 ingredient-anchor cluster bootstraps, simultaneous score bands,
+                    100,000 cluster sign flips, Holm correction, exact-chance tests, bootstrap rank
+                    intervals, and an independently compiled second panel.</p>
                   </div>
                   <aside class="fb-evidence">
                     <strong>Exact release</strong><br>
                     <span class="fb-hash">{BUNDLE["release_artifact_sha256"]}</span><br><br>
-                    {MODEL_COUNT} models<br>{TASK_COUNT} tasks<br>{PRIMARY_COUNT:,} primary responses<br>{REPEAT_COUNT:,} repeats
+                    {MODEL_COUNT} models<br>{TASK_COUNT} tasks<br>{INDEPENDENT_CLUSTER_COUNT:,} anchor clusters<br>{PRIMARY_COUNT:,} complete scored responses<br>{BUNDLE["analysis"]["resolved_pair_count"]}/{PAIR_COUNT} resolved pairs
                   </aside>
                 </div>
                 """
@@ -709,7 +760,7 @@ with gr.Blocks(title="FlavourBench | Executable culinary evaluation") as demo:
 git clone https://github.com/josefchen/flavourbench.git
 cd flavourbench
 pip install -e '.[dev]'
-make -C paper -f Makefile.powered analysis
+make -C paper -f Makefile.powered verify
 make -C paper -f Makefile.powered arxiv
 ```
 
@@ -720,7 +771,7 @@ make -C paper -f Makefile.powered arxiv
     gr.HTML(
         """
         <div class="fb-shell fb-footer">
-          FlavourBench | Josef Chen · Jakub Radzikowski · Erim Hayretci | Independent Researchers
+          FlavourBench | Josef Chen, Independent Researcher · Erim Hayretci, Imperial College London
         </div>
         """
     )

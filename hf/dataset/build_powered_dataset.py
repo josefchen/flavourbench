@@ -16,7 +16,14 @@ from flavourbench.epicure_selection_powered_plan_v33 import verify_plan as verif
 from flavourbench.epicure_selection_powered_plan_v35 import verify_plan as verify_v35_plan
 from flavourbench.epicure_selection_powered_plan_v38 import verify_plan as verify_v38_plan
 from flavourbench.epicure_selection_powered_plan_v39 import verify_plan as verify_v39_plan
+from flavourbench.epicure_selection_powered_plan_v42 import verify_plan as verify_v42_plan
+from flavourbench.epicure_selection_powered_plan_v43 import verify_plan as verify_v43_plan
+from flavourbench.epicure_selection_powered_plan_v44 import verify_plan as verify_v44_plan
+from flavourbench.epicure_selection_repeat_panel_v2 import (
+    verify_repeat_panel as verify_repeat_panel_v2,
+)
 from flavourbench.epicure_selection_taskset_v1 import verify_taskset
+from flavourbench.epicure_selection_taskset_v2 import verify_taskset as verify_taskset_v2
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
@@ -26,6 +33,7 @@ TABLE_ORDER = (
     "tasks",
     "primary_observations",
     "repeat_observations",
+    "provider_attempt_events",
     "leaderboard",
     "pairwise_comparisons",
 )
@@ -93,26 +101,128 @@ def _response_documents(
     panel: str,
     final_plan: Mapping[str, Any],
     task_ids: Sequence[str],
-    source_directories: Mapping[str, Path],
+    source_directories: Mapping[str, Path | Sequence[Path]],
 ) -> list[dict[str, Any]]:
     output: list[dict[str, Any]] = []
     expected_tasks = set(task_ids)
     for roster_row in final_plan["roster"]["models"]:
         model_id = str(roster_row["model_id"])
-        directory = source_directories[model_id]
-        paths = sorted(
-            (directory / "responses" / panel / str(roster_row["slot_id"])).glob("response-*.json")
+        directory_value = source_directories[model_id]
+        directories = (
+            (directory_value,) if isinstance(directory_value, Path) else tuple(directory_value)
         )
-        rows = [_load(path) for path in paths]
-        if (
-            len(rows) != len(task_ids)
-            or {str(row.get("task_id")) for row in rows} != expected_tasks
-            or any(str(row.get("model_id")) != model_id for row in rows)
-            or any(not _semantic_valid(row) for row in rows)
-        ):
+        if not directories or len(set(directories)) != len(directories):
+            raise PoweredDatasetBuildError(f"{panel} source order failed for {model_id}")
+        candidates: dict[str, list[tuple[int, dict[str, Any]]]] = {}
+        for priority, directory in enumerate(directories):
+            paths = sorted(
+                (directory / "responses" / panel / str(roster_row["slot_id"])).glob(
+                    "response-*.json"
+                )
+            )
+            observed_in_directory: set[str] = set()
+            for path in paths:
+                row = _load(path)
+                task_id = str(row.get("task_id"))
+                if (
+                    task_id not in expected_tasks
+                    or task_id in observed_in_directory
+                    or str(row.get("model_id")) != model_id
+                    or not _semantic_valid(row)
+                    or row.get("status") not in {"completed", "failed"}
+                ):
+                    raise PoweredDatasetBuildError(
+                        f"{panel} response source failed for {model_id}: {path}"
+                    )
+                observed_in_directory.add(task_id)
+                candidates.setdefault(task_id, []).append((priority, row))
+        if set(candidates) != expected_tasks:
             raise PoweredDatasetBuildError(f"{panel} response block failed for {model_id}")
-        output.extend(sorted(rows, key=lambda row: str(row["task_id"])))
+        rows = []
+        for task_id in task_ids:
+            ordered = sorted(candidates[task_id], key=lambda value: value[0])
+            valid = [
+                candidate
+                for candidate in ordered
+                if candidate[1]["status"] == "completed"
+                and candidate[1].get("scoring", {}).get("parseable") is True
+            ]
+            completed = [
+                candidate for candidate in ordered if candidate[1]["status"] == "completed"
+            ]
+            rows.append((valid or completed or ordered)[0][1])
+        output.extend(rows)
     return output
+
+
+def _attempt_event_valid(document: Mapping[str, Any]) -> bool:
+    payload = dict(document)
+    recorded = str(payload.pop("event_sha256", ""))
+    return bool(recorded and recorded == hashlib.sha256(_canonical(payload)).hexdigest())
+
+
+def _provider_attempt_documents(
+    *,
+    response_documents: Sequence[Mapping[str, Any]],
+    source_directories: Mapping[str, Path],
+) -> list[dict[str, Any]]:
+    """Return every provider event referenced by the exported response cells."""
+    required: dict[str, tuple[str, str]] = {}
+    for response in response_documents:
+        arm_id = str(response["arm_id"])
+        plan_sha256 = str(response["plan_sha256"])
+        hashes = response.get("attempt_event_sha256s")
+        if not isinstance(hashes, list) or not hashes:
+            raise PoweredDatasetBuildError(f"response has no provider-attempt lineage: {arm_id}")
+        for value in hashes:
+            event_sha256 = str(value)
+            if event_sha256 in required:
+                raise PoweredDatasetBuildError(
+                    f"provider-attempt event is referenced by multiple responses: {event_sha256}"
+                )
+            required[event_sha256] = (arm_id, plan_sha256)
+
+    observed: dict[str, dict[str, Any]] = {}
+    for directory in sorted(set(source_directories.values()), key=str):
+        journal = directory / "attempts/provider-attempts.jsonl"
+        if journal.is_symlink() or not journal.is_file():
+            raise PoweredDatasetBuildError(f"provider-attempt journal is missing: {journal}")
+        for line in journal.read_bytes().splitlines():
+            try:
+                document = json.loads(line)
+            except json.JSONDecodeError as exc:
+                raise PoweredDatasetBuildError(
+                    f"provider-attempt journal contains invalid JSON: {journal}"
+                ) from exc
+            if not isinstance(document, dict) or not _attempt_event_valid(document):
+                raise PoweredDatasetBuildError(
+                    f"provider-attempt event failed its semantic hash: {journal}"
+                )
+            event_sha256 = str(document["event_sha256"])
+            if event_sha256 not in required:
+                continue
+            if event_sha256 in observed:
+                raise PoweredDatasetBuildError(
+                    f"duplicate provider-attempt event across journals: {event_sha256}"
+                )
+            arm_id, plan_sha256 = required[event_sha256]
+            event = document.get("event")
+            if (
+                document.get("plan_sha256") != plan_sha256
+                or not isinstance(event, Mapping)
+                or event.get("arm_id") != arm_id
+            ):
+                raise PoweredDatasetBuildError(
+                    f"provider-attempt event differs from its response binding: {event_sha256}"
+                )
+            observed[event_sha256] = document
+
+    missing = sorted(set(required) - set(observed))
+    if missing:
+        raise PoweredDatasetBuildError(
+            f"provider-attempt lineage is incomplete: {len(missing)} events missing"
+        )
+    return [observed[event_sha256] for event_sha256 in sorted(observed)]
 
 
 def _tables(
@@ -123,39 +233,76 @@ def _tables(
     plan: Mapping[str, Any],
     primary_documents: Sequence[Mapping[str, Any]],
     repeat_documents: Sequence[Mapping[str, Any]],
+    provider_attempt_documents: Sequence[Mapping[str, Any]],
 ) -> dict[str, list[dict[str, Any]]]:
     analysis_by_model = {str(row["model_id"]): row for row in release["analysis"]["models"]}
     source_lineage = release["inputs"]["model_response_sources"]
-    if "frontier_model_ids" in source_lineage:
+    if source_lineage.get("schema_version") == "flavourbench-single-fresh-response-source-v1":
+        base_models = set(source_lineage["model_ids"])
+        cohere_models = set()
+        frontier_models = set()
+        successor_models = set()
+        deepseek_model = None
+        deepseek_models = set()
+    elif "deepseek_model_ids" in source_lineage:
+        base_models = set(source_lineage["base_model_ids"])
+        cohere_models = set(source_lineage["cohere_model_ids"])
+        frontier_models = set(source_lineage["frontier_model_ids"])
+        deepseek_models = set(source_lineage["deepseek_model_ids"])
+        successor_models = set(source_lineage["successor_model_ids"])
+        deepseek_model = None
+    elif "frontier_model_ids" in source_lineage:
         base_models = set(source_lineage["base_model_ids"])
         cohere_models = set(source_lineage["cohere_model_ids"])
         frontier_models = set(source_lineage["frontier_model_ids"])
         successor_models = set(source_lineage["successor_model_ids"])
         deepseek_model = None
+        deepseek_models = set()
     elif "successor_model_ids" in source_lineage:
         base_models = set(source_lineage["base_model_ids"])
         cohere_models = set(source_lineage["cohere_model_ids"])
         frontier_models = set()
         successor_models = set(source_lineage["successor_model_ids"])
         deepseek_model = None
+        deepseek_models = set()
     else:
         base_models = set(source_lineage["base_models"])
         deepseek_model = str(source_lineage["deepseek_model_id"])
         cohere_models = set(source_lineage["cohere_model_ids"])
         frontier_models = set()
         successor_models = set()
+        deepseek_models = {deepseek_model}
     model_rows = []
     for route in plan["roster"]["models"]:
         model_id = str(route["model_id"])
         if model_id in base_models:
-            source = "powered-v31-base"
-        elif deepseek_model is not None and model_id == deepseek_model:
-            source = "powered-v33-clean-deepseek"
+            source = (
+                "powered-v44-anchor-free-fresh-panel"
+                if source_lineage.get("schema_version")
+                == "flavourbench-single-fresh-response-source-v1"
+                else "powered-v31-base"
+            )
+        elif model_id in deepseek_models:
+            source = (
+                "powered-v39-deepseek-repair"
+                if "deepseek_model_ids" in source_lineage
+                else "powered-v33-clean-deepseek"
+            )
         elif model_id in cohere_models:
             source = "powered-v35-clean-cohere"
         elif model_id in successor_models:
             source = (
-                "powered-v39-deepseek-repair" if frontier_models else "powered-v38-frontier-refresh"
+                (
+                    "powered-v43-fable-openrouter-anthropic-complete-block"
+                    if source_lineage.get("v43_fable_responses_used_as_score_data") is True
+                    else "powered-v42-fable-complete-block"
+                )
+                if "deepseek_model_ids" in source_lineage
+                else (
+                    "powered-v39-deepseek-repair"
+                    if frontier_models
+                    else "powered-v38-frontier-refresh"
+                )
             )
         elif model_id in frontier_models:
             source = "powered-v38-frontier-refresh"
@@ -185,6 +332,7 @@ def _tables(
         "tasks": list(taskset["tasks"]),
         "primary_observations": [dict(row) for row in primary_documents],
         "repeat_observations": [dict(row) for row in repeat_documents],
+        "provider_attempt_events": [dict(row) for row in provider_attempt_documents],
         "leaderboard": leaderboard,
         "pairwise_comparisons": list(release["analysis"]["pairwise_comparisons"]),
     }
@@ -198,6 +346,7 @@ def _expected_files(
     plan: Mapping[str, Any],
     primary_documents: Sequence[Mapping[str, Any]],
     repeat_documents: Sequence[Mapping[str, Any]],
+    provider_attempt_documents: Sequence[Mapping[str, Any]],
 ) -> dict[str, bytes]:
     tables = _tables(
         release=release,
@@ -206,10 +355,11 @@ def _expected_files(
         plan=plan,
         primary_documents=primary_documents,
         repeat_documents=repeat_documents,
+        provider_attempt_documents=provider_attempt_documents,
     )
     files = {f"{name}.jsonl": _jsonl(tables[name]) for name in TABLE_ORDER}
     manifest: dict[str, Any] = {
-        "schema_version": "flavourbench-hf-powered-dataset-manifest-v1",
+        "schema_version": "flavourbench-hf-powered-dataset-manifest-v2",
         "release_artifact_sha256": release["artifact_sha256"],
         "plan_artifact_sha256": plan["artifact_sha256"],
         "taskset_artifact_sha256": taskset["artifact_sha256"],
@@ -251,13 +401,13 @@ def build(
     taskset_path: Path,
     repeat_panel_path: Path,
     plan_path: Path,
-    base_plan_path: Path,
+    base_plan_path: Path | None,
     deepseek_plan_path: Path | None,
     cohere_plan_path: Path | None,
     frontier_plan_path: Path | None,
     base_run: Path,
     deepseek_run: Path | None,
-    cohere_run: Path,
+    cohere_run: Path | None,
     frontier_run: Path | None,
     successor_run: Path | None,
     output: Path,
@@ -267,7 +417,10 @@ def build(
     taskset = _load(taskset_path)
     repeat_panel = _load(repeat_panel_path)
     plan = _load(plan_path)
-    base_plan = _load(base_plan_path)
+    base_plan = _load(base_plan_path) if base_plan_path is not None else None
+    plan_is_v44 = verify_v44_plan(plan)
+    plan_is_v43 = verify_v43_plan(plan)
+    plan_is_v42 = verify_v42_plan(plan)
     plan_is_v39 = verify_v39_plan(plan)
     plan_is_v38 = verify_v38_plan(plan)
     deepseek_plan = _load(deepseek_plan_path) if deepseek_plan_path is not None else None
@@ -276,12 +429,102 @@ def build(
     if (
         not _semantic_valid(release)
         or release.get("status") != "final_complete"
-        or not verify_taskset(taskset)
-        or not verify_repeat_panel(repeat_panel, taskset=taskset)
-        or not (plan_is_v39 or plan_is_v38 or verify_v35_plan(plan))
+        or not (verify_taskset_v2(taskset) if plan_is_v44 else verify_taskset(taskset))
+        or not (
+            verify_repeat_panel_v2(repeat_panel, taskset=taskset)
+            if plan_is_v44
+            else verify_repeat_panel(repeat_panel, taskset=taskset)
+        )
+        or not (
+            plan_is_v44
+            or plan_is_v43
+            or plan_is_v42
+            or plan_is_v39
+            or plan_is_v38
+            or verify_v35_plan(plan)
+        )
     ):
         raise PoweredDatasetBuildError("powered release inputs failed verification")
-    if plan_is_v39:
+    if plan_is_v44:
+        if base_plan_path is not None or cohere_run is not None:
+            raise PoweredDatasetBuildError("v44 export uses one fresh run and no predecessor plans")
+        roster = {str(row["model_id"]) for row in plan["roster"]["models"]}
+        source_directories = {model_id: base_run for model_id in roster}
+        source_plans = {model_id: (base_run, plan) for model_id in roster}
+    elif plan_is_v43 or plan_is_v42:
+        if (
+            cohere_plan_path is None
+            or cohere_plan is None
+            or frontier_plan_path is None
+            or frontier_plan is None
+            or deepseek_plan_path is None
+            or deepseek_plan is None
+            or frontier_run is None
+            or deepseek_run is None
+            or successor_run is None
+        ):
+            raise PoweredDatasetBuildError(
+                "v42/v43 export requires exact Cohere/v38/v39 plans and all successor runs"
+            )
+        _verify_pin(
+            document=base_plan,
+            path=base_plan_path,
+            pin=plan["inputs"]["retained_base_response_source_plan"],
+            verifier=verify_v31_plan,
+            label="base",
+        )
+        _verify_pin(
+            document=cohere_plan,
+            path=cohere_plan_path,
+            pin=plan["inputs"]["retained_cohere_response_source_plan"],
+            verifier=verify_v35_plan,
+            label="Cohere",
+        )
+        _verify_pin(
+            document=frontier_plan,
+            path=frontier_plan_path,
+            pin=plan["inputs"]["plan_v38_predecessor"],
+            verifier=verify_v38_plan,
+            label="v38 frontier",
+        )
+        _verify_pin(
+            document=deepseek_plan,
+            path=deepseek_plan_path,
+            pin=plan["inputs"]["plan_v39_predecessor"],
+            verifier=verify_v39_plan,
+            label="v39 DeepSeek",
+        )
+        successor = plan["execution"]["frontier_refresh_successor"]
+        base_models = {str(value) for value in successor["retained_base_model_ids"]}
+        cohere_models = {str(value) for value in successor["retained_cohere_model_ids"]}
+        frontier_models = {str(value) for value in successor["retained_v38_new_model_ids"]}
+        deepseek_models = {str(value) for value in successor["retained_v39_new_model_ids"]}
+        successor_models = {str(value) for value in successor["rerun_model_ids"]}
+        groups = (base_models, cohere_models, frontier_models, deepseek_models, successor_models)
+        roster = {str(row["model_id"]) for row in plan["roster"]["models"]}
+        if (
+            tuple(map(len, groups)) != (16, 2, 6, 1, 1)
+            or any(
+                left & right for index, left in enumerate(groups) for right in groups[index + 1 :]
+            )
+            or set().union(*groups) != roster
+        ):
+            raise PoweredDatasetBuildError("v42/v43 response-source partition failed")
+        source_directories = {model_id: base_run for model_id in base_models}
+        source_directories.update({model_id: cohere_run for model_id in cohere_models})
+        source_directories.update({model_id: frontier_run for model_id in frontier_models})
+        source_directories.update({model_id: deepseek_run for model_id in deepseek_models})
+        source_directories.update({model_id: successor_run for model_id in successor_models})
+        source_plans = {model_id: (base_run, base_plan) for model_id in base_models}
+        source_plans.update({model_id: (cohere_run, cohere_plan) for model_id in cohere_models})
+        source_plans.update(
+            {model_id: (frontier_run, frontier_plan) for model_id in frontier_models}
+        )
+        source_plans.update(
+            {model_id: (deepseek_run, deepseek_plan) for model_id in deepseek_models}
+        )
+        source_plans.update({model_id: (successor_run, plan) for model_id in successor_models})
+    elif plan_is_v39:
         if (
             cohere_plan_path is None
             or cohere_plan is None
@@ -417,6 +660,10 @@ def build(
         task_ids=repeat.task_ids,
         source_directories=source_directories,
     )
+    provider_attempt_documents = _provider_attempt_documents(
+        response_documents=(*primary_documents, *repeat_documents),
+        source_directories=source_directories,
+    )
     if (
         release["inputs"]["primary_responses"]["artifact_set_sha256"]
         != hashlib.sha256(_canonical(list(primary.response_artifact_sha256s))).hexdigest()
@@ -431,6 +678,7 @@ def build(
         plan=plan,
         primary_documents=primary_documents,
         repeat_documents=repeat_documents,
+        provider_attempt_documents=provider_attempt_documents,
     )
     if check:
         mismatches = [
@@ -453,13 +701,13 @@ def main() -> None:
     parser.add_argument("--taskset", type=Path, required=True)
     parser.add_argument("--repeat-panel", type=Path, required=True)
     parser.add_argument("--plan", type=Path, required=True)
-    parser.add_argument("--base-plan", type=Path, required=True)
+    parser.add_argument("--base-plan", type=Path)
     parser.add_argument("--deepseek-plan", type=Path)
     parser.add_argument("--cohere-plan", type=Path)
     parser.add_argument("--frontier-plan", type=Path)
     parser.add_argument("--base-run", type=Path, required=True)
     parser.add_argument("--deepseek-run", type=Path)
-    parser.add_argument("--cohere-run", type=Path, required=True)
+    parser.add_argument("--cohere-run", type=Path)
     parser.add_argument("--frontier-run", type=Path)
     parser.add_argument("--successor-run", type=Path)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)

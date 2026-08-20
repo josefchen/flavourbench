@@ -80,7 +80,7 @@ def _destination(
     successor_models: set[str],
     base_run: Path,
     deepseek_run: Path | None,
-    cohere_run: Path,
+    cohere_run: Path | None,
     frontier_run: Path | None,
     successor_run: Path | None,
 ) -> Path:
@@ -92,6 +92,8 @@ def _destination(
             raise PoweredRunRestoreError("DeepSeek run directory is missing")
         root = deepseek_run
     elif model_id in cohere_models:
+        if cohere_run is None:
+            raise PoweredRunRestoreError("Cohere run directory is missing")
         root = cohere_run
     elif model_id in frontier_models:
         if frontier_run is None:
@@ -144,7 +146,7 @@ def restore(
     repeat_path: Path,
     base_run: Path,
     deepseek_run: Path | None,
-    cohere_run: Path,
+    cohere_run: Path | None,
     check: bool,
     frontier_run: Path | None = None,
     successor_run: Path | None = None,
@@ -158,7 +160,30 @@ def restore(
         raise PoweredRunRestoreError("response table panel assignment failed")
 
     lineage = release["inputs"]["model_response_sources"]
-    if "frontier_model_ids" in lineage:
+    if lineage.get("schema_version") == "flavourbench-single-fresh-response-source-v1":
+        base_models = {str(value) for value in lineage["model_ids"]}
+        cohere_models = set()
+        frontier_models = set()
+        successor_models = set()
+        deepseek_model = None
+        if len(base_models) != 26:
+            raise PoweredRunRestoreError("v44 source lineage cardinality failed")
+    elif "deepseek_model_ids" in lineage:
+        base_models = {str(value) for value in lineage["base_model_ids"]}
+        cohere_models = {str(value) for value in lineage["cohere_model_ids"]}
+        frontier_models = {str(value) for value in lineage["frontier_model_ids"]}
+        deepseek_models = {str(value) for value in lineage["deepseek_model_ids"]}
+        successor_models = {str(value) for value in lineage["successor_model_ids"]}
+        if (
+            len(base_models) != 16
+            or len(cohere_models) != 2
+            or len(frontier_models) != 6
+            or len(deepseek_models) != 1
+            or len(successor_models) != 1
+        ):
+            raise PoweredRunRestoreError("v42 source lineage cardinality failed")
+        deepseek_model = next(iter(deepseek_models))
+    elif "frontier_model_ids" in lineage:
         base_models = {str(value) for value in lineage["base_model_ids"]}
         cohere_models = {str(value) for value in lineage["cohere_model_ids"]}
         frontier_models = {str(value) for value in lineage["frontier_model_ids"]}
@@ -251,7 +276,7 @@ def main() -> None:
     parser.add_argument("--repeat", type=Path, required=True)
     parser.add_argument("--base-run", type=Path, required=True)
     parser.add_argument("--deepseek-run", type=Path)
-    parser.add_argument("--cohere-run", type=Path, required=True)
+    parser.add_argument("--cohere-run", type=Path)
     parser.add_argument("--frontier-run", type=Path)
     parser.add_argument("--successor-run", type=Path)
     parser.add_argument("--check", action="store_true")

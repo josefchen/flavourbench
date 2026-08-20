@@ -51,19 +51,19 @@ SUMMARY_SCHEMA_VERSION = "flavourbench-frontier-contract-summary-v1"
 LIVE_SMOKE_SCHEMA_VERSION = "flavourbench-live-smoke-v1"
 COST_CORRECTION_SCHEMA_VERSION = "flavourbench-live-smoke-cost-correction-v1"
 NO_ARTIFACT_RECONCILIATION_SCHEMA_VERSION = "flavourbench-frontier-no-artifact-reconciliation-v1"
-NO_ARTIFACT_RECONCILIATION_V2_SCHEMA_VERSION = (
-    "flavourbench-frontier-no-artifact-reconciliation-v2"
-)
+NO_ARTIFACT_RECONCILIATION_V2_SCHEMA_VERSION = "flavourbench-frontier-no-artifact-reconciliation-v2"
 EMPTY_SHA256 = hashlib.sha256(b"").hexdigest()
 RATE_CARD_ACCOUNTING_BASIS_BY_BACKEND = {
     "kimi_direct": "frozen_rate_card_times_kimi_returned_usage",
     "cohere_direct": "frozen_rate_card_times_cohere_returned_usage",
     "qwencloud_direct": "frozen_rate_card_times_qwencloud_returned_usage",
+    "zai_coding_direct": "zai_coding_plan_subscription_quota",
 }
 RATE_CARD_PROVIDER_SLUG_BY_BACKEND = {
     "kimi_direct": "kimi-code-direct",
     "cohere_direct": "cohere-direct",
     "qwencloud_direct": "qwencloud-direct",
+    "zai_coding_direct": "zai-coding-plan-direct",
 }
 QWENCLOUD_MUTABLE_ALIAS_ACCOUNTING_BASIS = (
     "qwencloud_returned_usage_with_full_unpriced_budget_ceiling"
@@ -426,6 +426,7 @@ def select_candidates(
             "kimi_direct",
             "cohere_direct",
             "qwencloud_direct",
+            "zai_coding_direct",
         }:
             raise IntegrityError(f"{model_id} has an unsupported execution backend")
         backend_contract = entry.get("backend_contract") or {}
@@ -435,10 +436,7 @@ def select_candidates(
         if execution_backend != "openrouter":
             if (
                 len(backend_contract_sha256) != 64
-                or any(
-                    character not in "0123456789abcdef"
-                    for character in backend_contract_sha256
-                )
+                or any(character not in "0123456789abcdef" for character in backend_contract_sha256)
                 or _sha256(backend_contract) != backend_contract_sha256
             ):
                 raise IntegrityError(f"{model_id} backend contract is not content-bound")
@@ -450,6 +448,7 @@ def select_candidates(
             "provider_usage_times_frozen_rate_card",
             "provider_usage_with_unpriced_budget_ceiling",
             "bedrock_usage_times_frozen_rate_card",
+            "provider_subscription_quota_no_marginal_price",
         }
         if cost_accounting_policy not in allowed_accounting:
             raise IntegrityError(f"{model_id} has an unsupported cost accounting policy")
@@ -457,8 +456,13 @@ def select_candidates(
             cost_accounting_policy == "provider_usage_with_unpriced_budget_ceiling"
             and execution_backend != "qwencloud_direct"
         ):
+            raise IntegrityError(f"{model_id} unpriced ceiling policy is restricted to QwenCloud")
+        if (
+            cost_accounting_policy == "provider_subscription_quota_no_marginal_price"
+            and execution_backend != "zai_coding_direct"
+        ):
             raise IntegrityError(
-                f"{model_id} unpriced ceiling policy is restricted to QwenCloud"
+                f"{model_id} subscription-quota policy is restricted to Z.ai Coding"
             )
         if not slot_id or slot_id in seen_slots:
             raise IntegrityError(f"duplicate or absent slot ID at models[{index}]")
@@ -490,14 +494,12 @@ def select_candidates(
                 backend_contract.get("season_eligible") is not False
                 or backend_contract.get("rank_eligible") is not False
                 or backend_contract.get("official") is not False
-                or backend_contract.get("data_policy")
-                != "public_nonpersonal_contract_smoke_only"
+                or backend_contract.get("data_policy") != "public_nonpersonal_contract_smoke_only"
                 or identity_kind not in {"immutable_dated_release", "mutable_alias"}
                 or (
                     identity_kind == "immutable_dated_release"
                     and (
-                        cost_accounting_policy
-                        != "provider_usage_times_frozen_rate_card"
+                        cost_accounting_policy != "provider_usage_times_frozen_rate_card"
                         or cost_reconciliation != "provider_charge_unavailable"
                     )
                 )
@@ -505,16 +507,12 @@ def select_candidates(
                     identity_kind == "mutable_alias"
                     and (
                         model_id != "qwen3.8-max"
-                        or cost_accounting_policy
-                        != "provider_usage_with_unpriced_budget_ceiling"
-                        or cost_reconciliation
-                        != "provider_rate_and_charge_unavailable"
+                        or cost_accounting_policy != "provider_usage_with_unpriced_budget_ceiling"
+                        or cost_reconciliation != "provider_rate_and_charge_unavailable"
                         or backend_contract.get("catalog_pinned_at_observation") is not True
                         or backend_contract.get("model_identity_label")
                         != "catalog_pinned_at_observation_not_a_frozen_model"
-                        or backend_contract.get(
-                            "mutable_alias_execution_requires_explicit_opt_in"
-                        )
+                        or backend_contract.get("mutable_alias_execution_requires_explicit_opt_in")
                         is not True
                     )
                 )
@@ -1071,8 +1069,7 @@ def _unpriced_qwencloud_alias_is_fully_accounted(
         or budget.get("full_unpriced_budget_ceiling_retained") is not True
         or budget.get("all_generation_costs_reconciled") is not False
         or budget.get("all_generation_usage_accounted") is not True
-        or budget.get("accounting_basis")
-        != "provider_usage_with_unpriced_budget_ceiling"
+        or budget.get("accounting_basis") != "provider_usage_with_unpriced_budget_ceiling"
         or not isinstance(results, Mapping)
         or set(results) != expected_conditions
         or not expected_conditions
@@ -1097,10 +1094,8 @@ def _unpriced_qwencloud_alias_is_fully_accounted(
         if (
             result.get("cost_reconciled") is not False
             or result.get("cost_micros") != 0
-            or result.get("cost_accounting_basis")
-            != QWENCLOUD_MUTABLE_ALIAS_ACCOUNTING_BASIS
-            or result.get("billing_reconciliation_status")
-            != QWENCLOUD_MUTABLE_ALIAS_BILLING_STATUS
+            or result.get("cost_accounting_basis") != QWENCLOUD_MUTABLE_ALIAS_ACCOUNTING_BASIS
+            or result.get("billing_reconciliation_status") != QWENCLOUD_MUTABLE_ALIAS_BILLING_STATUS
             or not isinstance(metadata, list)
             or not isinstance(generation_ids, list)
             or not generation_ids
@@ -1113,8 +1108,7 @@ def _unpriced_qwencloud_alias_is_fully_accounted(
                 or generation.get("reconciled") is not False
                 or generation.get("cost_micros") != 0
                 or generation.get("provider_cost_known") is not False
-                or generation.get("accounting_basis")
-                != QWENCLOUD_MUTABLE_ALIAS_ACCOUNTING_BASIS
+                or generation.get("accounting_basis") != QWENCLOUD_MUTABLE_ALIAS_ACCOUNTING_BASIS
                 or generation.get("billing_reconciliation_status")
                 != QWENCLOUD_MUTABLE_ALIAS_BILLING_STATUS
             ):
@@ -1203,8 +1197,7 @@ def _failed_rate_card_artifact_is_fully_accounted(
             not isinstance(item, Mapping)
             or item.get("reconciled") is not False
             or item.get("accounting_basis") != accounting_basis
-            or item.get("billing_reconciliation_status")
-            != "provider_charge_unavailable"
+            or item.get("billing_reconciliation_status") != "provider_charge_unavailable"
         ):
             return False
         generation_id = str(item.get("generation_id") or "")
@@ -1348,9 +1341,7 @@ def scan_live_smoke_artifacts(
             # to be retained as permanently exploratory evidence.
             exposure = max(forecast, admitted_cap)
             basis = "complete_unpriced_full_budget_ceiling_reserve"
-        elif corrected_cost is None and _failed_rate_card_artifact_is_fully_accounted(
-            artifact
-        ):
+        elif corrected_cost is None and _failed_rate_card_artifact_is_fully_accounted(artifact):
             # The response failed benchmark normalization, but every delivered
             # direct-Kimi generation has an ID and returned usage. Preserve the
             # failure for reliability and retain the full allowance because the
@@ -1618,8 +1609,7 @@ def validate_no_artifact_reconciliation_v2(
     related = [
         entry
         for entry in ledger_entries
-        if entry.get("event_type")
-        in {"artifact_recorded", "no_artifact_reconciliation_recorded"}
+        if entry.get("event_type") in {"artifact_recorded", "no_artifact_reconciliation_recorded"}
         and entry.get("reservation_entry_sha256") == reservation_id
     ]
     v2_events = [
@@ -2065,8 +2055,7 @@ def validate_ledger_artifact_links(
                 or entry.get("provider_tag") != reservation.get("provider_tag")
                 or entry.get("manifest_sha256") != reservation.get("manifest_sha256")
                 or entry.get("provider_generation_cost_usd") != "0"
-                or entry.get("decision")
-                != "release_never_started_no_delivery_reservation_v2"
+                or entry.get("decision") != "release_never_started_no_delivery_reservation_v2"
             ):
                 raise IntegrityError("ledger V2 reconciliation event does not match its proof")
             continue

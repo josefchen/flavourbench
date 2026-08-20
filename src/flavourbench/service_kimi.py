@@ -187,6 +187,9 @@ class KimiDirectProvider(OpenRouterProvider):
     timeout_setting = "kimi_timeout_seconds"
     accounting_basis = "frozen_rate_card_times_kimi_returned_usage"
 
+    def _authorization_headers(self, api_key: str) -> dict[str, str]:
+        return {"x-api-key": api_key}
+
     def __init__(
         self,
         attempt_sink: AttemptSink | None = None,
@@ -207,7 +210,7 @@ class KimiDirectProvider(OpenRouterProvider):
         self.client = httpx.AsyncClient(
             base_url=base_url.rstrip("/") + "/",
             headers={
-                "x-api-key": api_key,
+                **self._authorization_headers(api_key),
                 "anthropic-version": KIMI_ANTHROPIC_VERSION,
                 "Content-Type": "application/json",
                 "Accept": "application/json",

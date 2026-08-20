@@ -157,6 +157,40 @@ def test_openrouter_identity_requires_exact_coverage_for_every_round() -> None:
         valid,
     ) == ("vendor/model-versioned", "Exact Provider")
 
+    unavailable_accounting = [
+        {
+            "generation_id": generation_id,
+            "model": "unknown",
+            "provider": "unknown",
+            "reconciled": False,
+        }
+        for generation_id in ("tool-generation", "final-generation")
+    ]
+    exact_response_identity = [
+        {
+            "generation_id": generation_id,
+            "model": "vendor/model-alias",
+            "provider": "Exact Provider",
+        }
+        for generation_id in ("tool-generation", "final-generation")
+    ]
+    assert _verified_openrouter_generation_identity(
+        spec,
+        ["tool-generation", "final-generation"],
+        unavailable_accounting,
+        exact_response_identity,
+    ) == ("vendor/model-versioned", "Exact Provider")
+    with pytest.raises(ProviderError, match="substituted"):
+        _verified_openrouter_generation_identity(
+            spec,
+            ["tool-generation", "final-generation"],
+            unavailable_accounting,
+            [
+                exact_response_identity[0],
+                {**exact_response_identity[1], "provider": "Substituted Provider"},
+            ],
+        )
+
     invalid_cases = [
         [
             {**valid[0], "model": "vendor/substituted"},
@@ -194,6 +228,61 @@ def test_openrouter_identity_requires_exact_coverage_for_every_round() -> None:
             ["tool-generation", "final-generation"],
             valid[:1],
         )
+
+
+@pytest.mark.asyncio
+async def test_openrouter_accounting_retries_http_200_incomplete_generation_record(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    requests = 0
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        nonlocal requests
+        requests += 1
+        assert request.url.path.endswith("/generation")
+        if requests == 1:
+            return httpx.Response(200, json={"data": {}})
+        return httpx.Response(
+            200,
+            json={
+                "data": {
+                    "total_cost": 0.001,
+                    "provider_name": "Exact Provider",
+                    "model": "vendor/model-versioned",
+                    "tokens_prompt": 10,
+                    "tokens_completion": 2,
+                }
+            },
+        )
+
+    settings = SimpleNamespace(
+        openrouter_api_key="fake-key",
+        openrouter_base_url="https://openrouter.ai/api/v1",
+        openrouter_accounting_base_url="https://openrouter.ai/api/v1",
+        openrouter_timeout_seconds=30,
+        openrouter_accounting_attempts=2,
+        openrouter_accounting_initial_delay_seconds=0,
+        max_provider_attempts=1,
+        openrouter_http_referer="https://example.test/flavourbench",
+        openrouter_title="FlavourBench test",
+        cloudflare_ai_gateway_token="",
+    )
+    monkeypatch.setattr(provider_module, "get_settings", lambda: settings)
+    provider = OpenRouterProvider()
+    await provider.accounting_client.aclose()
+    provider.accounting_client = httpx.AsyncClient(
+        base_url="https://openrouter.ai/api/v1/",
+        transport=httpx.MockTransport(handler),
+    )
+    try:
+        result = await provider._generation_cost("generation-1")
+    finally:
+        await provider.aclose()
+
+    assert requests == 2
+    assert result["reconciled"] is True
+    assert result["provider"] == "Exact Provider"
+    assert result["model"] == "vendor/model-versioned"
 
 
 def test_settings_fail_closed_for_live_and_production_boundaries() -> None:
@@ -338,18 +427,10 @@ def test_provider_parsers_and_prompt_hashes_fail_closed() -> None:
             _parse_final(malformed)
     assert system_prompt_sha256("epicure_on") != system_prompt_sha256("epicure_off")
     assert len(system_prompt_sha256("epicure_on")) == 64
-    matched_v1 = system_prompt_sha256(
-        "epicure_on", "plain_text", "matched_evidence_v1"
-    )
-    matched_v2 = system_prompt_sha256(
-        "epicure_on", "plain_text", "matched_evidence_v2"
-    )
-    assert matched_v1 == system_prompt_sha256(
-        "epicure_off", "plain_text", "matched_evidence_v1"
-    )
-    assert matched_v2 == system_prompt_sha256(
-        "epicure_off", "plain_text", "matched_evidence_v2"
-    )
+    matched_v1 = system_prompt_sha256("epicure_on", "plain_text", "matched_evidence_v1")
+    matched_v2 = system_prompt_sha256("epicure_on", "plain_text", "matched_evidence_v2")
+    assert matched_v1 == system_prompt_sha256("epicure_off", "plain_text", "matched_evidence_v1")
+    assert matched_v2 == system_prompt_sha256("epicure_off", "plain_text", "matched_evidence_v2")
     assert matched_v2 != matched_v1
 
 
@@ -745,9 +826,7 @@ def test_matched_evidence_protocol_changes_only_tool_availability_between_arms(
         assert off_evidence["messages"][-2]["reasoning_details"] == [
             {"type": "reasoning.encrypted"}
         ]
-        assert off_final["messages"][-2]["reasoning_details"] == [
-            {"type": "reasoning.encrypted"}
-        ]
+        assert off_final["messages"][-2]["reasoning_details"] == [{"type": "reasoning.encrypted"}]
         assert off_final["messages"][-1] == on_final["messages"][-1]
         if evidence_protocol == "matched_evidence_v2":
             assert "Never infer binding, thickening, sweetness" in str(
@@ -1141,9 +1220,7 @@ def test_openrouter_rejects_cached_responses_and_reconciles_accepted_failures(
             json={
                 "id": "cached-generation",
                 "model": "qa/cached",
-                "choices": [
-                    {"finish_reason": "stop", "message": {"content": "cached"}}
-                ],
+                "choices": [{"finish_reason": "stop", "message": {"content": "cached"}}],
             },
         )
 
