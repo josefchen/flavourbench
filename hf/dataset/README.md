@@ -40,8 +40,8 @@ configs:
 
 # FlavourBench: executable culinary ground truth
 
-**Josef Chen · Jakub Radzikowski · Erim Hayretci**<br>
-Independent Researchers
+**Josef Chen · Erim Hayretci**<br>
+Josef Chen, Independent Researcher · Erim Hayretci, Imperial College London
 
 FlavourBench ranks 27 language-model endpoints on an identical set of 534 culinary selection
 tasks. Each task asks for three ingredients from eight candidates. Epicure scores all 56 legal
@@ -134,7 +134,7 @@ See the repository [rights boundary](https://github.com/josefchen/flavourbench/b
 ```bibtex
 @article{chen2026flavourbench,
   title  = {FlavourBench: Ranking Frontier Language Models with Executable Culinary Ground Truth},
-  author = {Chen, Josef and Radzikowski, Jakub and Hayretci, Erim},
+  author = {Chen, Josef and Hayretci, Erim},
   year   = {2026}
 }
 ```

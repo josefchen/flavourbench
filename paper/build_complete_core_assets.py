@@ -578,7 +578,11 @@ def run() -> None:
     _panel_figure(release, args.figure_directory)
     _rank_figure(release, args.figure_directory)
     files = sorted(
-        [path for path in args.generated_directory.glob("complete-core-*") if path.is_file()]
+        [
+            path
+            for path in args.generated_directory.glob("complete-core-*")
+            if path.is_file() and not path.name.startswith("complete-core-paper-assets-")
+        ]
         + [path for path in args.figure_directory.glob("complete-core-*") if path.is_file()]
     )
     inventory = {

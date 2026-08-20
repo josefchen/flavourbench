@@ -4,8 +4,8 @@
 
 ### Ranking frontier language models with executable culinary ground truth
 
-**Josef Chen** · **Jakub Radzikowski** · **Erim Hayretci**<br>
-Independent Researchers
+**Josef Chen** · **Erim Hayretci**<br>
+Josef Chen, Independent Researcher · Erim Hayretci, Imperial College London
 
 **27 models · 534 identical tasks per model · 14,418 scored responses · 351 paired tests**
 
@@ -137,8 +137,8 @@ No reproduction command calls a model provider.
 | Statistical release | `709452f8cf54ebc1947f2a3c24e6ee19580be1c115ba3a9effbac441de556db4` |
 | Release semantic ID | `0a20655c97aa1363c2266e247f3dd03b759d0f80bca9154c6619c5549b2fac99` |
 | Analysis plan | `17ac5aea6eb25a0c0af440124849c926fdcafaf36956fd2e676f2c70ca80faa6` |
-| Final PDF | `844f5a8f25e35a136316cbbcc10c14eba045eb11b828de90b0c169e706e43fe5` |
-| arXiv source tarball | `26e92061d15ce40f3b1b558f57cc824ce00c1cf269793c2490a777ef64796188` |
+| Final PDF | `a34a0c14163ee6a17171b46f600a1da281127e2ec7c27dd8556195ca99ba7f20` |
+| arXiv source tarball | `acfa7d8d30f67fdbe9412adffff60d1b7c88f7c13456790d916ac689107f4208` |
 
 ## Repository map
 
@@ -156,7 +156,7 @@ No reproduction command calls a model provider.
 ```bibtex
 @article{chen2026flavourbench,
   title  = {FlavourBench: Ranking Frontier Language Models with Executable Culinary Ground Truth},
-  author = {Chen, Josef and Radzikowski, Jakub and Hayretci, Erim},
+  author = {Chen, Josef and Hayretci, Erim},
   year   = {2026}
 }
 ```

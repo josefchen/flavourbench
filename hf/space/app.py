@@ -411,8 +411,7 @@ def _hero_html() -> str:
         with anchor-clustered uncertainty and inspectable responses.</p>
         <div class="fb-byline">
           <span>Josef Chen<small>Independent Researcher</small></span>
-          <span>Jakub Radzikowski<small>Independent Researcher</small></span>
-          <span>Erim Hayretci<small>Independent Researcher</small></span>
+          <span>Erim Hayretci<small>Imperial College London</small></span>
         </div>
         <div class="fb-stats">
           <div class="fb-stat"><strong>{MODEL_COUNT}</strong><span>models</span></div>
@@ -772,7 +771,7 @@ make -C paper -f Makefile.powered arxiv
     gr.HTML(
         """
         <div class="fb-shell fb-footer">
-          FlavourBench | Josef Chen · Jakub Radzikowski · Erim Hayretci | Independent Researchers
+          FlavourBench | Josef Chen, Independent Researcher · Erim Hayretci, Imperial College London
         </div>
         """
     )

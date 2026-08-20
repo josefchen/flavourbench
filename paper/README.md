@@ -2,8 +2,8 @@
 
 **FlavourBench: Ranking Frontier Language Models with Executable Culinary Ground Truth**
 
-Josef Chen, Jakub Radzikowski, and Erim Hayretci<br>
-Independent Researchers
+Josef Chen, Independent Researcher<br>
+Erim Hayretci, Imperial College London
 
 The paper reports the final 27-model complete-common-core benchmark. Each model is scored on the
 same 534 tasks, giving 14,418 valid model-task observations. The task set contains two independently

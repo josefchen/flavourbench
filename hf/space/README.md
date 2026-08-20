@@ -14,8 +14,8 @@ datasets:
 
 # FlavourBench
 
-**Josef Chen · Jakub Radzikowski · Erim Hayretci**<br>
-Independent Researchers
+**Josef Chen · Erim Hayretci**<br>
+Josef Chen, Independent Researcher · Erim Hayretci, Imperial College London
 
 This Space explores the final FlavourBench complete common core: 27 frontier endpoints, 534
 identical tasks per model, 14,418 valid scored responses, and all 351 paired comparisons.
@@ -40,7 +40,7 @@ and makes no provider calls.
 ```bibtex
 @article{chen2026flavourbench,
   title  = {FlavourBench: Ranking Frontier Language Models with Executable Culinary Ground Truth},
-  author = {Chen, Josef and Radzikowski, Jakub and Hayretci, Erim},
+  author = {Chen, Josef and Hayretci, Erim},
   year   = {2026}
 }
 ```
