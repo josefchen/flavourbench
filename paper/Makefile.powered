@@ -6,111 +6,80 @@ export LC_ALL := C
 export TZ := UTC
 export SOURCE_DATE_EPOCH := 1786456800
 export FORCE_SOURCE_DATE := 1
+export PYTHONPATH := ../src
+export PYTHONDONTWRITEBYTECODE := 1
 
 PYTHON ?= ../.venv/bin/python
 RUFF ?= ../.venv/bin/ruff
 LATEXMK ?= latexmk
-LOCK_FILE ?= /tmp/flavourbench-powered-paper-$(shell id -u).lock
+LOCK_FILE ?= /tmp/flavourbench-complete-core-paper-$(shell id -u).lock
 
-RELEASE := generated/powered/flavourbench-powered-release-7aeddf27998b0a8ed0b961cab035e4793305ea120f73ce8f3baa47e4db612cf7.json
-TASKSET ?= ../benchmark/powered-v16/taskset/epicure-selection-taskset-99932ef2e72d34b61641270670e6d56233f167273a8877d03ac214115c084ff7.json
-MANIFEST := ../benchmark/powered-v43/manifest/flavourbench-frontier-refresh-26-33796dd9a0a4580f15fa79ec9cd50179c2b6ddc7c120c03f1814faf8259f8e9d.json
-PLAN := ../benchmark/powered-v43/plan/epicure-selection-analysis-plan-6385f46243b34f9f5e8211fa765aacdb2ee2c51690b369ac00cf4350d38e47f4.json
-PREDECESSOR_PLAN := ../benchmark/powered-v42/plan/epicure-selection-analysis-plan-a94f1ede91d5b130f598caab7083143cb5f5e220c7d159379484cffb71b1af1a.json
-BASE_PLAN ?= ../benchmark/powered-v31/plan/epicure-selection-analysis-plan-903ad89c44afcf0657b8079c12f01c2487aec2edb2e8ab39b986303d65c7c675.json
-COHERE_PLAN := ../benchmark/powered-v35/plan/epicure-selection-analysis-plan-8ca2b5e1d59fb9443ef4e1a3cd69a38b18dd085347cbab6034a410645b69cd64.json
-FRONTIER_PLAN := ../benchmark/powered-v38/plan/epicure-selection-analysis-plan-a96ee871e1ee99efdd3a0b47173831de4bf033cc71a4999d82b6af085d491195.json
-DEEPSEEK_PLAN := ../benchmark/powered-v39/plan/epicure-selection-analysis-plan-892e6178e645c6691adc27acc2a45a391834c665cb303e0987ef96b1a8974e84.json
-REPEAT ?= ../benchmark/powered-v17/plan/epicure-selection-repeat-panel-c3829d4cdb7039f920411c6edde13691237f42cafc20e463ac326a06895c97fb.json
-RUN_DIRECTORY ?= ../benchmark/powered-v31/run
-COHERE_RUN_DIRECTORY ?= ../benchmark/powered-v35/run
-FRONTIER_RUN_DIRECTORY := ../benchmark/powered-v38/run
-DEEPSEEK_RUN_DIRECTORY := ../benchmark/powered-v39/run
-SUCCESSOR_RUN_DIRECTORY := ../benchmark/powered-v43/run
-FRONTIER_MODELS := \
-	x-ai/grok-4.6 \
-	meta/muse-spark-1.2 \
-	meta/muse-glimmer-30b \
-	qwen/qwen3.8-2.4t-a95b \
-	bytedance-seed/seed-2-1-turbo \
-	thinkingmachines/inkling
-DEEPSEEK_MODELS := deepseek/deepseek-v4-pro-0813
-SUCCESSOR_MODELS := anthropic/claude-fable-5
-FRONTIER_RESPONSE_SOURCES := $(foreach model,$(FRONTIER_MODELS),--response-source $(model)=$(FRONTIER_RUN_DIRECTORY))
-DEEPSEEK_RESPONSE_SOURCES := $(foreach model,$(DEEPSEEK_MODELS),--response-source $(model)=$(DEEPSEEK_RUN_DIRECTORY))
-SUCCESSOR_RESPONSE_SOURCES := $(foreach model,$(SUCCESSOR_MODELS),--response-source $(model)=$(SUCCESSOR_RUN_DIRECTORY))
-GENERATED := generated/powered
-FIGURES := figures/powered
-ASSET_BUILDER := build_powered_selection_assets.py
+TASKSET := ../benchmark/powered-v44/taskset/epicure-selection-taskset-a33bf28db372090015118371417b0e8ed1254f416d03d2c2c5816a6a752beb41.json
+TASKSET_SECONDARY := ../benchmark/powered-v45/taskset/epicure-selection-taskset-925ba9d1d4be9c2b7a1e9956ecd6c18d34ffcad22eee28522f16892922c91e3f.json
+PANEL_1_PLAN := ../benchmark/powered-v74/plan/epicure-selection-analysis-plan-55fef84440b6dda3db7ad44ba3947a3b2d81f127c2ad81fce7e6fbd38c8df6c0.json
+PANEL_2_PLAN := ../benchmark/powered-v75/plan/epicure-selection-analysis-plan-48d9d8f12d6da1910621d15ea7f26750119745ecde3b94fb8dfb3ec5c382cf75.json
+PLAN ?= $(firstword $(sort $(wildcard ../benchmark/powered-v84/plan/epicure-selection-joint-analysis-plan-*.json)))
+RELEASE ?= $(firstword $(sort $(wildcard generated/complete-core/flavourbench-complete-core-release-*.json)))
+GENERATED := generated/complete-core
+FIGURES := figures/complete-core
+ASSET_BUILDER := build_complete_core_assets.py
+RELEASE_BUILDER := reproduce_complete_core_release.py
+RELEASE_VERIFIER := verify_complete_core_release.py
 
 TABLE_ASSETS := \
-	$(GENERATED)/powered-macros.tex \
-	$(GENERATED)/powered-leaderboard-table.tex \
-	$(GENERATED)/powered-route-table.tex \
-	$(GENERATED)/powered-family-table.tex \
-	$(GENERATED)/powered-task-diagnostics-table.tex \
-	$(GENERATED)/powered-case-studies-table.tex \
-	$(GENERATED)/powered-case-studies.json
+	$(GENERATED)/complete-core-macros.tex \
+	$(GENERATED)/complete-core-leaderboard-table.tex \
+	$(GENERATED)/complete-core-route-table.tex \
+	$(GENERATED)/complete-core-family-table.tex \
+	$(GENERATED)/complete-core-task-table.tex \
+	$(GENERATED)/complete-core-examples-table.tex \
+	$(GENERATED)/complete-core-examples.json
 
 FIGURE_ASSETS := \
-	$(FIGURES)/powered-leaderboard-forest.pdf \
-	$(FIGURES)/powered-family-heatmap.pdf \
-	$(FIGURES)/powered-pairwise-matrix.pdf \
-	$(FIGURES)/powered-repeatability-scatter.pdf
-
-CORE_INPUTS := main_powered.tex references.bib README.md LICENSES.md Makefile.powered \
-	$(ASSET_BUILDER) $(RELEASE) $(TASKSET) $(MANIFEST) $(PLAN) \
-	$(PREDECESSOR_PLAN) $(COHERE_PLAN) $(BASE_PLAN) $(FRONTIER_PLAN) \
-	$(DEEPSEEK_PLAN) $(REPEAT) \
-	$(TABLE_ASSETS) $(FIGURE_ASSETS)
+	$(FIGURES)/complete-core-leaderboard-forest.pdf \
+	$(FIGURES)/complete-core-family-heatmap.pdf \
+	$(FIGURES)/complete-core-pairwise-matrix.pdf \
+	$(FIGURES)/complete-core-panel-replication.pdf \
+	$(FIGURES)/complete-core-rank-intervals.pdf
 
 .PHONY: all analysis assets verify verify-static paper _paper arxiv _arxiv clean
 
 all: paper
 
 analysis:
-	$(PYTHON) -m flavourbench.epicure_selection_powered_analysis \
-		--taskset $(TASKSET) \
-		--repeat-panel $(REPEAT) \
-		--plan $(PLAN) \
-		--run-directory $(RUN_DIRECTORY) \
-		--predecessor-plan $(PREDECESSOR_PLAN) \
-		--base-plan $(BASE_PLAN) \
-		--cohere-plan $(COHERE_PLAN) \
-		--frontier-plan $(FRONTIER_PLAN) \
-		--deepseek-plan $(DEEPSEEK_PLAN) \
-		--frontier-run-directory $(FRONTIER_RUN_DIRECTORY) \
-		--deepseek-run-directory $(DEEPSEEK_RUN_DIRECTORY) \
-		--recovery-run-directory $(SUCCESSOR_RUN_DIRECTORY) \
-		--cohere-run-directory $(COHERE_RUN_DIRECTORY) \
-		--output-directory $(GENERATED)
+	$(PYTHON) $(RELEASE_BUILDER)
 
 assets:
+	test -n "$(PLAN)"
 	test -n "$(RELEASE)"
 	$(PYTHON) $(ASSET_BUILDER) \
+		--root .. \
 		--release $(RELEASE) \
+		--plan $(PLAN) \
 		--taskset $(TASKSET) \
-		--manifest $(MANIFEST) \
-		--run-directory $(RUN_DIRECTORY) \
-		--response-source cohere/command-a=$(COHERE_RUN_DIRECTORY) \
-		--response-source cohere/command-r-plus-08-2024=$(COHERE_RUN_DIRECTORY) \
-		$(FRONTIER_RESPONSE_SOURCES) \
-		$(DEEPSEEK_RESPONSE_SOURCES) \
-		$(SUCCESSOR_RESPONSE_SOURCES) \
+		--taskset-secondary $(TASKSET_SECONDARY) \
+		--panel-1-plan $(PANEL_1_PLAN) \
+		--panel-2-plan $(PANEL_2_PLAN) \
 		--generated-directory $(GENERATED) \
 		--figure-directory $(FIGURES)
 
 verify: assets verify-static
 
 verify-static:
-	for file in $(CORE_INPUTS); do
+	test -n "$(PLAN)"
+	test -n "$(RELEASE)"
+	for file in main_powered.tex references.bib README.md LICENSES.md Makefile.powered \
+		$(ASSET_BUILDER) $(RELEASE_BUILDER) $(RELEASE_VERIFIER) $(PLAN) $(RELEASE) \
+		$(TABLE_ASSETS) $(FIGURE_ASSETS); do
 		test -f "$$file"
 		test ! -L "$$file"
 	done
-	$(PYTHON) -I reproduce_powered_release.py --release $(RELEASE)
-	$(RUFF) check $(ASSET_BUILDER)
-	$(RUFF) format --check $(ASSET_BUILDER)
-	$(PYTHON) -m pytest -q ../tests/build_powered_selection_assets_test.py
+	$(PYTHON) -I $(RELEASE_VERIFIER) --release $(RELEASE)
+	$(RUFF) check $(ASSET_BUILDER) $(RELEASE_BUILDER) $(RELEASE_VERIFIER)
+	$(RUFF) format --check $(ASSET_BUILDER) $(RELEASE_BUILDER) $(RELEASE_VERIFIER)
+	$(PYTHON) -m pytest -q \
+		../tests/epicure_selection_common_core_analysis_v1_test.py \
+		../tests/epicure_selection_complete_core_plan_v84_test.py
 
 paper:
 	flock -x "$(LOCK_FILE)" $(MAKE) -f Makefile.powered --no-print-directory _paper
@@ -118,12 +87,12 @@ paper:
 _paper: verify-static
 	mkdir -p build
 	$(LATEXMK) -g -pdf -interaction=nonstopmode -halt-on-error -file-line-error \
-		-jobname=flavourbench-powered -outdir=build main_powered.tex
-	install -m 0644 build/flavourbench-powered.pdf build/flavourbench.pdf
+		-jobname=flavourbench-complete-core -outdir=build main_powered.tex
+	install -m 0644 build/flavourbench-complete-core.pdf build/flavourbench.pdf
 	if grep -Eq 'Overfull \\hbox|There were undefined references|Citation .* undefined' \
-	  build/flavourbench-powered.log; then
+	  build/flavourbench-complete-core.log; then
 		grep -En 'Overfull \\hbox|There were undefined references|Citation .* undefined' \
-		  build/flavourbench-powered.log >&2
+		  build/flavourbench-complete-core.log >&2
 		exit 1
 	fi
 	test "$$(pdffonts build/flavourbench.pdf | awk 'NR > 2 && NF && $$(NF - 4) != "yes" {bad=1} END {print bad+0}')" = 0
@@ -133,23 +102,27 @@ arxiv:
 
 _arxiv: _paper
 	build_dir="$(CURDIR)/build"
-	stage=$$(mktemp -d "$$build_dir/.powered-arxiv-stage.XXXXXX")
-	check=$$(mktemp -d "$$build_dir/.powered-arxiv-check.XXXXXX")
-	archive=$$(mktemp "$$build_dir/.flavourbench-powered-arxiv.XXXXXX.tar.gz")
+	stage=$$(mktemp -d "$$build_dir/.complete-core-arxiv-stage.XXXXXX")
+	check=$$(mktemp -d "$$build_dir/.complete-core-arxiv-check.XXXXXX")
+	archive=$$(mktemp "$$build_dir/.flavourbench-arxiv.XXXXXX.tar.gz")
 	cleanup() { rm -rf -- "$$stage" "$$check"; rm -f -- "$$archive"; }
 	trap cleanup EXIT HUP INT TERM
 
-	install -m 0644 main_powered.tex references.bib README.md LICENSES.md "$$stage/"
-	install -d -m 0755 "$$stage/generated/powered" "$$stage/figures/powered"
-	install -m 0644 $(TABLE_ASSETS) "$$stage/generated/powered/"
-	install -m 0644 $(FIGURE_ASSETS) "$$stage/figures/powered/"
+	install -m 0644 main_powered.tex references.bib README.md LICENSES.md \
+		$(RELEASE_VERIFIER) "$$stage/"
+	install -d -m 0755 "$$stage/generated/complete-core" "$$stage/figures/complete-core"
+	install -m 0644 $(TABLE_ASSETS) "$$stage/generated/complete-core/"
+	install -m 0644 $(RELEASE) "$$stage/generated/complete-core/"
+	$(PYTHON) -c 'import json,pathlib,shutil,sys; p=pathlib.Path(sys.argv[1]); d=json.loads(p.read_text()); [shutil.copy2(p.parent/d["tables"][k]["filename"],sys.argv[2]) for k in ("leaderboard","pairwise")]' \
+		$(RELEASE) "$$stage/generated/complete-core/"
+	install -m 0644 $(FIGURE_ASSETS) "$$stage/figures/complete-core/"
 	(
 		cd "$$stage"
 		find . -type f ! -name SOURCE_MANIFEST.sha256 -printf '%P\0' \
 			| sort -z | xargs -0 sha256sum
 	) > "$$stage/SOURCE_MANIFEST.sha256"
 	if rg -l -I --pcre2 \
-		"/hom[e]/|remy-simpc[4]|(?:AKIA|ASIA)[0-9A-Z]{16}|sk-(?:or-v1|kimi)-[A-Za-z0-9_-]{20,}|sk-(?:sp|ws)-[A-Za-z0-9._-]{20,}|[0-9a-f]{32}\.[A-Za-z0-9_-]{16,}|BEGIN (?:RSA|OPENSSH|EC) PRIVATE KEY" \
+		"/hom[e]/|remy-simpc[4]|hf_[A-Za-z0-9]{20,}|(?:AKIA|ASIA)[0-9A-Z]{16}|sk-(?:or-v1|kimi)-[A-Za-z0-9_-]{20,}|sk-(?:sp|ws)-[A-Za-z0-9._-]{20,}|[0-9a-f]{32}\.[A-Za-z0-9_-]{16,}|BEGIN (?:RSA|OPENSSH|EC) PRIVATE KEY" \
 		"$$stage"; then
 		echo "arXiv package refused: local path or credential marker present" >&2
 		exit 1
@@ -157,7 +130,7 @@ _arxiv: _paper
 
 	(
 		cd "$$stage"
-		tar --sort=name --format=ustar --mtime="@$(SOURCE_DATE_EPOCH)" \
+		tar --sort=name --format=gnu --mtime="@$(SOURCE_DATE_EPOCH)" \
 			--owner=0 --group=0 --numeric-owner --mode='u+rwX,go+rX,go-w' \
 			-cf - .
 	) | gzip -n -9 > "$$archive"
@@ -166,18 +139,20 @@ _arxiv: _paper
 	(
 		cd "$$check"
 		sha256sum --check SOURCE_MANIFEST.sha256
+		python3 -I verify_complete_core_release.py \
+			--release generated/complete-core/$$(basename "$(RELEASE)") >/dev/null
 		mkdir -p build
 		$(LATEXMK) -pdf -interaction=nonstopmode -halt-on-error -file-line-error \
-			-jobname=flavourbench-powered -outdir=build main_powered.tex >/dev/null
+			-jobname=flavourbench-complete-core -outdir=build main_powered.tex >/dev/null
 		if grep -Eq 'Overfull \\hbox|There were undefined references|Citation .* undefined' \
-		  build/flavourbench-powered.log; then
+		  build/flavourbench-complete-core.log; then
 			grep -En 'Overfull \\hbox|There were undefined references|Citation .* undefined' \
-			  build/flavourbench-powered.log >&2
+			  build/flavourbench-complete-core.log >&2
 			exit 1
 		fi
 	)
-	cmp -s build/flavourbench.pdf "$$check/build/flavourbench-powered.pdf"
-	test "$$(pdffonts "$$check/build/flavourbench-powered.pdf" | awk 'NR > 2 && NF && $$(NF - 4) != "yes" {bad=1} END {print bad+0}')" = 0
+	cmp -s build/flavourbench.pdf "$$check/build/flavourbench-complete-core.pdf"
+	test "$$(pdffonts "$$check/build/flavourbench-complete-core.pdf" | awk 'NR > 2 && NF && $$(NF - 4) != "yes" {bad=1} END {print bad+0}')" = 0
 
 	chmod 0644 "$$archive"
 	mv -f -- "$$archive" build/flavourbench-arxiv-source.tar.gz
@@ -192,5 +167,5 @@ _arxiv: _paper
 	trap - EXIT HUP INT TERM
 
 clean:
-	rm -f build/flavourbench-powered.*
+	rm -f build/flavourbench-complete-core.*
 	rm -rf $(GENERATED) $(FIGURES)

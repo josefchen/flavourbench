@@ -24,7 +24,11 @@ import httpx
 from .budget_policy import provider_account_scope_sha256
 from .cohere_compatibility import project_cohere_strict_schema
 from .config import get_settings
-from .execution_policy import PORTABLE_TEXT_TOOL_PROTOCOL_V1, SELECTION_TEXT_PROTOCOL_V1
+from .execution_policy import (
+    PORTABLE_TEXT_TOOL_PROTOCOL_V1,
+    SELECTION_TEXT_PROTOCOL_V1,
+    SELECTION_TEXT_PROTOCOL_V2,
+)
 from .provider import (
     PORTABLE_EPICURE_TOOL_NAMES,
     AttemptIdFactory,
@@ -639,7 +643,8 @@ class CohereDirectProvider(OpenRouterProvider):
     ) -> dict[str, Any]:
         spec = self._spec_by_arm.get(arm_id)
         selection_text = bool(
-            spec is not None and spec.evidence_protocol == SELECTION_TEXT_PROTOCOL_V1
+            spec is not None
+            and spec.evidence_protocol in {SELECTION_TEXT_PROTOCOL_V1, SELECTION_TEXT_PROTOCOL_V2}
         )
         reasoning_override = {
             "portable_tool_selection": (
@@ -717,7 +722,8 @@ class CohereDirectProvider(OpenRouterProvider):
                     value = _normalize_cohere_plus_phase(value, phase=phase)
                 elif (
                     spec.expected_actual_model_id == COHERE_PLUS_MODEL
-                    and spec.evidence_protocol == SELECTION_TEXT_PROTOCOL_V1
+                    and spec.evidence_protocol
+                    in {SELECTION_TEXT_PROTOCOL_V1, SELECTION_TEXT_PROTOCOL_V2}
                     and phase == "final"
                 ):
                     value = _normalize_cohere_plus_selection(value)

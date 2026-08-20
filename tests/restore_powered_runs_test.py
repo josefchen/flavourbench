@@ -183,6 +183,45 @@ def test_restores_v42_five_source_partition(
     assert all(any(path.is_relative_to(root) for path in destinations) for root in roots.values())
 
 
+def test_restores_v44_single_fresh_run(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    release, primary, repeat = _v42_inputs(tmp_path)
+    document = json.loads(release.read_text(encoding="utf-8"))
+    roster = sorted(
+        str(json.loads(line)["model_id"])
+        for line in primary.read_text(encoding="utf-8").splitlines()[::640]
+    )
+    document.pop("artifact_sha256")
+    document["inputs"]["model_response_sources"] = {
+        "schema_version": "flavourbench-single-fresh-response-source-v1",
+        "model_ids": roster,
+        "predecessor_responses_used": False,
+    }
+    document = _address(document)
+    release.write_text(json.dumps(document), encoding="utf-8")
+    destination_root = tmp_path / "v44"
+    destinations: set[Path] = set()
+
+    def record_write(path: Path, payload: bytes) -> str:
+        assert payload.endswith(b"\n")
+        destinations.add(path)
+        return "created"
+
+    monkeypatch.setattr("hf.dataset.restore_powered_runs._write_no_replace", record_write)
+    summary = restore(
+        release_path=release,
+        primary_path=primary,
+        repeat_path=repeat,
+        base_run=destination_root,
+        deepseek_run=None,
+        cohere_run=None,
+        check=False,
+    )
+    assert summary["models"] == 26
+    assert summary["files"] == {"created": 18_304}
+    assert len(destinations) == 18_304
+    assert all(path.is_relative_to(destination_root) for path in destinations)
+
+
 def test_rejects_incomplete_grid(tmp_path: Path) -> None:
     release, primary, repeat = _inputs(tmp_path)
     rows = repeat.read_text(encoding="utf-8").splitlines()

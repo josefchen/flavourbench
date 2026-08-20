@@ -17,6 +17,7 @@ from flavourbench.epicure_selection_powered_analysis import (
     paired_sign_flip_pvalues,
 )
 from flavourbench.epicure_selection_taskset_v1 import FAMILIES
+from flavourbench.selection_response_parser_v3 import score_answer_v3
 
 
 def test_family_macro_mean_weights_families_equally() -> None:
@@ -174,11 +175,12 @@ def test_composite_loader_binds_each_model_to_its_source_plan(tmp_path, monkeypa
         }
 
     row_a = roster_row("model/a", "slot-a", "a" * 64)
+    prior_row_a = {**row_a, "endpoint_sha256": "d" * 64}
     row_b = roster_row("model/b", "slot-b", "b" * 64)
     predecessor_plan = {
         "artifact_sha256": "5" * 64,
         "inputs": {"route_manifest": {"semantic_sha256": "6" * 64}},
-        "roster": {"models": [row_a, roster_row("model/b", "slot-b", "c" * 64)]},
+        "roster": {"models": [prior_row_a, roster_row("model/b", "slot-b", "c" * 64)]},
     }
     final_plan = {
         "artifact_sha256": "7" * 64,
@@ -232,7 +234,7 @@ def test_composite_loader_binds_each_model_to_its_source_plan(tmp_path, monkeypa
 
     predecessor_run = tmp_path / "predecessor"
     recovery_run = tmp_path / "recovery"
-    write_failure(predecessor_run, row=row_a, source_plan=predecessor_plan)
+    write_failure(predecessor_run, row=prior_row_a, source_plan=predecessor_plan)
     write_failure(recovery_run, row=row_b, source_plan=final_plan)
     panel = load_panel(
         run_directory=predecessor_run,
@@ -241,12 +243,25 @@ def test_composite_loader_binds_each_model_to_its_source_plan(tmp_path, monkeypa
         taskset=taskset,
         repeat_panel=repeat_panel,
         model_sources={
-            "model/a": (predecessor_run, predecessor_plan),
+            "model/a": ((predecessor_run, predecessor_plan),),
             "model/b": (recovery_run, final_plan),
         },
+        allowed_source_roster_differences={"model/a": frozenset({"endpoint_sha256"})},
     )
     assert panel.model_ids == ("model/a", "model/b")
     assert panel.scores.tolist() == [[0.0], [0.0]]
+    with pytest.raises(SelectionPoweredAnalysisError, match="source roster binding"):
+        load_panel(
+            run_directory=predecessor_run,
+            panel="primary",
+            plan=final_plan,
+            taskset=taskset,
+            repeat_panel=repeat_panel,
+            model_sources={
+                "model/a": ((predecessor_run, predecessor_plan),),
+                "model/b": (recovery_run, final_plan),
+            },
+        )
     with pytest.raises(SelectionPoweredAnalysisError, match="response binding"):
         load_panel(
             run_directory=predecessor_run,
@@ -256,3 +271,209 @@ def test_composite_loader_binds_each_model_to_its_source_plan(tmp_path, monkeypa
             repeat_panel=repeat_panel,
             model_sources={"model/b": (recovery_run, final_plan)},
         )
+
+
+def test_composite_loader_uses_first_completed_response_in_frozen_source_order(
+    tmp_path, monkeypatch
+) -> None:
+    monkeypatch.setattr(analysis_module, "MODEL_COUNT", 1)
+    monkeypatch.setattr(analysis_module, "TASK_COUNT", 1)
+    monkeypatch.setattr(analysis_module, "REPEAT_TASK_COUNT", 1)
+    task = {
+        "task_id": "task-1",
+        "family": "substitution",
+        "prompt_sha256": "1" * 64,
+        "optimal_selection": "ABC",
+        "selection_scores_bps": {"ABC": 10_000, "ABD": 2_500},
+    }
+    taskset = {"artifact_sha256": "2" * 64, "tasks": [task]}
+    repeat_panel = {"artifact_sha256": "3" * 64, "tasks": []}
+    row = {
+        "model_id": "model/a",
+        "model_name": "Model A",
+        "slot_id": "slot-a",
+        "canonical_model_slug": "model-a-dated",
+        "execution_backend": "zai_coding_direct",
+        "provider_tag": "zai-coding-plan-direct",
+        "provider_name": "Z.ai",
+        "endpoint_execution_sha256": "4" * 64,
+        "backend_contract_sha256": "5" * 64,
+    }
+    plan = {
+        "artifact_sha256": "6" * 64,
+        "inputs": {"route_manifest": {"semantic_sha256": "7" * 64}},
+        "roster": {"model_count": 1, "models": [row]},
+    }
+
+    def write_response(directory, *, status: str, answer: str | None, cost: int) -> str:
+        cell_id = "8" * 64
+        generation = (
+            {"answer_markdown": answer, "cost_micros": cost} if status == "completed" else None
+        )
+        scoring = (
+            analysis_module.score_answer(task, str(answer))
+            if status == "completed"
+            else analysis_module._zero_scoring(task)
+        )
+        document = {
+            "schema_version": "flavourbench-powered-response-v1",
+            "status": status,
+            "panel": "primary",
+            "plan_sha256": plan["artifact_sha256"],
+            "manifest_sha256": plan["inputs"]["route_manifest"]["semantic_sha256"],
+            "taskset_sha256": taskset["artifact_sha256"],
+            "repeat_panel_sha256": repeat_panel["artifact_sha256"],
+            "cell_id": cell_id,
+            "model_id": row["model_id"],
+            "task_id": task["task_id"],
+            "family": task["family"],
+            "slot_id": row["slot_id"],
+            "model_name": row["model_name"],
+            "canonical_model_slug": row["canonical_model_slug"],
+            "execution_backend": row["execution_backend"],
+            "endpoint_execution_sha256": row["endpoint_execution_sha256"],
+            "backend_contract_sha256": row["backend_contract_sha256"],
+            "prompt_sha256": task["prompt_sha256"],
+            "optimal_selection": task["optimal_selection"],
+            "original_task_id": None,
+            "generation": generation,
+            "scoring": scoring,
+        }
+        document["artifact_sha256"] = analysis_module._sha256(document)
+        target = directory / "responses" / "primary" / str(row["slot_id"])
+        target.mkdir(parents=True)
+        path = target / f"response-{cell_id}-{document['artifact_sha256']}.json"
+        path.write_text(json.dumps(document))
+        return str(document["artifact_sha256"])
+
+    original = tmp_path / "original"
+    first_repair = tmp_path / "repair-1"
+    second_repair = tmp_path / "repair-2"
+    write_response(original, status="failed", answer=None, cost=0)
+    selected_artifact = write_response(
+        first_repair,
+        status="completed",
+        answer="FINAL_SELECTION: A, B, C",
+        cost=1,
+    )
+    write_response(
+        second_repair,
+        status="completed",
+        answer="FINAL_SELECTION: A, B, D",
+        cost=2,
+    )
+    panel = load_panel(
+        run_directory=original,
+        panel="primary",
+        plan=plan,
+        taskset=taskset,
+        repeat_panel=repeat_panel,
+        model_sources={"model/a": ((original, first_repair, second_repair), plan)},
+    )
+    assert panel.completed.tolist() == [[True]]
+    assert panel.scores.tolist() == [[100.0]]
+    assert panel.response_artifact_sha256s == (selected_artifact,)
+    assert panel.spend_micros == 1
+
+
+def test_composite_loader_prefers_parseable_completion_over_earlier_malformed_completion(
+    tmp_path, monkeypatch
+) -> None:
+    monkeypatch.setattr(analysis_module, "MODEL_COUNT", 1)
+    monkeypatch.setattr(analysis_module, "TASK_COUNT", 1)
+    monkeypatch.setattr(analysis_module, "REPEAT_TASK_COUNT", 1)
+    task = {
+        "task_id": "task-1",
+        "family": "substitution",
+        "prompt_sha256": "1" * 64,
+        "optimal_selection": "ABC",
+        "selection_scores_bps": {"ABC": 10_000},
+        "choices": {label: f"ingredient_{label.lower()}" for label in "ABCDEFGH"},
+    }
+    taskset = {"artifact_sha256": "2" * 64, "tasks": [task]}
+    repeat_panel = {"artifact_sha256": "3" * 64, "tasks": []}
+    row = {
+        "model_id": "model/a",
+        "model_name": "Model A",
+        "slot_id": "slot-a",
+        "canonical_model_slug": "model-a-dated",
+        "execution_backend": "openrouter",
+        "provider_tag": "provider/exact",
+        "provider_name": "Provider",
+        "endpoint_execution_sha256": "4" * 64,
+        "backend_contract_sha256": "5" * 64,
+    }
+    plan = {
+        "artifact_sha256": "6" * 64,
+        "inputs": {"route_manifest": {"semantic_sha256": "7" * 64}},
+        "roster": {"model_count": 1, "models": [row]},
+    }
+
+    def write(directory, answer: str, cost: int) -> str:
+        cell_id = "8" * 64
+        scoring = analysis_module.score_answer(task, answer)
+        document = {
+            "schema_version": "flavourbench-powered-response-v1",
+            "status": "completed",
+            "panel": "primary",
+            "plan_sha256": plan["artifact_sha256"],
+            "manifest_sha256": plan["inputs"]["route_manifest"]["semantic_sha256"],
+            "taskset_sha256": taskset["artifact_sha256"],
+            "repeat_panel_sha256": repeat_panel["artifact_sha256"],
+            "cell_id": cell_id,
+            "model_id": row["model_id"],
+            "task_id": task["task_id"],
+            "family": task["family"],
+            "slot_id": row["slot_id"],
+            "model_name": row["model_name"],
+            "canonical_model_slug": row["canonical_model_slug"],
+            "execution_backend": row["execution_backend"],
+            "endpoint_execution_sha256": row["endpoint_execution_sha256"],
+            "backend_contract_sha256": row["backend_contract_sha256"],
+            "prompt_sha256": task["prompt_sha256"],
+            "optimal_selection": task["optimal_selection"],
+            "original_task_id": None,
+            "generation": {"answer_markdown": answer, "cost_micros": cost},
+            "scoring": scoring,
+        }
+        document["artifact_sha256"] = analysis_module._sha256(document)
+        target = directory / "responses" / "primary" / row["slot_id"]
+        target.mkdir(parents=True)
+        (target / f"response-{cell_id}-{document['artifact_sha256']}.json").write_text(
+            json.dumps(document)
+        )
+        return str(document["artifact_sha256"])
+
+    original = tmp_path / "original"
+    repair = tmp_path / "repair"
+    original_artifact = write(
+        original,
+        "FINAL_SELECTION: ingredient_a, ingredient_b, ingredient_c",
+        1,
+    )
+    selected = write(repair, "FINAL_SELECTION: A, B, C", 2)
+    panel = load_panel(
+        run_directory=original,
+        panel="primary",
+        plan=plan,
+        taskset=taskset,
+        repeat_panel=repeat_panel,
+        model_sources={"model/a": ((original, repair), plan)},
+    )
+    assert panel.parseable.tolist() == [[True]]
+    assert panel.response_artifact_sha256s == (selected,)
+    assert panel.spend_micros == 2
+
+    reparsed = load_panel(
+        run_directory=original,
+        panel="primary",
+        plan=plan,
+        taskset=taskset,
+        repeat_panel=repeat_panel,
+        model_sources={"model/a": ((original, repair), plan)},
+        analysis_score_function=score_answer_v3,
+    )
+    assert reparsed.parseable.tolist() == [[True]]
+    assert reparsed.scores.tolist() == [[100.0]]
+    assert reparsed.response_artifact_sha256s == (original_artifact,)
+    assert reparsed.spend_micros == 1

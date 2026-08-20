@@ -20,12 +20,14 @@ MATCHED_TOOL_ACCESS_POLICY_SCHEMA_VERSION = "flavourbench-real-execution-policy-
 REQUIRED_EPICURE_TREATMENT_POLICY_SCHEMA_VERSION = "flavourbench-real-execution-policy-v9"
 PORTABLE_TEXT_TOOL_POLICY_SCHEMA_VERSION = "flavourbench-real-execution-policy-v10"
 SELECTION_TEXT_POLICY_SCHEMA_VERSION = "flavourbench-real-execution-policy-v11"
+ANCHOR_FREE_SELECTION_TEXT_POLICY_SCHEMA_VERSION = "flavourbench-real-execution-policy-v12"
 DIRECT_TOOL_CONTRACT_PROTOCOL = "direct_tool_first_v1"
 MATCHED_EVIDENCE_PROTOCOL_V1 = "matched_evidence_v1"
 MATCHED_EVIDENCE_PROTOCOL_V2 = "matched_evidence_v2"
 MATCHED_TOOL_ACCESS_PROTOCOL_V1 = "matched_tool_access_v1"
 PORTABLE_TEXT_TOOL_PROTOCOL_V1 = "portable_text_tool_v1"
 SELECTION_TEXT_PROTOCOL_V1 = "selection_text_v1"
+SELECTION_TEXT_PROTOCOL_V2 = "selection_text_v2_anchor_free"
 MATCHED_EVIDENCE_PROTOCOLS = frozenset({MATCHED_EVIDENCE_PROTOCOL_V1, MATCHED_EVIDENCE_PROTOCOL_V2})
 GOVERNED_EPICURE_PROTOCOLS = frozenset(
     {
@@ -33,6 +35,7 @@ GOVERNED_EPICURE_PROTOCOLS = frozenset(
         MATCHED_TOOL_ACCESS_PROTOCOL_V1,
         PORTABLE_TEXT_TOOL_PROTOCOL_V1,
         SELECTION_TEXT_PROTOCOL_V1,
+        SELECTION_TEXT_PROTOCOL_V2,
     }
 )
 
@@ -162,7 +165,9 @@ class ExecutionPolicy:
         self.validate()
         payload: dict[str, Any] = {
             "schema_version": (
-                SELECTION_TEXT_POLICY_SCHEMA_VERSION
+                ANCHOR_FREE_SELECTION_TEXT_POLICY_SCHEMA_VERSION
+                if self.evidence_protocol == SELECTION_TEXT_PROTOCOL_V2
+                else SELECTION_TEXT_POLICY_SCHEMA_VERSION
                 if self.evidence_protocol == SELECTION_TEXT_PROTOCOL_V1
                 else PORTABLE_TEXT_TOOL_POLICY_SCHEMA_VERSION
                 if self.evidence_protocol == PORTABLE_TEXT_TOOL_PROTOCOL_V1

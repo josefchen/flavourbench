@@ -22,6 +22,7 @@ from .execution_policy import (
     MATCHED_TOOL_ACCESS_PROTOCOL_V1,
     PORTABLE_TEXT_TOOL_PROTOCOL_V1,
     SELECTION_TEXT_PROTOCOL_V1,
+    SELECTION_TEXT_PROTOCOL_V2,
 )
 from .mcp_client import McpSession
 from .tool_contract import (
@@ -135,6 +136,17 @@ SELECTION_TEXT_FINAL_INSTRUCTION = (
     "alphabetical label order: FINAL_SELECTION: A,C,F, replacing the labels with your three "
     "distinct choices from A through H."
 )
+ANCHOR_FREE_SELECTION_TEXT_SYSTEM_PROMPT = """You are participating in FlavourBench, an
+executable culinary-selection benchmark. Choose exactly three distinct labels from A through H
+using the user's task. Do not provide analysis, explanation, bullets, prose, or Markdown
+decoration. In the final turn, emit exactly one line beginning with the marker FINAL_SELECTION,
+followed by a colon and your three chosen labels separated by commas in alphabetical order. Never
+identify yourself, your developer, provider, model family, tools, or evaluation condition."""
+ANCHOR_FREE_SELECTION_TEXT_FINAL_INSTRUCTION = (
+    "Return the selection now with no analysis or explanation. Emit exactly one line beginning "
+    "with FINAL_SELECTION, followed by a colon and your three distinct A-through-H choices "
+    "separated by commas in alphabetical order."
+)
 PORTABLE_EPICURE_TOOL_NAMES = frozenset(
     {"neighbors", "pairing_score", "compare_on_axis", "cultural_profile"}
 )
@@ -175,6 +187,8 @@ def system_prompt_text(
         prompt = PORTABLE_TEXT_TOOL_SYSTEM_PROMPT
     elif evidence_protocol == SELECTION_TEXT_PROTOCOL_V1:
         prompt = SELECTION_TEXT_SYSTEM_PROMPT
+    elif evidence_protocol == SELECTION_TEXT_PROTOCOL_V2:
+        prompt = ANCHOR_FREE_SELECTION_TEXT_SYSTEM_PROMPT
     elif evidence_protocol == "legacy_v6":
         base = (
             SYSTEM_PROMPT if final_response_mode == "structured_json" else PLAIN_TEXT_SYSTEM_PROMPT
@@ -398,6 +412,7 @@ def _verified_openrouter_generation_identity(
     spec: GenerationSpec,
     generation_ids: list[str],
     generation_metadata: list[dict[str, Any]],
+    response_identity_metadata: list[dict[str, Any]] | None = None,
 ) -> tuple[str, str]:
     """Require exact identity evidence for every request in a multi-round arm."""
 
@@ -415,12 +430,42 @@ def _verified_openrouter_generation_identity(
     observed_ids = [str(item.get("generation_id") or "") for item in generation_metadata]
     if len(observed_ids) != len(set(observed_ids)) or set(observed_ids) != set(generation_ids):
         raise ProviderError("OpenRouter generation metadata does not cover the exact request set")
+    response_by_id: dict[str, dict[str, Any]] = {}
+    if response_identity_metadata is not None:
+        response_ids = [str(item.get("generation_id") or "") for item in response_identity_metadata]
+        if len(response_ids) != len(set(response_ids)) or set(response_ids) != set(generation_ids):
+            raise ProviderError("OpenRouter response identity does not cover the exact request set")
+        response_by_id = {str(item["generation_id"]): item for item in response_identity_metadata}
     for item in generation_metadata:
+        accounting_model = str(item.get("model") or "unknown")
+        accounting_provider = str(item.get("provider") or "unknown")
+        if accounting_model == expected_model and accounting_provider == expected_provider:
+            continue
+        # OpenRouter's generation-accounting record is eventually consistent.
+        # Before it appears, the accepted chat-completion envelope still binds
+        # the exact requested model and the exact no-fallback provider.  Accept
+        # that evidence only when both fields are present and exact; any
+        # partial or contradictory accounting record remains terminal.
+        generation_id = str(item.get("generation_id") or "")
+        response_identity = response_by_id.get(generation_id, {})
+        response_model = str(response_identity.get("model") or "")
+        response_provider = str(response_identity.get("provider") or "")
+        accounting_unavailable = (
+            accounting_model == "unknown"
+            and accounting_provider == "unknown"
+            and item.get("reconciled") is False
+        )
         if (
-            str(item.get("model") or "unknown") != expected_model
-            or str(item.get("provider") or "unknown") != expected_provider
+            accounting_unavailable
+            and response_model
+            in {
+                spec.model_id,
+                expected_model,
+            }
+            and response_provider == expected_provider
         ):
-            raise ProviderError("OpenRouter substituted or omitted identity in a multi-round arm")
+            continue
+        raise ProviderError("OpenRouter substituted or omitted identity in a multi-round arm")
     return expected_model, expected_provider
 
 
@@ -1125,6 +1170,7 @@ class OpenRouterProvider:
             }
         attempts = getattr(self.settings, "openrouter_accounting_attempts", 6)
         initial_delay = getattr(self.settings, "openrouter_accounting_initial_delay_seconds", 0.5)
+        last_result: dict[str, Any] | None = None
         for attempt in range(attempts):
             try:
                 response = await self.accounting_client.get(
@@ -1146,6 +1192,23 @@ class OpenRouterProvider:
                     "generation_time_ms": int(data.get("generation_time") or 0),
                     "upstream_latency_ms": int(data.get("latency") or 0),
                 }
+                last_result = result
+                # OpenRouter may return HTTP 200 with an empty or partially
+                # populated generation record for a short interval after the
+                # completion itself is available.  Treat that as eventual
+                # consistency, not a terminal zero-cost/unknown-identity
+                # record.  Returning it immediately discards an otherwise
+                # valid answer when the strict identity gate runs a moment
+                # later.
+                if (
+                    not reconciled
+                    or result["provider"] == "unknown"
+                    or result["model"] == "unknown"
+                ):
+                    if attempt + 1 < attempts:
+                        await asyncio.sleep(initial_delay * (2**attempt))
+                        continue
+                    return result
                 prior = self._attempt_by_generation.get(generation_id)
                 if prior is not None:
                     self._emit_attempt(
@@ -1161,6 +1224,8 @@ class OpenRouterProvider:
             except (httpx.HTTPError, ValueError, AttributeError, TypeError):
                 if attempt + 1 < attempts:
                     await asyncio.sleep(initial_delay * (2**attempt))
+        if last_result is not None:
+            return last_result
         return {
             "generation_id": generation_id,
             "cost_micros": 0,
@@ -1244,7 +1309,10 @@ class OpenRouterProvider:
         matched_evidence = spec.evidence_protocol in MATCHED_EVIDENCE_PROTOCOLS
         matched_tool_access = spec.evidence_protocol == MATCHED_TOOL_ACCESS_PROTOCOL_V1
         portable_text_tool = spec.evidence_protocol == PORTABLE_TEXT_TOOL_PROTOCOL_V1
-        selection_text = spec.evidence_protocol == SELECTION_TEXT_PROTOCOL_V1
+        selection_text = spec.evidence_protocol in {
+            SELECTION_TEXT_PROTOCOL_V1,
+            SELECTION_TEXT_PROTOCOL_V2,
+        }
         if spec.evidence_protocol not in {"legacy_v6", *GOVERNED_EPICURE_PROTOCOLS}:
             raise ProviderError("unsupported frozen evidence protocol")
         if matched_evidence and not spec.matched_planning:
@@ -2109,7 +2177,11 @@ class OpenRouterProvider:
         if portable_text_tool:
             final_instruction = PORTABLE_FINAL_CHOICE_INSTRUCTION
         elif selection_text:
-            final_instruction = SELECTION_TEXT_FINAL_INSTRUCTION
+            final_instruction = (
+                ANCHOR_FREE_SELECTION_TEXT_FINAL_INSTRUCTION
+                if spec.evidence_protocol == SELECTION_TEXT_PROTOCOL_V2
+                else SELECTION_TEXT_FINAL_INSTRUCTION
+            )
         else:
             final_instruction = (
                 MATCHED_EVIDENCE_V2_FINAL_INSTRUCTION
@@ -2194,16 +2266,53 @@ class OpenRouterProvider:
         cost_micros = 0
         cost_reconciled = True
         generation_metadata: list[dict[str, Any]] = []
+        response_identity_metadata: list[dict[str, Any]] = []
         for item_id in generation_ids:
             accounting = await self._generation_cost(item_id)
             generation_metadata.append(accounting)
             cost_micros += int(accounting["cost_micros"])
             cost_reconciled = cost_reconciled and bool(accounting["reconciled"])
+            response_event = self._attempt_by_generation.get(item_id)
+            response_envelope = (
+                response_event.metadata.get("response_envelope")
+                if response_event is not None
+                else None
+            )
+            response_identity_metadata.append(
+                {
+                    "generation_id": item_id,
+                    "model": (
+                        str(response_event.metadata.get("response_model") or "")
+                        if response_event is not None
+                        else ""
+                    ),
+                    "provider": (
+                        str(response_envelope.get("provider") or "")
+                        if isinstance(response_envelope, dict)
+                        else ""
+                    ),
+                }
+            )
         actual_model, actual_provider = _verified_openrouter_generation_identity(
             spec,
             generation_ids,
             generation_metadata,
+            response_identity_metadata,
         )
+        for accounting, response_identity in zip(
+            generation_metadata,
+            response_identity_metadata,
+            strict=True,
+        ):
+            accounting["response_model"] = response_identity["model"]
+            accounting["response_provider"] = response_identity["provider"]
+            accounting["identity_evidence_source"] = (
+                "generation_accounting"
+                if accounting.get("reconciled") is True
+                and accounting.get("model") == actual_model
+                and accounting.get("provider") == actual_provider
+                else "accepted_response_envelope_and_frozen_no_fallback_route"
+            )
         return GenerationResult(
             answer_markdown=output["answer_markdown"],
             output_json=output,
@@ -2248,6 +2357,7 @@ class MultiBackendProvider:
         from .service_cohere import CohereDirectProvider
         from .service_kimi import KimiDirectProvider
         from .service_qwencloud import QwenCloudDirectProvider
+        from .service_zai import ZaiCodingDirectProvider
 
         self.openrouter = OpenRouterProvider(
             attempt_sink=attempt_sink,
@@ -2269,6 +2379,10 @@ class MultiBackendProvider:
             attempt_sink=attempt_sink,
             tool_sink=tool_sink,
         )
+        self.zai_coding_direct = ZaiCodingDirectProvider(
+            attempt_sink=attempt_sink,
+            tool_sink=tool_sink,
+        )
 
     async def generate(self, spec: GenerationSpec) -> GenerationResult:
         if spec.execution_backend == "openrouter":
@@ -2281,6 +2395,8 @@ class MultiBackendProvider:
             return await self.cohere_direct.generate(spec)
         if spec.execution_backend == "qwencloud_direct":
             return await self.qwencloud_direct.generate(spec)
+        if spec.execution_backend == "zai_coding_direct":
+            return await self.zai_coding_direct.generate(spec)
         raise ProviderError(f"unsupported live execution backend: {spec.execution_backend}")
 
     async def reconcile_failure(
@@ -2298,6 +2414,8 @@ class MultiBackendProvider:
             return await self.cohere_direct.reconcile_failure(spec, error)
         if spec.execution_backend == "qwencloud_direct":
             return await self.qwencloud_direct.reconcile_failure(spec, error)
+        if spec.execution_backend == "zai_coding_direct":
+            return await self.zai_coding_direct.reconcile_failure(spec, error)
         return None
 
     async def aclose(self) -> None:
@@ -2306,6 +2424,7 @@ class MultiBackendProvider:
         await self.kimi_direct.aclose()
         await self.cohere_direct.aclose()
         await self.qwencloud_direct.aclose()
+        await self.zai_coding_direct.aclose()
 
 
 def get_provider(

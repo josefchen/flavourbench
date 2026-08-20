@@ -1,8 +1,8 @@
 """Verify the compact, provider-free FlavourBench powered release.
 
 This replay intentionally needs only the checked-in release JSON and its two CSV
-tables.  It verifies their content addresses and the complete common-task
-statistical result contract without making provider or Epicure calls.
+tables. It verifies their content addresses and the complete statistical result
+contract without making provider or Epicure calls.
 """
 
 from __future__ import annotations
@@ -15,6 +15,18 @@ import json
 from itertools import combinations
 from pathlib import Path
 from typing import Any
+
+COVERAGE_REPAIR_MODEL_IDS = [
+    "anthropic/claude-opus-5",
+    "google/gemini-3.1-pro-preview",
+    "deepseek/deepseek-v4-pro-0813",
+    "minimax/minimax-m3",
+    "nvidia/nemotron-3.5-lightning",
+    "tencent/hy3",
+    "meta/muse-glimmer-30b",
+    "anthropic/claude-fable-5",
+    "thinkingmachines/inkling",
+]
 
 
 class PoweredReleaseError(RuntimeError):
@@ -88,10 +100,21 @@ def verify_release(path: Path) -> dict[str, Any]:
     _require(_canonical_sha256(semantic_payload) == stated, "release semantic hash failed")
     _require(stated in path.name, "release filename is not content addressed")
     _require(release.get("status") == "final_complete", "release is not final_complete")
+    schema = str(release.get("schema_version") or "")
     _require(
-        release.get("schema_version") == "flavourbench-selection-powered-release-v1",
+        schema
+        in {
+            "flavourbench-selection-powered-release-v1",
+            "flavourbench-selection-powered-release-v2-anchor-free",
+            "flavourbench-selection-powered-joint-release-v1",
+        },
         "unexpected release schema",
     )
+    success_only = schema in {
+        "flavourbench-selection-powered-release-v2-anchor-free",
+        "flavourbench-selection-powered-joint-release-v1",
+    }
+    joint = schema == "flavourbench-selection-powered-joint-release-v1"
 
     analysis = release.get("analysis")
     _require(isinstance(analysis, dict), "analysis is missing")
@@ -107,13 +130,33 @@ def verify_release(path: Path) -> dict[str, Any]:
 
     model_ids = [str(row["model_id"]) for row in models]
     _require(len(set(model_ids)) == model_count, "model IDs are not unique")
+    availability_key = "coverage" if success_only else "availability"
+    scheduled_tasks = 1280 if joint else 640
+    scheduled_repeats = 128 if joint else 64
     _require(
-        all(int(row["availability"]["scheduled"]) == 640 for row in models),
-        "every model must have 640 scheduled primary tasks",
+        all(int(row[availability_key]["scheduled"]) == scheduled_tasks for row in models),
+        f"every model must have {scheduled_tasks} scheduled primary tasks",
     )
+    if success_only:
+        _require(analysis.get("dnf_classification") is False, "v2 unexpectedly enables DNF")
+        _require(
+            analysis.get("failure_handling")
+            == "excluded_from_quality_score_and_retained_in_coverage",
+            "v2 failure handling changed",
+        )
+        _require(
+            all(
+                row.get("score_status") == "scored"
+                and 0 < int(row["coverage"]["valid_scored"]) <= scheduled_tasks
+                for row in models
+            ),
+            "v2 model score or coverage contract failed",
+        )
     _require(
-        all(int(row["tasks"]) == 64 for row in repeats),
-        "every model must have 64 scheduled repeat tasks",
+        all(
+            int(row.get("scheduled", row.get("tasks", -1))) == scheduled_repeats for row in repeats
+        ),
+        f"every model must have {scheduled_repeats} scheduled repeat tasks",
     )
     _require({str(row["model_id"]) for row in repeats} == set(model_ids), "repeat roster drift")
 
@@ -125,12 +168,110 @@ def verify_release(path: Path) -> dict[str, Any]:
 
     inputs = release.get("inputs")
     _require(isinstance(inputs, dict), "release inputs are missing")
+    if joint:
+        primary_count = int(inputs["panel_1_primary"]["count"]) + int(
+            inputs["panel_2_primary"]["count"]
+        )
+        repeat_count = int(inputs["panel_1_repeat"]["count"]) + int(
+            inputs["panel_2_repeat"]["count"]
+        )
+        design = analysis.get("design") or {}
+        inference = analysis.get("inference") or {}
+        _require(design.get("unique_anchor_clusters") == 1178, "joint anchor count failed")
+        _require(design.get("shared_anchor_clusters") == 102, "shared anchor count failed")
+        _require(
+            inference.get("independence_unit") == "anchor_ingredient"
+            and inference.get("independent_cluster_count") == 1178
+            and inference.get("shared_anchor_tasks_move_together") is True,
+            "joint cluster-inference contract failed",
+        )
+        _require(
+            isinstance(analysis.get("panel_replication"), dict),
+            "joint replication diagnostic is missing",
+        )
+        lineage = inputs.get("response_lineage") or {}
+        replacement_plan = lineage.get("panel_2_replacement_plan_sha256")
+        if replacement_plan is not None:
+            _require(
+                isinstance(replacement_plan, str)
+                and len(replacement_plan) == 64
+                and isinstance(lineage.get("panel_2_base_plan_sha256"), str)
+                and len(lineage["panel_2_base_plan_sha256"]) == 64
+                and replacement_plan != lineage["panel_2_base_plan_sha256"],
+                "panel-2 replacement plan lineage is malformed",
+            )
+            _require(
+                lineage.get("panel_2_replacement_model_ids")
+                == [
+                    "openai/gpt-5.6-luna-pro",
+                    "deepseek/deepseek-v4-flash-0731",
+                ]
+                and lineage.get("panel_2_superseded_route_responses_used") is False,
+                "panel-2 replacement source contract failed",
+            )
+        panel_1_coverage_plan = lineage.get("panel_1_coverage_repair_plan_sha256")
+        panel_2_coverage_plan = lineage.get("panel_2_coverage_repair_plan_sha256")
+        if panel_1_coverage_plan is not None or panel_2_coverage_plan is not None:
+            _require(
+                isinstance(panel_1_coverage_plan, str)
+                and len(panel_1_coverage_plan) == 64
+                and isinstance(panel_2_coverage_plan, str)
+                and len(panel_2_coverage_plan) == 64
+                and panel_1_coverage_plan != lineage["panel_1_base_plan_sha256"]
+                and panel_1_coverage_plan != lineage["panel_1_qwen_replacement_plan_sha256"]
+                and panel_2_coverage_plan != lineage["panel_2_base_plan_sha256"]
+                and panel_2_coverage_plan != replacement_plan,
+                "complete coverage-repair plan lineage is malformed",
+            )
+            _require(
+                lineage.get("panel_1_coverage_repair_model_ids") == COVERAGE_REPAIR_MODEL_IDS
+                and lineage.get("panel_2_coverage_repair_model_ids") == COVERAGE_REPAIR_MODEL_IDS
+                and set(COVERAGE_REPAIR_MODEL_IDS) <= set(model_ids)
+                and lineage.get("panel_1_superseded_coverage_route_responses_used") is False
+                and lineage.get("panel_2_superseded_coverage_route_responses_used") is False
+                and lineage.get("panel_1_fable_replacement_plan_sha256") is None
+                and isinstance(lineage.get("panel_1_superseded_fable_replacement_plan_sha256"), str)
+                and len(lineage["panel_1_superseded_fable_replacement_plan_sha256"]) == 64,
+                "complete coverage-repair response source contract failed",
+            )
+        panel_1_deepseek_plan = lineage.get("panel_1_deepseek_repair_plan_sha256")
+        panel_2_deepseek_plan = lineage.get("panel_2_deepseek_repair_plan_sha256")
+        if panel_1_deepseek_plan is not None or panel_2_deepseek_plan is not None:
+            _require(
+                isinstance(panel_1_deepseek_plan, str)
+                and len(panel_1_deepseek_plan) == 64
+                and isinstance(panel_2_deepseek_plan, str)
+                and len(panel_2_deepseek_plan) == 64
+                and panel_1_deepseek_plan != panel_1_coverage_plan
+                and panel_2_deepseek_plan != panel_2_coverage_plan,
+                "DeepSeek repair plan lineage is malformed",
+            )
+            _require(
+                lineage.get("panel_1_deepseek_repair_model_ids")
+                == ["deepseek/deepseek-v4-pro-0813"]
+                and lineage.get("panel_2_deepseek_repair_model_ids")
+                == ["deepseek/deepseek-v4-pro-0813"]
+                and lineage.get("panel_1_deepseek_repair_provider_tag")
+                == lineage.get("panel_2_deepseek_repair_provider_tag")
+                and lineage.get("panel_1_deepseek_repair_provider_tag")
+                in {"baseten/fp4", "gmicloud/fp8"}
+                and lineage.get("panel_1_superseded_deepseek_route_responses_used") is False
+                and lineage.get("panel_2_superseded_deepseek_route_responses_used") is False,
+                "DeepSeek repair response source contract failed",
+            )
+            _require(
+                lineage.get("deepseek_quality_scores_inspected_before_source_freeze") is False,
+                "DeepSeek route selection inspected quality before source freeze",
+            )
+    else:
+        primary_count = int(inputs["primary_responses"]["count"])
+        repeat_count = int(inputs["repeat_responses"]["count"])
     _require(
-        int(inputs["primary_responses"]["count"]) == model_count * 640,
+        primary_count == model_count * scheduled_tasks,
         "primary response count differs from the model/task grid",
     )
     _require(
-        int(inputs["repeat_responses"]["count"]) == model_count * 64,
+        repeat_count == model_count * scheduled_repeats,
         "repeat response count differs from the model/repeat grid",
     )
 
@@ -160,19 +301,22 @@ def verify_release(path: Path) -> dict[str, Any]:
         (row for row in models if row.get("point_estimate_rank") is not None),
         key=lambda row: (int(row["point_estimate_rank"]), str(row["model_id"])),
     )
-    _require(ranked, "release has no rank-eligible model")
+    _require(ranked, "release has no ranked model")
+    if success_only:
+        _require(len(ranked) == model_count, "v2 must rank every scored model")
     _require(
         [int(row["point_estimate_rank"]) for row in ranked] == list(range(1, len(ranked) + 1)),
-        "eligible point ranks are not contiguous",
+        "point ranks are not contiguous",
     )
     return {
         "status": "verified",
         "release": path.name,
         "artifact_sha256": stated,
         "models": len(models),
-        "tasks_per_model": 640,
-        "primary_responses": model_count * 640,
-        "repeat_responses": model_count * 64,
+        "tasks_per_model": scheduled_tasks,
+        "independent_anchor_clusters": 1178 if joint else scheduled_tasks,
+        "primary_responses": model_count * scheduled_tasks,
+        "repeat_responses": model_count * scheduled_repeats,
         "pairwise_comparisons": len(pairs),
         "leader_model_id": ranked[0]["model_id"],
         "leader_score": ranked[0]["flavourbench_score"],

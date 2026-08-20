@@ -29,7 +29,7 @@ def _release() -> dict[str, object]:
                 "model_id": model_id,
                 "model_name": f"Model {index}",
                 "eligible": True,
-                "availability": {"completed": 640, "parseable": 640},
+                "availability": {"scheduled": 640, "completed": 640, "parseable": 640},
                 "flavourbench_score": 90.0 - index,
                 "family_scores": {
                     "substitution": 91.0 - index,
@@ -97,6 +97,11 @@ def test_tables_macros_and_figures_render(tmp_path: Path) -> None:
     family = module._family_table(release)
     diagnostics = module._task_diagnostics_table(taskset)
     assert r"\newcommand{\FBModels}{20}" in macros
+    assert r"\newcommand{\FBTasksPerFamily}{160}" in macros
+    assert r"\newcommand{\FBPanelCount}{1}" in macros
+    assert r"\newcommand{\FBUniqueAnchors}{640}" in macros
+    assert r"\newcommand{\FBSharedAnchors}{0}" in macros
+    assert r"\newcommand{\FBRepeatTasksPerModel}{64}" in macros
     assert "vendor/model-00" not in leaderboard
     assert "Regional" in family
     assert "40.0" in diagnostics
@@ -109,6 +114,139 @@ def test_tables_macros_and_figures_render(tmp_path: Path) -> None:
     module._repeatability_figure(release, tmp_path)
     assert len(list(tmp_path.glob("*.pdf"))) == 4
     assert len(list(tmp_path.glob("*.png"))) == 4
+
+
+def test_joint_release_macros_report_clusters_and_both_panels() -> None:
+    module = _module()
+    release = _release()
+    release["inputs"] = {
+        "panel_1_primary": {"count": 12_800},
+        "panel_2_primary": {"count": 12_800},
+        "panel_1_repeat": {"count": 1_280},
+        "panel_2_repeat": {"count": 1_280},
+    }
+    release["analysis"]["design"] = {
+        "panel_count": 2,
+        "unique_anchor_clusters": 1_178,
+        "shared_anchor_clusters": 102,
+    }
+    release["analysis"]["panel_replication"] = {
+        "model_score_pearson": 0.94,
+        "model_rank_spearman": 0.91,
+        "models": [
+            {
+                "model_id": row["model_id"],
+                "panel_1_score": row["flavourbench_score"] - 0.5,
+                "panel_2_score": row["flavourbench_score"] + 0.5,
+            }
+            for row in release["analysis"]["models"]
+        ],
+    }
+    taskset = {
+        "counts": {
+            "tasks": 1_280,
+            "scored_combinations_per_task": 56,
+            "total_prefrozen_selection_scores": 71_680,
+        }
+    }
+    macros = module._macros(release, taskset)
+    assert r"\newcommand{\FBTasks}{1280}" in macros
+    assert r"\newcommand{\FBTasksPerFamily}{320}" in macros
+    assert r"\newcommand{\FBPanelCount}{2}" in macros
+    assert r"\newcommand{\FBUniqueAnchors}{1178}" in macros
+    assert r"\newcommand{\FBSharedAnchors}{102}" in macros
+    assert r"\newcommand{\FBRepeatTasksPerModel}{128}" in macros
+    assert r"\newcommand{\FBPanelPearson}{0.94}" in macros
+    assert r"\newcommand{\FBPanelSpearman}{0.91}" in macros
+
+
+def test_joint_panel_replication_figure_renders(tmp_path: Path) -> None:
+    module = _module()
+    release = _release()
+    release["analysis"]["panel_replication"] = {
+        "model_score_pearson": 0.97,
+        "model_rank_spearman": 0.95,
+        "models": [
+            {
+                "model_id": row["model_id"],
+                "panel_1_score": row["flavourbench_score"] - 1.0,
+                "panel_2_score": row["flavourbench_score"] + 1.0,
+            }
+            for row in release["analysis"]["models"]
+        ],
+    }
+    module._configure_plots()
+    module._panel_stability_figure(release, tmp_path)
+    assert (tmp_path / "powered-panel-replication.pdf").is_file()
+    assert (tmp_path / "powered-panel-replication.png").is_file()
+
+
+def test_route_table_exposes_panel_specific_complete_block_routes() -> None:
+    module = _module()
+    release = _release()
+    panel_1 = {
+        "models": [
+            {
+                "model": {"id": row["model_id"]},
+                "execution_route": {"selected_backend": "openrouter"},
+                "endpoint": {"tag": f"panel1/{index}"},
+            }
+            for index, row in enumerate(release["analysis"]["models"])
+        ]
+    }
+    panel_2 = {
+        "models": [
+            {
+                "model": {"id": row["model_id"]},
+                "execution_route": {"selected_backend": "openrouter"},
+                "endpoint": {
+                    "tag": "openai" if index == 0 else f"panel1/{index}",
+                },
+            }
+            for index, row in enumerate(release["analysis"]["models"])
+        ]
+    }
+    table = module._route_table(release, panel_2, panel_1_manifest=panel_1)
+    assert "Panel 1 route & Panel 2 route" in table
+    assert "panel1/0 & openai" in table
+
+
+def test_route_table_prefers_exact_final_panel_plans() -> None:
+    module = _module()
+    release = _release()
+    stale_manifest = {
+        "models": [
+            {
+                "model": {"id": row["model_id"]},
+                "execution_route": {"selected_backend": "stale"},
+                "endpoint": {"tag": "stale/route"},
+            }
+            for row in release["analysis"]["models"]
+        ]
+    }
+
+    def plan(panel: int) -> dict[str, object]:
+        return {
+            "roster": {
+                "models": [
+                    {
+                        "model_id": row["model_id"],
+                        "execution_backend": "openrouter",
+                        "provider_tag": f"panel-{panel}/{index}",
+                    }
+                    for index, row in enumerate(release["analysis"]["models"])
+                ]
+            }
+        }
+
+    table = module._route_table(
+        release,
+        stale_manifest,
+        panel_1_plan=plan(1),
+        panel_2_plan=plan(2),
+    )
+    assert "panel-1/0 & panel-2/0" in table
+    assert "stale/route" not in table
 
 
 def test_response_map_replaces_only_the_recovery_model(tmp_path: Path) -> None:

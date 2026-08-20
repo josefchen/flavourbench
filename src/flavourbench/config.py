@@ -122,6 +122,22 @@ class Settings(BaseSettings):
     qwencloud_base_url: str = "https://dashscope-intl.aliyuncs.com/compatible-mode/v1"
     qwencloud_timeout_seconds: int = Field(default=300, ge=10, le=600)
 
+    # Z.ai granted a named, finite exception for one GLM-5.3 benchmark run on
+    # the Coding Plan endpoint.  This credential must never be installed in a
+    # persistent API service; the powered CLI constructs and closes the client
+    # within the bounded run.
+    zai_coding_api_key: str = Field(
+        default="",
+        validation_alias=AliasChoices(
+            "FLAVOURBENCH_ZAI_CODING_API_KEY2",
+            "ZAI_CODING_API_KEY2",
+            "FLAVOURBENCH_ZAI_CODING_API_KEY",
+            "ZAI_CODING_API_KEY",
+        ),
+    )
+    zai_coding_base_url: str = "https://api.z.ai/api/anthropic"
+    zai_coding_timeout_seconds: int = Field(default=300, ge=10, le=600)
+
     # Mirrors the explicit Bedrock lane switch read by bedrock_auth.py. The
     # credential itself remains in the AWS SDK environment and is never copied
     # into application settings or API processes.
@@ -379,12 +395,14 @@ class Settings(BaseSettings):
                     self.kimi_api_key,
                     self.cohere_api_key,
                     self.qwencloud_api_key,
+                    self.zai_coding_api_key,
                     self.bedrock_enabled,
                 )
             ):
                 raise ValueError(
                     "live worker execution requires at least one provider credential: "
-                    "an OpenRouter, Kimi, Cohere, or QwenCloud API key, or enabled Bedrock identity"
+                    "an OpenRouter, Kimi, Cohere, QwenCloud, or Z.ai Coding API key, "
+                    "or enabled Bedrock identity"
                 )
         if self.environment == "production":
             if self.service_role != "migration" and (
@@ -457,6 +475,7 @@ class Settings(BaseSettings):
                     self.kimi_api_key,
                     self.cohere_api_key,
                     self.qwencloud_api_key,
+                    self.zai_coding_api_key,
                     self.mcp_token,
                     self.cloudflare_ai_gateway_token,
                 )

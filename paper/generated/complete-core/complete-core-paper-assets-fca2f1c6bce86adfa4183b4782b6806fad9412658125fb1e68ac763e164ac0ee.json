@@ -1,0 +1,95 @@
+{
+  "artifact_sha256": "fca2f1c6bce86adfa4183b4782b6806fad9412658125fb1e68ac763e164ac0ee",
+  "files": [
+    {
+      "bytes": 23641,
+      "path": "paper/figures/complete-core/complete-core-family-heatmap.pdf",
+      "sha256": "6d1ee1054b620497b9744c33fd6944169bec864de12c3097a82106e6e9d29c72"
+    },
+    {
+      "bytes": 240587,
+      "path": "paper/figures/complete-core/complete-core-family-heatmap.png",
+      "sha256": "6c04a0fcc35602305be626a759afe086f09f263ce1f7e73cf3a54dce2da89fee"
+    },
+    {
+      "bytes": 19592,
+      "path": "paper/figures/complete-core/complete-core-leaderboard-forest.pdf",
+      "sha256": "83b879d0b5382ecadb335e8b0ee24318048633ed381c977a5c5d8de4dd5594ea"
+    },
+    {
+      "bytes": 257669,
+      "path": "paper/figures/complete-core/complete-core-leaderboard-forest.png",
+      "sha256": "015cec2ea9dfa2857f734291e384e918ad9938df21d8328df708c36ddf846d3c"
+    },
+    {
+      "bytes": 19424,
+      "path": "paper/figures/complete-core/complete-core-pairwise-matrix.pdf",
+      "sha256": "8b44b61d81bf4afef93eaabb14f9500ac4447d1807e420e0dd1e8e5d31ed877c"
+    },
+    {
+      "bytes": 234632,
+      "path": "paper/figures/complete-core/complete-core-pairwise-matrix.png",
+      "sha256": "81d504d798c8595e5733f550d964f501bd853426feba22ea38e6144db19ebaaa"
+    },
+    {
+      "bytes": 21053,
+      "path": "paper/figures/complete-core/complete-core-panel-replication.pdf",
+      "sha256": "aa7bd23153e85ef585a5a218e6449fc64399c12ba6bb0a2bf07266db7fb284ac"
+    },
+    {
+      "bytes": 147952,
+      "path": "paper/figures/complete-core/complete-core-panel-replication.png",
+      "sha256": "2c339e9a1643ea77812d606d72b0f19011ad78de74c34617f6cfedc64d15fb0d"
+    },
+    {
+      "bytes": 17783,
+      "path": "paper/figures/complete-core/complete-core-rank-intervals.pdf",
+      "sha256": "0c6c6810fd57efe603d021263e9683649e644c15f1678c5fa953653e7ebbc578"
+    },
+    {
+      "bytes": 165480,
+      "path": "paper/figures/complete-core/complete-core-rank-intervals.png",
+      "sha256": "14f8f85f9a7b138e27434ee7ba8d148b478264492efa225f0bc303b9ffec1779"
+    },
+    {
+      "bytes": 886,
+      "path": "paper/generated/complete-core/complete-core-examples-table.tex",
+      "sha256": "50bcc9fb797e9d69a4b974114ac9051dc9bcaa5128095adb1989c707114c02c7"
+    },
+    {
+      "bytes": 5406,
+      "path": "paper/generated/complete-core/complete-core-examples.json",
+      "sha256": "8ecbe19b7a2315392268f6a158951e25a0b27b28aebf78a6ef6114affffa95e1"
+    },
+    {
+      "bytes": 1153,
+      "path": "paper/generated/complete-core/complete-core-family-table.tex",
+      "sha256": "e4f9cffdadb8d39e011a83676393223ad3a569a4e00f1ccca1cfd867297d7ed0"
+    },
+    {
+      "bytes": 1721,
+      "path": "paper/generated/complete-core/complete-core-leaderboard-table.tex",
+      "sha256": "13ceb6df06c8dda698d06e47b23b26de76e94cde508b050465443d0f6de0f35f"
+    },
+    {
+      "bytes": 869,
+      "path": "paper/generated/complete-core/complete-core-macros.tex",
+      "sha256": "a94d838f59e01eca4b6aa51a5508f7de653f38b30d19cce44a0ba3c4d0eb8fe1"
+    },
+    {
+      "bytes": 1716,
+      "path": "paper/generated/complete-core/complete-core-route-table.tex",
+      "sha256": "259a06e48f377a2c6672573777c48691d45f8853343d4d9b7940156f22c74f8d"
+    },
+    {
+      "bytes": 223,
+      "path": "paper/generated/complete-core/complete-core-task-table.tex",
+      "sha256": "0c4249a6c8c9f23413f91849ac70268a25e1660ecf64159f02c76b39ae1e74b5"
+    }
+  ],
+  "plan_physical_sha256": "17ac5aea6eb25a0c0af440124849c926fdcafaf36956fd2e676f2c70ca80faa6",
+  "plan_semantic_sha256": "2ba71c793c8d4b97eed863ee83fd770b429fdefdffebdeafb241672f634ee507",
+  "release_physical_sha256": "709452f8cf54ebc1947f2a3c24e6ee19580be1c115ba3a9effbac441de556db4",
+  "release_semantic_sha256": "0a20655c97aa1363c2266e247f3dd03b759d0f80bca9154c6619c5549b2fac99",
+  "schema_version": "flavourbench-complete-core-paper-assets-v1"
+}

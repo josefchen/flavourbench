@@ -36,6 +36,7 @@ SHORT_NAMES = {
     "moonshotai/kimi-k3": "Kimi K3",
     "qwen/qwen3.8-max": "Qwen 3.8 Max",
     "z-ai/glm-5.2": "GLM 5.2",
+    "z-ai/glm-5.3": "GLM 5.3",
     "deepseek/deepseek-v4-pro": "DeepSeek V4 Pro",
     "deepseek/deepseek-v4-flash-0731": "DeepSeek V4 Flash",
     "minimax/minimax-m3": "MiniMax M3",
@@ -97,7 +98,12 @@ def _read_release(path: Path) -> dict[str, Any]:
     model_count = len(models)
     if (
         recorded != _sha256(payload)
-        or release.get("schema_version") != "flavourbench-selection-powered-release-v1"
+        or release.get("schema_version")
+        not in {
+            "flavourbench-selection-powered-release-v1",
+            "flavourbench-selection-powered-release-v2-anchor-free",
+            "flavourbench-selection-powered-joint-release-v1",
+        }
         or release.get("status") != "final_complete"
         or model_count < 2
         or len(pairwise) != model_count * (model_count - 1) // 2
@@ -109,6 +115,43 @@ def _read_release(path: Path) -> dict[str, Any]:
 
 def _short(model_id: str) -> str:
     return SHORT_NAMES.get(model_id, model_id.rsplit("/", 1)[-1])
+
+
+def _coverage(row: Mapping[str, Any]) -> Mapping[str, Any]:
+    return row.get("coverage") or row.get("availability") or {}
+
+
+def _scheduled(row: Mapping[str, Any]) -> int:
+    coverage = _coverage(row)
+    value = coverage.get("scheduled")
+    if not isinstance(value, int) or isinstance(value, bool) or value <= 0:
+        raise PoweredAssetError("leaderboard coverage lacks a positive scheduled-cell count")
+    return value
+
+
+def _scored(row: Mapping[str, Any]) -> bool:
+    if "score_status" in row:
+        return row.get("score_status") == "scored"
+    return bool(row.get("eligible"))
+
+
+def _chance_score(row: Mapping[str, Any]) -> float:
+    chance = row["chance_comparison"]
+    return float(chance.get("exact_chance_score_on_valid_tasks", chance.get("exact_chance_score")))
+
+
+def _primary_response_count(release: Mapping[str, Any]) -> int:
+    inputs = release["inputs"]
+    if "primary_responses" in inputs:
+        return int(inputs["primary_responses"]["count"])
+    return int(inputs["panel_1_primary"]["count"]) + int(inputs["panel_2_primary"]["count"])
+
+
+def _repeat_response_count(release: Mapping[str, Any]) -> int:
+    inputs = release["inputs"]
+    if "repeat_responses" in inputs:
+        return int(inputs["repeat_responses"]["count"])
+    return int(inputs["panel_1_repeat"]["count"]) + int(inputs["panel_2_repeat"]["count"])
 
 
 def _tex(value: object) -> str:
@@ -175,7 +218,7 @@ def _ranked_models(release: Mapping[str, Any]) -> list[dict[str, Any]]:
 def _macros(release: Mapping[str, Any], taskset: Mapping[str, Any]) -> str:
     models = _ranked_models(release)
     top = models[0]
-    eligible = [row for row in models if row["eligible"]]
+    eligible = [row for row in models if _scored(row)]
     eligible_ids = {str(row["model_id"]) for row in eligible}
     eligible_pairs = [
         row
@@ -192,32 +235,68 @@ def _macros(release: Mapping[str, Any], taskset: Mapping[str, Any]) -> str:
     above_chance_eligible = sum(
         bool(row["chance_comparison"]["holm_significant_above_chance"]) for row in eligible
     )
-    total_complete = sum(int(row["availability"]["completed"]) for row in models)
-    total_parseable = sum(int(row["availability"]["parseable"]) for row in models)
+    total_complete = sum(int(_coverage(row)["completed"]) for row in models)
+    total_parseable = sum(int(_coverage(row)["parseable"]) for row in models)
+    total_valid = sum(
+        int(_coverage(row).get("valid_scored", _coverage(row)["parseable"])) for row in models
+    )
+    coverage_rates = [
+        int(_coverage(row).get("valid_scored", _coverage(row)["parseable"])) / _scheduled(row)
+        for row in models
+    ]
+    minimum_coverage_index = int(np.argmin(coverage_rates))
     repeat = top["repeatability"]
     top_ci = top["score_simultaneous_95_ci"]
     definitive = release["analysis"]["definitive_top_model_id"]
+    design = release["analysis"].get("design", {})
+    panel_replication = release["analysis"].get("panel_replication") or {}
+    scheduled_tasks = int(taskset["counts"]["tasks"])
+    unique_anchor_clusters = int(design.get("unique_anchor_clusters", scheduled_tasks))
+    shared_anchor_clusters = int(design.get("shared_anchor_clusters", 0))
+    panel_count = int(design.get("panel_count", 1))
+    repeat_tasks_per_model = _repeat_response_count(release) // len(models)
     values = {
         "FBModels": len(models),
-        "FBTasks": taskset["counts"]["tasks"],
+        "FBTasks": scheduled_tasks,
+        "FBTasksPerFamily": scheduled_tasks // len(FAMILIES),
+        "FBPanelCount": panel_count,
+        "FBUniqueAnchors": unique_anchor_clusters,
+        "FBSharedAnchors": shared_anchor_clusters,
+        "FBRepeatTasksPerModel": repeat_tasks_per_model,
+        "FBPanelPearson": (
+            f"{float(panel_replication['model_score_pearson']):.2f}"
+            if panel_replication.get("model_score_pearson") is not None
+            else "--"
+        ),
+        "FBPanelSpearman": (
+            f"{float(panel_replication['model_rank_spearman']):.2f}"
+            if panel_replication.get("model_rank_spearman") is not None
+            else "--"
+        ),
         "FBFamilies": len(FAMILIES),
         "FBSelectionsPerTask": taskset["counts"]["scored_combinations_per_task"],
         "FBPrefrozenScores": taskset["counts"]["total_prefrozen_selection_scores"],
-        "FBPrimaryCells": release["inputs"]["primary_responses"]["count"],
-        "FBRepeatCells": release["inputs"]["repeat_responses"]["count"],
-        "FBTotalCells": (
-            release["inputs"]["primary_responses"]["count"]
-            + release["inputs"]["repeat_responses"]["count"]
-        ),
+        "FBPrimaryCells": _primary_response_count(release),
+        "FBRepeatCells": _repeat_response_count(release),
+        "FBTotalCells": _primary_response_count(release) + _repeat_response_count(release),
         "FBEligibleModels": len(eligible),
         "FBCompletedCells": total_complete,
         "FBParseableCells": total_parseable,
+        "FBValidCells": total_valid,
+        "FBExcludedFailureCells": _primary_response_count(release) - total_valid,
+        "FBMeanCoverage": f"{100 * float(np.mean(coverage_rates)):.1f}",
+        "FBMinimumCoverage": f"{100 * coverage_rates[minimum_coverage_index]:.1f}",
+        "FBMinimumCoverageModel": _short(str(models[minimum_coverage_index]["model_id"])),
         "FBTopModel": _short(str(top["model_id"])),
         "FBTopScore": f"{float(top['flavourbench_score']):.1f}",
         "FBTopCILow": f"{float(top_ci[0]):.1f}",
         "FBTopCIHigh": f"{float(top_ci[1]):.1f}",
         "FBTopGroup": top["statistical_rank_group"],
-        "FBTopRepeat": f"{float(repeat['mean_ingredient_set_jaccard']):.2f}",
+        "FBTopRepeat": (
+            f"{float(repeat['mean_ingredient_set_jaccard']):.2f}"
+            if repeat.get("mean_ingredient_set_jaccard") is not None
+            else "--"
+        ),
         "FBSignificantPairs": significant,
         "FBPairs": len(release["analysis"]["pairwise_comparisons"]),
         "FBSignificantEligiblePairs": significant_eligible,
@@ -235,38 +314,76 @@ def _leaderboard_table(release: Mapping[str, Any]) -> str:
     lines = [
         r"\begin{tabular}{@{}r l r c c r r@{}}",
         r"\toprule",
-        r"Rank & Model & FB Score & simultaneous 95\% CI & group & completed & repeat \\",
+        r"Rank & Model & FB Score & simultaneous 95\% CI & group & coverage & repeat \\",
         r"\midrule",
     ]
     for row in _ranked_models(release):
         ci = row["score_simultaneous_95_ci"]
-        rank = row["point_estimate_rank"] if row["eligible"] else "DNF"
+        rank = row["point_estimate_rank"]
+        coverage = _coverage(row)
+        valid = int(coverage.get("valid_scored", coverage["parseable"]))
+        scheduled = _scheduled(row)
+        repeat_value = row["repeatability"].get("mean_ingredient_set_jaccard")
+        repeat_text = f"{float(repeat_value):.2f}" if repeat_value is not None else "--"
         lines.append(
             f"{rank} & {_tex(_short(str(row['model_id'])))} & "
             f"{float(row['flavourbench_score']):.1f} & "
             f"[{float(ci[0]):.1f}, {float(ci[1]):.1f}] & "
             f"{row['statistical_rank_group'] or '--'} & "
-            f"{row['availability']['completed']}/640 & "
-            f"{float(row['repeatability']['mean_ingredient_set_jaccard']):.2f} \\\\"
+            f"{valid}/{scheduled} & {repeat_text} \\\\"
         )
     lines.extend([r"\bottomrule", r"\end{tabular}"])
     return "\n".join(lines)
 
 
-def _route_table(release: Mapping[str, Any], manifest: Mapping[str, Any]) -> str:
-    by_id = {str(row["model"]["id"]): row for row in manifest["models"]}
+def _route_table(
+    release: Mapping[str, Any],
+    manifest: Mapping[str, Any],
+    *,
+    panel_1_manifest: Mapping[str, Any] | None = None,
+    panel_1_plan: Mapping[str, Any] | None = None,
+    panel_2_plan: Mapping[str, Any] | None = None,
+) -> str:
+    if (panel_1_plan is None) != (panel_2_plan is None):
+        raise PoweredAssetError("panel route plans must be supplied together")
+    if panel_1_plan is not None and panel_2_plan is not None:
+        panel_1_by_id = {str(row["model_id"]): row for row in panel_1_plan["roster"]["models"]}
+        panel_2_by_id = {str(row["model_id"]): row for row in panel_2_plan["roster"]["models"]}
+        route_fields = ("execution_backend", "provider_tag")
+        if set(panel_1_by_id) != set(panel_2_by_id) or any(
+            any(not str(rows[model_id].get(field) or "") for field in route_fields)
+            for rows in (panel_1_by_id, panel_2_by_id)
+            for model_id in rows
+        ):
+            raise PoweredAssetError("panel route plan roster is malformed")
+    else:
+        panel_2_by_id = {str(row["model"]["id"]): row for row in manifest["models"]}
+        panel_1_by_id = (
+            {str(row["model"]["id"]): row for row in panel_1_manifest["models"]}
+            if panel_1_manifest is not None
+            else panel_2_by_id
+        )
     lines = [
-        r"\begin{tabular}{@{}l l l@{}}",
+        r"\begin{tabular}{@{}l l l l@{}}",
         r"\toprule",
-        r"Model & Backend & Frozen route \\",
+        r"Model & Backend & Panel 1 route & Panel 2 route \\",
         r"\midrule",
     ]
     for row in _ranked_models(release):
-        entry = by_id[str(row["model_id"])]
+        model_id = str(row["model_id"])
+        panel_1_entry = panel_1_by_id[model_id]
+        panel_2_entry = panel_2_by_id[model_id]
+        if panel_1_plan is not None:
+            backend = panel_2_entry["execution_backend"]
+            panel_1_route = panel_1_entry["provider_tag"]
+            panel_2_route = panel_2_entry["provider_tag"]
+        else:
+            backend = panel_2_entry["execution_route"]["selected_backend"]
+            panel_1_route = panel_1_entry["endpoint"]["tag"]
+            panel_2_route = panel_2_entry["endpoint"]["tag"]
         lines.append(
-            f"{_tex(_short(str(row['model_id'])))} & "
-            f"{_tex(entry['execution_route']['selected_backend'])} & "
-            f"{_tex(entry['endpoint']['tag'])} \\\\"
+            f"{_tex(_short(model_id))} & {_tex(backend)} & "
+            f"{_tex(panel_1_route)} & {_tex(panel_2_route)} \\\\"
         )
     lines.extend([r"\bottomrule", r"\end{tabular}"])
     return "\n".join(lines)
@@ -281,12 +398,17 @@ def _family_table(release: Mapping[str, Any]) -> str:
     ]
     for row in _ranked_models(release):
         scores = row["family_scores"]
-        values = [float(scores[family]) for family in FAMILIES]
-        lines.append(
-            f"{_tex(_short(str(row['model_id'])))} & "
-            + " & ".join(f"{value:.1f}" for value in values)
-            + r" \\"
-        )
+        coverage = _coverage(row)
+        family_counts = coverage.get("valid_scored_per_family") or {}
+        values = [
+            (
+                f"{float(scores[family]):.1f}"
+                if not family_counts
+                else f"{float(scores[family]):.1f} ({int(family_counts[family])})"
+            )
+            for family in FAMILIES
+        ]
+        lines.append(f"{_tex(_short(str(row['model_id'])))} & " + " & ".join(values) + r" \\")
     lines.extend([r"\bottomrule", r"\end{tabular}"])
     return "\n".join(lines)
 
@@ -382,24 +504,57 @@ def _case_studies(
     recovery_model_id: str | None = None,
     response_sources: Mapping[str, Path] | None = None,
 ) -> tuple[dict[str, Any], str]:
-    rows = [row for row in _ranked_models(release) if row["eligible"]]
+    rows = [row for row in _ranked_models(release) if _scored(row)]
     top = rows[0]
-    lower = rows[-1]
     responses = _response_map(
         run_directory,
-        int(release["inputs"]["primary_responses"]["count"]),
+        len(release["analysis"]["models"]) * len(taskset["tasks"]),
         expected_model_ids={str(row["model_id"]) for row in release["analysis"]["models"]},
         recovery_run_directory=recovery_run_directory,
         recovery_model_id=recovery_model_id,
         response_sources=response_sources,
     )
-    selected_tasks = [
-        sorted(
+
+    def valid_response(model: Mapping[str, Any], task: Mapping[str, Any]) -> bool:
+        response = responses[(str(model["model_id"]), str(task["task_id"]))]
+        return response.get("status") == "completed" and bool(
+            response.get("scoring", {}).get("parseable")
+        )
+
+    lower = next(
+        (
+            model
+            for model in reversed(rows[1:])
+            if all(
+                any(
+                    valid_response(top, task) and valid_response(model, task)
+                    for task in taskset["tasks"]
+                    if task["family"] == family
+                )
+                for family in FAMILIES
+            )
+        ),
+        None,
+    )
+    if lower is None:
+        raise PoweredAssetError("no lower-ranked model has shared valid examples in every family")
+    selected_tasks = []
+    for family in FAMILIES:
+        candidates = sorted(
             (task for task in taskset["tasks"] if task["family"] == family),
             key=lambda task: str(task["task_id"]),
-        )[0]
-        for family in FAMILIES
-    ]
+        )
+        selected = next(
+            (
+                task
+                for task in candidates
+                if valid_response(top, task) and valid_response(lower, task)
+            ),
+            None,
+        )
+        if selected is None:
+            raise PoweredAssetError(f"no shared valid case-study response exists for {family}")
+        selected_tasks.append(selected)
     cases: list[dict[str, Any]] = []
     lines = [
         r"\begin{tabularx}{\linewidth}{@{}l X X X@{}}",
@@ -463,7 +618,7 @@ def _leaderboard_figure(release: Mapping[str, Any], output: Path) -> None:
     scores = np.asarray([row["flavourbench_score"] for row in rows])
     intervals = np.asarray([row["score_simultaneous_95_ci"] for row in rows])
     labels = [_short(str(row["model_id"])) for row in rows]
-    colors = [BLUE if row["eligible"] else "#9AA1AA" for row in rows]
+    colors = [BLUE if _scored(row) else "#9AA1AA" for row in rows]
     figure, axis = plt.subplots(figsize=(7.5, max(7.0, 1.15 + 0.26 * len(rows))))
     y = np.arange(len(rows))
     axis.hlines(y, intervals[:, 0], intervals[:, 1], color=LIGHT, linewidth=6, zorder=1)
@@ -476,8 +631,14 @@ def _leaderboard_figure(release: Mapping[str, Any], output: Path) -> None:
             va="center",
             fontsize=7.5,
         )
-    chance = float(rows[0]["chance_comparison"]["exact_chance_score"])
-    axis.axvline(chance, color=GOLD, linestyle="--", linewidth=1.2, label="Exact chance")
+    chance = float(np.mean([_chance_score(row) for row in rows]))
+    axis.axvline(
+        chance,
+        color=GOLD,
+        linestyle="--",
+        linewidth=1.2,
+        label="Mean exact chance on scored cells",
+    )
     axis.set_yticks(y, labels)
     axis.set_xlabel("FlavourBench Score (0–100)")
     axis.set_title("Frontier models under executable culinary ground truth", loc="left")
@@ -544,7 +705,11 @@ def _pairwise_matrix(release: Mapping[str, Any], output: Path) -> None:
 
 
 def _repeatability_figure(release: Mapping[str, Any], output: Path) -> None:
-    rows = _ranked_models(release)
+    rows = [
+        row
+        for row in _ranked_models(release)
+        if row["repeatability"].get("mean_ingredient_set_jaccard") is not None
+    ]
     x = np.asarray([row["flavourbench_score"] for row in rows])
     y = np.asarray([row["repeatability"]["mean_ingredient_set_jaccard"] for row in rows])
     figure, axis = plt.subplots(figsize=(7.2, 4.7))
@@ -566,6 +731,86 @@ def _repeatability_figure(release: Mapping[str, Any], output: Path) -> None:
     axis.spines[["top", "right"]].set_visible(False)
     axis.legend(frameon=False)
     _save(figure, output / "powered-repeatability-scatter")
+
+
+def _coverage_figure(release: Mapping[str, Any], output: Path) -> None:
+    rows = _ranked_models(release)
+    coverage = np.asarray(
+        [float(_coverage(row).get("valid_scored_rate", 1.0)) * 100 for row in rows]
+    )
+    score = np.asarray([float(row["flavourbench_score"]) for row in rows])
+    intervals = np.asarray([row["score_simultaneous_95_ci"] for row in rows], dtype=float)
+    yerr = np.vstack((score - intervals[:, 0], intervals[:, 1] - score))
+    figure, axis = plt.subplots(figsize=(7.2, 4.8))
+    axis.errorbar(
+        coverage,
+        score,
+        yerr=yerr,
+        fmt="none",
+        ecolor=LIGHT,
+        elinewidth=2.2,
+        capsize=0,
+        zorder=1,
+    )
+    axis.scatter(coverage, score, s=44, c=BLUE, edgecolor="white", linewidth=0.7, zorder=2)
+    for row, x_value, y_value in zip(rows, coverage, score, strict=True):
+        axis.annotate(
+            _short(str(row["model_id"])),
+            (x_value, y_value),
+            xytext=(4, 3),
+            textcoords="offset points",
+            fontsize=6.3,
+        )
+    axis.set_xlabel("Coverage: successful, parseable calls (%)")
+    axis.set_ylabel("FlavourBench Score on scored calls")
+    axis.set_xlim(max(0.0, float(coverage.min()) - 4), 101.5)
+    axis.set_title("Quality and endpoint coverage are separate", loc="left")
+    axis.grid(color="#EFF1F4", linewidth=0.8)
+    axis.spines[["top", "right"]].set_visible(False)
+    _save(figure, output / "powered-score-coverage")
+
+
+def _panel_stability_figure(release: Mapping[str, Any], output: Path) -> None:
+    diagnostic = release["analysis"].get("panel_replication")
+    if not isinstance(diagnostic, Mapping):
+        raise PoweredAssetError("joint release is missing its panel replication diagnostic")
+    rows = list(diagnostic["models"])
+    panel_1 = np.asarray([float(row["panel_1_score"]) for row in rows])
+    panel_2 = np.asarray([float(row["panel_2_score"]) for row in rows])
+    lower = float(min(panel_1.min(), panel_2.min())) - 1.5
+    upper = float(max(panel_1.max(), panel_2.max())) + 1.5
+    figure, axis = plt.subplots(figsize=(6.4, 5.5))
+    axis.plot([lower, upper], [lower, upper], color=LIGHT, linewidth=1.4, zorder=1)
+    axis.scatter(panel_1, panel_2, s=48, c=TEAL, edgecolor="white", linewidth=0.7, zorder=2)
+    for row, x_value, y_value in zip(rows, panel_1, panel_2, strict=True):
+        axis.annotate(
+            _short(str(row["model_id"])),
+            (x_value, y_value),
+            xytext=(4, 3),
+            textcoords="offset points",
+            fontsize=6.3,
+        )
+    axis.set_xlim(lower, upper)
+    axis.set_ylim(lower, upper)
+    axis.set_aspect("equal", adjustable="box")
+    axis.set_xlabel("Panel 1 FlavourBench Score")
+    axis.set_ylabel("Panel 2 FlavourBench Score")
+    axis.set_title("The leaderboard geometry replicates across panels", loc="left")
+    axis.text(
+        0.01,
+        0.99,
+        (
+            f"Pearson $r$={float(diagnostic['model_score_pearson']):.2f}   "
+            f"Spearman $\\rho$={float(diagnostic['model_rank_spearman']):.2f}"
+        ),
+        transform=axis.transAxes,
+        ha="left",
+        va="top",
+        fontsize=8,
+    )
+    axis.grid(color="#EFF1F4", linewidth=0.8)
+    axis.spines[["top", "right"]].set_visible(False)
+    _save(figure, output / "powered-panel-replication")
 
 
 def _inventory(output_directory: Path, generated_directory: Path) -> dict[str, Any]:
@@ -594,7 +839,11 @@ def run(argv: Sequence[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--release", type=Path, required=True)
     parser.add_argument("--taskset", type=Path, required=True)
+    parser.add_argument("--taskset-secondary", type=Path)
     parser.add_argument("--manifest", type=Path, required=True)
+    parser.add_argument("--manifest-panel-1", type=Path)
+    parser.add_argument("--panel-1-plan", type=Path)
+    parser.add_argument("--panel-2-plan", type=Path)
     parser.add_argument("--run-directory", type=Path, required=True)
     parser.add_argument("--recovery-run-directory", type=Path)
     parser.add_argument("--recovery-model-id")
@@ -609,30 +858,98 @@ def run(argv: Sequence[str] | None = None) -> None:
     args = parser.parse_args(argv)
     release = _read_release(args.release)
     taskset = _load(args.taskset)
+    taskset_secondary = _load(args.taskset_secondary) if args.taskset_secondary else None
     manifest = _load(args.manifest)
+    panel_1_manifest = _load(args.manifest_panel_1) if args.manifest_panel_1 else None
+    panel_1_plan = _load(args.panel_1_plan) if args.panel_1_plan else None
+    panel_2_plan = _load(args.panel_2_plan) if args.panel_2_plan else None
+    if (panel_1_plan is None) != (panel_2_plan is None):
+        raise PoweredAssetError("both panel route plans are required together")
     response_sources: dict[str, Path] = {}
     for spec in args.response_source:
         model_id, separator, directory = spec.partition("=")
         if not separator or not model_id or not directory or model_id in response_sources:
             raise PoweredAssetError(f"invalid or duplicate response source: {spec}")
         response_sources[model_id] = Path(directory)
-    if release["inputs"]["taskset"]["semantic_sha256"] != taskset.get("artifact_sha256"):
-        raise PoweredAssetError("release and taskset differ")
-    if release["inputs"]["plan"]["semantic_sha256"] != release["analysis"].get("plan_sha256"):
-        raise PoweredAssetError("release analysis plan binding differs")
+    if release["schema_version"] == "flavourbench-selection-powered-joint-release-v1":
+        joint_inputs = release["inputs"]
+        if taskset_secondary is None:
+            raise PoweredAssetError("joint release requires the second taskset")
+        plan_input = joint_inputs["joint_plan"]
+        if (
+            plan_input["semantic_sha256"] != release["analysis"].get("plan_sha256")
+            or joint_inputs["panel_1_taskset"]
+            != {
+                "semantic_sha256": taskset.get("artifact_sha256"),
+                "physical_sha256": _sha256_file(args.taskset),
+            }
+            or joint_inputs["panel_2_taskset"]
+            != {
+                "semantic_sha256": taskset_secondary.get("artifact_sha256"),
+                "physical_sha256": _sha256_file(args.taskset_secondary),
+            }
+            or (
+                panel_1_plan is not None
+                and joint_inputs["panel_1_plan"]
+                != {
+                    "semantic_sha256": panel_1_plan.get("artifact_sha256"),
+                    "physical_sha256": _sha256_file(args.panel_1_plan),
+                }
+            )
+            or (
+                panel_2_plan is not None
+                and joint_inputs["panel_2_plan"]
+                != {
+                    "semantic_sha256": panel_2_plan.get("artifact_sha256"),
+                    "physical_sha256": _sha256_file(args.panel_2_plan),
+                }
+            )
+            or len(taskset["tasks"]) + len(taskset_secondary["tasks"])
+            != int(release["analysis"]["design"]["scheduled_primary_tasks_per_model"])
+        ):
+            raise PoweredAssetError("joint release plan or task cardinality differs")
+        display_taskset = {
+            "tasks": list(taskset["tasks"]) + list(taskset_secondary["tasks"]),
+            "counts": {
+                "tasks": len(taskset["tasks"]) + len(taskset_secondary["tasks"]),
+                "scored_combinations_per_task": taskset["counts"]["scored_combinations_per_task"],
+                "total_prefrozen_selection_scores": (
+                    int(taskset["counts"]["total_prefrozen_selection_scores"])
+                    + int(taskset_secondary["counts"]["total_prefrozen_selection_scores"])
+                ),
+            },
+        }
+    else:
+        if release["inputs"]["taskset"]["semantic_sha256"] != taskset.get("artifact_sha256"):
+            raise PoweredAssetError("release and taskset differ")
+        if release["inputs"]["plan"]["semantic_sha256"] != release["analysis"].get("plan_sha256"):
+            raise PoweredAssetError("release analysis plan binding differs")
+        display_taskset = taskset
     args.figure_directory.mkdir(parents=True, exist_ok=True)
     args.generated_directory.mkdir(parents=True, exist_ok=True)
     _configure_plots()
-    _write(args.generated_directory / "powered-macros.tex", _macros(release, taskset))
+    _write(
+        args.generated_directory / "powered-macros.tex",
+        _macros(release, display_taskset),
+    )
     _write(
         args.generated_directory / "powered-leaderboard-table.tex",
         _leaderboard_table(release),
     )
-    _write(args.generated_directory / "powered-route-table.tex", _route_table(release, manifest))
+    _write(
+        args.generated_directory / "powered-route-table.tex",
+        _route_table(
+            release,
+            manifest,
+            panel_1_manifest=panel_1_manifest,
+            panel_1_plan=panel_1_plan,
+            panel_2_plan=panel_2_plan,
+        ),
+    )
     _write(args.generated_directory / "powered-family-table.tex", _family_table(release))
     _write(
         args.generated_directory / "powered-task-diagnostics-table.tex",
-        _task_diagnostics_table(taskset),
+        _task_diagnostics_table(display_taskset),
     )
     cases, case_table = _case_studies(
         release,
@@ -651,6 +968,9 @@ def run(argv: Sequence[str] | None = None) -> None:
     _family_heatmap(release, args.figure_directory)
     _pairwise_matrix(release, args.figure_directory)
     _repeatability_figure(release, args.figure_directory)
+    _coverage_figure(release, args.figure_directory)
+    if release["schema_version"] == "flavourbench-selection-powered-joint-release-v1":
+        _panel_stability_figure(release, args.figure_directory)
     inventory = _inventory(args.figure_directory, args.generated_directory)
     inventory.update(
         {
@@ -658,8 +978,34 @@ def run(argv: Sequence[str] | None = None) -> None:
             "release_physical_sha256": _sha256_file(args.release),
             "taskset_semantic_sha256": taskset["artifact_sha256"],
             "taskset_physical_sha256": _sha256_file(args.taskset),
+            "taskset_secondary_semantic_sha256": (
+                taskset_secondary["artifact_sha256"] if taskset_secondary is not None else None
+            ),
+            "taskset_secondary_physical_sha256": (
+                _sha256_file(args.taskset_secondary) if args.taskset_secondary else None
+            ),
             "manifest_semantic_sha256": manifest["content_address"]["digest"],
             "manifest_physical_sha256": _sha256_file(args.manifest),
+            "panel_1_manifest_semantic_sha256": (
+                panel_1_manifest["content_address"]["digest"]
+                if panel_1_manifest is not None
+                else None
+            ),
+            "panel_1_manifest_physical_sha256": (
+                _sha256_file(args.manifest_panel_1) if args.manifest_panel_1 else None
+            ),
+            "panel_1_plan_semantic_sha256": (
+                panel_1_plan["artifact_sha256"] if panel_1_plan is not None else None
+            ),
+            "panel_1_plan_physical_sha256": (
+                _sha256_file(args.panel_1_plan) if args.panel_1_plan else None
+            ),
+            "panel_2_plan_semantic_sha256": (
+                panel_2_plan["artifact_sha256"] if panel_2_plan is not None else None
+            ),
+            "panel_2_plan_physical_sha256": (
+                _sha256_file(args.panel_2_plan) if args.panel_2_plan else None
+            ),
         }
     )
     inventory["artifact_sha256"] = _sha256(inventory)

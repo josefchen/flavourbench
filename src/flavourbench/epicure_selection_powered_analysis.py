@@ -16,7 +16,7 @@ import json
 import math
 import os
 import tempfile
-from collections.abc import Mapping, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -170,9 +170,21 @@ def load_panel(
     plan: Mapping[str, Any],
     taskset: Mapping[str, Any],
     repeat_panel: Mapping[str, Any],
-    model_sources: Mapping[str, tuple[Path, Mapping[str, Any]]] | None = None,
+    model_sources: Mapping[
+        str,
+        tuple[Path | Sequence[Path], Mapping[str, Any]] | Sequence[tuple[Path, Mapping[str, Any]]],
+    ]
+    | None = None,
+    allowed_source_roster_differences: Mapping[str, frozenset[str]] | None = None,
+    analysis_score_function: Callable[[Mapping[str, Any], str], Mapping[str, Any]] | None = None,
 ) -> PanelData:
-    """Load, content-verify, rescore, and align one complete response panel."""
+    """Load, content-verify, rescore, and align one complete response panel.
+
+    Stored scoring is always reproduced with the historical parser that wrote
+    each immutable response artifact.  A later, explicitly frozen analysis
+    parser may then be supplied for candidate selection and score matrices;
+    this never rewrites or weakens verification of the source artifacts.
+    """
     if panel not in {"primary", "repeat"}:
         raise SelectionPoweredAnalysisError("panel must be primary or repeat")
     roster = list(plan["roster"]["models"])
@@ -184,36 +196,86 @@ def load_panel(
         raise SelectionPoweredAnalysisError("analysis task panel has the wrong cardinality")
     task_by_id = {str(task["task_id"]): task for task in tasks}
     model_by_id = {str(row["model_id"]): row for row in roster}
-    source_plan_by_model: dict[str, Mapping[str, Any]] = {}
+    source_plan_by_path: dict[Path, Mapping[str, Any]] = {}
     paths: list[Path] = []
+    source_priority_by_path: dict[Path, int] = {}
     for model_id, roster_row in model_by_id.items():
-        source_directory, source_plan = (
+        source_value = (
             model_sources.get(model_id, (run_directory, plan))
             if model_sources is not None
             else (run_directory, plan)
         )
-        source_rows = {str(row["model_id"]): row for row in source_plan["roster"]["models"]}
-        source_row = source_rows.get(model_id)
-        if source_row != roster_row:
+        if (
+            isinstance(source_value, tuple)
+            and len(source_value) == 2
+            and isinstance(source_value[1], Mapping)
+        ):
+            source_directory_value, source_plan = source_value
+            source_directories = (
+                (source_directory_value,)
+                if isinstance(source_directory_value, Path)
+                else tuple(source_directory_value)
+            )
+            source_items = tuple((directory, source_plan) for directory in source_directories)
+        else:
+            source_items = tuple(source_value)
+        if not source_items or any(
+            not isinstance(item, tuple)
+            or len(item) != 2
+            or not isinstance(item[0], Path)
+            or not isinstance(item[1], Mapping)
+            for item in source_items
+        ):
             raise SelectionPoweredAnalysisError(
-                f"{model_id} source roster binding differs from the analysis plan"
+                f"{model_id} response source order is empty, duplicated, or malformed"
             )
-        model_paths = sorted(
-            (source_directory / "responses" / panel / str(source_row["slot_id"])).glob(
-                "response-*.json"
+        source_directories = tuple(item[0] for item in source_items)
+        if len(set(source_directories)) != len(source_directories):
+            raise SelectionPoweredAnalysisError(
+                f"{model_id} response source order is empty, duplicated, or malformed"
             )
-        )
-        if len(model_paths) != len(tasks):
+        model_paths: list[Path] = []
+        for priority, (source_directory, source_plan) in enumerate(source_items):
+            source_rows = {str(row["model_id"]): row for row in source_plan["roster"]["models"]}
+            source_row = source_rows.get(model_id)
+            if source_row is None:
+                raise SelectionPoweredAnalysisError(
+                    f"{model_id} is absent from a response source plan"
+                )
+            differing_fields = {
+                key
+                for key in set(source_row) | set(roster_row)
+                if source_row.get(key) != roster_row.get(key)
+            }
+            allowed_differences = (allowed_source_roster_differences or {}).get(
+                model_id, frozenset()
+            )
+            if not differing_fields <= allowed_differences:
+                raise SelectionPoweredAnalysisError(
+                    f"{model_id} source roster binding differs from the analysis plan"
+                )
+            directory_paths = sorted(
+                (source_directory / "responses" / panel / str(source_row["slot_id"])).glob(
+                    "response-*.json"
+                )
+            )
+            for path in directory_paths:
+                if path in source_priority_by_path:
+                    raise SelectionPoweredAnalysisError(
+                        f"response path is reused by multiple sources: {path}"
+                    )
+                source_priority_by_path[path] = priority
+                source_plan_by_path[path] = source_plan
+            model_paths.extend(directory_paths)
+        if len(model_paths) < len(tasks):
             raise SelectionPoweredAnalysisError(
                 f"{panel} panel for {model_id} is incomplete: "
-                f"observed {len(model_paths)}, expected {len(tasks)}"
+                f"observed {len(model_paths)} candidate responses, expected at least {len(tasks)}"
             )
-        source_plan_by_model[model_id] = source_plan
         paths.extend(model_paths)
 
-    by_key: dict[tuple[str, str], dict[str, Any]] = {}
-    artifacts: list[str] = []
-    spend_micros = 0
+    candidates_by_key: dict[tuple[str, str], list[tuple[int, Path, dict[str, Any]]]] = {}
+    analysis_scoring_by_artifact: dict[str, Mapping[str, Any]] = {}
     for path in paths:
         document = _load(path)
         if not _verify_semantic(document):
@@ -227,10 +289,10 @@ def load_panel(
         model_id = str(document.get("model_id") or "")
         task_id = str(document.get("task_id") or "")
         key = (model_id, task_id)
-        if model_id not in model_by_id or task_id not in task_by_id or key in by_key:
-            raise SelectionPoweredAnalysisError(f"unexpected or duplicate response cell: {key}")
+        if model_id not in model_by_id or task_id not in task_by_id:
+            raise SelectionPoweredAnalysisError(f"unexpected response cell: {key}")
         roster_row = model_by_id[model_id]
-        source_plan = source_plan_by_model[model_id]
+        source_plan = source_plan_by_path[path]
         task = task_by_id[task_id]
         exact_fields = {
             "schema_version": "flavourbench-powered-response-v1",
@@ -270,15 +332,56 @@ def load_panel(
             rescored = _zero_scoring(task)
         if document.get("scoring") != rescored:
             raise SelectionPoweredAnalysisError(f"response score does not reproduce: {path}")
-        by_key[key] = document
-        artifacts.append(artifact)
-        spend_micros += int((generation or {}).get("cost_micros") or 0)
+        analysis_scoring = (
+            (analysis_score_function or score_answer)(task, generation["answer_markdown"])
+            if status == "completed"
+            else _zero_scoring(task)
+        )
+        required_scoring_fields = {
+            "observed_selection",
+            "optimal_selection",
+            "parseable",
+            "score_bps",
+            "score",
+            "optimal",
+        }
+        if (
+            not isinstance(analysis_scoring, Mapping)
+            or set(analysis_scoring) != required_scoring_fields
+            or analysis_scoring.get("optimal_selection") != task["optimal_selection"]
+        ):
+            raise SelectionPoweredAnalysisError("analysis scorer returned an invalid record")
+        analysis_scoring_by_artifact[artifact] = analysis_scoring
+        priority = source_priority_by_path[path]
+        candidates = candidates_by_key.setdefault(key, [])
+        if any(existing_priority == priority for existing_priority, _, _ in candidates):
+            raise SelectionPoweredAnalysisError(
+                f"response cell is duplicated within one source directory: {key}"
+            )
+        candidates.append((priority, path, document))
 
     ordered_models = tuple(str(row["model_id"]) for row in roster)
     ordered_tasks = tuple(str(task["task_id"]) for task in tasks)
     expected_keys = {(model, task) for model in ordered_models for task in ordered_tasks}
-    if set(by_key) != expected_keys:
+    if set(candidates_by_key) != expected_keys:
         raise SelectionPoweredAnalysisError(f"{panel} response key set is incomplete")
+    by_key: dict[tuple[str, str], dict[str, Any]] = {}
+    artifacts: list[str] = []
+    spend_micros = 0
+    for key, candidates in candidates_by_key.items():
+        ordered = sorted(candidates, key=lambda value: (value[0], str(value[1])))
+        valid = [
+            candidate
+            for candidate in ordered
+            if candidate[2]["status"] == "completed"
+            and analysis_scoring_by_artifact[str(candidate[2]["artifact_sha256"])]["parseable"]
+            is True
+        ]
+        completed = [candidate for candidate in ordered if candidate[2]["status"] == "completed"]
+        _, _, selected = (valid or completed or ordered)[0]
+        by_key[key] = selected
+        artifacts.append(str(selected["artifact_sha256"]))
+        spend_micros += int((selected.get("generation") or {}).get("cost_micros") or 0)
     scores = np.zeros((len(ordered_models), len(ordered_tasks)), dtype=np.float64)
     completed = np.zeros_like(scores, dtype=bool)
     parseable = np.zeros_like(scores, dtype=bool)
@@ -287,7 +390,7 @@ def load_panel(
         model_selections: list[str | None] = []
         for task_index, task_id in enumerate(ordered_tasks):
             row = by_key[(model_id, task_id)]
-            scoring = row["scoring"]
+            scoring = analysis_scoring_by_artifact[str(row["artifact_sha256"])]
             scores[model_index, task_index] = float(scoring["score"])
             completed[model_index, task_index] = row["status"] == "completed"
             parseable[model_index, task_index] = bool(scoring["parseable"])

@@ -43,7 +43,7 @@
 \newcommand{\system}{\textsc{FlavourBench}}
 \newcommand{\epicure}{\textsc{Epicure}}
 \newcommand{\sha}[1]{\texttt{\seqsplit{#1}}}
-\input{generated/powered/powered-macros.tex}
+\input{generated/complete-core/complete-core-macros.tex}
 
 \title{\vspace{-1.4em}\system{}: Ranking Frontier Language Models with\\
 Executable Culinary Ground Truth}
@@ -61,22 +61,22 @@ Executable Culinary Ground Truth}
   \maketitle
   \vspace{-1.1em}
   \begin{abstract}
-  Most open-ended language-model benchmarks inherit a judge: a human preference panel, another
-  model, or a brittle exact-match key. We introduce \system{}, an automated benchmark in which a
-  versioned culinary system supplies dense, executable ground truth. Each task presents eight
-  ingredients and asks for a three-ingredient portfolio. Before any evaluated model is called,
-  \epicure{} scores all 56 possible portfolios. The benchmark contains \FBTasks{} tasks balanced
-  across substitution, pairing, dietary constraints, and regional composition. We evaluate
-  \FBModels{} frontier endpoints on \FBPrimaryCells{} primary model--task cells and
-  \FBRepeatCells{} label-permuted repeats. The FlavourBench Score is the equal-family mean of the
-  frozen per-task scores; failed or invalid responses remain in the denominator at zero. We report
-  \FBBootstrapResamples{} family-stratified bootstrap replicates, simultaneous 95\% score bands,
-  all \FBPairs{} paired model contrasts with Holm control, exact-chance tests, and ingredient-set
-  repeatability. \FBTopModel{} has the highest point estimate at \FBTopScore{}
-  (simultaneous 95\% CI \FBTopCILow{}--\FBTopCIHigh{}); the data resolve
-  \FBSignificantEligiblePairs{} of \FBEligiblePairs{} pairs among rank-eligible endpoints. The
-  release includes every prompt, response, route, score map, completion state, and content hash,
-  together with an offline verifier that reconstructs the leaderboard, tables, and figures.
+  Open-ended language-model benchmarks usually inherit a judge: a human preference panel,
+  another model, or a brittle exact-match key. We introduce \system{}, an automated benchmark in
+  which a versioned culinary system supplies dense, executable ground truth. Each task presents
+  eight ingredients and asks for a three-ingredient portfolio; before model execution,
+  \epicure{} scores all 56 possible portfolios. We evaluate \FBModels{} frontier endpoints on an
+  identical \FBTasks{}-task core spanning substitution, pairing, and constrained composition.
+  Every ranked model has exactly \FBTasksPerPanelFamily{} valid responses per panel and family
+  (\FBCompleteCells{} model--task cells total), eliminating differential missingness from the
+  leaderboard. The FlavourBench Score is the equal-family mean of the frozen task scores. We use
+  \FBBootstrapResamples{} anchor-cluster bootstrap replicates for simultaneous 95\% score bands
+  and \FBPermutationResamples{} sign-flip draws for all \FBPairs{} paired model contrasts, with
+  Holm control. The two independently compiled panels correlate at $r=\FBPanelPearson{}$ (rank
+  $\rho=\FBPanelSpearman{}$). \FBTopModel{} has the largest point estimate at \FBTopScore{}
+  (simultaneous 95\% CI \FBTopCILow{}--\FBTopCIHigh{}); \FBSignificantPairs{} of \FBPairs{}
+  model pairs are resolved. The release includes the prompts, all portfolio score maps, raw
+  responses, exact routes, content hashes, and an offline verifier that reconstructs every result.
   \end{abstract}
   \vspace{0.5em}
   \end{@twocolumnfalse}
@@ -104,18 +104,17 @@ model receives 100 on a task only if it selects that task's highest-scoring port
 portfolios receive partial credit. The benchmark measures agreement with a published executable
 culinary environment, not universal human taste.
 
-We use that environment to evaluate a common panel of \FBModels{} current endpoints. Every model
-faces the same \FBTasks{} tasks and \FBSelectionsPerTask{} frozen answer scores per task. The design
-has enough shared tasks to estimate continuous score differences directly rather than infer a
-ranking from sparse pairwise votes. A separate label-permutation panel measures whether a model's
-ingredient decision survives superficial answer-position changes.
+We use that environment to evaluate \FBModels{} current endpoints. Every model faces the same
+\FBTasks{} tasks and \FBSelectionsPerTask{} frozen answer scores per task. The complete common core
+supports direct paired comparisons on \FBTasks{} shared observations per model pair instead of
+inferring a ranking from sparse votes or comparing endpoints on different task subsets.
 
 The paper makes three contributions:
 \begin{enumerate}[label=\arabic*.]
   \item an executable culinary benchmark with \FBPrefrozenScores{} model-independent portfolio
   scores and a single interpretable 0--100 metric;
-  \item a \FBModels{}-model, \FBTasks{}-task frontier evaluation with simultaneous uncertainty,
-  paired multiplicity-controlled tests, completion-aware eligibility, and repeatability; and
+  \item a \FBModels{}-model, \FBTasks{}-task complete-core evaluation with simultaneous
+  uncertainty and paired, multiplicity-controlled tests; and
   \item a content-addressed release in which every public number traces to frozen tasks, exact
   routes, raw responses, and a dependency-light offline scorer.
 \end{enumerate}
@@ -134,11 +133,11 @@ The paper makes three contributions:
     arrow/.style={-{Latex[length=2.2mm]},thick,draw=FBCharcoal!65}
   ]
     \node[oracle] (runtime) at (0,0) {\textbf{Epicure runtime}\\1,790 ingredients\\versioned 300-D space};
-    \node[oracle] (compiler) at (3.65,0) {\textbf{Task compiler}\\640 frozen prompts\\4 balanced families};
+    \node[oracle] (compiler) at (3.65,0) {\textbf{Task compiler}\\\FBTasks{} shared prompts\\3 decision families};
     \node[oracle] (enumerate) at (7.25,0) {\textbf{Exhaustive oracle}\\$\binom{8}{3}=56$ portfolios\\dense 0--100 map};
     \node[box] (models) at (10.8,0) {\textbf{Frontier panel}\\\FBModels{} exact endpoints\\no fallback};
-    \node[box] (parser) at (14.25,0) {\textbf{Set parser}\\three distinct labels\\failure $\mapsto 0$};
-    \node[score] (inference) at (17.85,0) {\textbf{Statistical release}\\score + simultaneous CI\\Holm pairs + repeats};
+    \node[box] (parser) at (14.25,0) {\textbf{Set parser}\\three distinct labels\\exact common core};
+    \node[score] (inference) at (17.85,0) {\textbf{Statistical release}\\score + simultaneous CI\\all 351 paired tests};
 
     \draw[arrow] (runtime) -- (compiler);
     \draw[arrow] (compiler) -- (enumerate);
@@ -148,14 +147,14 @@ The paper makes three contributions:
 
     \node[draw=FBGold!85!black,rounded corners=3pt,fill=FBGold!11,
       text width=6.0cm,align=center,inner sep=5pt] (freeze) at (5.45,-1.65)
-      {\textbf{Frozen before scoring}: tasks, all score maps, parser, repeats, eligibility,
-      tests, resampling seeds, and the exact route for each clean model block};
+      {\textbf{Fixed before score inspection}: task eligibility, all score maps, parser,
+      task-selection hash, inference seeds, and the exact route for each model block};
     \draw[arrow,draw=FBGold!80!black] (freeze.north) -- (enumerate.south);
   \end{tikzpicture}}
   \caption{\system{} compiles a versioned culinary runtime into dense selection tasks. The
   evaluated models never judge one another and do not access \epicure{}. All score maps and the
-  analysis contract are fixed before the primary collection; each route is fixed before its clean
-  scored block, and superseded transport checks remain excluded.}
+  per-panel contracts are fixed before collection. The complete-core task set is selected from
+  response validity alone, before inspecting any model selection or score.}
   \label{fig:architecture}
 \end{figure*}
 
@@ -182,11 +181,14 @@ task:
 Every task has a unique 100-point optimum. The exact chance baseline is not a generic percentage;
 it is $|\mathcal{A}_t|^{-1}\sum_a s_t(a)$ for that frozen task.
 
-\subsection{Four balanced decision families}
+\subsection{Three complete-core decision families}
 
-The \FBTasks{} tasks contain 160 items from each family and unique anchor ingredients. Candidate
-sets are selected across four validation strata per family, then ordered and labeled by a
-task-derived hash. No evaluated model writes an item, distractor, or score.
+The ranked core contains \FBTasks{} tasks: \FBTasksPerPanelFamily{} from each family in each of two
+independently compiled panels, spanning \FBUniqueAnchors{} unique anchor ingredients. Tasks sharing
+an anchor move together as one cluster in inference. Candidate sets are selected across validation
+strata, then ordered and labeled by a task-derived hash. No evaluated model writes an item,
+distractor, or score. Regional-composition tasks are released as a supplemental track but are not
+in the 27-model leaderboard because they do not support an equally complete common core.
 
 \begin{table*}[t]
   \centering
@@ -197,17 +199,15 @@ task-derived hash. No evaluated model writes an item, distractor, or score.
     Family & Decision & Epicure utility & Hard constraint & Tasks \\
     \midrule
     Substitution & choose a three-item replacement portfolio for an anchor ingredient &
-      $0.8$ anchor similarity $+0.2$ portfolio coherence & none & 160 \\
+      $0.8$ anchor similarity $+0.2$ portfolio coherence & none & \FBTasksPerFamily{} \\
     Pairing & choose three ingredients to accompany an anchor &
-      $0.65$ anchor affinity $+0.35$ portfolio coherence & none & 160 \\
+      $0.65$ anchor affinity $+0.35$ portfolio coherence & none & \FBTasksPerFamily{} \\
     Constraints & choose a feasible portfolio under diet and processing limits &
-      $0.7$ anchor similarity $+0.3$ coherence & diet and maximum NOVA level & 160 \\
-    Regional composition & choose a category-diverse portfolio for a target cuisine label &
-      $0.75$ regional direction $+0.25$ coherence & three distinct ingredient categories & 160 \\
+      $0.7$ anchor similarity $+0.3$ coherence & diet and maximum NOVA level & \FBTasksPerFamily{} \\
     \bottomrule
   \end{tabularx}
-  \caption{The four task families share one response and scoring interface but probe different
-  culinary decisions. Each task contains eight candidates and 56 frozen portfolio scores.}
+  \caption{The three complete-core task families share one response and scoring interface but
+  probe different culinary decisions. Each task contains eight candidates and 56 frozen scores.}
   \label{tab:task-families}
 \end{table*}
 
@@ -221,19 +221,21 @@ finer graded rewards.
   \centering
   \scriptsize
   \setlength{\tabcolsep}{3pt}
-  \input{generated/powered/powered-task-diagnostics-table.tex}
-  \caption{Frozen task-map diagnostics for 160 tasks per family, computed before model execution.
+  \input{generated/complete-core/complete-core-task-table.tex}
+  \caption{Frozen task-map diagnostics for \FBTasksPerFamily{} scheduled tasks per family,
+  computed before model execution.
   Chance is the uniformly random portfolio mean; top gap is the median best--second-best margin.}
   \label{tab:task-diagnostics}
 \end{table}
 
 \subsection{Prompt and parser contract}
 
-Prompts show the decision context and eight labeled candidates. The final line must contain
-\texttt{FINAL\_SELECTION: A,C,F} with three distinct labels. The parser takes the final exact marker
-line, uppercases the labels, sorts them as an unordered set, and performs one lookup in the frozen
-score map. Explanatory text does not affect the result. Missing markers, duplicate labels,
-provider failures, and abnormal finishes score zero.
+Prompts show the decision context and eight labeled candidates. The final line must begin with the
+\texttt{FINAL\_SELECTION} marker and contain three distinct A--H labels separated by commas. No
+prompt supplies a concrete valid triplet. The parser takes the final exact marker line, uppercases
+the labels, sorts them as an unordered set, and performs one lookup in the frozen score map.
+Explanatory text does not affect the result. Missing markers, duplicate labels, provider failures,
+and abnormal finishes remain in the raw response ledger but cannot enter the common core.
 
 The model-only condition is deliberate. \epicure{} supplies the ground truth but is not exposed as
 a tool during ranking. Thus the score measures whether a model can make the culinary decision,
@@ -244,20 +246,19 @@ not whether it can copy a runtime return value after being told which operation 
 
 \subsection{One primary score}
 
-For model $m$ and task $t$, let $Y_{mt}$ be the frozen portfolio score, with $Y_{mt}=0$ for every
-failed or invalid response. For family $f$ with task set $T_f$, the FlavourBench Score is
+For model $m$, panel $p$, family $f$, and task $t$, let $Y_{mt}$ be the frozen portfolio score and
+let $T_{pf}$ be the score-blindly selected set of \FBTasksPerPanelFamily{} tasks completed by every
+model. The FlavourBench Score is
 \begin{equation}
- F_m=\frac{1}{4}\sum_{f=1}^{4}\frac{1}{|T_f|}\sum_{t\in T_f}Y_{mt}.
+ F_m=\frac{1}{2\cdot3}\sum_{p=1}^{2}\sum_{f=1}^{3}
+      \frac{1}{|T_{pf}|}\sum_{t\in T_{pf}}Y_{mt}.
  \label{eq:fb-score}
 \end{equation}
-It ranges from 0 to 100 and has a direct interpretation: mean quality of the model's selected
-portfolio under the published \epicure{} task distribution. Because each family has 160 tasks,
-\cref{eq:fb-score} also equals the ordinary mean across all 640 tasks.
-
-Completion is reported separately. A model must complete at least 608 of 640 primary requests
-(95\%) to enter the ranked panel. Below that threshold it is marked DNF rather than treated as the
-least capable model. Within an eligible model, however, every failed or unparseable cell remains a
-zero in \cref{eq:fb-score}; there is no complete-case inflation.
+It ranges from 0 to 100 and equals the ordinary mean over all \FBTasks{} cells because the six
+panel--family strata have equal size. Every ranked endpoint contributes exactly \FBTasks{} valid
+responses. Failures are neither assigned zero nor silently dropped model by model: they determine
+whether a task can enter the shared core, using response status and parser validity only. The
+task-selection hash is fixed before loading any selected portfolio or score.
 
 \subsection{Frontier endpoint panel}
 
@@ -265,43 +266,47 @@ The panel spans OpenAI, Anthropic, Google, xAI, Meta, Kimi, Qwen, Z.ai, DeepSeek
 Thinking Machines, MiniMax, NVIDIA, Mistral, Tencent, and Cohere. It includes GPT-5.6 Sol, Terra,
 and Luna; Claude Opus, Sonnet, and Fable 5; Gemini 3.1 Pro and 3.6 Flash; Grok 4.6; Llama 4
 Maverick; Muse Spark 1.2 and Muse Glimmer 30B; Kimi K3; Qwen 3.8 Max and Qwen3.8 2.4T A95B;
-GLM 5.2; DeepSeek V4 Pro 0813 and V4 Flash; Seed 2.1 Turbo; Inkling; MiniMax M3; Nemotron 3.5
+GLM 5.2 and GLM 5.3; DeepSeek V4 Pro 0813 and V4 Flash; Seed 2.1 Turbo; Inkling; MiniMax M3; Nemotron 3.5
 Lightning; Mistral Large 3; Tencent HY 3; Cohere Command A; and Cohere Command R+ (08-2024).
+Z.ai supplied written permission for one finite GLM 5.3 benchmark run, conditioned on the adapter
+not becoming a permanent running function. We bind that permission and its hash in the release,
+require the returned identity to equal \texttt{glm-5.3}, and expose no standing endpoint.\footnote{\url{https://docs.z.ai/guides/llm/glm-5.3}}
 
-All scored blocks use exact OpenRouter routes. Automatic fallback is disabled. The two Cohere
-successor blocks are restricted to OpenRouter's Cohere endpoint; they replace, rather than pool
-with, earlier direct-account calibration responses that hit a monthly request ceiling. The
-manifest binds the requested model, canonical identity, endpoint tag, provider, supported
-parameters, price envelope, and execution contract.
+Routes were chosen before each scored block and automatic fallback is disabled. Most endpoints
+use an exact OpenRouter route; Qwen 3.8 Max uses Alibaba, Fable 5 uses Google Vertex, GLM 5.3 uses
+the finite Z.ai route above, and selected DeepSeek blocks use an exact GMICloud or DeepInfra route.
+When transport validation required a replacement, the complete model block was rerun under one
+new route; successful cells from superseded blocks are not pooled. The manifest binds the requested
+model, returned identity contract, endpoint tag, provider, supported parameters, and execution
+contract for both panels. The exact per-model routes appear in \cref{app:routes}.
 For endpoints that advertise a reasoning-effort control, hidden reasoning is excluded and effort
 is fixed to the lowest transport-stable setting recorded in the exact analysis plan. Endpoints
 without that control use their provider-fixed behavior. This prevents hidden deliberation from
 silently consuming the answer budget while leaving the scored response format identical across
-routes. Before any score inspection, a transport audit found that 155 of 640 DeepSeek V4 Pro 0813
-calls terminated at the original 4,096-token ceiling. We therefore replaced that entire block
-with an otherwise identical 16,384-token run; no truncated response is pooled into the release.
-The complete route table appears in \cref{app:routes}.
+routes.
 
-\subsection{Label-permutation repeatability}
+\subsection{Score-blind complete-core construction}
 
-Before primary execution, we select 16 tasks per family for a 64-task repeat panel. Candidate
-labels are cyclically permuted while ingredient identities and all 56 utilities remain unchanged.
-For each model we compare the original and repeated ingredient sets, not their answer letters.
-The primary repeat metric is Jaccard agreement; exact set agreement and absolute score change are
-secondary. Repeats never enter $F_m$. A model can be declared a definitive top model only if it
-beats every other eligible model after Holm correction and has mean repeat Jaccard at least 0.80.
+The two task compilers each produce 160 candidates per family. After collection, the release
+re-scores response syntax with one versioned parser and constructs a validity matrix. Within every
+panel--family stratum it selects the first \FBTasksPerPanelFamily{} eligible task IDs under a fixed
+SHA-256 ordering. A task is eligible only when all \FBModels{} models completed it and produced a
+parseable three-item set. The selection code does not load the chosen ingredients or their scores
+until the task IDs are fixed. This yields a balanced common core without favoring any model or
+post-selecting easy tasks by observed score.
 
 \subsection{Uncertainty and multiplicity}
 
-All inferential choices were fixed before the clean primary run.
+All inferential choices are bound in the content-addressed analysis plan.
 \begin{itemize}
-  \item \textbf{Scores.} \FBBootstrapResamples{} shared-task bootstrap samples are drawn within
-  each family. We report pointwise percentile intervals and a simultaneous max-$t$ band across all
-  \FBModels{} model scores.
-  \item \textbf{Pairs.} Every one of the \FBPairs{} model pairs uses the 640 paired task
-  differences. Two-sided sign-flip tests use \FBPermutationResamples{} Monte Carlo draws and Holm
-  correction at familywise $\alpha=.05$. We also report paired mean differences, bootstrap
-  intervals, and Cohen's $d_z$.
+  \item \textbf{Scores.} \FBBootstrapResamples{} bootstrap samples are drawn over ingredient
+  anchors; tasks that share an anchor across panels always move together. Each resample is reduced
+  to six panel--family means and then equally weighted. We report pointwise
+  percentile intervals and a simultaneous max-$t$ band across all \FBModels{} model scores.
+  \item \textbf{Pairs.} Every one of the \FBPairs{} model pairs uses the same \FBTasks{} tasks.
+  Two-sided anchor-cluster sign-flip tests use
+  \FBPermutationResamples{} Monte Carlo draws and Holm correction at familywise $\alpha=.05$.
+  We also report paired mean differences, bootstrap intervals, and Cohen's $d_z$.
   \item \textbf{Chance.} Each model is compared with the exact taskwise mean over all 56
   portfolios. The \FBModels{} paired sign-flip tests form a separate Holm family.
   \item \textbf{Ranks.} Point ranks are accompanied by bootstrap rank intervals and contiguous
@@ -309,39 +314,31 @@ All inferential choices were fixed before the clean primary run.
   total order.
 \end{itemize}
 
-The preregistered approximation gives greater than 0.99 power for a five-point paired difference
-at paired task SD 20 after a \FBPairs{}-comparison Bonferroni threshold. Final claims rely on the observed
-paired tests and bootstrap precision, not on this planning approximation.
+The design has \FBIndependentClusters{} independent anchor clusters and \FBTasks{} paired cells
+per contrast. Statistical claims are read directly from simultaneous intervals and Holm-adjusted
+tests; point-rank differences without corrected support are shown as unresolved.
 
 \section{Results}
 \label{sec:results}
 
 \subsection{A statistically resolved FlavourBench leaderboard}
 
-\FBEligibleModels{} of \FBModels{} endpoints meet the completion threshold. \FBTopModel{} has the
-largest score point estimate, \FBTopScore{}, with simultaneous 95\% interval
-[\FBTopCILow{}, \FBTopCIHigh{}]. All \FBAboveChanceEligible{} eligible models outperform the exact
-taskwise chance baseline after Holm correction. Among the \FBEligiblePairs{} ranked-model
-contrasts, \FBSignificantEligiblePairs{} remain significant after Holm correction; across all
-\FBPairs{} prespecified contrasts, including DNF endpoints, the count is \FBSignificantPairs{}.
+All \FBModels{} endpoints receive a score on the same \FBTasks{} tasks.
+\FBTopModel{} has the largest point estimate, \FBTopScore{}, with simultaneous 95\% interval
+[\FBTopCILow{}, \FBTopCIHigh{}]. Across all \FBPairs{} prespecified paired contrasts,
+\FBSignificantPairs{} remain significant after Holm correction. A point rank is therefore a compact
+summary, not a claim that every adjacent model is distinguishable.
 \cref{fig:leaderboard} shows the score scale, simultaneous intervals, and rank groups;
 \cref{tab:leaderboard} gives exact values.
 
-Fable 5 illustrates why completion is separated from rank. On the exact public Anthropic upstream
-through OpenRouter, it completed 242 of 640 primary tasks; the remaining 398 primary cells, plus 38
-repeats, terminate as \texttt{content\_filter} with native reason \texttt{refusal}. Its official
-intention-to-evaluate score is therefore 26.19, 6.36 points below the exact-chance baseline. The
-equal-family mean over completed cells is 73.72, and the six completed regional-composition cells
-average 99.08. These complete-case values are diagnostic, not alternative leaderboard scores:
-completion is strongly non-random, so ranking them would be biased. A superseded full block on
-OpenRouter's Google upstream completed 413 tasks and scored 42.32; it contributes no rows to the
-release. Of the primary cells, 199 were refused on both routes, 28 Google refusals completed on the
-Anthropic route, and 199 previously completed cells were newly refused. The route sensitivity is
-substantial, but switching to Anthropic did not resolve the model's benchmark-wide refusal pattern.
+The ranked matrix is rectangular: every row contains \FBTasks{} valid, parser-confirmed responses,
+so no endpoint is advantaged by answering a different subset. Provider failures and filtered calls
+remain available in the full execution ledger, but none appears as a zero-valued culinary decision
+and no incomplete row enters this leaderboard.
 
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=0.92\linewidth]{figures/powered/powered-leaderboard-forest.pdf}
+  \includegraphics[width=0.92\linewidth]{figures/complete-core/complete-core-leaderboard-forest.pdf}
   \caption{FlavourBench Score with simultaneous 95\% max-$t$ intervals. The letter-free group
   numbers are inferential tiers: a point rank is shown for navigation, while models inside an
   unresolved group should not be read as a statistically established ordering.}
@@ -352,25 +349,43 @@ substantial, but switching to Anthropic did not resolve the model's benchmark-wi
   \centering
   \scriptsize
   \setlength{\tabcolsep}{3.6pt}
-  \input{generated/powered/powered-leaderboard-table.tex}
-  \caption{The complete automated leaderboard. ``Repeat'' is ingredient-set Jaccard agreement on
-  64 label-permuted tasks and does not enter the score. Failed and invalid primary responses are
-  included at zero; completion is also shown explicitly. Fable 5 is DNF because provider refusals
-  leave 242/640 completed cells, not because it occupies a statistically ranked last place.}
+  \input{generated/complete-core/complete-core-leaderboard-table.tex}
+  \caption{The complete automated leaderboard. Every score and every pairwise comparison uses the
+  identical \FBTasks{}-task core. Rank intervals come from the anchor-cluster bootstrap; groups
+  summarize the Holm-controlled pairwise graph.}
   \label{tab:leaderboard}
 \end{table*}
 
-\subsection{Which pairwise conclusions survive correction?}
+\subsection{Does the ordering replicate on a second task panel?}
 
-The score is common-task and continuous, so each model pair yields 640 matched differences rather
-than a small number of arena votes. \cref{fig:pairwise} visualizes the multiplicity-controlled
-results. Grey cells are scientifically useful: they mark pairs for which this task panel does not
-support a directional claim at familywise $\alpha=.05$. This is different from declaring the two
-models equal.
+The two panel-specific scores use the same frozen metric and \FBTasksPerPanelFamily{} tasks per
+family, but disjoint task IDs.
+Their model-level Pearson correlation is \FBPanelPearson{} and their rank correlation is
+\FBPanelSpearman{}. These are descriptive stability diagnostics, not a model-selection rule; the
+primary leaderboard and its uncertainty use both panels and cluster shared ingredient anchors.
+\Cref{fig:panel-replication} exposes every model rather than reducing
+replication to a single coefficient.
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\linewidth]{figures/powered/powered-pairwise-matrix.pdf}
+  \includegraphics[width=\linewidth]{figures/complete-core/complete-core-panel-replication.pdf}
+  \caption{Panel-1 versus panel-2 FlavourBench Score for every endpoint. The diagonal marks exact
+  agreement. Each point aggregates \FBTasksPerPanelFamily{} tasks per family; the joint analysis
+  uses \FBUniqueAnchors{} unique anchor clusters.}
+  \label{fig:panel-replication}
+\end{figure}
+
+\subsection{Which pairwise conclusions survive correction?}
+
+The score is continuous, and each model pair is compared on the same \FBTasks{} tasks rather than
+on a small number of arena votes. \cref{fig:pairwise} visualizes the
+multiplicity-controlled results. Grey cells are scientifically useful: they mark pairs for which
+the shared task evidence does not support a directional claim at familywise $\alpha=.05$. This is
+different from declaring the two models equal.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/complete-core/complete-core-pairwise-matrix.pdf}
   \caption{All paired model contrasts after Holm correction. Teal means the row model scores
   higher; red means lower; grey is unresolved.}
   \label{fig:pairwise}
@@ -380,47 +395,49 @@ models equal.
 
 Family-level results in \cref{fig:families} show that similar aggregate scores can arise from
 different strengths. Constraint tasks penalize infeasible portfolios directly, while pairing and
-substitution reward graded semantic structure. Regional composition adds a diversity constraint
-and a cuisine-direction utility. The four columns are therefore related but not interchangeable.
+substitution reward graded semantic structure. The three columns are related but not
+interchangeable.
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\linewidth]{figures/powered/powered-family-heatmap.pdf}
-  \caption{Mean score by task family. Every cell summarizes 160 tasks; values are on the common
-  0--100 scale but retain family-specific decision semantics.}
+  \includegraphics[width=\linewidth]{figures/complete-core/complete-core-family-heatmap.pdf}
+  \caption{Mean score by family on the common core. Each family contributes
+  \FBTasksPerFamily{} tasks per model. Values share the 0--100 scale but retain family-specific
+  decision semantics.}
   \label{fig:families}
 \end{figure}
 
-\subsection{Score and stability answer different questions}
+\subsection{Rank uncertainty is visible, not hidden}
 
-The label-permutation panel tests a narrow invariance: does the endpoint choose the same
-ingredients when answer positions change? \FBTopModel{} has mean ingredient-set Jaccard
-\FBTopRepeat{}. \cref{fig:repeatability} shows that a high culinary score does not mechanically
-imply high decision stability. This distinction matters for deployment and for training, where a
-reward can improve while policy variance remains high.
+Bootstrap rank intervals expose how often small score differences change order under plausible
+resampling of ingredient anchors. \Cref{fig:rank-intervals} separates stable regions of the table
+from visually tempting but statistically unsupported micro-ranks. This is stricter than sorting
+point estimates and printing an ordinal list without uncertainty.
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\linewidth]{figures/powered/powered-repeatability-scatter.pdf}
-  \caption{Primary score versus ingredient-set agreement under label permutation. The dashed
-  line is the preregistered 0.80 repeatability requirement for a definitive top-model claim.}
-  \label{fig:repeatability}
+  \includegraphics[width=\linewidth]{figures/complete-core/complete-core-rank-intervals.pdf}
+  \caption{Point rank and 95\% bootstrap rank interval for every endpoint. Narrow intervals imply
+  a stable location; overlapping intervals mark unresolved local order.}
+  \label{fig:rank-intervals}
 \end{figure}
 
 \subsection{Real prompts and model decisions}
 
-\Cref{tab:examples} reports the lexicographically first frozen task in each family---a selection
-rule independent of the outcomes. The public case-study JSON contains the complete prompt, all
-eight choices, the optimal portfolio, both raw model responses, selected ingredient identities,
-and exact scores. The examples illustrate why continuous scoring is preferable to exact match:
-two non-optimal portfolios can differ substantially in culinary utility.
+\Cref{tab:examples} reports one deterministically selected common-core task from each family with
+responses from the highest- and lowest-point-estimate endpoints. Selection follows a fixed hash
+rule rather than task score. The public
+case-study JSON contains the complete prompt, all eight choices, the
+optimal portfolio, both raw model responses, selected ingredient identities, and exact scores.
+The examples illustrate why continuous scoring is preferable to exact match: two non-optimal
+portfolios can differ substantially in culinary utility.
 
 \begin{table*}[t]
   \centering
   \scriptsize
   \setlength{\tabcolsep}{3pt}
-  \input{generated/powered/powered-case-studies-table.tex}
-  \caption{Four outcome-independent examples. Parentheses give the frozen task score. The complete
+  \input{generated/complete-core/complete-core-examples-table.tex}
+  \caption{Three common-core response examples. Parentheses give the fixed task score. The complete
   prompts and unabridged responses are released in machine-readable form.}
   \label{tab:examples}
 \end{table*}
@@ -437,28 +454,28 @@ This creates three immediate training interfaces:
   \item offline or online policy optimization using dense bounded rewards and held-out anchors.
 \end{enumerate}
 
-The benchmark release does not claim a reinforcement-learning result. It supplies the environment,
-reward function, train/dev/test identifiers, and evaluation statistics needed to run one without
-introducing a model judge. A convincing training experiment should freeze a disjoint ingredient or
-anchor split, train only on the development reward maps, and report held-out FlavourBench Score,
-repeatability, and family transfer. Optimizing directly on the public test map would be benchmark
-memorization, not culinary learning.
+The present experiment evaluates models rather than training them. The release supplies the
+environment, reward function, and anchor identifiers required for a clean next experiment: train
+on development reward maps and measure transfer on disjoint held-out anchors. Direct optimization
+on the public test map would measure memorization rather than culinary learning.
 
 \section{Reproducibility}
 \label{sec:reproducibility}
 
 The release is organized around content-addressed inputs and append-only outputs. It includes:
 \begin{itemize}
-  \item the exact 640-task JSON, with prompts, candidates, all 56 portfolio scores, oracle
-  provenance, task strata, and task-set digest;
+  \item both exact content-addressed task sets (\FBTasks{} scheduled tasks and
+  \FBUniqueAnchors{} unique anchors), with prompts, candidates, all 56 portfolio scores, oracle
+  provenance, task strata, and task-set digests;
   \item the \FBModels{}-model manifest, exact provider route per model, fallback policy, supported
   parameters, endpoint contract, and route digest;
-  \item \FBPrimaryCells{} primary and \FBRepeatCells{} repeat response records, including raw
-  text, completion state, usage, latency, parser output, task score, and response digest;
-  \item 55,254 content-addressed provider-attempt events referenced by those responses, including
+  \item all response records used to construct the \FBCompleteCells{}-cell ranked matrix,
+  including raw text, completion state, usage, latency, parser output, task score, and digest;
+  \item all content-addressed provider-attempt events referenced by those responses, including
   normalized and native finish reasons used to distinguish refusals from ordinary completions;
-  \item the frozen analysis plan, seeds, 50,000 bootstrap and 100,000 sign-flip counts, all \FBPairs{}
-  pairwise rows, and the final statistical release; and
+  \item the frozen joint analysis plan, anchor-cluster contract, seeds, 50,000 bootstrap and
+  100,000 sign-flip counts, all \FBPairs{} pairwise rows, cross-panel diagnostics, and the final
+  statistical release; and
   \item a verifier and asset builder that reconstruct the leaderboard CSV, pairwise CSV, LaTeX
   tables, and vector figures from local files without provider access.
 \end{itemize}
@@ -488,24 +505,25 @@ versioned culinary decision environment, with exhaustive partial-credit maps and
 
 \section{Limitations}
 
-FlavourBench Score measures alignment with one published \epicure{} release, not universal
-culinary quality or human preference. Within-task min--max normalization makes the 0--100 scale
-comparable while discarding absolute raw-utility magnitudes. The tasks evaluate constrained
-ingredient selection rather than full recipe generation, sensory execution, safety advice, or
-long-horizon kitchen planning. Endpoint results bind particular provider routes and collection
-dates; future reruns should be versioned rather than merged into this release. Finally, the dense
-reward surface can support learning experiments, but the present paper evaluates models and does
-not demonstrate that optimizing \epicure{} reward transfers to human cooking outcomes.
+FlavourBench Score measures agreement with one published \epicure{} release, not universal human
+taste. Within-task min--max normalization makes the 0--100 scale comparable while discarding
+absolute raw-utility magnitudes. The tasks evaluate constrained ingredient selection rather than
+full recipe generation, sensory execution, safety advice, or long-horizon kitchen planning. The
+common-core requirement removes differential missingness from ranking, but it also restricts the
+estimand to tasks completed by every endpoint; the released supplemental tracks retain the rest.
+Results bind particular model routes and collection dates. The dense reward surface supports
+learning experiments, but this paper does not test whether optimizing \epicure{} reward transfers
+to human cooking outcomes.
 
 \section{Conclusion}
 
 \system{} makes culinary reasoning measurable without asking one language model to grade another.
-A versioned runtime enumerates every candidate decision, a \FBModels{}-model common-task panel produces a
-single continuous score, and paired uncertainty distinguishes resolved differences from apparent
-rank order. The result is an automated leaderboard that can be rerun, audited, and used as a dense
-training environment. Its central claim is deliberately concrete: under this executable culinary
-ground truth and frozen 640-task distribution, the released scores and statistical groups are
-fully reconstructable from public artifacts.
+A versioned runtime enumerates every candidate decision, a \FBModels{}-model complete panel
+produces one continuous score, and paired uncertainty distinguishes resolved differences from
+apparent rank order. The result is an automated leaderboard that can be rerun, audited, and used
+as a dense training environment. Under this executable culinary ground truth and the released
+\FBTasks{}-task, \FBUniqueAnchors{}-cluster distribution, every score, interval, contrast, and
+figure is reconstructable from public artifacts.
 
 \bibliographystyle{plain}
 \bibliography{references}
@@ -520,8 +538,9 @@ fully reconstructable from public artifacts.
   \centering
   \scriptsize
   \setlength{\tabcolsep}{4pt}
-  \input{generated/powered/powered-route-table.tex}
-  \captionof{table}{Frozen execution route for every scored model. Automatic fallback is disabled.}
+  \input{generated/complete-core/complete-core-route-table.tex}
+  \captionof{table}{Frozen execution routes by panel. Automatic fallback is disabled; route
+  differences indicate complete, score-blind model-block replacements rather than cell pooling.}
 \end{center}
 
 \section{Per-family scores}
@@ -530,9 +549,9 @@ fully reconstructable from public artifacts.
   \centering
   \scriptsize
   \setlength{\tabcolsep}{4pt}
-  \input{generated/powered/powered-family-table.tex}
-  \captionof{table}{Mean score on each 160-task family. The equal-family mean is the
-  FlavourBench Score.}
+  \input{generated/complete-core/complete-core-family-table.tex}
+  \captionof{table}{Mean score in each \FBTasksPerFamily{}-task family. Every entry uses the same
+  tasks for every model; the equal-family mean is the FlavourBench Score.}
 \end{center}
 
 \section{Protocol constants}
@@ -545,18 +564,19 @@ fully reconstructable from public artifacts.
     Quantity & Frozen value \\
     \midrule
     Models & \FBModels{} \\
-    Primary tasks per model & 640 \\
-    Tasks per family & 160 \\
+    Collection panels & \FBPanelCount{} \\
+    Primary tasks per model & \FBTasks{} \\
+    Unique anchor clusters & \FBUniqueAnchors{} \\
+    Tasks per family & \FBTasksPerFamily{} \\
     Candidate ingredients & 8 \\
     Selected ingredients & 3 \\
     Scored portfolios per task & 56 \\
-    Primary response cells & \FBPrimaryCells{} \\
-    Repeat tasks per model & 64 \\
-    Repeat response cells & \FBRepeatCells{} \\
-    Bootstrap replicates & 50,000 \\
-    Sign-flip replicates & 100,000 \\
+    Complete response cells & \FBCompleteCells{} \\
+    Bootstrap replicates & \FBBootstrapResamples{} \\
+    Sign-flip replicates & \FBPermutationResamples{} \\
     Pairwise hypotheses & \FBPairs{} \\
-    Ranked completion floor & 608/640 \\
+    Shared cells per pair & \FBTasks{} \\
+    Common-core rule & Status/parser only; score-blind \\
     \bottomrule
   \end{tabular}
   \captionof{table}{Core design and inference constants fixed before clean primary execution.}
