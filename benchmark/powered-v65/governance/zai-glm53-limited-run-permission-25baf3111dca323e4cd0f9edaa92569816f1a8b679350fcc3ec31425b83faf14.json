@@ -1,0 +1,37 @@
+{
+  "artifact_sha256": "25baf3111dca323e4cd0f9edaa92569816f1a8b679350fcc3ec31425b83faf14",
+  "governed_execution": {
+    "calls_made": 0,
+    "exact_returned_model_required": "glm-5.3",
+    "panel_count": 2,
+    "primary_cells_per_panel": 640,
+    "provider_fallback": false,
+    "repeat_cells_per_panel": 64,
+    "results_observed": 0,
+    "standing_service": false,
+    "status": "authorized_finite_benchmark_only",
+    "total_cells": 1408
+  },
+  "observed_at": "2026-08-15T14:20:47.838560Z",
+  "permission": {
+    "grantee": "Josef Chen",
+    "model_id": "glm-5.3",
+    "permanent_running_function_authorized": false,
+    "permission_quote_sha256": "efd593290cb43649f501243a9a5365d185367ac958371df859a89b76fa4358eb",
+    "provider": "Z.ai",
+    "quote": "Josef Chen can use glm 5.3 fo the purpose of this limited benchmark run so long as it's not a permanent running function",
+    "scope": "one_finite_flavourbench_benchmark_run",
+    "source": "user_attested_zai_slack_message",
+    "user_attested_written_permission": true
+  },
+  "public_documentation": {
+    "anthropic_endpoint": "https://api.z.ai/api/anthropic",
+    "coding_plan_availability_stated": true,
+    "documentation_index_observed_sha256": "60b34406d17fe6804b7c719e96886a8ad30082ada8b2187f85dcbc739cc7c25b",
+    "documentation_index_url": "https://docs.z.ai/llms.txt",
+    "general_api_stated_as_coming_soon": true,
+    "model_page_observed_sha256": "a26f0dc7e1ebb7406fd0b62e15240f70388055142c42d3e433daf8bf3085850a",
+    "model_page_url": "https://docs.z.ai/guides/llm/glm-5.3.md"
+  },
+  "schema_version": "flavourbench-zai-glm53-limited-run-permission-v1"
+}
