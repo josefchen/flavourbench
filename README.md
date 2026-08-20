@@ -137,8 +137,8 @@ No reproduction command calls a model provider.
 | Statistical release | `709452f8cf54ebc1947f2a3c24e6ee19580be1c115ba3a9effbac441de556db4` |
 | Release semantic ID | `0a20655c97aa1363c2266e247f3dd03b759d0f80bca9154c6619c5549b2fac99` |
 | Analysis plan | `17ac5aea6eb25a0c0af440124849c926fdcafaf36956fd2e676f2c70ca80faa6` |
-| Final PDF | `a34a0c14163ee6a17171b46f600a1da281127e2ec7c27dd8556195ca99ba7f20` |
-| arXiv source tarball | `acfa7d8d30f67fdbe9412adffff60d1b7c88f7c13456790d916ac689107f4208` |
+| Final PDF | `e3538932fb3b58a6869793bd5ea3ee8688a9abb06dbdc6536e3ae1c783395fc2` |
+| arXiv source tarball | `50ac9a26b359577111f7217a0b3b4f02131fdf7c247b94b690bc6ff3e937657b` |
 
 ## Repository map
 
