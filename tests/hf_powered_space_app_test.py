@@ -24,16 +24,27 @@ def test_powered_space_loads_and_exposes_score_task_and_pairwise_views(
                 "flavourbench_score": 80.0 - 10 * index,
                 "score_simultaneous_95_ci": [75.0 - 10 * index, 85.0 - 10 * index],
                 "bootstrap_rank_95_interval": [index + 1, index + 1],
-                "availability": {"completed": 640},
-                "repeatability": {"mean_ingredient_set_jaccard": 0.9 - index / 10},
+                "coverage": {
+                    "scheduled": 1,
+                    "valid_scored": 1,
+                    "valid_scored_per_family": {
+                        "substitution": 1,
+                        "pairing": 1,
+                        "constraint": 1,
+                    },
+                },
+                "panel_replication": {
+                    "panel_1": 81.0 - 10 * index,
+                    "panel_2": 79.0 - 10 * index,
+                    "difference": -2.0,
+                },
                 "family_scores": {
                     "substitution": 80.0 - 10 * index,
                     "pairing": 80.0 - 10 * index,
                     "constraint": 80.0 - 10 * index,
-                    "cultural_composition": 80.0 - 10 * index,
                 },
                 "chance_comparison": {"exact_chance_score": 50.0},
-                "provider_name": "Provider",
+                "execution_backend": "provider_direct",
             }
         )
     choices = {label: f"ingredient-{label}" for label in "ABCDEFGH"}
@@ -51,7 +62,11 @@ def test_powered_space_loads_and_exposes_score_task_and_pairwise_views(
             "model_id": model_id,
             "task_id": "task-1",
             "status": "completed",
-            "scoring": {"observed_selection": selection, "score": score},
+            "scoring": {
+                "observed_selection": selection,
+                "score": score,
+                "parseable": True,
+            },
             "answer_excerpt": f"FINAL_SELECTION: {selection}",
             "answer_truncated": False,
             "actual_model_id": f"{model_id}-dated",
@@ -74,11 +89,16 @@ def test_powered_space_loads_and_exposes_score_task_and_pairwise_views(
         }
     ]
     bundle = {
-        "schema_version": "flavourbench-powered-space-bundle-v1",
+        "schema_version": "flavourbench-complete-core-space-bundle-v1",
         "release_artifact_sha256": "a" * 64,
-        "status": "final_complete",
+        "status": "final_complete_common_core",
+        "design": {
+            "panel_count": 2,
+            "unique_anchor_clusters": 1,
+        },
         "analysis": {
             "inference": {"pairwise_hypotheses": 1},
+            "resolved_pair_count": 1,
             "models": models,
             "pairwise_comparisons": pairwise,
         },
@@ -102,9 +122,9 @@ def test_powered_space_loads_and_exposes_score_task_and_pairwise_views(
     assert diagnostic["failed"] == 0
     assert diagnostic["conditional_equal_family_score"] == 100.0
     model_summary, family_frame = module._model_detail("Model 0")
-    assert "100.00" in model_summary
+    assert "80.00" in model_summary
     assert "1/1" in model_summary
-    assert family_frame.loc[0, "Completed-only*"] == 100.0
+    assert family_frame.loc[0, "Score"] == 80.0
     detail = module._task_detail("Model 0", "task-1 | substitution")
     assert "100.00" in detail[0]
     assert "FINAL_SELECTION: ABC" in detail[4]
