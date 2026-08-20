@@ -5,6 +5,8 @@ import hashlib
 import json
 from pathlib import Path
 
+import pytest
+
 from flavourbench.epicure_selection_powered_plan_v83 import (
     CORE_FAMILIES,
     MODEL_COUNT,
@@ -96,6 +98,8 @@ def test_v83_exact_artifact_rebuilds_from_score_blind_fable_validity() -> None:
         "31f45aaf447b9337e07b9b27a75c9706bb6523efec3ad7e2738f76b9fc9d798b"
     )
     assert verify_plan(document)
+    if not all(path.is_dir() for path in (*SOURCE_DIRS_1, *SOURCE_DIRS_2)):
+        pytest.skip("raw response sources are distributed through the Hugging Face dataset")
     assert _build() == document
 
 
