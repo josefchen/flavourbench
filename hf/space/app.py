@@ -4,11 +4,18 @@ import hashlib
 import html
 import json
 import os
+import tempfile
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
 import gradio as gr
 import pandas as pd
+
+try:
+    from lab_api import SpaceLabError, score_completion, score_payload
+except ModuleNotFoundError:  # repository-root imports used by CI
+    from hf.space.lab_api import SpaceLabError, score_completion, score_payload
 
 HERE = Path(__file__).resolve().parent
 BUNDLE_PATH = Path(
@@ -300,6 +307,7 @@ def _load_bundle() -> dict[str, Any]:
 BUNDLE = _load_bundle()
 MODELS = BUNDLE["models"]
 TASKS = BUNDLE["tasks"]
+LAB_TASKS = BUNDLE.get("lab_tasks", [])
 PAIRWISE = BUNDLE["pairwise_comparisons"]
 MODEL_COUNT = len(MODELS)
 TASK_COUNT = len(TASKS)
@@ -311,6 +319,9 @@ PRIMARY_COUNT = MODEL_COUNT * TASK_COUNT
 MODEL_BY_NAME = {str(row["model_name"]): row for row in MODELS}
 MODEL_BY_ID = {str(row["model_id"]): row for row in MODELS}
 TASK_BY_ID = {str(row["task_id"]): row for row in TASKS}
+LAB_TASK_BY_ID = {str(row["task_id"]): row for row in LAB_TASKS}
+if set(TASK_BY_ID) & set(LAB_TASK_BY_ID):
+    raise SpaceDataError("official and training task IDs overlap")
 OBSERVATIONS = {
     (str(row["model_id"]), str(row["task_id"])): row for row in BUNDLE["primary_observations"]
 }
@@ -576,6 +587,106 @@ def _pair_detail(left_name: str, right_name: str) -> str:
     """
 
 
+def _score_completion_api(task_id: str, completion: str) -> dict[str, Any]:
+    """Named Gradio endpoint for one released-map reward lookup."""
+
+    return score_completion(TASK_BY_ID, task_id, completion)
+
+
+def _score_submission_api(payload: str) -> dict[str, Any]:
+    """Named Gradio endpoint for a complete JSON/JSONL response artifact."""
+
+    report, _ = score_payload(TASKS, payload)
+    return report
+
+
+def _training_reward_api(task_id: str, completion: str) -> dict[str, Any]:
+    """Named endpoint for a development-map reward used during training."""
+
+    result = score_completion(LAB_TASK_BY_ID, task_id, completion)
+    task = LAB_TASK_BY_ID[task_id]
+    return {
+        **result,
+        "track": "development_training",
+        "split": task["lab_split"],
+        "family": task["family"],
+        "official_leaderboard_eligible": False,
+    }
+
+
+def _score_upload(
+    artifact_path: str | None,
+    model_name: str,
+    disclosure: str,
+) -> tuple[str, pd.DataFrame, str | None]:
+    """Score one upload without publishing it or changing the leaderboard."""
+
+    if not artifact_path:
+        raise gr.Error("Choose a JSON or JSONL response artifact first.")
+    source = Path(artifact_path)
+    if source.is_symlink() or not source.is_file():
+        raise gr.Error("The upload is not a regular file.")
+    if source.stat().st_size > 16 * 1024 * 1024:
+        raise gr.Error("The upload exceeds 16 MiB.")
+    try:
+        report, per_task = score_payload(TASKS, source.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, SpaceLabError) as error:
+        raise gr.Error(str(error)) from error
+
+    label = " ".join(str(model_name or "").split())[:160] or "Unnamed model"
+    disclosure = " ".join(str(disclosure or "Not disclosed").split())[:240]
+    report["submission"] = {
+        "model_name": label,
+        "method_disclosure": disclosure,
+        "scored_at_utc": datetime.now(UTC).isoformat(),
+        "published_to_leaderboard": False,
+    }
+    report.pop("artifact_sha256", None)
+    report["artifact_sha256"] = hashlib.sha256(_canonical(report)).hexdigest()
+    coverage = report["coverage"]
+    if report["comparable"]:
+        score = float(report["flavourbench_score"])
+        summary = (
+            f"### {label}: {score:.2f}\n\n"
+            f"**Comparable lab score.** All {coverage['tasks']} tasks were present and parseable. "
+            "This result is not added to the public leaderboard automatically."
+        )
+    else:
+        diagnostic = report.get("diagnostic_valid_score")
+        diagnostic_text = f"{float(diagnostic):.2f}" if diagnostic is not None else "unavailable"
+        summary = (
+            f"### {label}: no FlavourBench Score issued\n\n"
+            f"Valid coverage is **{coverage['valid']}/{coverage['tasks']}** "
+            f"({coverage['fraction_valid']:.1%}); {coverage['missing']} missing and "
+            f"{coverage['invalid']} invalid. The valid-only diagnostic is {diagnostic_text}, "
+            "but it is not a comparable leaderboard score."
+        )
+
+    rows = pd.DataFrame(per_task)[
+        ["task_id", "family", "status", "observed_selection", "score", "optimal"]
+    ].rename(
+        columns={
+            "task_id": "Task",
+            "family": "Family",
+            "status": "Status",
+            "observed_selection": "Selection",
+            "score": "Score",
+            "optimal": "Optimal",
+        }
+    )
+    with tempfile.NamedTemporaryFile(
+        mode="w",
+        encoding="utf-8",
+        prefix="flavourbench-report-",
+        suffix=".json",
+        delete=False,
+    ) as handle:
+        json.dump(report, handle, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False)
+        handle.write("\n")
+        report_path = handle.name
+    return summary, rows, report_path
+
+
 theme = gr.themes.Base(
     primary_hue=gr.themes.Color(
         c50="#EAF3FA",
@@ -700,6 +811,72 @@ with gr.Blocks(title="FlavourBench | Executable culinary evaluation") as demo:
                 outputs=[task_status, prompt, choices, score_map, answer, provenance],
             )
 
+        with gr.Tab("Evaluate your model"):
+            gr.HTML(
+                f"""
+                <div class="fb-section">
+                  <h2>Bring a checkpoint or endpoint</h2>
+                  <p>Run the prompts in your own environment, upload the response artifact, and score it here. Credentials and model weights never enter this Space.</p>
+                </div>
+                <div class="fb-evidence">
+                  <strong>Comparable means complete.</strong> A lab score requires one valid answer for every one of the {TASK_COUNT} released tasks. Partial runs receive coverage and per-task diagnostics only.
+                </div>
+                """
+            )
+            with gr.Row():
+                lab_name = gr.Textbox(
+                    label="Model or experiment name",
+                    placeholder="lab/model-name · checkpoint · decoding policy",
+                    scale=2,
+                )
+                lab_disclosure = gr.Dropdown(
+                    choices=[
+                        "Base model; no FlavourBench training",
+                        "Fine-tuned without FlavourBench training data",
+                        "Fine-tuned with FlavourBench lab data or reward",
+                        "Other; disclose in the artifact",
+                    ],
+                    value="Base model; no FlavourBench training",
+                    label="Method disclosure",
+                    scale=2,
+                )
+            lab_upload = gr.File(
+                label="Responses (.jsonl or .json)",
+                file_types=[".jsonl", ".json"],
+                type="filepath",
+            )
+            score_upload = gr.Button("Score artifact", variant="primary")
+            lab_summary = gr.Markdown()
+            lab_rows = gr.Dataframe(
+                interactive=False,
+                wrap=True,
+                show_search="filter",
+                show_row_numbers=False,
+                label="Per-task results",
+            )
+            lab_report = gr.File(label="Download content-addressed report")
+            score_upload.click(
+                _score_upload,
+                inputs=[lab_upload, lab_name, lab_disclosure],
+                outputs=[lab_summary, lab_rows, lab_report],
+                api_name="score_uploaded_submission",
+            )
+            gr.Markdown(
+                """
+The accepted JSONL contract is one object per task:
+
+```json
+{"task_id":"...","status":"completed","response":"FINAL_SELECTION: A,B,C"}
+```
+
+For automation, use the named `score_completion`, `score_submission`, and `training_reward`
+endpoints shown under **Use via API** in the Space footer. `training_reward` accepts only the 426
+development task IDs; it cannot score against the leaderboard by accident. The source repository
+also provides a local runner, scorer, schemas, and TRL recipes. Local reward lookup remains the
+recommended path for high-throughput training.
+                """
+            )
+
         with gr.Tab("Pairwise evidence"):
             gr.HTML(
                 f"""
@@ -731,7 +908,7 @@ with gr.Blocks(title="FlavourBench | Executable culinary evaluation") as demo:
                 f"""
                 <div class="fb-section">
                   <h2>One metric, complete evidence</h2>
-                  <p>The Space makes no model or provider calls.</p>
+                  <p>The Space makes no model or provider calls. Its lab API performs deterministic lookups against the released reward maps.</p>
                 </div>
                 <div class="fb-method">
                   <div>
@@ -767,6 +944,25 @@ make -C paper -f Makefile.powered arxiv
 [Paper](https://github.com/josefchen/flavourbench/blob/main/paper/build/flavourbench.pdf) | [Dataset](https://huggingface.co/datasets/josefchen/flavourbench) | [Source](https://github.com/josefchen/flavourbench)
                 """
             )
+
+    gr.api(
+        _score_completion_api,
+        api_name="score_completion",
+        api_description="Score one completion against one released FlavourBench task.",
+        queue=False,
+    )
+    gr.api(
+        _score_submission_api,
+        api_name="score_submission",
+        api_description="Score a complete response artifact supplied as JSON or JSON Lines text.",
+        queue=False,
+    )
+    gr.api(
+        _training_reward_api,
+        api_name="training_reward",
+        api_description="Return an Epicure-derived dense reward for a development task completion.",
+        queue=False,
+    )
 
     gr.HTML(
         """

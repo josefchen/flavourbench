@@ -10,6 +10,7 @@ from typing import Any
 
 HERE = Path(__file__).resolve().parent
 DEFAULT_DATASET = HERE.parent / "dataset" / "data-complete-core"
+DEFAULT_LAB_DATASET = HERE.parent / "dataset" / "data-lab"
 DEFAULT_OUTPUT = HERE / "data-complete-core" / "flavourbench-complete-core-space.json"
 
 
@@ -52,7 +53,7 @@ def _jsonl(path: Path, *, expected_sha256: str, expected_rows: int) -> list[dict
     return rows
 
 
-def build_bundle(*, dataset_directory: Path) -> dict[str, Any]:
+def build_bundle(*, dataset_directory: Path, lab_dataset_directory: Path) -> dict[str, Any]:
     manifest = _load(dataset_directory / "DATA_MANIFEST.json")
     if (
         not _semantic_valid(manifest)
@@ -87,6 +88,37 @@ def build_bundle(*, dataset_directory: Path) -> dict[str, Any]:
     tasks = rows("tasks.jsonl")
     primary = rows("primary_observations.jsonl")
     pairwise = rows("pairwise_comparisons.jsonl")
+
+    lab_manifest = _load(lab_dataset_directory / "DATA_MANIFEST.json")
+    if (
+        not _semantic_valid(lab_manifest)
+        or lab_manifest.get("schema_version") != "flavourbench-lab-dataset-v1"
+        or lab_manifest.get("status") != "development_reward_maps_not_official_test"
+    ):
+        raise CompleteCoreSpaceBuildError("lab dataset manifest failed verification")
+    lab_records = {str(row["name"]): row for row in lab_manifest["files"]}
+
+    def lab_rows(name: str) -> list[dict[str, Any]]:
+        record = lab_records[name]
+        return _jsonl(
+            lab_dataset_directory / name,
+            expected_sha256=str(record["sha256"]),
+            expected_rows=int(record["rows"]),
+        )
+
+    lab_tasks = [*lab_rows("train_tasks.jsonl"), *lab_rows("validation_tasks.jsonl")]
+    official_ids = {str(row["task_id"]) for row in tasks}
+    official_anchors = {str(row["anchor_ingredient"]) for row in tasks}
+    lab_ids = {str(row["task_id"]) for row in lab_tasks}
+    lab_anchors = {str(row["anchor_ingredient"]) for row in lab_tasks}
+    if (
+        len(lab_tasks) != 426
+        or len(lab_ids) != 426
+        or len(lab_anchors) != 426
+        or lab_ids & official_ids
+        or lab_anchors & official_anchors
+    ):
+        raise CompleteCoreSpaceBuildError("lab and official reward maps are not disjoint")
     compact_observations: list[dict[str, Any]] = []
     for row in primary:
         response = row["response"]
@@ -122,6 +154,15 @@ def build_bundle(*, dataset_directory: Path) -> dict[str, Any]:
         "claim_boundary": release["claim_boundary"],
         "models": models,
         "tasks": tasks,
+        "lab": {
+            "dataset_manifest_sha256": lab_manifest["artifact_sha256"],
+            "status": lab_manifest["status"],
+            "task_count": len(lab_tasks),
+            "train_tasks": int(lab_manifest["counts"]["train_tasks"]),
+            "validation_tasks": int(lab_manifest["counts"]["validation_tasks"]),
+            "official_anchor_overlap": 0,
+        },
+        "lab_tasks": lab_tasks,
         "primary_observations": compact_observations,
         "pairwise_comparisons": pairwise,
     }
@@ -157,10 +198,14 @@ def _write_atomic(path: Path, payload: bytes) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Build the final FlavourBench Space bundle")
     parser.add_argument("--dataset-directory", type=Path, default=DEFAULT_DATASET)
+    parser.add_argument("--lab-dataset-directory", type=Path, default=DEFAULT_LAB_DATASET)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
-    bundle = build_bundle(dataset_directory=args.dataset_directory)
+    bundle = build_bundle(
+        dataset_directory=args.dataset_directory,
+        lab_dataset_directory=args.lab_dataset_directory,
+    )
     payload = _bytes(bundle)
     if args.check:
         if args.output.is_symlink() or not args.output.is_file():

@@ -1,0 +1,94 @@
+{
+  "artifact_sha256": "b7f7d2f6e6dad9b5a526d15ee56e24f6b150e5bd2cd440c38f33092219654970",
+  "contract": {
+    "development_official_anchor_overlap": 0,
+    "direct_optimization_on_official_test_forbidden": true,
+    "dpo_minimum_reward_margin_bps": 500,
+    "primary_families": [
+      "substitution",
+      "pairing",
+      "constraint"
+    ],
+    "train_validation_anchor_overlap": 0
+  },
+  "counts": {
+    "dpo_train": 1368,
+    "dpo_validation": 336,
+    "grpo_train": 342,
+    "grpo_validation": 84,
+    "sft_train": 342,
+    "sft_validation": 84,
+    "supplemental_cultural_composition": 283,
+    "train_tasks": 342,
+    "validation_tasks": 84
+  },
+  "files": [
+    {
+      "bytes": 1451901,
+      "name": "dpo_train.jsonl",
+      "rows": 1368,
+      "sha256": "7a30c01ce98121426117352908b9164599ece89d9da570464f8e9201b7212146"
+    },
+    {
+      "bytes": 358257,
+      "name": "dpo_validation.jsonl",
+      "rows": 336,
+      "sha256": "79227f33b7e54aa49b2c70443c7f93d287608a642199e9a464c73d5f0b6ff06d"
+    },
+    {
+      "bytes": 550086,
+      "name": "grpo_train.jsonl",
+      "rows": 342,
+      "sha256": "2c8e17fee871c8ef4469ed6f8bf4e33207b8d8e134d5f2c7ed370f3ed835d27f"
+    },
+    {
+      "bytes": 135469,
+      "name": "grpo_validation.jsonl",
+      "rows": 84,
+      "sha256": "fe2ae26114204dcfdc1b2102e916829d3a966b7bd7c9cd642157727e7d4609b5"
+    },
+    {
+      "bytes": 326194,
+      "name": "sft_train.jsonl",
+      "rows": 342,
+      "sha256": "71bfb2b12652a5cbb60212e4ca15779d103b7cd5f6c85ce816c3f8ffc65f69a5"
+    },
+    {
+      "bytes": 80531,
+      "name": "sft_validation.jsonl",
+      "rows": 84,
+      "sha256": "6148032042eff85a5fc51091ec1197b17893bf86062f4f295a6a4959c863b464"
+    },
+    {
+      "bytes": 834110,
+      "name": "supplemental_cultural_composition.jsonl",
+      "rows": 283,
+      "sha256": "a6b79cd8eb90d8ce4f16429a5ab5979f734b5d688f97ee542a22da27e6856cdb"
+    },
+    {
+      "bytes": 956186,
+      "name": "train_tasks.jsonl",
+      "rows": 342,
+      "sha256": "a7a9c9d59fab373701b113a0119040890b123c0eba1b78afd66cbff1110c32c2"
+    },
+    {
+      "bytes": 235694,
+      "name": "validation_tasks.jsonl",
+      "rows": 84,
+      "sha256": "c2d8115fdb34d86d7f40a19a737be7e24e7b9dc9d1071fd0cdf6b8fee33333fd"
+    }
+  ],
+  "official_test": {
+    "anchors": 534,
+    "plan_physical_sha256": "17ac5aea6eb25a0c0af440124849c926fdcafaf36956fd2e676f2c70ca80faa6",
+    "plan_semantic_sha256": "2ba71c793c8d4b97eed863ee83fd770b429fdefdffebdeafb241672f634ee507",
+    "tasks": 534
+  },
+  "schema_version": "flavourbench-lab-dataset-v1",
+  "sources": {
+    "panel_1_semantic_sha256": "a33bf28db372090015118371417b0e8ed1254f416d03d2c2c5816a6a752beb41",
+    "panel_2_semantic_sha256": "925ba9d1d4be9c2b7a1e9956ecd6c18d34ffcad22eee28522f16892922c91e3f"
+  },
+  "split_salt": "flavourbench-lab-anchor-split-v1",
+  "status": "development_reward_maps_not_official_test"
+}
