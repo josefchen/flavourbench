@@ -36,6 +36,34 @@ configs:
   data_files:
   - split: test
     path: data-complete-core/pairwise_comparisons.jsonl
+- config_name: lab_tasks
+  data_files:
+  - split: train
+    path: data-lab/train_tasks.jsonl
+  - split: validation
+    path: data-lab/validation_tasks.jsonl
+- config_name: sft
+  data_files:
+  - split: train
+    path: data-lab/sft_train.jsonl
+  - split: validation
+    path: data-lab/sft_validation.jsonl
+- config_name: dpo
+  data_files:
+  - split: train
+    path: data-lab/dpo_train.jsonl
+  - split: validation
+    path: data-lab/dpo_validation.jsonl
+- config_name: grpo
+  data_files:
+  - split: train
+    path: data-lab/grpo_train.jsonl
+  - split: validation
+    path: data-lab/grpo_validation.jsonl
+- config_name: supplemental_cultural_composition
+  data_files:
+  - split: development
+    path: data-lab/supplemental_cultural_composition.jsonl
 ---
 
 # FlavourBench: executable culinary ground truth
@@ -51,6 +79,51 @@ rather than a human or model judge.
 [Paper](https://github.com/josefchen/flavourbench/blob/main/paper/build/flavourbench.pdf) ·
 [Interactive leaderboard](https://huggingface.co/spaces/josefchen/flavourbench) ·
 [Source](https://github.com/josefchen/flavourbench)
+
+## Evaluate or train your own model
+
+The lab kit separates model evaluation from reward training:
+
+- `lab_tasks` contains 342 training tasks and 84 validation tasks with dense Epicure reward maps;
+- those 426 anchors do not occur in the 534-task leaderboard, and train/validation anchors are
+  disjoint from each other;
+- `sft` contains optimal prompt-completion demonstrations and each optimum's runner-up margin;
+- `dpo` contains four deterministic preference pairs per task, each separated by at least five
+  FlavourBench points; and
+- `grpo` contains prompts, choices, and complete reward maps for local online RL.
+
+Load any training view directly with `datasets`:
+
+```python
+from datasets import load_dataset
+
+sft = load_dataset("josefchen/flavourbench", "sft")
+dpo = load_dataset("josefchen/flavourbench", "dpo")
+grpo = load_dataset("josefchen/flavourbench", "grpo")
+```
+
+The runnable [SFT, DPO, and GRPO recipes](https://github.com/josefchen/flavourbench/tree/main/examples/lab)
+push checkpoints to the model owner's Hub account and report metrics through Trackio. GRPO uses the
+local deterministic reward function; it does not make one network request per rollout.
+
+For evaluation, install the SDK and point it at an OpenAI-compatible endpoint, a vLLM server, or a
+local Transformers checkpoint:
+
+```bash
+pip install 'epicure-flavourbench @ git+https://github.com/josefchen/flavourbench.git'
+
+export LAB_MODEL_API_KEY='...'
+flavourbench run \
+  --backend openai-compatible \
+  --base-url https://your-endpoint.example/v1 \
+  --api-key-env LAB_MODEL_API_KEY \
+  --model your-exact-model-id \
+  --responses responses.jsonl \
+  --report report.json
+```
+
+The CLI never stores the key. A comparable score is issued only when every requested task has one
+valid parseable response. Partial runs receive coverage diagnostics but no FlavourBench Score.
 
 ## Dataset contents
 
@@ -94,10 +167,19 @@ common-core estimand because it could not supply the same balanced all-model cel
 `data-complete-core/DATA_MANIFEST.json` binds each table by byte size and SHA-256. It also binds the
 final statistical release and frozen analysis plan.
 
+`data-lab/DATA_MANIFEST.json` independently binds every development and training view. A clean
+source checkout reconstructs it from the two content-addressed tasksets and the frozen common-core
+selection plan:
+
+```bash
+python hf/dataset/build_lab_dataset.py --check
+```
+
 - Dataset manifest: `54331a825da40ab90c8e13fc971d47fe4eb94e5f23cf87ec70131fe5e3807e05`
 - Release semantic ID: `0a20655c97aa1363c2266e247f3dd03b759d0f80bca9154c6619c5549b2fac99`
 - Release file SHA-256: `709452f8cf54ebc1947f2a3c24e6ee19580be1c115ba3a9effbac441de556db4`
 - Analysis plan semantic ID: `2ba71c793c8d4b97eed863ee83fd770b429fdefdffebdeafb241672f634ee507`
+- Lab dataset semantic ID: `b7f7d2f6e6dad9b5a526d15ee56e24f6b150e5bd2cd440c38f33092219654970`
 
 Verify the downloaded export without provider access:
 
@@ -128,6 +210,10 @@ released reward surface, not general intelligence, food safety, or sensory prefe
 Prompts, candidate sets, derived tables, and original figures are CC BY 4.0. Model responses retain
 their provider terms. The underlying Epicure ingredient data and embeddings are not redistributed.
 See the repository [rights boundary](https://github.com/josefchen/flavourbench/blob/main/LICENSES.md).
+The evaluation and training software is Apache-2.0.
+
+Josef Chen is a Cohere Labs Catalyst Grant recipient. This acknowledgement does not imply Cohere
+endorsement of FlavourBench, Epicure, the protocol, or any model ranking.
 
 ## Citation
 

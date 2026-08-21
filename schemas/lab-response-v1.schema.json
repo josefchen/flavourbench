@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/josefchen/flavourbench/schemas/lab-response-v1.schema.json",
+  "title": "FlavourBench lab response",
+  "type": "object",
+  "required": ["task_id"],
+  "properties": {
+    "schema_version": {
+      "const": "flavourbench-lab-response-v1"
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": ["completed", "success", "ok", "failed"]
+    },
+    "response": {
+      "type": ["string", "null"]
+    },
+    "completion": {
+      "type": ["string", "null"]
+    },
+    "answer": {
+      "type": ["string", "null"]
+    },
+    "answer_markdown": {
+      "type": ["string", "null"]
+    },
+    "model": {
+      "type": "string"
+    }
+  },
+  "anyOf": [
+    {"required": ["response"]},
+    {"required": ["completion"]},
+    {"required": ["answer"]},
+    {"required": ["answer_markdown"]}
+  ],
+  "additionalProperties": true
+}

@@ -4,14 +4,21 @@ build-backend = "hatchling.build"
 
 [project]
 name = "epicure-flavourbench"
-version = "0.1.0"
-description = "Governed, Epicure-powered culinary LLM arena and uplift benchmark"
+version = "0.2.0"
+description = "Executable culinary evaluation and dense reward training for language models"
 requires-python = ">=3.12"
+license = { file = "LICENSE" }
+authors = [
+  { name = "Josef Chen" },
+  { name = "Erim Hayretci" },
+]
+keywords = ["benchmark", "culinary", "evaluation", "llm", "reinforcement-learning"]
 dependencies = [
   "alembic>=1.13,<2",
   "arena-rank==0.1.1",
   "cryptography==50.0.0",
   "fastapi>=0.115,<1",
+  "huggingface-hub>=1,<2",
   "httpx>=0.27,<1",
   "numpy>=1.26,<3",
   "pandas>=2,<4",
@@ -30,6 +37,19 @@ bedrock = [
 distributed = [
   "modal==1.5.3",
 ]
+training = [
+  "accelerate>=1.14,<2",
+  "datasets>=5,<6",
+  "peft>=0.20,<1",
+  "trackio>=0.35,<1",
+  "transformers>=5.15,<6",
+  "trl>=1.10,<2",
+]
+transformers = [
+  "accelerate>=1.14,<2",
+  "torch>=2.6,<3",
+  "transformers>=5.15,<6",
+]
 dev = [
   "ipykernel>=6.29,<8",
   "jsonschema>=4.23,<5",
@@ -42,6 +62,7 @@ dev = [
 ]
 
 [project.scripts]
+flavourbench = "flavourbench.lab_cli:main"
 flavourbench-api = "flavourbench.main:run"
 flavourbench-worker = "flavourbench.worker:run"
 flavourbench-seed = "flavourbench.seed:run"
@@ -132,6 +153,12 @@ flavourbench-verify-research-release = "flavourbench.research_release:verify_run
 flavourbench-inventory-epicure-lineage = "flavourbench.epicure_lineage_inventory:run"
 flavourbench-audit-epicure-candidate-lineage = "flavourbench.epicure_candidate_lineage:run"
 flavourbench-freeze-reasoning-sensitivity = "flavourbench.reasoning_effort_sensitivity:run"
+
+[project.urls]
+Homepage = "https://github.com/josefchen/flavourbench"
+Dataset = "https://huggingface.co/datasets/josefchen/flavourbench"
+Leaderboard = "https://huggingface.co/spaces/josefchen/flavourbench"
+Paper = "https://github.com/josefchen/flavourbench/blob/main/paper/build/flavourbench.pdf"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/flavourbench"]

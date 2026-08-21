@@ -20,6 +20,11 @@ records. It must not contain:
 
 Test credentials are syntactically fake and must remain unmistakably marked as non-real.
 
+The public Hugging Face Space accepts response artifacts only. Do not upload API keys, private
+prompts, model weights, or provider configuration. Space scoring performs local reward-map lookups
+and never calls a model provider. The command-line runner reads credentials only from a named
+environment variable and deliberately omits them from response and report artifacts.
+
 ## Supported versions
 
 The default branch is the only supported public research snapshot until versioned releases begin.

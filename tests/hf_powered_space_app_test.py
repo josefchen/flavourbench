@@ -51,6 +51,7 @@ def test_powered_space_loads_and_exposes_score_task_and_pairwise_views(
     task = {
         "task_id": "task-1",
         "family": "substitution",
+        "anchor_ingredient": "official-anchor",
         "prompt": "Choose three ingredients.",
         "prompt_sha256": "1" * 64,
         "choices": choices,
@@ -106,6 +107,14 @@ def test_powered_space_loads_and_exposes_score_task_and_pairwise_views(
         "tasks": [task],
         "primary_observations": observations,
         "pairwise_comparisons": pairwise,
+        "lab_tasks": [
+            {
+                **task,
+                "task_id": "lab-task-1",
+                "anchor_ingredient": "training-anchor",
+                "lab_split": "train",
+            }
+        ],
     }
     bundle["artifact_sha256"] = hashlib.sha256(_canonical(bundle)).hexdigest()
     path = tmp_path / "bundle.json"
@@ -129,3 +138,12 @@ def test_powered_space_loads_and_exposes_score_task_and_pairwise_views(
     assert "100.00" in detail[0]
     assert "FINAL_SELECTION: ABC" in detail[4]
     assert "distinguishable" in module._pair_detail("Model 0", "Model 1")
+    assert module._score_completion_api("task-1", "FINAL_SELECTION: A,B,C")["reward"] == 1.0
+    training_reward = module._training_reward_api("lab-task-1", "FINAL_SELECTION: A,B,C")
+    assert training_reward["reward"] == 1.0
+    assert training_reward["official_leaderboard_eligible"] is False
+    endpoints = module.demo.get_api_info()["named_endpoints"]
+    assert "/score_completion" in endpoints
+    assert "/score_submission" in endpoints
+    assert "/score_uploaded_submission" in endpoints
+    assert "/training_reward" in endpoints
