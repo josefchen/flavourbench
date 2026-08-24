@@ -1,0 +1,37 @@
+#cloud-config
+# Rendered by lambda_cloud/controller.py from a frozen manifest. Do not edit on-instance.
+write_files:
+  - path: /opt/flavourbench/deployment-manifest.json
+    owner: root:root
+    permissions: "0444"
+    encoding: b64
+    content: __MANIFEST_B64__
+  - path: /opt/flavourbench/gateway.py
+    owner: root:root
+    permissions: "0444"
+    encoding: b64
+    content: __GATEWAY_B64__
+  - path: /opt/flavourbench/vllm-args.json
+    owner: root:root
+    permissions: "0444"
+    encoding: b64
+    content: __VLLM_ARGS_B64__
+  - path: /etc/flavourbench/runtime.env
+    owner: root:root
+    permissions: "0600"
+    encoding: b64
+    content: __RUNTIME_ENV_B64__
+  - path: /usr/local/sbin/flavourbench-gpu-start
+    owner: root:root
+    permissions: "0750"
+    encoding: b64
+    content: __START_SCRIPT_B64__
+  - path: /etc/systemd/system/flavourbench-gpu.service
+    owner: root:root
+    permissions: "0444"
+    encoding: b64
+    content: __SYSTEMD_UNIT_B64__
+runcmd:
+  - [mkdir, -p, /var/lib/flavourbench/huggingface]
+  - [systemctl, daemon-reload]
+  - [systemctl, enable, --now, flavourbench-gpu.service]

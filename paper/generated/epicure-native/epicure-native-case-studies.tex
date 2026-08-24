@@ -1,0 +1,75 @@
+\paragraph{Case 1: Substitution with GPT-5.6 Sol Pro.}
+\textbf{Prompt.} FlavourBench Epicure-native exact task. Use the read-only culinary evidence tools if they are available; otherwise answer from your own knowledge.
+
+According to Epicure's `neighbors` result for `tomato` with top\_k=4, which ingredient is ranked first?
+
+Choices:
+A. oregano
+B. bell\_pepper
+C. olive\_oil
+D. onion
+
+In your final answer, explain briefly if useful and finish on its own line with exactly `FINAL\_CHOICE: X`, replacing X with A, B, C, or D.
+
+\textbf{Model only.} \texttt{FINAL\_CHOICE: D} \quad \textbf{Model + Epicure.} \texttt{FINAL\_CHOICE: B}
+
+\textbf{Epicure call.} \texttt{neighbors}\allowbreak\texttt{(\{"ingredient": "tomato", "top\_k": 4\})}. The answer key is \texttt{FINAL\_CHOICE: B}.
+
+\textbf{Epicure result.} {\ttfamily\footnotesize\sloppy \{"ingredient": "tomato", "neighbors": [\{"name": "bell\_pepper", "rank": 1, "sim": 0.4799\}, \{"name": "olive\_oil", "rank": 2, "sim": 0.4786\}, \{"name": "oregano", "rank": 3, "sim": 0.4646\}, \{"name": "onion", "rank": 4, "sim": 0.4567\}]\}}
+
+\paragraph{Case 2: Composition with DeepSeek V4 Pro.}
+\textbf{Prompt.} FlavourBench Epicure-native exact task. Use the read-only culinary evidence tools if they are available; otherwise answer from your own knowledge.
+
+What exact four-decimal `pairing\_score` does Epicure return for `tomato` and `basil`?
+
+Choices:
+A. 0.2707
+B. 0.2407
+C. 0.3207
+D. 0.1907
+
+In your final answer, explain briefly if useful and finish on its own line with exactly `FINAL\_CHOICE: X`, replacing X with A, B, C, or D.
+
+\textbf{Model only.} \texttt{FINAL\_CHOICE: B} \quad \textbf{Model + Epicure.} \texttt{FINAL\_CHOICE: A}
+
+\textbf{Epicure call.} \texttt{pairing\_score}\allowbreak\texttt{(\{"ingredient\_a": "tomato", "ingredient\_b": "basil"\})}. The answer key is \texttt{FINAL\_CHOICE: A}.
+
+\textbf{Epicure result.} {\ttfamily\footnotesize\sloppy \{"all\_pairs\_range": \{"median": 0.092, "p10": 0.0197, "p25": 0.0521, "p75": 0.1392, "p90": 0.1899\}, "pairing\_score": 0.2707, "percentile\_label": "very high (>=p90)", "resolved\_a": "tomato", "resolved\_b": "basil"\}}
+
+\paragraph{Case 3: Cookability with GPT-5.6 Sol Pro.}
+\textbf{Prompt.} FlavourBench Epicure-native exact task. Use the read-only culinary evidence tools if they are available; otherwise answer from your own knowledge.
+
+Which statement matches Epicure's `compare\_on\_axis` result for `coffee` versus `chocolate` on `cf\_bitter`?
+
+Choices:
+A. coffee has the higher projection
+B. the projections are equal to four decimals
+C. Epicure cannot resolve one or both ingredients
+D. chocolate has the higher projection
+
+In your final answer, explain briefly if useful and finish on its own line with exactly `FINAL\_CHOICE: X`, replacing X with A, B, C, or D.
+
+\textbf{Model only.} \texttt{FINAL\_CHOICE: A} \quad \textbf{Model + Epicure.} \texttt{FINAL\_CHOICE: D}
+
+\textbf{Epicure call.} \texttt{compare\_on\_axis}\allowbreak\texttt{(\{"axis": "cf\_bitter", "ingredient\_a": "coffee", "ingredient\_b": "chocolate"\})}. The answer key is \texttt{FINAL\_CHOICE: D}.
+
+\textbf{Epicure result.} {\ttfamily\footnotesize\sloppy \{"axis": "cf\_bitter", "axis\_range": \{"p10": -0.0877, "p90": 0.1429\}, "delta": 0.0835, "label\_a": "moderate", "label\_b": "high", "projection\_a": 0.0076, "projection\_b": 0.0911, "resolved\_a": "coffee", "resolved\_b": "chocolate"\}}
+
+\paragraph{Case 4: Evidence with Grok 4.5.}
+\textbf{Prompt.} FlavourBench Epicure-native exact task. Use the read-only culinary evidence tools if they are available; otherwise answer from your own knowledge.
+
+Which cuisine direction has the highest cosine score in Epicure's `cultural\_profile` result for `miso`?
+
+Choices:
+A. Japanese
+B. East\_Asian
+C. Southeast\_Asian
+D. South\_Asian
+
+In your final answer, explain briefly if useful and finish on its own line with exactly `FINAL\_CHOICE: X`, replacing X with A, B, C, or D.
+
+\textbf{Model only.} \texttt{\{"name": "cultural\_profile", "arguments": \{"ingredient": "miso"\}\}} \quad \textbf{Model + Epicure.} \texttt{FINAL\_CHOICE: A}
+
+\textbf{Epicure call.} \texttt{cultural\_profile}\allowbreak\texttt{(\{"ingredient": "miso"\})}. The answer key is \texttt{FINAL\_CHOICE: A}.
+
+\textbf{Epicure result.} {\ttfamily\footnotesize\sloppy \{"cuisines": \{"East\_Asian": \{"range": \{"p10": -0.1649, "p90": 0.3039\}, "score": 0.1625\}, "Eastern\_European": \{"range": \{"p10": -0.1466, "p90": 0.1034\}, "score": -0.1494\}, "Japanese": \{"range": \{"p10": -0.1359, "p90": 0.1896\}, "score": 0.3227\}, "Latin\_American": \{"range": \{"p10": -0.1672, "p90": 0.1281\}, "score": -0.1538\}, "Mediterranean": \{"range": \{"p10": -0.2323, "p90": 0.206\}, "score": -0.1198\}, "South\_Asian": \{"range": \{"p10": -0.0808, "p90": 0.071\}, "score": -0.0585\}, "Southeast\_Asian": \{"range": \{"p10": -0.1625, "p90": 0.193\}, "score": 0.0426\}, "Western\_Atlantic": \{"range": \{"p10": -0.2304, "p90": 0.183\}, "score": -0.1546\}\}, "note": "Cosine similarity to each cuisine direction. Use p10/p90 to judge whether a score is typical or extreme.", "resolved": "miso"\}}

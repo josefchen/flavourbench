@@ -1,0 +1,4598 @@
+{
+  "analysis": {
+    "definitive_top_model_id": null,
+    "estimand": "equal-family macro mean Epicure selection score from 0 to 100",
+    "inference": {
+      "bootstrap_resamples": 50000,
+      "chance_hypotheses": 20,
+      "familywise_alpha": 0.05,
+      "max_t_critical_value": 2.916310864191182,
+      "pairwise_hypotheses": 190,
+      "permutation_resamples": 100000,
+      "seed": 20260811
+    },
+    "intention_to_evaluate": true,
+    "models": [
+      {
+        "availability": {
+          "completed": 640,
+          "completion_rate": 1.0,
+          "parseable": 640,
+          "parseable_rate": 1.0,
+          "scheduled": 640
+        },
+        "bootstrap_rank_95_interval": [
+          1,
+          6
+        ],
+        "chance_comparison": {
+          "bootstrap_95_ci": [
+            37.23299140624997,
+            41.60362773437499
+          ],
+          "exact_chance_score": 32.551703124999996,
+          "holm_p": 0.00019999800001999982,
+          "holm_significant_above_chance": true,
+          "mean_difference": 39.437765625000004,
+          "sign_flip_p": 9.99990000099999e-06
+        },
+        "eligible": true,
+        "family_scores": {
+          "constraint": 50.73481250000001,
+          "cultural_composition": 98.83587499999996,
+          "pairing": 70.53225,
+          "substitution": 67.8549375
+        },
+        "flavourbench_score": 71.98946874999999,
+        "model_id": "openai/gpt-5.6-sol-pro",
+        "model_name": "OpenAI: GPT-5.6 Sol Pro",
+        "point_estimate_rank": 3,
+        "repeatability": {
+          "completed": 62,
+          "exact_ingredient_set_match_rate": 0.78125,
+          "jaccard_pointwise_95_ci": [
+            0.7953125,
+            0.921875
+          ],
+          "mean_absolute_score_difference": 8.655312499999999,
+          "mean_ingredient_set_jaccard": 0.8625,
+          "model_id": "openai/gpt-5.6-sol-pro",
+          "parseable": 62,
+          "tasks": 64
+        },
+        "score_pointwise_95_ci": [
+          69.80568515625,
+          74.158405859375
+        ],
+        "score_simultaneous_95_ci": [
+          68.74965178722263,
+          75.22928571277734
+        ],
+        "score_standard_error": 1.1109299089333868,
+        "slot_id": "frontier-refresh-01",
+        "statistical_rank_group": 1
+      },
+      {
+        "availability": {
+          "completed": 640,
+          "completion_rate": 1.0,
+          "parseable": 640,
+          "parseable_rate": 1.0,
+          "scheduled": 640
+        },
+        "bootstrap_rank_95_interval": [
+          2,
+          8
+        ],
+        "chance_comparison": {
+          "bootstrap_95_ci": [
+            36.76393476562498,
+            41.117328906249966
+          ],
+          "exact_chance_score": 32.551703124999996,
+          "holm_p": 0.00019999800001999982,
+          "holm_significant_above_chance": true,
+          "mean_difference": 38.9304375,
+          "sign_flip_p": 9.99990000099999e-06
+        },
+        "eligible": true,
+        "family_scores": {
+          "constraint": 50.37493750000001,
+          "cultural_composition": 98.53906249999997,
+          "pairing": 70.28675000000001,
+          "substitution": 66.72781250000001
+        },
+        "flavourbench_score": 71.482140625,
+        "model_id": "openai/gpt-5.6-terra-pro",
+        "model_name": "OpenAI: GPT-5.6 Terra Pro",
+        "point_estimate_rank": 4,
+        "repeatability": {
+          "completed": 62,
+          "exact_ingredient_set_match_rate": 0.65625,
+          "jaccard_pointwise_95_ci": [
+            0.7265625,
+            0.8671875
+          ],
+          "mean_absolute_score_difference": 13.239062500000001,
+          "mean_ingredient_set_jaccard": 0.7984375,
+          "model_id": "openai/gpt-5.6-terra-pro",
+          "parseable": 62,
+          "tasks": 64
+        },
+        "score_pointwise_95_ci": [
+          69.31367734374999,
+          73.66297460937497
+        ],
+        "score_simultaneous_95_ci": [
+          68.26592934630047,
+          74.69835190369953
+        ],
+        "score_standard_error": 1.1028355441084043,
+        "slot_id": "frontier-refresh-02",
+        "statistical_rank_group": 1
+      },
+      {
+        "availability": {
+          "completed": 639,
+          "completion_rate": 0.9984375,
+          "parseable": 639,
+          "parseable_rate": 0.9984375,
+          "scheduled": 640
+        },
+        "bootstrap_rank_95_interval": [
+          7,
+          13
+        ],
+        "chance_comparison": {
+          "bootstrap_95_ci": [
+            34.441960546875,
+            38.79386523437499
+          ],
+          "exact_chance_score": 32.551703124999996,
+          "holm_p": 0.00019999800001999982,
+          "holm_significant_above_chance": true,
+          "mean_difference": 36.60756249999999,
+          "sign_flip_p": 9.99990000099999e-06
+        },
+        "eligible": true,
+        "family_scores": {
+          "constraint": 45.120125000000016,
+          "cultural_composition": 98.37199999999996,
+          "pairing": 65.7286875,
+          "substitution": 67.41625000000002
+        },
+        "flavourbench_score": 69.159265625,
+        "model_id": "openai/gpt-5.6-luna-pro",
+        "model_name": "OpenAI: GPT-5.6 Luna Pro",
+        "point_estimate_rank": 10,
+        "repeatability": {
+          "completed": 62,
+          "exact_ingredient_set_match_rate": 0.484375,
+          "jaccard_pointwise_95_ci": [
+            0.65625,
+            0.78125
+          ],
+          "mean_absolute_score_difference": 15.4409375,
+          "mean_ingredient_set_jaccard": 0.71875,
+          "model_id": "openai/gpt-5.6-luna-pro",
+          "parseable": 62,
+          "tasks": 64
+        },
+        "score_pointwise_95_ci": [
+          66.99474257812498,
+          71.35140195312499
+        ],
+        "score_simultaneous_95_ci": [
+          65.91971335802762,
+          72.39881789197239
+        ],
+        "score_standard_error": 1.1108391450137276,
+        "slot_id": "frontier-refresh-03",
+        "statistical_rank_group": 2
+      },
+      {
+        "availability": {
+          "completed": 638,
+          "completion_rate": 0.996875,
+          "parseable": 629,
+          "parseable_rate": 0.9828125,
+          "scheduled": 640
+        },
+        "bootstrap_rank_95_interval": [
+          17,
+          19
+        ],
+        "chance_comparison": {
+          "bootstrap_95_ci": [
+            25.320191015624992,
+            29.94364531249998
+          ],
+          "exact_chance_score": 32.551703124999996,
+          "holm_p": 0.00019999800001999982,
+          "holm_significant_above_chance": true,
+          "mean_difference": 27.620203125,
+          "sign_flip_p": 9.99990000099999e-06
+        },
+        "eligible": true,
+        "family_scores": {
+          "constraint": 33.754,
+          "cultural_composition": 90.97156249999998,
+          "pairing": 58.321937500000004,
+          "substitution": 57.64012499999997
+        },
+        "flavourbench_score": 60.171906249999985,
+        "model_id": "meta-llama/llama-4-maverick",
+        "model_name": "Meta: Llama 4 Maverick",
+        "point_estimate_rank": 18,
+        "repeatability": {
+          "completed": 58,
+          "exact_ingredient_set_match_rate": 0.28125,
+          "jaccard_pointwise_95_ci": [
+            0.44999999999999996,
+            0.6046875
+          ],
+          "mean_absolute_score_difference": 26.44140625,
+          "mean_ingredient_set_jaccard": 0.5265625,
+          "model_id": "meta-llama/llama-4-maverick",
+          "parseable": 57,
+          "tasks": 64
+        },
+        "score_pointwise_95_ci": [
+          57.873412499999986,
+          62.49427265624999
+        ],
+        "score_simultaneous_95_ci": [
+          56.7157464785268,
+          63.62806602147317
+        ],
+        "score_standard_error": 1.1851136358303567,
+        "slot_id": "frontier-refresh-04",
+        "statistical_rank_group": 3
+      },
+      {
+        "availability": {
+          "completed": 640,
+          "completion_rate": 1.0,
+          "parseable": 640,
+          "parseable_rate": 1.0,
+          "scheduled": 640
+        },
+        "bootstrap_rank_95_interval": [
+          3,
+          10
+        ],
+        "chance_comparison": {
+          "bootstrap_95_ci": [
+            36.040696093749965,
+            40.36806523437496
+          ],
+          "exact_chance_score": 32.551703124999996,
+          "holm_p": 0.00019999800001999982,
+          "holm_significant_above_chance": true,
+          "mean_difference": 38.204546875,
+          "sign_flip_p": 9.99990000099999e-06
+        },
+        "eligible": true,
+        "family_scores": {
+          "constraint": 45.28850000000001,
+          "cultural_composition": 98.61181249999994,
+          "pairing": 71.1256875,
+          "substitution": 67.99900000000002
+        },
+        "flavourbench_score": 70.75625,
+        "model_id": "anthropic/claude-opus-5",
+        "model_name": "Claude Opus 5",
+        "point_estimate_rank": 6,
+        "repeatability": {
+          "completed": 64,
+          "exact_ingredient_set_match_rate": 0.515625,
+          "jaccard_pointwise_95_ci": [
+            0.690625,
+            0.8078125
+          ],
+          "mean_absolute_score_difference": 12.614999999999998,
+          "mean_ingredient_set_jaccard": 0.7484375,
+          "model_id": "anthropic/claude-opus-5",
+          "parseable": 64,
+          "tasks": 64
+        },
+        "score_pointwise_95_ci": [
+          68.59499101562498,
+          72.91373710937499
+        ],
+        "score_simultaneous_95_ci": [
+          67.54888025874634,
+          73.96361974125365
+        ],
+        "score_standard_error": 1.0998037899993194,
+        "slot_id": "frontier-refresh-05",
+        "statistical_rank_group": 1
+      },
+      {
+        "availability": {
+          "completed": 640,
+          "completion_rate": 1.0,
+          "parseable": 640,
+          "parseable_rate": 1.0,
+          "scheduled": 640
+        },
+        "bootstrap_rank_95_interval": [
+          6,
+          12
+        ],
+        "chance_comparison": {
+          "bootstrap_95_ci": [
+            34.69391679687497,
+            39.08668281249997
+          ],
+          "exact_chance_score": 32.551703124999996,
+          "holm_p": 0.00019999800001999982,
+          "holm_significant_above_chance": true,
+          "mean_difference": 36.88340625,
+          "sign_flip_p": 9.99990000099999e-06
+        },
+        "eligible": true,
+        "family_scores": {
+          "constraint": 43.9548125,
+          "cultural_composition": 98.65874999999998,
+          "pairing": 69.05181249999997,
+          "substitution": 66.07506250000003
+        },
+        "flavourbench_score": 69.435109375,
+        "model_id": "anthropic/claude-sonnet-5",
+        "model_name": "Anthropic: Claude Sonnet 5",
+        "point_estimate_rank": 9,
+        "repeatability": {
+          "completed": 64,
+          "exact_ingredient_set_match_rate": 0.609375,
+          "jaccard_pointwise_95_ci": [
+            0.728125,
+            0.85
+          ],
+          "mean_absolute_score_difference": 11.080312500000002,
+          "mean_ingredient_set_jaccard": 0.7906249999999999,
+          "model_id": "anthropic/claude-sonnet-5",
+          "parseable": 64,
+          "tasks": 64
+        },
+        "score_pointwise_95_ci": [
+          67.23824804687499,
+          71.63530781249999
+        ],
+        "score_simultaneous_95_ci": [
+          66.1888725964796,
+          72.6813461535204
+        ],
+        "score_standard_error": 1.1131312571579075,
+        "slot_id": "frontier-refresh-06",
+        "statistical_rank_group": 1
+      },
+      {
+        "availability": {
+          "completed": 640,
+          "completion_rate": 1.0,
+          "parseable": 640,
+          "parseable_rate": 1.0,
+          "scheduled": 640
+        },
+        "bootstrap_rank_95_interval": [
+          1,
+          4
+        ],
+        "chance_comparison": {
+          "bootstrap_95_ci": [
+            38.17596289062497,
+            42.488535546874964
+          ],
+          "exact_chance_score": 32.551703124999996,
+          "holm_p": 0.00019999800001999982,
+          "holm_significant_above_chance": true,
+          "mean_difference": 40.349484374999996,
+          "sign_flip_p": 9.99990000099999e-06
+        },
+        "eligible": true,
+        "family_scores": {
+          "constraint": 53.281875000000014,
+          "cultural_composition": 98.67374999999994,
+          "pairing": 71.12731250000004,
+          "substitution": 68.52181250000001
+        },
+        "flavourbench_score": 72.9011875,
+        "model_id": "google/gemini-3.1-pro-preview",
+        "model_name": "Google: Gemini 3.1 Pro Preview",
+        "point_estimate_rank": 1,
+        "repeatability": {
+          "completed": 56,
+          "exact_ingredient_set_match_rate": 0.75,
+          "jaccard_pointwise_95_ci": [
+            0.725,
+            0.8859375
+          ],
+          "mean_absolute_score_difference": 10.225781249999999,
+          "mean_ingredient_set_jaccard": 0.8078125,
+          "model_id": "google/gemini-3.1-pro-preview",
+          "parseable": 56,
+          "tasks": 64
+        },
+        "score_pointwise_95_ci": [
+          70.73446445312499,
+          75.02700078125
+        ],
+        "score_simultaneous_95_ci": [
+          69.70701707276608,
+          76.09535792723393
+        ],
+        "score_standard_error": 1.09527775877892,
+        "slot_id": "frontier-refresh-07",
+        "statistical_rank_group": 1
+      },
+      {
+        "availability": {
+          "completed": 640,
+          "completion_rate": 1.0,
+          "parseable": 640,
+          "parseable_rate": 1.0,
+          "scheduled": 640
+        },
+        "bootstrap_rank_95_interval": [
+          4,
+          12
+        ],
+        "chance_comparison": {
+          "bootstrap_95_ci": [
+            35.37141992187499,
+            39.66254765624996
+          ],
+          "exact_chance_score": 32.551703124999996,
+          "holm_p": 0.00019999800001999982,
+          "holm_significant_above_chance": true,
+          "mean_difference": 37.52312500000001,
+          "sign_flip_p": 9.99990000099999e-06
+        },
+        "eligible": true,
+        "family_scores": {
+          "constraint": 50.16975000000001,
+          "cultural_composition": 98.73924999999996,
+          "pairing": 66.27418749999998,
+          "substitution": 65.11612500000001
+        },
+        "flavourbench_score": 70.074828125,
+        "model_id": "google/gemini-3.6-flash",
+        "model_name": "Google: Gemini 3.6 Flash",
+        "point_estimate_rank": 8,
+        "repeatability": {
+          "completed": 64,
+          "exact_ingredient_set_match_rate": 0.609375,
+          "jaccard_pointwise_95_ci": [
+            0.7328125,
+            0.8546875
+          ],
+          "mean_absolute_score_difference": 10.641875,
+          "mean_ingredient_set_jaccard": 0.7953125,
+          "model_id": "google/gemini-3.6-flash",
+          "parseable": 64,
+          "tasks": 64
+        },
+        "score_pointwise_95_ci": [
+          67.89661679687498,
+          72.21591679687496
+        ],
+        "score_simultaneous_95_ci": [
+          66.87199439872926,
+          73.27766185127074
+        ],
+        "score_standard_error": 1.0982483951206028,
+        "slot_id": "frontier-refresh-08",
+        "statistical_rank_group": 1
+      },
+      {
+        "availability": {
+          "completed": 640,
+          "completion_rate": 1.0,
+          "parseable": 640,
+          "parseable_rate": 1.0,
+          "scheduled": 640
+        },
+        "bootstrap_rank_95_interval": [
+          1,
+          6
+        ],
+        "chance_comparison": {
+          "bootstrap_95_ci": [
+            37.73245781249997,
+            41.976970703124984
+          ],
+          "exact_chance_score": 32.551703124999996,
+          "holm_p": 0.00019999800001999982,
+          "holm_significant_above_chance": true,
+          "mean_difference": 39.847328125000004,
+          "sign_flip_p": 9.99990000099999e-06
+        },
+        "eligible": true,
+        "family_scores": {
+          "constraint": 53.113812500000016,
+          "cultural_composition": 99.03187499999999,
+          "pairing": 69.72956250000001,
+          "substitution": 67.72087500000004
+        },
+        "flavourbench_score": 72.39903125000001,
+        "model_id": "x-ai/grok-4.5",
+        "model_name": "SpaceXAI: Grok 4.5",
+        "point_estimate_rank": 2,
+        "repeatability": {
+          "completed": 64,
+          "exact_ingredient_set_match_rate": 0.609375,
+          "jaccard_pointwise_95_ci": [
+            0.7234375,
+            0.846875
+          ],
+          "mean_absolute_score_difference": 10.612031249999998,
+          "mean_ingredient_set_jaccard": 0.7875,
+          "model_id": "x-ai/grok-4.5",
+          "parseable": 64,
+          "tasks": 64
+        },
+        "score_pointwise_95_ci": [
+          70.27655390624999,
+          74.54422460937498
+        ],
+        "score_simultaneous_95_ci": [
+          69.23650896561813,
+          75.56155353438189
+        ],
+        "score_standard_error": 1.084425643100629,
+        "slot_id": "frontier-refresh-09",
+        "statistical_rank_group": 1
+      },
+      {
+        "availability": {
+          "completed": 640,
+          "completion_rate": 1.0,
+          "parseable": 640,
+          "parseable_rate": 1.0,
+          "scheduled": 640
+        },
+        "bootstrap_rank_95_interval": [
+          4,
+          11
+        ],
+        "chance_comparison": {
+          "bootstrap_95_ci": [
+            35.581804296875,
+            39.923479687499984
+          ],
+          "exact_chance_score": 32.551703124999996,
+          "holm_p": 0.00019999800001999982,
+          "holm_significant_above_chance": true,
+          "mean_difference": 37.758671875,
+          "sign_flip_p": 9.99990000099999e-06
+        },
+        "eligible": true,
+        "family_scores": {
+          "constraint": 48.31943750000001,
+          "cultural_composition": 98.09068749999993,
+          "pairing": 69.89925000000005,
+          "substitution": 64.93212500000003
+        },
+        "flavourbench_score": 70.31037500000001,
+        "model_id": "moonshotai/kimi-k3",
+        "model_name": "MoonshotAI: Kimi K3",
+        "point_estimate_rank": 7,
+        "repeatability": {
+          "completed": 62,
+          "exact_ingredient_set_match_rate": 0.53125,
+          "jaccard_pointwise_95_ci": [
+            0.671875,
+            0.8125
+          ],
+          "mean_absolute_score_difference": 15.497812499999998,
+          "mean_ingredient_set_jaccard": 0.7421875,
+          "model_id": "moonshotai/kimi-k3",
+          "parseable": 62,
+          "tasks": 64
+        },
+        "score_pointwise_95_ci": [
+          68.12697578124998,
+          72.476090234375
+        ],
+        "score_simultaneous_95_ci": [
+          67.07985245636941,
+          73.5408975436306
+        ],
+        "score_standard_error": 1.1077428621542234,
+        "slot_id": "frontier-refresh-10",
+        "statistical_rank_group": 1
+      },
+      {
+        "availability": {
+          "completed": 640,
+          "completion_rate": 1.0,
+          "parseable": 640,
+          "parseable_rate": 1.0,
+          "scheduled": 640
+        },
+        "bootstrap_rank_95_interval": [
+          2,
+          8
+        ],
+        "chance_comparison": {
+          "bootstrap_95_ci": [
+            36.64452695312499,
+            41.08416562499996
+          ],
+          "exact_chance_score": 32.551703124999996,
+          "holm_p": 0.00019999800001999982,
+          "holm_significant_above_chance": true,
+          "mean_difference": 38.8555,
+          "sign_flip_p": 9.99990000099999e-06
+        },
+        "eligible": true,
+        "family_scores": {
+          "constraint": 53.36750000000004,
+          "cultural_composition": 98.21718749999994,
+          "pairing": 67.05187500000002,
+          "substitution": 66.99225
+        },
+        "flavourbench_score": 71.407203125,
+        "model_id": "qwen/qwen3.8-max",
+        "model_name": "Qwen: Qwen3.8 Max",
+        "point_estimate_rank": 5,
+        "repeatability": {
+          "completed": 64,
+          "exact_ingredient_set_match_rate": 0.609375,
+          "jaccard_pointwise_95_ci": [
+            0.73125,
+            0.8546875
+          ],
+          "mean_absolute_score_difference": 11.601249999999999,
+          "mean_ingredient_set_jaccard": 0.7953125,
+          "model_id": "qwen/qwen3.8-max",
+          "parseable": 64,
+          "tasks": 64
+        },
+        "score_pointwise_95_ci": [
+          69.188881640625,
+          73.63624335937499
+        ],
+        "score_simultaneous_95_ci": [
+          68.10229228770032,
+          74.71211396229967
+        ],
+        "score_standard_error": 1.1332505316494323,
+        "slot_id": "frontier-refresh-11",
+        "statistical_rank_group": 1
+      },
+      {
+        "availability": {
+          "completed": 635,
+          "completion_rate": 0.9921875,
+          "parseable": 634,
+          "parseable_rate": 0.990625,
+          "scheduled": 640
+        },
+        "bootstrap_rank_95_interval": [
+          12,
+          15
+        ],
+        "chance_comparison": {
+          "bootstrap_95_ci": [
+            32.105043359374974,
+            36.53252070312497
+          ],
+          "exact_chance_score": 32.551703124999996,
+          "holm_p": 0.00019999800001999982,
+          "holm_significant_above_chance": true,
+          "mean_difference": 34.323562499999994,
+          "sign_flip_p": 9.99990000099999e-06
+        },
+        "eligible": true,
+        "family_scores": {
+          "constraint": 40.523250000000004,
+          "cultural_composition": 97.66949999999994,
+          "pairing": 65.43268750000004,
+          "substitution": 63.875625
+        },
+        "flavourbench_score": 66.875265625,
+        "model_id": "z-ai/glm-5.2",
+        "model_name": "Z.ai: GLM 5.2",
+        "point_estimate_rank": 13,
+        "repeatability": {
+          "completed": 64,
+          "exact_ingredient_set_match_rate": 0.40625,
+          "jaccard_pointwise_95_ci": [
+            0.5984375,
+            0.7328125
+          ],
+          "mean_absolute_score_difference": 15.2825,
+          "mean_ingredient_set_jaccard": 0.665625,
+          "model_id": "z-ai/glm-5.2",
+          "parseable": 64,
+          "tasks": 64
+        },
+        "score_pointwise_95_ci": [
+          64.65383632812497,
+          69.10398749999999
+        ],
+        "score_simultaneous_95_ci": [
+          63.574181321594246,
+          70.17634992840574
+        ],
+        "score_standard_error": 1.131938417107424,
+        "slot_id": "frontier-refresh-12",
+        "statistical_rank_group": 2
+      },
+      {
+        "availability": {
+          "completed": 634,
+          "completion_rate": 0.990625,
+          "parseable": 634,
+          "parseable_rate": 0.990625,
+          "scheduled": 640
+        },
+        "bootstrap_rank_95_interval": [
+          6,
+          13
+        ],
+        "chance_comparison": {
+          "bootstrap_95_ci": [
+            34.21458320312498,
+            38.729925390624985
+          ],
+          "exact_chance_score": 32.551703124999996,
+          "holm_p": 0.00019999800001999982,
+          "holm_significant_above_chance": true,
+          "mean_difference": 36.474359375000006,
+          "sign_flip_p": 9.99990000099999e-06
+        },
+        "eligible": true,
+        "family_scores": {
+          "constraint": 45.699000000000005,
+          "cultural_composition": 97.11131249999997,
+          "pairing": 66.66781249999997,
+          "substitution": 66.626125
+        },
+        "flavourbench_score": 69.0260625,
+        "model_id": "deepseek/deepseek-v4-pro",
+        "model_name": "DeepSeek: DeepSeek V4 Pro",
+        "point_estimate_rank": 11,
+        "repeatability": {
+          "completed": 62,
+          "exact_ingredient_set_match_rate": 0.5,
+          "jaccard_pointwise_95_ci": [
+            0.628125,
+            0.78125
+          ],
+          "mean_absolute_score_difference": 14.12953125,
+          "mean_ingredient_set_jaccard": 0.70625,
+          "model_id": "deepseek/deepseek-v4-pro",
+          "parseable": 62,
+          "tasks": 64
+        },
+        "score_pointwise_95_ci": [
+          66.770338671875,
+          71.277317578125
+        ],
+        "score_simultaneous_95_ci": [
+          65.66243072448988,
+          72.38969427551011
+        ],
+        "score_standard_error": 1.153385881049756,
+        "slot_id": "frontier-refresh-13",
+        "statistical_rank_group": 2
+      },
+      {
+        "availability": {
+          "completed": 640,
+          "completion_rate": 1.0,
+          "parseable": 640,
+          "parseable_rate": 1.0,
+          "scheduled": 640
+        },
+        "bootstrap_rank_95_interval": [
+          15,
+          17
+        ],
+        "chance_comparison": {
+          "bootstrap_95_ci": [
+            27.81820078124998,
+            32.463896874999975
+          ],
+          "exact_chance_score": 32.551703124999996,
+          "holm_p": 0.00019999800001999982,
+          "holm_significant_above_chance": true,
+          "mean_difference": 30.134453125000004,
+          "sign_flip_p": 9.99990000099999e-06
+        },
+        "eligible": true,
+        "family_scores": {
+          "constraint": 35.111000000000004,
+          "cultural_composition": 90.97818749999996,
+          "pairing": 61.89187500000001,
+          "substitution": 62.76356250000001
+        },
+        "flavourbench_score": 62.68615625,
+        "model_id": "deepseek/deepseek-v4-flash-0731",
+        "model_name": "DeepSeek: DeepSeek V4 Flash 0731",
+        "point_estimate_rank": 16,
+        "repeatability": {
+          "completed": 64,
+          "exact_ingredient_set_match_rate": 0.21875,
+          "jaccard_pointwise_95_ci": [
+            0.49531250000000004,
+            0.621875
+          ],
+          "mean_absolute_score_difference": 22.67140625,
+          "mean_ingredient_set_jaccard": 0.5578125,
+          "model_id": "deepseek/deepseek-v4-flash-0731",
+          "parseable": 64,
+          "tasks": 64
+        },
+        "score_pointwise_95_ci": [
+          60.38015078125001,
+          65.00673828125001
+        ],
+        "score_simultaneous_95_ci": [
+          59.2521173108225,
+          66.12019518917751
+        ],
+        "score_standard_error": 1.177528425156388,
+        "slot_id": "frontier-refresh-14",
+        "statistical_rank_group": 3
+      },
+      {
+        "availability": {
+          "completed": 627,
+          "completion_rate": 0.9796875,
+          "parseable": 627,
+          "parseable_rate": 0.9796875,
+          "scheduled": 640
+        },
+        "bootstrap_rank_95_interval": [
+          12,
+          15
+        ],
+        "chance_comparison": {
+          "bootstrap_95_ci": [
+            31.931499218749973,
+            36.38812109375
+          ],
+          "exact_chance_score": 32.551703124999996,
+          "holm_p": 0.00019999800001999982,
+          "holm_significant_above_chance": true,
+          "mean_difference": 34.174359375,
+          "sign_flip_p": 9.99990000099999e-06
+        },
+        "eligible": true,
+        "family_scores": {
+          "constraint": 44.44718750000002,
+          "cultural_composition": 97.79706249999995,
+          "pairing": 64.0649375,
+          "substitution": 60.5950625
+        },
+        "flavourbench_score": 66.72606249999998,
+        "model_id": "minimax/minimax-m3",
+        "model_name": "MiniMax: MiniMax M3",
+        "point_estimate_rank": 14,
+        "repeatability": {
+          "completed": 63,
+          "exact_ingredient_set_match_rate": 0.515625,
+          "jaccard_pointwise_95_ci": [
+            0.625,
+            0.7828124999999999
+          ],
+          "mean_absolute_score_difference": 13.72890625,
+          "mean_ingredient_set_jaccard": 0.7046874999999999,
+          "model_id": "minimax/minimax-m3",
+          "parseable": 63,
+          "tasks": 64
+        },
+        "score_pointwise_95_ci": [
+          64.48006210937498,
+          68.95085273437498
+        ],
+        "score_simultaneous_95_ci": [
+          63.404916545406586,
+          70.04720845459339
+        ],
+        "score_standard_error": 1.1388175366944278,
+        "slot_id": "frontier-refresh-15",
+        "statistical_rank_group": 2
+      },
+      {
+        "availability": {
+          "completed": 629,
+          "completion_rate": 0.9828125,
+          "parseable": 629,
+          "parseable_rate": 0.9828125,
+          "scheduled": 640
+        },
+        "bootstrap_rank_95_interval": [
+          13,
+          16
+        ],
+        "chance_comparison": {
+          "bootstrap_95_ci": [
+            30.30667929687498,
+            34.88826640624997
+          ],
+          "exact_chance_score": 32.551703124999996,
+          "holm_p": 0.00019999800001999982,
+          "holm_significant_above_chance": true,
+          "mean_difference": 32.5995,
+          "sign_flip_p": 9.99990000099999e-06
+        },
+        "eligible": true,
+        "family_scores": {
+          "constraint": 42.4586875,
+          "cultural_composition": 93.97681249999994,
+          "pairing": 60.787562500000014,
+          "substitution": 63.38175000000003
+        },
+        "flavourbench_score": 65.151203125,
+        "model_id": "nvidia/nemotron-3.5-lightning",
+        "model_name": "NVIDIA: Nemotron 3.5 Lightning",
+        "point_estimate_rank": 15,
+        "repeatability": {
+          "completed": 62,
+          "exact_ingredient_set_match_rate": 0.5625,
+          "jaccard_pointwise_95_ci": [
+            0.6859375000000001,
+            0.8234375
+          ],
+          "mean_absolute_score_difference": 14.76578125,
+          "mean_ingredient_set_jaccard": 0.75625,
+          "model_id": "nvidia/nemotron-3.5-lightning",
+          "parseable": 62,
+          "tasks": 64
+        },
+        "score_pointwise_95_ci": [
+          62.843701562499994,
+          67.45351874999997
+        ],
+        "score_simultaneous_95_ci": [
+          61.706595332499305,
+          68.59581091750069
+        ],
+        "score_standard_error": 1.18115247410568,
+        "slot_id": "frontier-refresh-16",
+        "statistical_rank_group": 2
+      },
+      {
+        "availability": {
+          "completed": 640,
+          "completion_rate": 1.0,
+          "parseable": 639,
+          "parseable_rate": 0.9984375,
+          "scheduled": 640
+        },
+        "bootstrap_rank_95_interval": [
+          16,
+          18
+        ],
+        "chance_comparison": {
+          "bootstrap_95_ci": [
+            26.535796093749994,
+            31.17870429687499
+          ],
+          "exact_chance_score": 32.551703124999996,
+          "holm_p": 0.00019999800001999982,
+          "holm_significant_above_chance": true,
+          "mean_difference": 28.849406249999998,
+          "sign_flip_p": 9.99990000099999e-06
+        },
+        "eligible": true,
+        "family_scores": {
+          "constraint": 37.956937499999995,
+          "cultural_composition": 85.72749999999999,
+          "pairing": 60.38412499999998,
+          "substitution": 61.53587500000002
+        },
+        "flavourbench_score": 61.401109375,
+        "model_id": "mistralai/mistral-large-2512",
+        "model_name": "Mistral: Mistral Large 3 2512",
+        "point_estimate_rank": 17,
+        "repeatability": {
+          "completed": 64,
+          "exact_ingredient_set_match_rate": 0.328125,
+          "jaccard_pointwise_95_ci": [
+            0.58125,
+            0.7015625
+          ],
+          "mean_absolute_score_difference": 18.741875,
+          "mean_ingredient_set_jaccard": 0.640625,
+          "model_id": "mistralai/mistral-large-2512",
+          "parseable": 64,
+          "tasks": 64
+        },
+        "score_pointwise_95_ci": [
+          59.096965234375,
+          63.72513554687499
+        ],
+        "score_simultaneous_95_ci": [
+          57.96085289814483,
+          64.84136585185517
+        ],
+        "score_standard_error": 1.1796604124400505,
+        "slot_id": "frontier-refresh-17",
+        "statistical_rank_group": 3
+      },
+      {
+        "availability": {
+          "completed": 640,
+          "completion_rate": 1.0,
+          "parseable": 640,
+          "parseable_rate": 1.0,
+          "scheduled": 640
+        },
+        "bootstrap_rank_95_interval": [
+          7,
+          13
+        ],
+        "chance_comparison": {
+          "bootstrap_95_ci": [
+            34.13156874999995,
+            38.551232812499975
+          ],
+          "exact_chance_score": 32.551703124999996,
+          "holm_p": 0.00019999800001999982,
+          "holm_significant_above_chance": true,
+          "mean_difference": 36.342124999999996,
+          "sign_flip_p": 9.99990000099999e-06
+        },
+        "eligible": true,
+        "family_scores": {
+          "constraint": 45.5011875,
+          "cultural_composition": 98.46612499999995,
+          "pairing": 65.553875,
+          "substitution": 66.05412499999998
+        },
+        "flavourbench_score": 68.893828125,
+        "model_id": "tencent/hy3",
+        "model_name": "Tencent: Hy3",
+        "point_estimate_rank": 12,
+        "repeatability": {
+          "completed": 49,
+          "exact_ingredient_set_match_rate": 0.3125,
+          "jaccard_pointwise_95_ci": [
+            0.434375,
+            0.60625
+          ],
+          "mean_absolute_score_difference": 27.1253125,
+          "mean_ingredient_set_jaccard": 0.5203125,
+          "model_id": "tencent/hy3",
+          "parseable": 49,
+          "tasks": 64
+        },
+        "score_pointwise_95_ci": [
+          66.66857539062501,
+          71.10276328124999
+        ],
+        "score_simultaneous_95_ci": [
+          65.60362942995586,
+          72.18402682004414
+        ],
+        "score_standard_error": 1.1282057531807927,
+        "slot_id": "frontier-refresh-18",
+        "statistical_rank_group": 2
+      },
+      {
+        "availability": {
+          "completed": 640,
+          "completion_rate": 1.0,
+          "parseable": 640,
+          "parseable_rate": 1.0,
+          "scheduled": 640
+        },
+        "bootstrap_rank_95_interval": [
+          18,
+          19
+        ],
+        "chance_comparison": {
+          "bootstrap_95_ci": [
+            23.41737656249999,
+            27.711782031249967
+          ],
+          "exact_chance_score": 32.551703124999996,
+          "holm_p": 0.00019999800001999982,
+          "holm_significant_above_chance": true,
+          "mean_difference": 25.555,
+          "sign_flip_p": 9.99990000099999e-06
+        },
+        "eligible": true,
+        "family_scores": {
+          "constraint": 24.001875000000002,
+          "cultural_composition": 91.32356249999997,
+          "pairing": 58.15900000000003,
+          "substitution": 58.942375000000006
+        },
+        "flavourbench_score": 58.106703124999996,
+        "model_id": "cohere/command-a",
+        "model_name": "Cohere: Command A",
+        "point_estimate_rank": 19,
+        "repeatability": {
+          "completed": 64,
+          "exact_ingredient_set_match_rate": 0.34375,
+          "jaccard_pointwise_95_ci": [
+            0.49531250000000004,
+            0.65
+          ],
+          "mean_absolute_score_difference": 18.831093749999997,
+          "mean_ingredient_set_jaccard": 0.5718749999999999,
+          "model_id": "cohere/command-a",
+          "parseable": 64,
+          "tasks": 64
+        },
+        "score_pointwise_95_ci": [
+          55.952103906249995,
+          60.27200429687499
+        ],
+        "score_simultaneous_95_ci": [
+          54.896269233686944,
+          61.31713701631305
+        ],
+        "score_standard_error": 1.1008544839075112,
+        "slot_id": "frontier-refresh-19",
+        "statistical_rank_group": 4
+      },
+      {
+        "availability": {
+          "completed": 640,
+          "completion_rate": 1.0,
+          "parseable": 639,
+          "parseable_rate": 0.9984375,
+          "scheduled": 640
+        },
+        "bootstrap_rank_95_interval": [
+          20,
+          20
+        ],
+        "chance_comparison": {
+          "bootstrap_95_ci": [
+            2.176525390624983,
+            6.106551953124993
+          ],
+          "exact_chance_score": 32.551703124999996,
+          "holm_p": 0.00019999800001999982,
+          "holm_significant_above_chance": true,
+          "mean_difference": 4.119812500000001,
+          "sign_flip_p": 6.999930000699993e-05
+        },
+        "eligible": true,
+        "family_scores": {
+          "constraint": 6.059125,
+          "cultural_composition": 50.85750000000003,
+          "pairing": 45.075374999999994,
+          "substitution": 44.69406249999999
+        },
+        "flavourbench_score": 36.671515625,
+        "model_id": "cohere/command-r-plus-08-2024",
+        "model_name": "Cohere: Command R+ (08-2024)",
+        "point_estimate_rank": 20,
+        "repeatability": {
+          "completed": 64,
+          "exact_ingredient_set_match_rate": 0.0,
+          "jaccard_pointwise_95_ci": [
+            0.1796875,
+            0.28125
+          ],
+          "mean_absolute_score_difference": 23.20515625,
+          "mean_ingredient_set_jaccard": 0.2296875,
+          "model_id": "cohere/command-r-plus-08-2024",
+          "parseable": 64,
+          "tasks": 64
+        },
+        "score_pointwise_95_ci": [
+          34.708465624999995,
+          38.681392968749996
+        ],
+        "score_simultaneous_95_ci": [
+          33.7293850915472,
+          39.613646158452795
+        ],
+        "score_standard_error": 1.0088535380705306,
+        "slot_id": "frontier-refresh-20",
+        "statistical_rank_group": 5
+      }
+    ],
+    "pairwise_comparisons": [
+      {
+        "bootstrap_95_ci": [
+          -1.0084179687500072,
+          2.0181441406249876
+        ],
+        "cohen_dz": 0.02583795363221557,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 0,
+        "left_model_id": "openai/gpt-5.6-sol-pro",
+        "mean_difference": 0.507328125,
+        "right_index": 1,
+        "right_model_id": "openai/gpt-5.6-terra-pro",
+        "sign_flip_p": 0.5166648333516665
+      },
+      {
+        "bootstrap_95_ci": [
+          0.9516679687499885,
+          4.716439453124985
+        ],
+        "cohen_dz": 0.11602694938215577,
+        "direction": "left_higher",
+        "holm_p": 0.25599744002559977,
+        "holm_significant": false,
+        "left_index": 0,
+        "left_model_id": "openai/gpt-5.6-sol-pro",
+        "mean_difference": 2.830203125,
+        "right_index": 2,
+        "right_model_id": "openai/gpt-5.6-luna-pro",
+        "sign_flip_p": 0.0031999680003199967
+      },
+      {
+        "bootstrap_95_ci": [
+          9.087286718749983,
+          14.570598437499994
+        ],
+        "cohen_dz": 0.33083389031606997,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 0,
+        "left_model_id": "openai/gpt-5.6-sol-pro",
+        "mean_difference": 11.8175625,
+        "right_index": 3,
+        "right_model_id": "meta-llama/llama-4-maverick",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          -0.6826781249999967,
+          3.1614000000000106
+        ],
+        "cohen_dz": 0.049203853346898974,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 0,
+        "left_model_id": "openai/gpt-5.6-sol-pro",
+        "mean_difference": 1.2332187499999996,
+        "right_index": 4,
+        "right_model_id": "anthropic/claude-opus-5",
+        "sign_flip_p": 0.21422785772142278
+      },
+      {
+        "bootstrap_95_ci": [
+          0.41571874999999636,
+          4.721441406250022
+        ],
+        "cohen_dz": 0.09153752517222863,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 0,
+        "left_model_id": "openai/gpt-5.6-sol-pro",
+        "mean_difference": 2.554359375,
+        "right_index": 5,
+        "right_model_id": "anthropic/claude-sonnet-5",
+        "sign_flip_p": 0.02058979410205898
+      },
+      {
+        "bootstrap_95_ci": [
+          -2.613626562499999,
+          0.7858656250000301
+        ],
+        "cohen_dz": -0.041469908541069946,
+        "direction": "right_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 0,
+        "left_model_id": "openai/gpt-5.6-sol-pro",
+        "mean_difference": -0.9117187500000001,
+        "right_index": 6,
+        "right_model_id": "google/gemini-3.1-pro-preview",
+        "sign_flip_p": 0.29391706082939173
+      },
+      {
+        "bootstrap_95_ci": [
+          -0.18186093750000187,
+          4.022879296875
+        ],
+        "cohen_dz": 0.07020982380699593,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 0,
+        "left_model_id": "openai/gpt-5.6-sol-pro",
+        "mean_difference": 1.914640625,
+        "right_index": 7,
+        "right_model_id": "google/gemini-3.6-flash",
+        "sign_flip_p": 0.07658923410765893
+      },
+      {
+        "bootstrap_95_ci": [
+          -2.4197972656249997,
+          1.5906624999999956
+        ],
+        "cohen_dz": -0.01584592304717227,
+        "direction": "right_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 0,
+        "left_model_id": "openai/gpt-5.6-sol-pro",
+        "mean_difference": -0.4095625,
+        "right_index": 8,
+        "right_model_id": "x-ai/grok-4.5",
+        "sign_flip_p": 0.6870031299687003
+      },
+      {
+        "bootstrap_95_ci": [
+          -0.12870859375002863,
+          3.4713277343749973
+        ],
+        "cohen_dz": 0.07228492611942611,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 0,
+        "left_model_id": "openai/gpt-5.6-sol-pro",
+        "mean_difference": 1.6790937499999998,
+        "right_index": 9,
+        "right_model_id": "moonshotai/kimi-k3",
+        "sign_flip_p": 0.06757932420675793
+      },
+      {
+        "bootstrap_95_ci": [
+          -1.4790679687500117,
+          2.598895312499996
+        ],
+        "cohen_dz": 0.022044096267009327,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 0,
+        "left_model_id": "openai/gpt-5.6-sol-pro",
+        "mean_difference": 0.582265625,
+        "right_index": 10,
+        "right_model_id": "qwen/qwen3.8-max",
+        "sign_flip_p": 0.5794442055579444
+      },
+      {
+        "bootstrap_95_ci": [
+          2.734664843749976,
+          7.488033203124978
+        ],
+        "cohen_dz": 0.16616963091179449,
+        "direction": "left_higher",
+        "holm_p": 0.003179968200317997,
+        "holm_significant": true,
+        "left_index": 0,
+        "left_model_id": "openai/gpt-5.6-sol-pro",
+        "mean_difference": 5.114203125,
+        "right_index": 11,
+        "right_model_id": "z-ai/glm-5.2",
+        "sign_flip_p": 2.999970000299997e-05
+      },
+      {
+        "bootstrap_95_ci": [
+          0.9314300781250016,
+          4.996628906249995
+        ],
+        "cohen_dz": 0.11196178857743333,
+        "direction": "left_higher",
+        "holm_p": 0.33447665523344766,
+        "holm_significant": false,
+        "left_index": 0,
+        "left_model_id": "openai/gpt-5.6-sol-pro",
+        "mean_difference": 2.96340625,
+        "right_index": 12,
+        "right_model_id": "deepseek/deepseek-v4-pro",
+        "sign_flip_p": 0.004519954800451995
+      },
+      {
+        "bootstrap_95_ci": [
+          6.680904687499999,
+          11.944541796874997
+        ],
+        "cohen_dz": 0.2714845461331795,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 0,
+        "left_model_id": "openai/gpt-5.6-sol-pro",
+        "mean_difference": 9.3033125,
+        "right_index": 13,
+        "right_model_id": "deepseek/deepseek-v4-flash-0731",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          3.027985937499999,
+          7.516814062499998
+        ],
+        "cohen_dz": 0.1802026113331557,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 0,
+        "left_model_id": "openai/gpt-5.6-sol-pro",
+        "mean_difference": 5.26340625,
+        "right_index": 14,
+        "right_model_id": "minimax/minimax-m3",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          4.3815210937499955,
+          9.300303124999987
+        ],
+        "cohen_dz": 0.2150276352095493,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 0,
+        "left_model_id": "openai/gpt-5.6-sol-pro",
+        "mean_difference": 6.838265625,
+        "right_index": 15,
+        "right_model_id": "nvidia/nemotron-3.5-lightning",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          7.99501054687498,
+          13.17275039062498
+        ],
+        "cohen_dz": 0.3139876582129904,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 0,
+        "left_model_id": "openai/gpt-5.6-sol-pro",
+        "mean_difference": 10.588359375,
+        "right_index": 16,
+        "right_model_id": "mistralai/mistral-large-2512",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          1.0019523437499998,
+          5.190298828125002
+        ],
+        "cohen_dz": 0.11443855837485006,
+        "direction": "left_higher",
+        "holm_p": 0.3001969980300197,
+        "holm_significant": false,
+        "left_index": 0,
+        "left_model_id": "openai/gpt-5.6-sol-pro",
+        "mean_difference": 3.095640625,
+        "right_index": 17,
+        "right_model_id": "tencent/hy3",
+        "sign_flip_p": 0.003949960500394996
+      },
+      {
+        "bootstrap_95_ci": [
+          11.328503124999996,
+          16.439266406249992
+        ],
+        "cohen_dz": 0.40911190534381936,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 0,
+        "left_model_id": "openai/gpt-5.6-sol-pro",
+        "mean_difference": 13.882765625000001,
+        "right_index": 18,
+        "right_model_id": "cohere/command-a",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          32.44154023437499,
+          38.17225898437499
+        ],
+        "cohen_dz": 0.9114281949286576,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 0,
+        "left_model_id": "openai/gpt-5.6-sol-pro",
+        "mean_difference": 35.317953124999995,
+        "right_index": 19,
+        "right_model_id": "cohere/command-r-plus-08-2024",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          0.3511089843749925,
+          4.3004929687499835
+        ],
+        "cohen_dz": 0.09050446806353972,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 1,
+        "left_model_id": "openai/gpt-5.6-terra-pro",
+        "mean_difference": 2.322875,
+        "right_index": 2,
+        "right_model_id": "openai/gpt-5.6-luna-pro",
+        "sign_flip_p": 0.02164978350216498
+      },
+      {
+        "bootstrap_95_ci": [
+          8.56573242187499,
+          14.05905781249998
+        ],
+        "cohen_dz": 0.31570384994928596,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 1,
+        "left_model_id": "openai/gpt-5.6-terra-pro",
+        "mean_difference": 11.310234375,
+        "right_index": 3,
+        "right_model_id": "meta-llama/llama-4-maverick",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          -1.1061980468750179,
+          2.5811910156249986
+        ],
+        "cohen_dz": 0.030210966139262316,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 1,
+        "left_model_id": "openai/gpt-5.6-terra-pro",
+        "mean_difference": 0.7258906249999996,
+        "right_index": 4,
+        "right_model_id": "anthropic/claude-opus-5",
+        "sign_flip_p": 0.4442955570444296
+      },
+      {
+        "bootstrap_95_ci": [
+          -0.08038398437498907,
+          4.165979687500018
+        ],
+        "cohen_dz": 0.07420982351757935,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 1,
+        "left_model_id": "openai/gpt-5.6-terra-pro",
+        "mean_difference": 2.0470312500000003,
+        "right_index": 5,
+        "right_model_id": "anthropic/claude-sonnet-5",
+        "sign_flip_p": 0.06022939770602294
+      },
+      {
+        "bootstrap_95_ci": [
+          -3.2190820312499957,
+          0.3917226562500089
+        ],
+        "cohen_dz": -0.06048756562837703,
+        "direction": "right_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 1,
+        "left_model_id": "openai/gpt-5.6-terra-pro",
+        "mean_difference": -1.419046875,
+        "right_index": 6,
+        "right_model_id": "google/gemini-3.1-pro-preview",
+        "sign_flip_p": 0.12569874301256986
+      },
+      {
+        "bootstrap_95_ci": [
+          -0.7093257812499814,
+          3.5375511718750183
+        ],
+        "cohen_dz": 0.05092145468038337,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 1,
+        "left_model_id": "openai/gpt-5.6-terra-pro",
+        "mean_difference": 1.4073125000000002,
+        "right_index": 7,
+        "right_model_id": "google/gemini-3.6-flash",
+        "sign_flip_p": 0.1984380156198438
+      },
+      {
+        "bootstrap_95_ci": [
+          -2.934307031250015,
+          1.0882667968749915
+        ],
+        "cohen_dz": -0.035305103278885974,
+        "direction": "right_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 1,
+        "left_model_id": "openai/gpt-5.6-terra-pro",
+        "mean_difference": -0.916890625,
+        "right_index": 8,
+        "right_model_id": "x-ai/grok-4.5",
+        "sign_flip_p": 0.3728262717372826
+      },
+      {
+        "bootstrap_95_ci": [
+          -0.7435898437500098,
+          3.094892968749991
+        ],
+        "cohen_dz": 0.047135450753224596,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 1,
+        "left_model_id": "openai/gpt-5.6-terra-pro",
+        "mean_difference": 1.1717656249999997,
+        "right_index": 9,
+        "right_model_id": "moonshotai/kimi-k3",
+        "sign_flip_p": 0.23187768122318778
+      },
+      {
+        "bootstrap_95_ci": [
+          -1.9778625000000087,
+          2.088940624999986
+        ],
+        "cohen_dz": 0.002842125109471713,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 1,
+        "left_model_id": "openai/gpt-5.6-terra-pro",
+        "mean_difference": 0.07493750000000006,
+        "right_index": 10,
+        "right_model_id": "qwen/qwen3.8-max",
+        "sign_flip_p": 0.9422205777942221
+      },
+      {
+        "bootstrap_95_ci": [
+          2.164821484374986,
+          7.0358042968750025
+        ],
+        "cohen_dz": 0.14491034940778894,
+        "direction": "left_higher",
+        "holm_p": 0.030069699303006972,
+        "holm_significant": true,
+        "left_index": 1,
+        "left_model_id": "openai/gpt-5.6-terra-pro",
+        "mean_difference": 4.606875,
+        "right_index": 11,
+        "right_model_id": "z-ai/glm-5.2",
+        "sign_flip_p": 0.0003099969000309997
+      },
+      {
+        "bootstrap_95_ci": [
+          0.5045082031250101,
+          4.442799609375013
+        ],
+        "cohen_dz": 0.09673794260635415,
+        "direction": "left_higher",
+        "holm_p": 0.993470065299347,
+        "holm_significant": false,
+        "left_index": 1,
+        "left_model_id": "openai/gpt-5.6-terra-pro",
+        "mean_difference": 2.4560781250000003,
+        "right_index": 12,
+        "right_model_id": "deepseek/deepseek-v4-pro",
+        "sign_flip_p": 0.014609853901460985
+      },
+      {
+        "bootstrap_95_ci": [
+          6.137797265624996,
+          11.462219140625018
+        ],
+        "cohen_dz": 0.2528753104029003,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 1,
+        "left_model_id": "openai/gpt-5.6-terra-pro",
+        "mean_difference": 8.795984375,
+        "right_index": 13,
+        "right_model_id": "deepseek/deepseek-v4-flash-0731",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          2.5508101562499927,
+          7.00583554687498
+        ],
+        "cohen_dz": 0.16343637186619198,
+        "direction": "left_higher",
+        "holm_p": 0.004119958800411996,
+        "holm_significant": true,
+        "left_index": 1,
+        "left_model_id": "openai/gpt-5.6-terra-pro",
+        "mean_difference": 4.756078125,
+        "right_index": 14,
+        "right_model_id": "minimax/minimax-m3",
+        "sign_flip_p": 3.999960000399996e-05
+      },
+      {
+        "bootstrap_95_ci": [
+          3.916690624999997,
+          8.806223437500009
+        ],
+        "cohen_dz": 0.1988607950659022,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 1,
+        "left_model_id": "openai/gpt-5.6-terra-pro",
+        "mean_difference": 6.3309375,
+        "right_index": 15,
+        "right_model_id": "nvidia/nemotron-3.5-lightning",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          7.497733593749965,
+          12.666148437500038
+        ],
+        "cohen_dz": 0.3003728019507976,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 1,
+        "left_model_id": "openai/gpt-5.6-terra-pro",
+        "mean_difference": 10.081031249999999,
+        "right_index": 16,
+        "right_model_id": "mistralai/mistral-large-2512",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          0.5345863281250136,
+          4.6603320312500065
+        ],
+        "cohen_dz": 0.09685179713946611,
+        "direction": "left_higher",
+        "holm_p": 0.993470065299347,
+        "holm_significant": false,
+        "left_index": 1,
+        "left_model_id": "openai/gpt-5.6-terra-pro",
+        "mean_difference": 2.5883125,
+        "right_index": 17,
+        "right_model_id": "tencent/hy3",
+        "sign_flip_p": 0.014609853901460985
+      },
+      {
+        "bootstrap_95_ci": [
+          10.703988671874994,
+          16.015695703125033
+        ],
+        "cohen_dz": 0.37943922137458874,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 1,
+        "left_model_id": "openai/gpt-5.6-terra-pro",
+        "mean_difference": 13.3754375,
+        "right_index": 18,
+        "right_model_id": "cohere/command-a",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          31.948030468749987,
+          37.63527539062499
+        ],
+        "cohen_dz": 0.9009661887620314,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 1,
+        "left_model_id": "openai/gpt-5.6-terra-pro",
+        "mean_difference": 34.810625,
+        "right_index": 19,
+        "right_model_id": "cohere/command-r-plus-08-2024",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          6.247146093749996,
+          11.726991015625021
+        ],
+        "cohen_dz": 0.2536625851539232,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 2,
+        "left_model_id": "openai/gpt-5.6-luna-pro",
+        "mean_difference": 8.987359375,
+        "right_index": 3,
+        "right_model_id": "meta-llama/llama-4-maverick",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          -3.565084374999985,
+          0.38812148437501365
+        ],
+        "cohen_dz": -0.06221077496790487,
+        "direction": "right_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 2,
+        "left_model_id": "openai/gpt-5.6-luna-pro",
+        "mean_difference": -1.5969843750000001,
+        "right_index": 4,
+        "right_model_id": "anthropic/claude-opus-5",
+        "sign_flip_p": 0.11580884191158089
+      },
+      {
+        "bootstrap_95_ci": [
+          -2.450335546874985,
+          1.8983792968750015
+        ],
+        "cohen_dz": -0.009751774146430534,
+        "direction": "right_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 2,
+        "left_model_id": "openai/gpt-5.6-luna-pro",
+        "mean_difference": -0.2758437499999999,
+        "right_index": 5,
+        "right_model_id": "anthropic/claude-sonnet-5",
+        "sign_flip_p": 0.8056619433805662
+      },
+      {
+        "bootstrap_95_ci": [
+          -5.757164843750008,
+          -1.7340117187500117
+        ],
+        "cohen_dz": -0.14272416675244254,
+        "direction": "right_higher",
+        "holm_p": 0.028419715802841968,
+        "holm_significant": true,
+        "left_index": 2,
+        "left_model_id": "openai/gpt-5.6-luna-pro",
+        "mean_difference": -3.741921875,
+        "right_index": 6,
+        "right_model_id": "google/gemini-3.1-pro-preview",
+        "sign_flip_p": 0.0002899971000289997
+      },
+      {
+        "bootstrap_95_ci": [
+          -2.8530257812500253,
+          1.0352914062499976
+        ],
+        "cohen_dz": -0.0361373251578003,
+        "direction": "right_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 2,
+        "left_model_id": "openai/gpt-5.6-luna-pro",
+        "mean_difference": -0.9155624999999998,
+        "right_index": 7,
+        "right_model_id": "google/gemini-3.6-flash",
+        "sign_flip_p": 0.36367636323636765
+      },
+      {
+        "bootstrap_95_ci": [
+          -5.0468636718749975,
+          -1.4796070312499978
+        ],
+        "cohen_dz": -0.1388749210800472,
+        "direction": "right_higher",
+        "holm_p": 0.04556954430455695,
+        "holm_significant": true,
+        "left_index": 2,
+        "left_model_id": "openai/gpt-5.6-luna-pro",
+        "mean_difference": -3.2397656250000004,
+        "right_index": 8,
+        "right_model_id": "x-ai/grok-4.5",
+        "sign_flip_p": 0.0004999950000499995
+      },
+      {
+        "bootstrap_95_ci": [
+          -3.1272519531249903,
+          0.8277785156250126
+        ],
+        "cohen_dz": -0.044389148058197485,
+        "direction": "right_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 2,
+        "left_model_id": "openai/gpt-5.6-luna-pro",
+        "mean_difference": -1.1511093750000003,
+        "right_index": 9,
+        "right_model_id": "moonshotai/kimi-k3",
+        "sign_flip_p": 0.25945740542594575
+      },
+      {
+        "bootstrap_95_ci": [
+          -4.43283125,
+          -0.09545039062502012
+        ],
+        "cohen_dz": -0.07945892678070252,
+        "direction": "right_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 2,
+        "left_model_id": "openai/gpt-5.6-luna-pro",
+        "mean_difference": -2.2479375000000004,
+        "right_index": 10,
+        "right_model_id": "qwen/qwen3.8-max",
+        "sign_flip_p": 0.04366956330436696
+      },
+      {
+        "bootstrap_95_ci": [
+          -0.026644531249995645,
+          4.588564062500002
+        ],
+        "cohen_dz": 0.07613133027832715,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 2,
+        "left_model_id": "openai/gpt-5.6-luna-pro",
+        "mean_difference": 2.284,
+        "right_index": 11,
+        "right_model_id": "z-ai/glm-5.2",
+        "sign_flip_p": 0.054299457005429944
+      },
+      {
+        "bootstrap_95_ci": [
+          -2.1391382812499793,
+          2.4016445312499988
+        ],
+        "cohen_dz": 0.0045450904323389996,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 2,
+        "left_model_id": "openai/gpt-5.6-luna-pro",
+        "mean_difference": 0.13320312499999992,
+        "right_index": 12,
+        "right_model_id": "deepseek/deepseek-v4-pro",
+        "sign_flip_p": 0.9094709052909471
+      },
+      {
+        "bootstrap_95_ci": [
+          4.009337499999975,
+          8.955778515624996
+        ],
+        "cohen_dz": 0.20100749113980698,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 2,
+        "left_model_id": "openai/gpt-5.6-luna-pro",
+        "mean_difference": 6.473109375000002,
+        "right_index": 13,
+        "right_model_id": "deepseek/deepseek-v4-flash-0731",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          0.07794648437498002,
+          4.850941015624987
+        ],
+        "cohen_dz": 0.07836088971234437,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 2,
+        "left_model_id": "openai/gpt-5.6-luna-pro",
+        "mean_difference": 2.4332031250000004,
+        "right_index": 14,
+        "right_model_id": "minimax/minimax-m3",
+        "sign_flip_p": 0.047309526904730954
+      },
+      {
+        "bootstrap_95_ci": [
+          1.7616527343749873,
+          6.2617703125
+        ],
+        "cohen_dz": 0.1373635126842023,
+        "direction": "left_higher",
+        "holm_p": 0.05455945440545595,
+        "holm_significant": false,
+        "left_index": 2,
+        "left_model_id": "openai/gpt-5.6-luna-pro",
+        "mean_difference": 4.008062499999999,
+        "right_index": 15,
+        "right_model_id": "nvidia/nemotron-3.5-lightning",
+        "sign_flip_p": 0.0006199938000619994
+      },
+      {
+        "bootstrap_95_ci": [
+          5.41179648437498,
+          10.093176953124976
+        ],
+        "cohen_dz": 0.25387145668976696,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 2,
+        "left_model_id": "openai/gpt-5.6-luna-pro",
+        "mean_difference": 7.758156250000001,
+        "right_index": 16,
+        "right_model_id": "mistralai/mistral-large-2512",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          -1.7876175781249888,
+          2.3302480468750044
+        ],
+        "cohen_dz": 0.009961424059689743,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 2,
+        "left_model_id": "openai/gpt-5.6-luna-pro",
+        "mean_difference": 0.2654374999999999,
+        "right_index": 17,
+        "right_model_id": "tencent/hy3",
+        "sign_flip_p": 0.8015019849801502
+      },
+      {
+        "bootstrap_95_ci": [
+          8.685838281249977,
+          13.445221484374999
+        ],
+        "cohen_dz": 0.35187272816237825,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 2,
+        "left_model_id": "openai/gpt-5.6-luna-pro",
+        "mean_difference": 11.0525625,
+        "right_index": 18,
+        "right_model_id": "cohere/command-a",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          29.72620468749997,
+          35.233675390624974
+        ],
+        "cohen_dz": 0.8638747511323446,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 2,
+        "left_model_id": "openai/gpt-5.6-luna-pro",
+        "mean_difference": 32.48775,
+        "right_index": 19,
+        "right_model_id": "cohere/command-r-plus-08-2024",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          -13.252633203124995,
+          -7.953005078124985
+        ],
+        "cohen_dz": -0.307017495880352,
+        "direction": "right_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 3,
+        "left_model_id": "meta-llama/llama-4-maverick",
+        "mean_difference": -10.584343749999999,
+        "right_index": 4,
+        "right_model_id": "anthropic/claude-opus-5",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          -11.829364843749987,
+          -6.663153124999979
+        ],
+        "cohen_dz": -0.27637442699496556,
+        "direction": "right_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 3,
+        "left_model_id": "meta-llama/llama-4-maverick",
+        "mean_difference": -9.263203125,
+        "right_index": 5,
+        "right_model_id": "anthropic/claude-sonnet-5",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          -15.419900781249995,
+          -9.989223828124997
+        ],
+        "cohen_dz": -0.3559544745850198,
+        "direction": "right_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 3,
+        "left_model_id": "meta-llama/llama-4-maverick",
+        "mean_difference": -12.72928125,
+        "right_index": 6,
+        "right_model_id": "google/gemini-3.1-pro-preview",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          -12.579227343749977,
+          -7.20983203124999
+        ],
+        "cohen_dz": -0.2818623399159068,
+        "direction": "right_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 3,
+        "left_model_id": "meta-llama/llama-4-maverick",
+        "mean_difference": -9.902921874999999,
+        "right_index": 7,
+        "right_model_id": "google/gemini-3.6-flash",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          -14.767258203125003,
+          -9.700201171875001
+        ],
+        "cohen_dz": -0.37032400480109273,
+        "direction": "right_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 3,
+        "left_model_id": "meta-llama/llama-4-maverick",
+        "mean_difference": -12.227124999999997,
+        "right_index": 8,
+        "right_model_id": "x-ai/grok-4.5",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          -12.851608984374984,
+          -7.428719531250004
+        ],
+        "cohen_dz": -0.2870179553689582,
+        "direction": "right_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 3,
+        "left_model_id": "meta-llama/llama-4-maverick",
+        "mean_difference": -10.138468750000001,
+        "right_index": 9,
+        "right_model_id": "moonshotai/kimi-k3",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          -13.928157031250025,
+          -8.562170312500005
+        ],
+        "cohen_dz": -0.31870602055584973,
+        "direction": "right_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 3,
+        "left_model_id": "meta-llama/llama-4-maverick",
+        "mean_difference": -11.235296875000001,
+        "right_index": 10,
+        "right_model_id": "qwen/qwen3.8-max",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          -9.276392578125021,
+          -4.129155078125008
+        ],
+        "cohen_dz": -0.20186051989072998,
+        "direction": "right_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 3,
+        "left_model_id": "meta-llama/llama-4-maverick",
+        "mean_difference": -6.703359375,
+        "right_index": 11,
+        "right_model_id": "z-ai/glm-5.2",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          -11.58550039062501,
+          -6.112678124999999
+        ],
+        "cohen_dz": -0.2492468016745642,
+        "direction": "right_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 3,
+        "left_model_id": "meta-llama/llama-4-maverick",
+        "mean_difference": -8.854156249999999,
+        "right_index": 12,
+        "right_model_id": "deepseek/deepseek-v4-pro",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          -5.226121875000021,
+          0.17367500000000363
+        ],
+        "cohen_dz": -0.07195656515846116,
+        "direction": "right_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 3,
+        "left_model_id": "meta-llama/llama-4-maverick",
+        "mean_difference": -2.51425,
+        "right_index": 13,
+        "right_model_id": "deepseek/deepseek-v4-flash-0731",
+        "sign_flip_p": 0.06828931710682894
+      },
+      {
+        "bootstrap_95_ci": [
+          -9.183219531250009,
+          -3.8968265624999714
+        ],
+        "cohen_dz": -0.19036195463387626,
+        "direction": "right_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 3,
+        "left_model_id": "meta-llama/llama-4-maverick",
+        "mean_difference": -6.55415625,
+        "right_index": 14,
+        "right_model_id": "minimax/minimax-m3",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          -7.738131640625018,
+          -2.195467968750005
+        ],
+        "cohen_dz": -0.13850123538199927,
+        "direction": "right_higher",
+        "holm_p": 0.04556954430455695,
+        "holm_significant": true,
+        "left_index": 3,
+        "left_model_id": "meta-llama/llama-4-maverick",
+        "mean_difference": -4.979296875,
+        "right_index": 15,
+        "right_model_id": "nvidia/nemotron-3.5-lightning",
+        "sign_flip_p": 0.0004899951000489995
+      },
+      {
+        "bootstrap_95_ci": [
+          -3.770523437499987,
+          1.3206035156249873
+        ],
+        "cohen_dz": -0.03683255873982207,
+        "direction": "right_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 3,
+        "left_model_id": "meta-llama/llama-4-maverick",
+        "mean_difference": -1.2292031250000002,
+        "right_index": 16,
+        "right_model_id": "mistralai/mistral-large-2512",
+        "sign_flip_p": 0.3513664863351367
+      },
+      {
+        "bootstrap_95_ci": [
+          -11.154491406250006,
+          -6.274746093750012
+        ],
+        "cohen_dz": -0.2754655095404243,
+        "direction": "right_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 3,
+        "left_model_id": "meta-llama/llama-4-maverick",
+        "mean_difference": -8.721921875000001,
+        "right_index": 17,
+        "right_model_id": "tencent/hy3",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          -0.43936718750000925,
+          4.593244531250002
+        ],
+        "cohen_dz": 0.06277272572827686,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 3,
+        "left_model_id": "meta-llama/llama-4-maverick",
+        "mean_difference": 2.065203125,
+        "right_index": 18,
+        "right_model_id": "cohere/command-a",
+        "sign_flip_p": 0.11231887681123189
+      },
+      {
+        "bootstrap_95_ci": [
+          20.62767499999998,
+          26.369441796874984
+        ],
+        "cohen_dz": 0.6025618487387061,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 3,
+        "left_model_id": "meta-llama/llama-4-maverick",
+        "mean_difference": 23.500390625,
+        "right_index": 19,
+        "right_model_id": "cohere/command-r-plus-08-2024",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          -0.5544078124999998,
+          3.200287500000003
+        ],
+        "cohen_dz": 0.05429495290160159,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 4,
+        "left_model_id": "anthropic/claude-opus-5",
+        "mean_difference": 1.3211406250000004,
+        "right_index": 5,
+        "right_model_id": "anthropic/claude-sonnet-5",
+        "sign_flip_p": 0.16936830631693683
+      },
+      {
+        "bootstrap_95_ci": [
+          -4.051598046875009,
+          -0.25148945312500653
+        ],
+        "cohen_dz": -0.08599452328812571,
+        "direction": "right_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 4,
+        "left_model_id": "anthropic/claude-opus-5",
+        "mean_difference": -2.1449375,
+        "right_index": 6,
+        "right_model_id": "google/gemini-3.1-pro-preview",
+        "sign_flip_p": 0.029879701202987972
+      },
+      {
+        "bootstrap_95_ci": [
+          -1.1827039062500027,
+          2.540949218749999
+        ],
+        "cohen_dz": 0.028068751253280358,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 4,
+        "left_model_id": "anthropic/claude-opus-5",
+        "mean_difference": 0.6814218750000002,
+        "right_index": 7,
+        "right_model_id": "google/gemini-3.6-flash",
+        "sign_flip_p": 0.4806751932480675
+      },
+      {
+        "bootstrap_95_ci": [
+          -3.6478609375000235,
+          0.34240742187501005
+        ],
+        "cohen_dz": -0.06306280451749272,
+        "direction": "right_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 4,
+        "left_model_id": "anthropic/claude-opus-5",
+        "mean_difference": -1.6427812499999994,
+        "right_index": 8,
+        "right_model_id": "x-ai/grok-4.5",
+        "sign_flip_p": 0.11088889111108889
+      },
+      {
+        "bootstrap_95_ci": [
+          -1.5333746093749894,
+          2.4378890625000054
+        ],
+        "cohen_dz": 0.017202061600780704,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 4,
+        "left_model_id": "anthropic/claude-opus-5",
+        "mean_difference": 0.44587500000000035,
+        "right_index": 9,
+        "right_model_id": "moonshotai/kimi-k3",
+        "sign_flip_p": 0.6631033689663104
+      },
+      {
+        "bootstrap_95_ci": [
+          -2.6246875000000074,
+          1.302034765625011
+        ],
+        "cohen_dz": -0.02517651479714251,
+        "direction": "right_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 4,
+        "left_model_id": "anthropic/claude-opus-5",
+        "mean_difference": -0.650953125,
+        "right_index": 10,
+        "right_model_id": "qwen/qwen3.8-max",
+        "sign_flip_p": 0.5255347446525535
+      },
+      {
+        "bootstrap_95_ci": [
+          1.6713687499999696,
+          6.072564062500003
+        ],
+        "cohen_dz": 0.13566550725838816,
+        "direction": "left_higher",
+        "holm_p": 0.04556954430455695,
+        "holm_significant": true,
+        "left_index": 4,
+        "left_model_id": "anthropic/claude-opus-5",
+        "mean_difference": 3.8809843749999997,
+        "right_index": 11,
+        "right_model_id": "z-ai/glm-5.2",
+        "sign_flip_p": 0.0004899951000489995
+      },
+      {
+        "bootstrap_95_ci": [
+          -0.46312617187500466,
+          3.9019066406250094
+        ],
+        "cohen_dz": 0.06117196265612409,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 4,
+        "left_model_id": "anthropic/claude-opus-5",
+        "mean_difference": 1.7301875,
+        "right_index": 12,
+        "right_model_id": "deepseek/deepseek-v4-pro",
+        "sign_flip_p": 0.12206877931220687
+      },
+      {
+        "bootstrap_95_ci": [
+          5.643626562499975,
+          10.507777734375004
+        ],
+        "cohen_dz": 0.25572735574889266,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 4,
+        "left_model_id": "anthropic/claude-opus-5",
+        "mean_difference": 8.070093750000002,
+        "right_index": 13,
+        "right_model_id": "deepseek/deepseek-v4-flash-0731",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          1.7889292968749897,
+          6.310485546874988
+        ],
+        "cohen_dz": 0.13715613615713676,
+        "direction": "left_higher",
+        "holm_p": 0.04323956760432395,
+        "holm_significant": true,
+        "left_index": 4,
+        "left_model_id": "anthropic/claude-opus-5",
+        "mean_difference": 4.030187500000001,
+        "right_index": 14,
+        "right_model_id": "minimax/minimax-m3",
+        "sign_flip_p": 0.0004599954000459995
+      },
+      {
+        "bootstrap_95_ci": [
+          3.088002734374997,
+          8.162169921874996
+        ],
+        "cohen_dz": 0.1699687476215924,
+        "direction": "left_higher",
+        "holm_p": 0.002139978600213998,
+        "holm_significant": true,
+        "left_index": 4,
+        "left_model_id": "anthropic/claude-opus-5",
+        "mean_difference": 5.605046875000001,
+        "right_index": 15,
+        "right_model_id": "nvidia/nemotron-3.5-lightning",
+        "sign_flip_p": 1.999980000199998e-05
+      },
+      {
+        "bootstrap_95_ci": [
+          6.955011328124994,
+          11.742507031249993
+        ],
+        "cohen_dz": 0.30040564324052454,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 4,
+        "left_model_id": "anthropic/claude-opus-5",
+        "mean_difference": 9.355140625,
+        "right_index": 16,
+        "right_model_id": "mistralai/mistral-large-2512",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          -0.24085156250000403,
+          3.987130468749979
+        ],
+        "cohen_dz": 0.0683526154675617,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 4,
+        "left_model_id": "anthropic/claude-opus-5",
+        "mean_difference": 1.8624218750000003,
+        "right_index": 17,
+        "right_model_id": "tencent/hy3",
+        "sign_flip_p": 0.08365916340836592
+      },
+      {
+        "bootstrap_95_ci": [
+          10.112524999999996,
+          15.172033984375004
+        ],
+        "cohen_dz": 0.38119432932073766,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 4,
+        "left_model_id": "anthropic/claude-opus-5",
+        "mean_difference": 12.649546875000002,
+        "right_index": 18,
+        "right_model_id": "cohere/command-a",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          31.212812109374998,
+          36.96164179687498
+        ],
+        "cohen_dz": 0.8840324131551652,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 4,
+        "left_model_id": "anthropic/claude-opus-5",
+        "mean_difference": 34.084734375,
+        "right_index": 19,
+        "right_model_id": "cohere/command-r-plus-08-2024",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          -5.555753515625028,
+          -1.3721246093750115
+        ],
+        "cohen_dz": -0.1258733187451557,
+        "direction": "right_higher",
+        "holm_p": 0.12555874441255588,
+        "holm_significant": false,
+        "left_index": 5,
+        "left_model_id": "anthropic/claude-sonnet-5",
+        "mean_difference": -3.466078125,
+        "right_index": 6,
+        "right_model_id": "google/gemini-3.1-pro-preview",
+        "sign_flip_p": 0.0014599854001459986
+      },
+      {
+        "bootstrap_95_ci": [
+          -2.6786632812500315,
+          1.4069191406250199
+        ],
+        "cohen_dz": -0.02388805247644598,
+        "direction": "right_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 5,
+        "left_model_id": "anthropic/claude-sonnet-5",
+        "mean_difference": -0.6397187500000001,
+        "right_index": 7,
+        "right_model_id": "google/gemini-3.6-flash",
+        "sign_flip_p": 0.5440745592544075
+      },
+      {
+        "bootstrap_95_ci": [
+          -5.071110156250034,
+          -0.8602234375000042
+        ],
+        "cohen_dz": -0.10780809995878018,
+        "direction": "right_higher",
+        "holm_p": 0.4802351976480235,
+        "holm_significant": false,
+        "left_index": 5,
+        "left_model_id": "anthropic/claude-sonnet-5",
+        "mean_difference": -2.963921875,
+        "right_index": 8,
+        "right_model_id": "x-ai/grok-4.5",
+        "sign_flip_p": 0.0066899331006689934
+      },
+      {
+        "bootstrap_95_ci": [
+          -3.0021691406249986,
+          1.239244140624982
+        ],
+        "cohen_dz": -0.03174788369208095,
+        "direction": "right_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 5,
+        "left_model_id": "anthropic/claude-sonnet-5",
+        "mean_difference": -0.8752656250000003,
+        "right_index": 9,
+        "right_model_id": "moonshotai/kimi-k3",
+        "sign_flip_p": 0.42198578014219856
+      },
+      {
+        "bootstrap_95_ci": [
+          -4.066750390625026,
+          0.12688593749998325
+        ],
+        "cohen_dz": -0.07169840757358799,
+        "direction": "right_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 5,
+        "left_model_id": "anthropic/claude-sonnet-5",
+        "mean_difference": -1.9720937500000002,
+        "right_index": 10,
+        "right_model_id": "qwen/qwen3.8-max",
+        "sign_flip_p": 0.07091929080709193
+      },
+      {
+        "bootstrap_95_ci": [
+          0.3570402343749809,
+          4.745166796874994
+        ],
+        "cohen_dz": 0.09011204363392442,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 5,
+        "left_model_id": "anthropic/claude-sonnet-5",
+        "mean_difference": 2.5598437499999998,
+        "right_index": 11,
+        "right_model_id": "z-ai/glm-5.2",
+        "sign_flip_p": 0.022709772902270976
+      },
+      {
+        "bootstrap_95_ci": [
+          -1.834126171874994,
+          2.6317355468749937
+        ],
+        "cohen_dz": 0.014102328259326594,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 5,
+        "left_model_id": "anthropic/claude-sonnet-5",
+        "mean_difference": 0.4090468749999996,
+        "right_index": 12,
+        "right_model_id": "deepseek/deepseek-v4-pro",
+        "sign_flip_p": 0.7219727802721972
+      },
+      {
+        "bootstrap_95_ci": [
+          4.220935937499966,
+          9.297404296874978
+        ],
+        "cohen_dz": 0.20535399943462382,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 5,
+        "left_model_id": "anthropic/claude-sonnet-5",
+        "mean_difference": 6.748953125,
+        "right_index": 13,
+        "right_model_id": "deepseek/deepseek-v4-flash-0731",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          0.41650664062501624,
+          5.019897656249999
+        ],
+        "cohen_dz": 0.09100768168450742,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 5,
+        "left_model_id": "anthropic/claude-sonnet-5",
+        "mean_difference": 2.709046875,
+        "right_index": 14,
+        "right_model_id": "minimax/minimax-m3",
+        "sign_flip_p": 0.02097979020209798
+      },
+      {
+        "bootstrap_95_ci": [
+          1.8686378906249832,
+          6.740345703124992
+        ],
+        "cohen_dz": 0.13570180885399447,
+        "direction": "left_higher",
+        "holm_p": 0.04556954430455695,
+        "holm_significant": true,
+        "left_index": 5,
+        "left_model_id": "anthropic/claude-sonnet-5",
+        "mean_difference": 4.28390625,
+        "right_index": 15,
+        "right_model_id": "nvidia/nemotron-3.5-lightning",
+        "sign_flip_p": 0.0004999950000499995
+      },
+      {
+        "bootstrap_95_ci": [
+          5.683920312499988,
+          10.417975390624997
+        ],
+        "cohen_dz": 0.2612229269631461,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 5,
+        "left_model_id": "anthropic/claude-sonnet-5",
+        "mean_difference": 8.034,
+        "right_index": 16,
+        "right_model_id": "mistralai/mistral-large-2512",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          -1.5352855468749975,
+          2.6402863281249873
+        ],
+        "cohen_dz": 0.02000590549632163,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 5,
+        "left_model_id": "anthropic/claude-sonnet-5",
+        "mean_difference": 0.5412812499999998,
+        "right_index": 17,
+        "right_model_id": "tencent/hy3",
+        "sign_flip_p": 0.6144038559614404
+      },
+      {
+        "bootstrap_95_ci": [
+          8.917796874999993,
+          13.744959765625001
+        ],
+        "cohen_dz": 0.35904706484069715,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 5,
+        "left_model_id": "anthropic/claude-sonnet-5",
+        "mean_difference": 11.32840625,
+        "right_index": 18,
+        "right_model_id": "cohere/command-a",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          29.94907265624999,
+          35.595658203125
+        ],
+        "cohen_dz": 0.8575351489911376,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 5,
+        "left_model_id": "anthropic/claude-sonnet-5",
+        "mean_difference": 32.763593750000005,
+        "right_index": 19,
+        "right_model_id": "cohere/command-r-plus-08-2024",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          0.9245769531250382,
+          4.712514843750021
+        ],
+        "cohen_dz": 0.11471293171756596,
+        "direction": "left_higher",
+        "holm_p": 0.3142468575314247,
+        "holm_significant": false,
+        "left_index": 6,
+        "left_model_id": "google/gemini-3.1-pro-preview",
+        "mean_difference": 2.826359375,
+        "right_index": 7,
+        "right_model_id": "google/gemini-3.6-flash",
+        "sign_flip_p": 0.004189958100418996
+      },
+      {
+        "bootstrap_95_ci": [
+          -1.3989535156249995,
+          2.3552757812500293
+        ],
+        "cohen_dz": 0.02068611789212717,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 6,
+        "left_model_id": "google/gemini-3.1-pro-preview",
+        "mean_difference": 0.5021562499999999,
+        "right_index": 8,
+        "right_model_id": "x-ai/grok-4.5",
+        "sign_flip_p": 0.6009139908600915
+      },
+      {
+        "bootstrap_95_ci": [
+          0.6744117187500213,
+          4.508631640624995
+        ],
+        "cohen_dz": 0.10415554763465067,
+        "direction": "left_higher",
+        "holm_p": 0.5823941760582394,
+        "holm_significant": false,
+        "left_index": 6,
+        "left_model_id": "google/gemini-3.1-pro-preview",
+        "mean_difference": 2.5908124999999997,
+        "right_index": 9,
+        "right_model_id": "moonshotai/kimi-k3",
+        "sign_flip_p": 0.008319916800831991
+      },
+      {
+        "bootstrap_95_ci": [
+          -0.3442199218749959,
+          3.292265624999996
+        ],
+        "cohen_dz": 0.06319313174120794,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 6,
+        "left_model_id": "google/gemini-3.1-pro-preview",
+        "mean_difference": 1.4939843750000001,
+        "right_index": 10,
+        "right_model_id": "qwen/qwen3.8-max",
+        "sign_flip_p": 0.10934890651093489
+      },
+      {
+        "bootstrap_95_ci": [
+          3.6113851562500128,
+          8.390344140625015
+        ],
+        "cohen_dz": 0.19401910823038748,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 6,
+        "left_model_id": "google/gemini-3.1-pro-preview",
+        "mean_difference": 6.025921875,
+        "right_index": 11,
+        "right_model_id": "z-ai/glm-5.2",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          1.7440585937499988,
+          6.005578906249999
+        ],
+        "cohen_dz": 0.14037172233157214,
+        "direction": "left_higher",
+        "holm_p": 0.03263967360326397,
+        "holm_significant": true,
+        "left_index": 6,
+        "left_model_id": "google/gemini-3.1-pro-preview",
+        "mean_difference": 3.8751249999999997,
+        "right_index": 12,
+        "right_model_id": "deepseek/deepseek-v4-pro",
+        "sign_flip_p": 0.00033999660003399966
+      },
+      {
+        "bootstrap_95_ci": [
+          7.590916015625,
+          12.816585546875015
+        ],
+        "cohen_dz": 0.29920609372445267,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 6,
+        "left_model_id": "google/gemini-3.1-pro-preview",
+        "mean_difference": 10.215031250000001,
+        "right_index": 13,
+        "right_model_id": "deepseek/deepseek-v4-flash-0731",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          3.88958789062502,
+          8.476626953124999
+        ],
+        "cohen_dz": 0.2066376517983435,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 6,
+        "left_model_id": "google/gemini-3.1-pro-preview",
+        "mean_difference": 6.175125,
+        "right_index": 14,
+        "right_model_id": "minimax/minimax-m3",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          5.26183789062499,
+          10.273641015624998
+        ],
+        "cohen_dz": 0.23874009556249048,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 6,
+        "left_model_id": "google/gemini-3.1-pro-preview",
+        "mean_difference": 7.7499843749999995,
+        "right_index": 15,
+        "right_model_id": "nvidia/nemotron-3.5-lightning",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          8.947808593749999,
+          14.036940234374994
+        ],
+        "cohen_dz": 0.3478700428968818,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 6,
+        "left_model_id": "google/gemini-3.1-pro-preview",
+        "mean_difference": 11.500078124999998,
+        "right_index": 16,
+        "right_model_id": "mistralai/mistral-large-2512",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          1.9599843750000043,
+          6.0765035156250375
+        ],
+        "cohen_dz": 0.15050200458250088,
+        "direction": "left_higher",
+        "holm_p": 0.013999860001399987,
+        "holm_significant": true,
+        "left_index": 6,
+        "left_model_id": "google/gemini-3.1-pro-preview",
+        "mean_difference": 4.007359375,
+        "right_index": 17,
+        "right_model_id": "tencent/hy3",
+        "sign_flip_p": 0.00013999860001399987
+      },
+      {
+        "bootstrap_95_ci": [
+          12.217433203125031,
+          17.357834375
+        ],
+        "cohen_dz": 0.42805763065609637,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 6,
+        "left_model_id": "google/gemini-3.1-pro-preview",
+        "mean_difference": 14.794484375,
+        "right_index": 18,
+        "right_model_id": "cohere/command-a",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          33.304509765624985,
+          39.08028515625
+        ],
+        "cohen_dz": 0.9229823927507101,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 6,
+        "left_model_id": "google/gemini-3.1-pro-preview",
+        "mean_difference": 36.229671874999994,
+        "right_index": 19,
+        "right_model_id": "cohere/command-r-plus-08-2024",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          -4.163263281250005,
+          -0.5207624999999962
+        ],
+        "cohen_dz": -0.09826585795672246,
+        "direction": "right_higher",
+        "holm_p": 0.9197608023919761,
+        "holm_significant": false,
+        "left_index": 7,
+        "left_model_id": "google/gemini-3.6-flash",
+        "mean_difference": -2.3242031249999995,
+        "right_index": 8,
+        "right_model_id": "x-ai/grok-4.5",
+        "sign_flip_p": 0.013329866701332987
+      },
+      {
+        "bootstrap_95_ci": [
+          -2.2236765625000077,
+          1.7465781249999992
+        ],
+        "cohen_dz": -0.009122210031586715,
+        "direction": "right_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 7,
+        "left_model_id": "google/gemini-3.6-flash",
+        "mean_difference": -0.23554687500000018,
+        "right_index": 9,
+        "right_model_id": "moonshotai/kimi-k3",
+        "sign_flip_p": 0.8172818271817281
+      },
+      {
+        "bootstrap_95_ci": [
+          -3.395269140625021,
+          0.6730011718749883
+        ],
+        "cohen_dz": -0.05070874299826987,
+        "direction": "right_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 7,
+        "left_model_id": "google/gemini-3.6-flash",
+        "mean_difference": -1.332375,
+        "right_index": 10,
+        "right_model_id": "qwen/qwen3.8-max",
+        "sign_flip_p": 0.2022879771202288
+      },
+      {
+        "bootstrap_95_ci": [
+          0.9603136718749895,
+          5.428314843750002
+        ],
+        "cohen_dz": 0.10921662999646296,
+        "direction": "left_higher",
+        "holm_p": 0.45040549594504053,
+        "holm_significant": false,
+        "left_index": 7,
+        "left_model_id": "google/gemini-3.6-flash",
+        "mean_difference": 3.1995625,
+        "right_index": 11,
+        "right_model_id": "z-ai/glm-5.2",
+        "sign_flip_p": 0.006169938300616994
+      },
+      {
+        "bootstrap_95_ci": [
+          -1.203086328124998,
+          3.3248175781249794
+        ],
+        "cohen_dz": 0.03577232369615208,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 7,
+        "left_model_id": "google/gemini-3.6-flash",
+        "mean_difference": 1.048765625,
+        "right_index": 12,
+        "right_model_id": "deepseek/deepseek-v4-pro",
+        "sign_flip_p": 0.36844631553684465
+      },
+      {
+        "bootstrap_95_ci": [
+          4.933498437500009,
+          9.835622265624991
+        ],
+        "cohen_dz": 0.22950785050659164,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 7,
+        "left_model_id": "google/gemini-3.6-flash",
+        "mean_difference": 7.388671875,
+        "right_index": 13,
+        "right_model_id": "deepseek/deepseek-v4-flash-0731",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          0.9693519531250057,
+          5.762991796874989
+        ],
+        "cohen_dz": 0.10781391321387226,
+        "direction": "left_higher",
+        "holm_p": 0.4802351976480235,
+        "holm_significant": false,
+        "left_index": 7,
+        "left_model_id": "google/gemini-3.6-flash",
+        "mean_difference": 3.348765625,
+        "right_index": 14,
+        "right_model_id": "minimax/minimax-m3",
+        "sign_flip_p": 0.006669933300666993
+      },
+      {
+        "bootstrap_95_ci": [
+          2.512964062500013,
+          7.321179687499976
+        ],
+        "cohen_dz": 0.15750218460537313,
+        "direction": "left_higher",
+        "holm_p": 0.0071399286007139936,
+        "holm_significant": true,
+        "left_index": 7,
+        "left_model_id": "google/gemini-3.6-flash",
+        "mean_difference": 4.9236249999999995,
+        "right_index": 15,
+        "right_model_id": "nvidia/nemotron-3.5-lightning",
+        "sign_flip_p": 6.999930000699993e-05
+      },
+      {
+        "bootstrap_95_ci": [
+          6.4161289062500035,
+          10.949068749999997
+        ],
+        "cohen_dz": 0.2912983622585508,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 7,
+        "left_model_id": "google/gemini-3.6-flash",
+        "mean_difference": 8.67371875,
+        "right_index": 16,
+        "right_model_id": "mistralai/mistral-large-2512",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          -1.0701339843750326,
+          3.410759374999993
+        ],
+        "cohen_dz": 0.04037621799460939,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 7,
+        "left_model_id": "google/gemini-3.6-flash",
+        "mean_difference": 1.181,
+        "right_index": 17,
+        "right_model_id": "tencent/hy3",
+        "sign_flip_p": 0.3097469025309747
+      },
+      {
+        "bootstrap_95_ci": [
+          9.520342578124994,
+          14.395207031249981
+        ],
+        "cohen_dz": 0.3658074515975823,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 7,
+        "left_model_id": "google/gemini-3.6-flash",
+        "mean_difference": 11.968125,
+        "right_index": 18,
+        "right_model_id": "cohere/command-a",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          30.51451445312498,
+          36.265687890624974
+        ],
+        "cohen_dz": 0.8459760585452691,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 7,
+        "left_model_id": "google/gemini-3.6-flash",
+        "mean_difference": 33.4033125,
+        "right_index": 19,
+        "right_model_id": "cohere/command-r-plus-08-2024",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          0.11446640625000024,
+          4.0980882812499875
+        ],
+        "cohen_dz": 0.08059777614294944,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 8,
+        "left_model_id": "x-ai/grok-4.5",
+        "mean_difference": 2.08865625,
+        "right_index": 9,
+        "right_model_id": "moonshotai/kimi-k3",
+        "sign_flip_p": 0.04072959270407296
+      },
+      {
+        "bootstrap_95_ci": [
+          -0.9174960937499864,
+          2.8696101562499967
+        ],
+        "cohen_dz": 0.04062415590799283,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 8,
+        "left_model_id": "x-ai/grok-4.5",
+        "mean_difference": 0.9918281249999998,
+        "right_index": 10,
+        "right_model_id": "qwen/qwen3.8-max",
+        "sign_flip_p": 0.3042369576304237
+      },
+      {
+        "bootstrap_95_ci": [
+          3.297565234375015,
+          7.738741406249979
+        ],
+        "cohen_dz": 0.19028913503459471,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 8,
+        "left_model_id": "x-ai/grok-4.5",
+        "mean_difference": 5.523765625,
+        "right_index": 11,
+        "right_model_id": "z-ai/glm-5.2",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          1.254524609374999,
+          5.514123046874988
+        ],
+        "cohen_dz": 0.12265106949200245,
+        "direction": "left_higher",
+        "holm_p": 0.17135828641713582,
+        "holm_significant": false,
+        "left_index": 8,
+        "left_model_id": "x-ai/grok-4.5",
+        "mean_difference": 3.3729687499999996,
+        "right_index": 12,
+        "right_model_id": "deepseek/deepseek-v4-pro",
+        "sign_flip_p": 0.002039979600203998
+      },
+      {
+        "bootstrap_95_ci": [
+          7.370999609374995,
+          12.100486718749973
+        ],
+        "cohen_dz": 0.3134252454532996,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 8,
+        "left_model_id": "x-ai/grok-4.5",
+        "mean_difference": 9.712875,
+        "right_index": 13,
+        "right_model_id": "deepseek/deepseek-v4-flash-0731",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          3.4786691406249894,
+          7.934787109374986
+        ],
+        "cohen_dz": 0.19468662887172763,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 8,
+        "left_model_id": "x-ai/grok-4.5",
+        "mean_difference": 5.67296875,
+        "right_index": 14,
+        "right_model_id": "minimax/minimax-m3",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          4.997058984374974,
+          9.538952734374986
+        ],
+        "cohen_dz": 0.2466928306139796,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 8,
+        "left_model_id": "x-ai/grok-4.5",
+        "mean_difference": 7.247828125,
+        "right_index": 15,
+        "right_model_id": "nvidia/nemotron-3.5-lightning",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          8.745124218750002,
+          13.27237070312501
+        ],
+        "cohen_dz": 0.373797375686805,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 8,
+        "left_model_id": "x-ai/grok-4.5",
+        "mean_difference": 10.997921875,
+        "right_index": 16,
+        "right_model_id": "mistralai/mistral-large-2512",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          1.4862382812499977,
+          5.55496953125001
+        ],
+        "cohen_dz": 0.13265452085488136,
+        "direction": "left_higher",
+        "holm_p": 0.06872931270687294,
+        "holm_significant": false,
+        "left_index": 8,
+        "left_model_id": "x-ai/grok-4.5",
+        "mean_difference": 3.505203125,
+        "right_index": 17,
+        "right_model_id": "tencent/hy3",
+        "sign_flip_p": 0.0007899921000789992
+      },
+      {
+        "bootstrap_95_ci": [
+          11.871423828124975,
+          16.734195312499985
+        ],
+        "cohen_dz": 0.4391371884308882,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 8,
+        "left_model_id": "x-ai/grok-4.5",
+        "mean_difference": 14.292328125000001,
+        "right_index": 18,
+        "right_model_id": "cohere/command-a",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          32.964233203125,
+          38.48364921874999
+        ],
+        "cohen_dz": 0.9492868191766152,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 8,
+        "left_model_id": "x-ai/grok-4.5",
+        "mean_difference": 35.727515625,
+        "right_index": 19,
+        "right_model_id": "cohere/command-r-plus-08-2024",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          -3.193798437499976,
+          0.9765796875000141
+        ],
+        "cohen_dz": -0.04051828340390731,
+        "direction": "right_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 9,
+        "left_model_id": "moonshotai/kimi-k3",
+        "mean_difference": -1.0968281249999996,
+        "right_index": 10,
+        "right_model_id": "qwen/qwen3.8-max",
+        "sign_flip_p": 0.3056569434305657
+      },
+      {
+        "bootstrap_95_ci": [
+          1.1533824218750284,
+          5.715754296875
+        ],
+        "cohen_dz": 0.11537002113918128,
+        "direction": "left_higher",
+        "holm_p": 0.24947750522494774,
+        "holm_significant": false,
+        "left_index": 9,
+        "left_model_id": "moonshotai/kimi-k3",
+        "mean_difference": 3.4351093750000006,
+        "right_index": 11,
+        "right_model_id": "z-ai/glm-5.2",
+        "sign_flip_p": 0.003079969200307997
+      },
+      {
+        "bootstrap_95_ci": [
+          -0.8001210937499912,
+          3.3932550781249953
+        ],
+        "cohen_dz": 0.04735956178965207,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 9,
+        "left_model_id": "moonshotai/kimi-k3",
+        "mean_difference": 1.2843125,
+        "right_index": 12,
+        "right_model_id": "deepseek/deepseek-v4-pro",
+        "sign_flip_p": 0.23027769722302777
+      },
+      {
+        "bootstrap_95_ci": [
+          4.903487109374997,
+          10.352535937499985
+        ],
+        "cohen_dz": 0.21529945113244037,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 9,
+        "left_model_id": "moonshotai/kimi-k3",
+        "mean_difference": 7.624218750000002,
+        "right_index": 13,
+        "right_model_id": "deepseek/deepseek-v4-flash-0731",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          1.3109519531249976,
+          5.893188281249996
+        ],
+        "cohen_dz": 0.1200043176150401,
+        "direction": "left_higher",
+        "holm_p": 0.17875821241787584,
+        "holm_significant": false,
+        "left_index": 9,
+        "left_model_id": "moonshotai/kimi-k3",
+        "mean_difference": 3.5843125000000002,
+        "right_index": 14,
+        "right_model_id": "minimax/minimax-m3",
+        "sign_flip_p": 0.002179978200217998
+      },
+      {
+        "bootstrap_95_ci": [
+          2.925092578125002,
+          7.423146484375014
+        ],
+        "cohen_dz": 0.17649177508408226,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 9,
+        "left_model_id": "moonshotai/kimi-k3",
+        "mean_difference": 5.159171875,
+        "right_index": 15,
+        "right_model_id": "nvidia/nemotron-3.5-lightning",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          6.331074609374998,
+          11.492969531249974
+        ],
+        "cohen_dz": 0.2644526471465172,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 9,
+        "left_model_id": "moonshotai/kimi-k3",
+        "mean_difference": 8.909265625,
+        "right_index": 16,
+        "right_model_id": "mistralai/mistral-large-2512",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          -0.5797558593749872,
+          3.399613281249984
+        ],
+        "cohen_dz": 0.05473038435990211,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 9,
+        "left_model_id": "moonshotai/kimi-k3",
+        "mean_difference": 1.4165468750000003,
+        "right_index": 17,
+        "right_model_id": "tencent/hy3",
+        "sign_flip_p": 0.16545834541654583
+      },
+      {
+        "bootstrap_95_ci": [
+          9.615135937499995,
+          14.782630468749995
+        ],
+        "cohen_dz": 0.3567530122804738,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 9,
+        "left_model_id": "moonshotai/kimi-k3",
+        "mean_difference": 12.203671875000001,
+        "right_index": 18,
+        "right_model_id": "cohere/command-a",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          30.694724609375,
+          36.551336328124975
+        ],
+        "cohen_dz": 0.8500146775349466,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 9,
+        "left_model_id": "moonshotai/kimi-k3",
+        "mean_difference": 33.638859374999996,
+        "right_index": 19,
+        "right_model_id": "cohere/command-r-plus-08-2024",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          2.0734816406249927,
+          6.991889843749994
+        ],
+        "cohen_dz": 0.14012120987505192,
+        "direction": "left_higher",
+        "holm_p": 0.03989960100398996,
+        "holm_significant": true,
+        "left_index": 10,
+        "left_model_id": "qwen/qwen3.8-max",
+        "mean_difference": 4.5319375,
+        "right_index": 11,
+        "right_model_id": "z-ai/glm-5.2",
+        "sign_flip_p": 0.0004199958000419996
+      },
+      {
+        "bootstrap_95_ci": [
+          0.1419132812500085,
+          4.648589062500001
+        ],
+        "cohen_dz": 0.0812078998062797,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 10,
+        "left_model_id": "qwen/qwen3.8-max",
+        "mean_difference": 2.381140625,
+        "right_index": 12,
+        "right_model_id": "deepseek/deepseek-v4-pro",
+        "sign_flip_p": 0.03976960230397696
+      },
+      {
+        "bootstrap_95_ci": [
+          6.159462499999995,
+          11.32395898437499
+        ],
+        "cohen_dz": 0.258229472749374,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 10,
+        "left_model_id": "qwen/qwen3.8-max",
+        "mean_difference": 8.721046874999999,
+        "right_index": 13,
+        "right_model_id": "deepseek/deepseek-v4-flash-0731",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          2.491907812499989,
+          6.9475929687500075
+        ],
+        "cohen_dz": 0.1614050842378099,
+        "direction": "left_higher",
+        "holm_p": 0.003179968200317997,
+        "holm_significant": true,
+        "left_index": 10,
+        "left_model_id": "qwen/qwen3.8-max",
+        "mean_difference": 4.681140625,
+        "right_index": 14,
+        "right_model_id": "minimax/minimax-m3",
+        "sign_flip_p": 2.999970000299997e-05
+      },
+      {
+        "bootstrap_95_ci": [
+          3.9153175781249874,
+          8.659550000000017
+        ],
+        "cohen_dz": 0.20292421890949736,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 10,
+        "left_model_id": "qwen/qwen3.8-max",
+        "mean_difference": 6.256,
+        "right_index": 15,
+        "right_model_id": "nvidia/nemotron-3.5-lightning",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          7.607919531249982,
+          12.458221874999987
+        ],
+        "cohen_dz": 0.31704711343022235,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 10,
+        "left_model_id": "qwen/qwen3.8-max",
+        "mean_difference": 10.00609375,
+        "right_index": 16,
+        "right_model_id": "mistralai/mistral-large-2512",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          0.37804062499999597,
+          4.685858984375004
+        ],
+        "cohen_dz": 0.08950724535749614,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 10,
+        "left_model_id": "qwen/qwen3.8-max",
+        "mean_difference": 2.513375,
+        "right_index": 17,
+        "right_model_id": "tencent/hy3",
+        "sign_flip_p": 0.023559764402355975
+      },
+      {
+        "bootstrap_95_ci": [
+          10.765331249999994,
+          15.871557031249978
+        ],
+        "cohen_dz": 0.3912736689362337,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 10,
+        "left_model_id": "qwen/qwen3.8-max",
+        "mean_difference": 13.3005,
+        "right_index": 18,
+        "right_model_id": "cohere/command-a",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          31.848401171874997,
+          37.626056640624974
+        ],
+        "cohen_dz": 0.8791658366835313,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 10,
+        "left_model_id": "qwen/qwen3.8-max",
+        "mean_difference": 34.735687500000004,
+        "right_index": 19,
+        "right_model_id": "cohere/command-r-plus-08-2024",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          -4.557020703125005,
+          0.27197265625001266
+        ],
+        "cohen_dz": -0.06874750390784203,
+        "direction": "right_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 11,
+        "left_model_id": "z-ai/glm-5.2",
+        "mean_difference": -2.150796875,
+        "right_index": 12,
+        "right_model_id": "deepseek/deepseek-v4-pro",
+        "sign_flip_p": 0.08293917060829392
+      },
+      {
+        "bootstrap_95_ci": [
+          1.868513281249976,
+          6.507814062499993
+        ],
+        "cohen_dz": 0.1382158735649084,
+        "direction": "left_higher",
+        "holm_p": 0.04627953720462795,
+        "holm_significant": true,
+        "left_index": 11,
+        "left_model_id": "z-ai/glm-5.2",
+        "mean_difference": 4.189109375,
+        "right_index": 13,
+        "right_model_id": "deepseek/deepseek-v4-flash-0731",
+        "sign_flip_p": 0.0005199948000519994
+      },
+      {
+        "bootstrap_95_ci": [
+          -2.288988671874985,
+          2.6227781250000124
+        ],
+        "cohen_dz": 0.004666208780776853,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 11,
+        "left_model_id": "z-ai/glm-5.2",
+        "mean_difference": 0.1492031250000002,
+        "right_index": 14,
+        "right_model_id": "minimax/minimax-m3",
+        "sign_flip_p": 0.9067809321906781
+      },
+      {
+        "bootstrap_95_ci": [
+          -0.8216898437499957,
+          4.310031640624995
+        ],
+        "cohen_dz": 0.051780028811714604,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 11,
+        "left_model_id": "z-ai/glm-5.2",
+        "mean_difference": 1.7240624999999998,
+        "right_index": 15,
+        "right_model_id": "nvidia/nemotron-3.5-lightning",
+        "sign_flip_p": 0.1915280847191528
+      },
+      {
+        "bootstrap_95_ci": [
+          3.0890105468750155,
+          7.864321484374983
+        ],
+        "cohen_dz": 0.17684117841357036,
+        "direction": "left_higher",
+        "holm_p": 0.003179968200317997,
+        "holm_significant": true,
+        "left_index": 11,
+        "left_model_id": "z-ai/glm-5.2",
+        "mean_difference": 5.47415625,
+        "right_index": 16,
+        "right_model_id": "mistralai/mistral-large-2512",
+        "sign_flip_p": 2.999970000299997e-05
+      },
+      {
+        "bootstrap_95_ci": [
+          -4.236525390624996,
+          0.18351679687501016
+        ],
+        "cohen_dz": -0.07080307149231208,
+        "direction": "right_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 11,
+        "left_model_id": "z-ai/glm-5.2",
+        "mean_difference": -2.0185624999999994,
+        "right_index": 17,
+        "right_model_id": "tencent/hy3",
+        "sign_flip_p": 0.07460925390746093
+      },
+      {
+        "bootstrap_95_ci": [
+          6.3804203125000205,
+          11.167404687500023
+        ],
+        "cohen_dz": 0.27882844041504895,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 11,
+        "left_model_id": "z-ai/glm-5.2",
+        "mean_difference": 8.7685625,
+        "right_index": 18,
+        "right_model_id": "cohere/command-a",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          27.361774999999994,
+          33.05089257812499
+        ],
+        "cohen_dz": 0.7817910620640717,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 11,
+        "left_model_id": "z-ai/glm-5.2",
+        "mean_difference": 30.203750000000003,
+        "right_index": 19,
+        "right_model_id": "cohere/command-r-plus-08-2024",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          3.6220117187499965,
+          9.079293359374994
+        ],
+        "cohen_dz": 0.1785927271132199,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 12,
+        "left_model_id": "deepseek/deepseek-v4-pro",
+        "mean_difference": 6.33990625,
+        "right_index": 13,
+        "right_model_id": "deepseek/deepseek-v4-flash-0731",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          0.10247460937498905,
+          4.543504296874991
+        ],
+        "cohen_dz": 0.08030206084073853,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 12,
+        "left_model_id": "deepseek/deepseek-v4-pro",
+        "mean_difference": 2.3000000000000003,
+        "right_index": 14,
+        "right_model_id": "minimax/minimax-m3",
+        "sign_flip_p": 0.04236957630423696
+      },
+      {
+        "bootstrap_95_ci": [
+          1.4258578124999741,
+          6.3504902343749805
+        ],
+        "cohen_dz": 0.12106135292838589,
+        "direction": "left_higher",
+        "holm_p": 0.1726382736172638,
+        "holm_significant": false,
+        "left_index": 12,
+        "left_model_id": "deepseek/deepseek-v4-pro",
+        "mean_difference": 3.8748593749999998,
+        "right_index": 15,
+        "right_model_id": "nvidia/nemotron-3.5-lightning",
+        "sign_flip_p": 0.0020799792002079978
+      },
+      {
+        "bootstrap_95_ci": [
+          5.081520703125011,
+          10.178110546874999
+        ],
+        "cohen_dz": 0.23025444105438736,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 12,
+        "left_model_id": "deepseek/deepseek-v4-pro",
+        "mean_difference": 7.624953125,
+        "right_index": 16,
+        "right_model_id": "mistralai/mistral-large-2512",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          -2.043078515625005,
+          2.3267710937500055
+        ],
+        "cohen_dz": 0.004685483541011438,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 12,
+        "left_model_id": "deepseek/deepseek-v4-pro",
+        "mean_difference": 0.1322343750000002,
+        "right_index": 17,
+        "right_model_id": "tencent/hy3",
+        "sign_flip_p": 0.9067109328906711
+      },
+      {
+        "bootstrap_95_ci": [
+          8.183757421875006,
+          13.668298437500022
+        ],
+        "cohen_dz": 0.30258331599621235,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 12,
+        "left_model_id": "deepseek/deepseek-v4-pro",
+        "mean_difference": 10.919359374999999,
+        "right_index": 18,
+        "right_model_id": "cohere/command-a",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          29.48208281249999,
+          35.256958203124974
+        ],
+        "cohen_dz": 0.8359227377640848,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 12,
+        "left_model_id": "deepseek/deepseek-v4-pro",
+        "mean_difference": 32.354546875000004,
+        "right_index": 19,
+        "right_model_id": "cohere/command-r-plus-08-2024",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          -6.691783593749991,
+          -1.3658230468749932
+        ],
+        "cohen_dz": -0.11671580586402627,
+        "direction": "right_higher",
+        "holm_p": 0.2757072429275707,
+        "holm_significant": false,
+        "left_index": 13,
+        "left_model_id": "deepseek/deepseek-v4-flash-0731",
+        "mean_difference": -4.03990625,
+        "right_index": 14,
+        "right_model_id": "minimax/minimax-m3",
+        "sign_flip_p": 0.0034899651003489963
+      },
+      {
+        "bootstrap_95_ci": [
+          -5.2123414062500055,
+          0.2864699218750094
+        ],
+        "cohen_dz": -0.0694243900387989,
+        "direction": "right_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 13,
+        "left_model_id": "deepseek/deepseek-v4-flash-0731",
+        "mean_difference": -2.4650468750000005,
+        "right_index": 15,
+        "right_model_id": "nvidia/nemotron-3.5-lightning",
+        "sign_flip_p": 0.08017919820801792
+      },
+      {
+        "bootstrap_95_ci": [
+          -0.9565773437499895,
+          3.520759765624986
+        ],
+        "cohen_dz": 0.04399753484010272,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 13,
+        "left_model_id": "deepseek/deepseek-v4-flash-0731",
+        "mean_difference": 1.285046875,
+        "right_index": 16,
+        "right_model_id": "mistralai/mistral-large-2512",
+        "sign_flip_p": 0.26526734732652674
+      },
+      {
+        "bootstrap_95_ci": [
+          -8.682173437500003,
+          -3.754497656249986
+        ],
+        "cohen_dz": -0.19530095808120732,
+        "direction": "right_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 13,
+        "left_model_id": "deepseek/deepseek-v4-flash-0731",
+        "mean_difference": -6.207671875,
+        "right_index": 17,
+        "right_model_id": "tencent/hy3",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          2.2765546875000147,
+          6.922992968750018
+        ],
+        "cohen_dz": 0.1505782334123786,
+        "direction": "left_higher",
+        "holm_p": 0.018809811901880982,
+        "holm_significant": true,
+        "left_index": 13,
+        "left_model_id": "deepseek/deepseek-v4-flash-0731",
+        "mean_difference": 4.579453125,
+        "right_index": 18,
+        "right_model_id": "cohere/command-a",
+        "sign_flip_p": 0.00018999810001899982
+      },
+      {
+        "bootstrap_95_ci": [
+          23.284929296874964,
+          28.760302734374996
+        ],
+        "cohen_dz": 0.704598163313573,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 13,
+        "left_model_id": "deepseek/deepseek-v4-flash-0731",
+        "mean_difference": 26.014640625000006,
+        "right_index": 19,
+        "right_model_id": "cohere/command-r-plus-08-2024",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          -0.934860546875002,
+          4.078521875000009
+        ],
+        "cohen_dz": 0.048667597664149555,
+        "direction": "left_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 14,
+        "left_model_id": "minimax/minimax-m3",
+        "mean_difference": 1.5748593749999995,
+        "right_index": 15,
+        "right_model_id": "nvidia/nemotron-3.5-lightning",
+        "sign_flip_p": 0.2197778022219778
+      },
+      {
+        "bootstrap_95_ci": [
+          2.8747019531250095,
+          7.743863671874987
+        ],
+        "cohen_dz": 0.16579181602230442,
+        "direction": "left_higher",
+        "holm_p": 0.00908990910090899,
+        "holm_significant": true,
+        "left_index": 14,
+        "left_model_id": "minimax/minimax-m3",
+        "mean_difference": 5.324953125,
+        "right_index": 16,
+        "right_model_id": "mistralai/mistral-large-2512",
+        "sign_flip_p": 8.99991000089999e-05
+      },
+      {
+        "bootstrap_95_ci": [
+          -4.2718031250000035,
+          -0.07989921874999299
+        ],
+        "cohen_dz": -0.0799599844579078,
+        "direction": "right_higher",
+        "holm_p": 1.0,
+        "holm_significant": false,
+        "left_index": 14,
+        "left_model_id": "minimax/minimax-m3",
+        "mean_difference": -2.1677656250000004,
+        "right_index": 17,
+        "right_model_id": "tencent/hy3",
+        "sign_flip_p": 0.04449955500444996
+      },
+      {
+        "bootstrap_95_ci": [
+          5.958471093749991,
+          11.297548046874999
+        ],
+        "cohen_dz": 0.24548338053826887,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 14,
+        "left_model_id": "minimax/minimax-m3",
+        "mean_difference": 8.619359375,
+        "right_index": 18,
+        "right_model_id": "cohere/command-a",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          27.15056054687499,
+          32.93905859374999
+        ],
+        "cohen_dz": 0.7599418319212912,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 14,
+        "left_model_id": "minimax/minimax-m3",
+        "mean_difference": 30.054546874999993,
+        "right_index": 19,
+        "right_model_id": "cohere/command-r-plus-08-2024",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          1.2431996093749937,
+          6.235990234375015
+        ],
+        "cohen_dz": 0.11558663494319592,
+        "direction": "left_higher",
+        "holm_p": 0.2870371296287037,
+        "holm_significant": false,
+        "left_index": 15,
+        "left_model_id": "nvidia/nemotron-3.5-lightning",
+        "mean_difference": 3.750093749999999,
+        "right_index": 16,
+        "right_model_id": "mistralai/mistral-large-2512",
+        "sign_flip_p": 0.003679963200367996
+      },
+      {
+        "bootstrap_95_ci": [
+          -6.099079687499992,
+          -1.4280121093750164
+        ],
+        "cohen_dz": -0.12422338210319597,
+        "direction": "right_higher",
+        "holm_p": 0.13854861451385486,
+        "holm_significant": false,
+        "left_index": 15,
+        "left_model_id": "nvidia/nemotron-3.5-lightning",
+        "mean_difference": -3.7426249999999994,
+        "right_index": 17,
+        "right_model_id": "tencent/hy3",
+        "sign_flip_p": 0.0016299837001629983
+      },
+      {
+        "bootstrap_95_ci": [
+          4.4180246093750055,
+          9.643637890625001
+        ],
+        "cohen_dz": 0.20587305797762676,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 15,
+        "left_model_id": "nvidia/nemotron-3.5-lightning",
+        "mean_difference": 7.044499999999999,
+        "right_index": 18,
+        "right_model_id": "cohere/command-a",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          25.49954570312499,
+          31.415114843749986
+        ],
+        "cohen_dz": 0.7141291199387645,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 15,
+        "left_model_id": "nvidia/nemotron-3.5-lightning",
+        "mean_difference": 28.4796875,
+        "right_index": 19,
+        "right_model_id": "cohere/command-r-plus-08-2024",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          -9.848140625000005,
+          -5.115302343749987
+        ],
+        "cohen_dz": -0.24221710343327818,
+        "direction": "right_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 16,
+        "left_model_id": "mistralai/mistral-large-2512",
+        "mean_difference": -7.49271875,
+        "right_index": 17,
+        "right_model_id": "tencent/hy3",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          1.1381457031250148,
+          5.454846484375002
+        ],
+        "cohen_dz": 0.1144177081350174,
+        "direction": "left_higher",
+        "holm_p": 0.2918270817291827,
+        "holm_significant": false,
+        "left_index": 16,
+        "left_model_id": "mistralai/mistral-large-2512",
+        "mean_difference": 3.29440625,
+        "right_index": 18,
+        "right_model_id": "cohere/command-a",
+        "sign_flip_p": 0.0037899621003789964
+      },
+      {
+        "bootstrap_95_ci": [
+          21.928138671874976,
+          27.55642109374999
+        ],
+        "cohen_dz": 0.6596221500867244,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 16,
+        "left_model_id": "mistralai/mistral-large-2512",
+        "mean_difference": 24.72959375,
+        "right_index": 19,
+        "right_model_id": "cohere/command-r-plus-08-2024",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          8.341495312500006,
+          13.233426171874983
+        ],
+        "cohen_dz": 0.3345060095380463,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 17,
+        "left_model_id": "tencent/hy3",
+        "mean_difference": 10.787125,
+        "right_index": 18,
+        "right_model_id": "cohere/command-a",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          29.415466015624983,
+          35.01089374999999
+        ],
+        "cohen_dz": 0.8499320505114693,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 17,
+        "left_model_id": "tencent/hy3",
+        "mean_difference": 32.2223125,
+        "right_index": 19,
+        "right_model_id": "cohere/command-r-plus-08-2024",
+        "sign_flip_p": 9.99990000099999e-06
+      },
+      {
+        "bootstrap_95_ci": [
+          18.931820703124984,
+          23.957428515624986
+        ],
+        "cohen_dz": 0.6247364532075478,
+        "direction": "left_higher",
+        "holm_p": 0.0018999810001899982,
+        "holm_significant": true,
+        "left_index": 18,
+        "left_model_id": "cohere/command-a",
+        "mean_difference": 21.4351875,
+        "right_index": 19,
+        "right_model_id": "cohere/command-r-plus-08-2024",
+        "sign_flip_p": 9.99990000099999e-06
+      }
+    ],
+    "plan_sha256": "8ca2b5e1d59fb9443ef4e1a3cd69a38b18dd085347cbab6034a410645b69cd64",
+    "repeatability": [
+      {
+        "completed": 62,
+        "exact_ingredient_set_match_rate": 0.78125,
+        "jaccard_pointwise_95_ci": [
+          0.7953125,
+          0.921875
+        ],
+        "mean_absolute_score_difference": 8.655312499999999,
+        "mean_ingredient_set_jaccard": 0.8625,
+        "model_id": "openai/gpt-5.6-sol-pro",
+        "parseable": 62,
+        "tasks": 64
+      },
+      {
+        "completed": 62,
+        "exact_ingredient_set_match_rate": 0.65625,
+        "jaccard_pointwise_95_ci": [
+          0.7265625,
+          0.8671875
+        ],
+        "mean_absolute_score_difference": 13.239062500000001,
+        "mean_ingredient_set_jaccard": 0.7984375,
+        "model_id": "openai/gpt-5.6-terra-pro",
+        "parseable": 62,
+        "tasks": 64
+      },
+      {
+        "completed": 62,
+        "exact_ingredient_set_match_rate": 0.484375,
+        "jaccard_pointwise_95_ci": [
+          0.65625,
+          0.78125
+        ],
+        "mean_absolute_score_difference": 15.4409375,
+        "mean_ingredient_set_jaccard": 0.71875,
+        "model_id": "openai/gpt-5.6-luna-pro",
+        "parseable": 62,
+        "tasks": 64
+      },
+      {
+        "completed": 58,
+        "exact_ingredient_set_match_rate": 0.28125,
+        "jaccard_pointwise_95_ci": [
+          0.44999999999999996,
+          0.6046875
+        ],
+        "mean_absolute_score_difference": 26.44140625,
+        "mean_ingredient_set_jaccard": 0.5265625,
+        "model_id": "meta-llama/llama-4-maverick",
+        "parseable": 57,
+        "tasks": 64
+      },
+      {
+        "completed": 64,
+        "exact_ingredient_set_match_rate": 0.515625,
+        "jaccard_pointwise_95_ci": [
+          0.690625,
+          0.8078125
+        ],
+        "mean_absolute_score_difference": 12.614999999999998,
+        "mean_ingredient_set_jaccard": 0.7484375,
+        "model_id": "anthropic/claude-opus-5",
+        "parseable": 64,
+        "tasks": 64
+      },
+      {
+        "completed": 64,
+        "exact_ingredient_set_match_rate": 0.609375,
+        "jaccard_pointwise_95_ci": [
+          0.728125,
+          0.85
+        ],
+        "mean_absolute_score_difference": 11.080312500000002,
+        "mean_ingredient_set_jaccard": 0.7906249999999999,
+        "model_id": "anthropic/claude-sonnet-5",
+        "parseable": 64,
+        "tasks": 64
+      },
+      {
+        "completed": 56,
+        "exact_ingredient_set_match_rate": 0.75,
+        "jaccard_pointwise_95_ci": [
+          0.725,
+          0.8859375
+        ],
+        "mean_absolute_score_difference": 10.225781249999999,
+        "mean_ingredient_set_jaccard": 0.8078125,
+        "model_id": "google/gemini-3.1-pro-preview",
+        "parseable": 56,
+        "tasks": 64
+      },
+      {
+        "completed": 64,
+        "exact_ingredient_set_match_rate": 0.609375,
+        "jaccard_pointwise_95_ci": [
+          0.7328125,
+          0.8546875
+        ],
+        "mean_absolute_score_difference": 10.641875,
+        "mean_ingredient_set_jaccard": 0.7953125,
+        "model_id": "google/gemini-3.6-flash",
+        "parseable": 64,
+        "tasks": 64
+      },
+      {
+        "completed": 64,
+        "exact_ingredient_set_match_rate": 0.609375,
+        "jaccard_pointwise_95_ci": [
+          0.7234375,
+          0.846875
+        ],
+        "mean_absolute_score_difference": 10.612031249999998,
+        "mean_ingredient_set_jaccard": 0.7875,
+        "model_id": "x-ai/grok-4.5",
+        "parseable": 64,
+        "tasks": 64
+      },
+      {
+        "completed": 62,
+        "exact_ingredient_set_match_rate": 0.53125,
+        "jaccard_pointwise_95_ci": [
+          0.671875,
+          0.8125
+        ],
+        "mean_absolute_score_difference": 15.497812499999998,
+        "mean_ingredient_set_jaccard": 0.7421875,
+        "model_id": "moonshotai/kimi-k3",
+        "parseable": 62,
+        "tasks": 64
+      },
+      {
+        "completed": 64,
+        "exact_ingredient_set_match_rate": 0.609375,
+        "jaccard_pointwise_95_ci": [
+          0.73125,
+          0.8546875
+        ],
+        "mean_absolute_score_difference": 11.601249999999999,
+        "mean_ingredient_set_jaccard": 0.7953125,
+        "model_id": "qwen/qwen3.8-max",
+        "parseable": 64,
+        "tasks": 64
+      },
+      {
+        "completed": 64,
+        "exact_ingredient_set_match_rate": 0.40625,
+        "jaccard_pointwise_95_ci": [
+          0.5984375,
+          0.7328125
+        ],
+        "mean_absolute_score_difference": 15.2825,
+        "mean_ingredient_set_jaccard": 0.665625,
+        "model_id": "z-ai/glm-5.2",
+        "parseable": 64,
+        "tasks": 64
+      },
+      {
+        "completed": 62,
+        "exact_ingredient_set_match_rate": 0.5,
+        "jaccard_pointwise_95_ci": [
+          0.628125,
+          0.78125
+        ],
+        "mean_absolute_score_difference": 14.12953125,
+        "mean_ingredient_set_jaccard": 0.70625,
+        "model_id": "deepseek/deepseek-v4-pro",
+        "parseable": 62,
+        "tasks": 64
+      },
+      {
+        "completed": 64,
+        "exact_ingredient_set_match_rate": 0.21875,
+        "jaccard_pointwise_95_ci": [
+          0.49531250000000004,
+          0.621875
+        ],
+        "mean_absolute_score_difference": 22.67140625,
+        "mean_ingredient_set_jaccard": 0.5578125,
+        "model_id": "deepseek/deepseek-v4-flash-0731",
+        "parseable": 64,
+        "tasks": 64
+      },
+      {
+        "completed": 63,
+        "exact_ingredient_set_match_rate": 0.515625,
+        "jaccard_pointwise_95_ci": [
+          0.625,
+          0.7828124999999999
+        ],
+        "mean_absolute_score_difference": 13.72890625,
+        "mean_ingredient_set_jaccard": 0.7046874999999999,
+        "model_id": "minimax/minimax-m3",
+        "parseable": 63,
+        "tasks": 64
+      },
+      {
+        "completed": 62,
+        "exact_ingredient_set_match_rate": 0.5625,
+        "jaccard_pointwise_95_ci": [
+          0.6859375000000001,
+          0.8234375
+        ],
+        "mean_absolute_score_difference": 14.76578125,
+        "mean_ingredient_set_jaccard": 0.75625,
+        "model_id": "nvidia/nemotron-3.5-lightning",
+        "parseable": 62,
+        "tasks": 64
+      },
+      {
+        "completed": 64,
+        "exact_ingredient_set_match_rate": 0.328125,
+        "jaccard_pointwise_95_ci": [
+          0.58125,
+          0.7015625
+        ],
+        "mean_absolute_score_difference": 18.741875,
+        "mean_ingredient_set_jaccard": 0.640625,
+        "model_id": "mistralai/mistral-large-2512",
+        "parseable": 64,
+        "tasks": 64
+      },
+      {
+        "completed": 49,
+        "exact_ingredient_set_match_rate": 0.3125,
+        "jaccard_pointwise_95_ci": [
+          0.434375,
+          0.60625
+        ],
+        "mean_absolute_score_difference": 27.1253125,
+        "mean_ingredient_set_jaccard": 0.5203125,
+        "model_id": "tencent/hy3",
+        "parseable": 49,
+        "tasks": 64
+      },
+      {
+        "completed": 64,
+        "exact_ingredient_set_match_rate": 0.34375,
+        "jaccard_pointwise_95_ci": [
+          0.49531250000000004,
+          0.65
+        ],
+        "mean_absolute_score_difference": 18.831093749999997,
+        "mean_ingredient_set_jaccard": 0.5718749999999999,
+        "model_id": "cohere/command-a",
+        "parseable": 64,
+        "tasks": 64
+      },
+      {
+        "completed": 64,
+        "exact_ingredient_set_match_rate": 0.0,
+        "jaccard_pointwise_95_ci": [
+          0.1796875,
+          0.28125
+        ],
+        "mean_absolute_score_difference": 23.20515625,
+        "mean_ingredient_set_jaccard": 0.2296875,
+        "model_id": "cohere/command-r-plus-08-2024",
+        "parseable": 64,
+        "tasks": 64
+      }
+    ],
+    "schema_version": "flavourbench-selection-powered-analysis-v1",
+    "status": "final_complete"
+  },
+  "artifact_sha256": "4bd53e485cd48dbb65b86c9ddd3ff4ad26e34069dd2e163a5b67d2bb47d4f7df",
+  "benchmark": "FlavourBench",
+  "claim_boundary": "finite-panel Epicure alignment and executable culinary decision quality under the frozen task distribution; not universal language-model quality",
+  "inputs": {
+    "model_response_sources": {
+      "base_models": [
+        "anthropic/claude-opus-5",
+        "anthropic/claude-sonnet-5",
+        "deepseek/deepseek-v4-flash-0731",
+        "google/gemini-3.1-pro-preview",
+        "google/gemini-3.6-flash",
+        "meta-llama/llama-4-maverick",
+        "minimax/minimax-m3",
+        "mistralai/mistral-large-2512",
+        "moonshotai/kimi-k3",
+        "nvidia/nemotron-3.5-lightning",
+        "openai/gpt-5.6-luna-pro",
+        "openai/gpt-5.6-sol-pro",
+        "openai/gpt-5.6-terra-pro",
+        "qwen/qwen3.8-max",
+        "tencent/hy3",
+        "x-ai/grok-4.5",
+        "z-ai/glm-5.2"
+      ],
+      "base_plan": {
+        "physical_sha256": "970140ce83b705dc18996f487ac422d9625a0e0af32baa2b046758fa2c159d16",
+        "semantic_sha256": "903ad89c44afcf0657b8079c12f01c2487aec2edb2e8ab39b986303d65c7c675"
+      },
+      "cohere_calibration_plan": {
+        "physical_sha256": "e2ee3b464ecf5440b74610e90edbab427261e38c8ca5c8575222380ddc3dd871",
+        "responses_used_as_score_data": false,
+        "semantic_sha256": "d5c11267b0437e55d8e4ba226503895521fa8519c1a7640d9d09f1b853dcc849"
+      },
+      "cohere_model_ids": [
+        "cohere/command-a",
+        "cohere/command-r-plus-08-2024"
+      ],
+      "cohere_plan": {
+        "physical_sha256": "2fa606e52f0649faf3a6107064bff6796100730600aabb8afb3aab580fe5bc57",
+        "semantic_sha256": "8ca2b5e1d59fb9443ef4e1a3cd69a38b18dd085347cbab6034a410645b69cd64"
+      },
+      "cohere_transport_responses_used_as_score_data": false,
+      "cross_provider_response_pooling_within_model": false,
+      "deepseek_calibration_plan": {
+        "physical_sha256": "f66189fa69b376052c8ad4bc2308935857a3a7c1d6dae44463eb4eb78d71383c",
+        "responses_used_as_score_data": false,
+        "semantic_sha256": "ba39add4966e6991e86c591209ae416cfd232d73d8fed9d266cde59193bffed2"
+      },
+      "deepseek_model_id": "deepseek/deepseek-v4-pro",
+      "deepseek_plan": {
+        "physical_sha256": "0133d0492cdcab28dbf96f1e11284081f6b7c6dfb59d06061d97040b7e612073",
+        "semantic_sha256": "51eb938485d5a9126ada5e1843aa33f7b12e4f8f8f7ed9cd7117d287bbb1046a"
+      },
+      "schema_version": "flavourbench-selection-composite-response-sources-v2",
+      "superseded_deepseek_responses_used": false,
+      "superseded_direct_cohere_responses_used": false
+    },
+    "plan": {
+      "physical_sha256": "2fa606e52f0649faf3a6107064bff6796100730600aabb8afb3aab580fe5bc57",
+      "semantic_sha256": "8ca2b5e1d59fb9443ef4e1a3cd69a38b18dd085347cbab6034a410645b69cd64"
+    },
+    "primary_responses": {
+      "artifact_set_sha256": "18d4ec91a12db2cf326635642f86b04b8dce6f0d0b10fb1f9b76a986ece16853",
+      "count": 12800,
+      "spend_micros": 30335026
+    },
+    "repeat_panel": {
+      "physical_sha256": "b3d0f690d5811a84c0ef08d2ee849df436090a9871a0dae5a937f387a3e394cd",
+      "semantic_sha256": "c3829d4cdb7039f920411c6edde13691237f42cafc20e463ac326a06895c97fb"
+    },
+    "repeat_responses": {
+      "artifact_set_sha256": "7c27652c9b45eac22f2b852880095a8aadbe828a54b2c7489ad9dfc78759dfb5",
+      "count": 1280,
+      "spend_micros": 2975941
+    },
+    "taskset": {
+      "physical_sha256": "520812b0b2c28764ca9b46ff17a0f536872d264be3b4c1de7ba756d5f6d644ae",
+      "semantic_sha256": "99932ef2e72d34b61641270670e6d56233f167273a8877d03ac214115c084ff7"
+    }
+  },
+  "schema_version": "flavourbench-selection-powered-release-v1",
+  "status": "final_complete",
+  "tables": {
+    "leaderboard": {
+      "filename": "flavourbench-leaderboard-table-a213692ed79596909df7c588a89abb28b1f6ddbab68abb353f39bac370899dad.csv",
+      "sha256": "a213692ed79596909df7c588a89abb28b1f6ddbab68abb353f39bac370899dad"
+    },
+    "pairwise": {
+      "filename": "flavourbench-pairwise-table-ab9880704582db36568e6df870e9413466b41303a70b3cac08061e2166a916ba.csv",
+      "sha256": "ab9880704582db36568e6df870e9413466b41303a70b3cac08061e2166a916ba"
+    }
+  },
+  "track": "Epicure-scored combinatorial culinary decisions"
+}

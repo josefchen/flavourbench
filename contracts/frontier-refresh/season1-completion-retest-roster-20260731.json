@@ -1,0 +1,61 @@
+{
+  "schema_version": "flavourbench-frontier-refresh-roster-v1",
+  "benchmark": "FlavourBench",
+  "snapshot_label": "Season 1 completion-safe retests 2026-07-31",
+  "status": "candidate_pending_live_contract_smoke",
+  "official": false,
+  "rank_eligible": false,
+  "bedrock_catalog_sha256": "162c4fcf9d539d169031b8266546773af6e42d9a79144c76e63bdb7c15b0a10f",
+  "selection_rule": "Exact reruns of three routes whose earlier paid contracts reconciled identity and Epicure use but ended with finish_reason=length. The revised prospective contract allows up to 4096 final-turn tokens and treats every non-stop finish as a reconciled failure rather than compatibility evidence.",
+  "slots": [
+    {
+      "snapshot_model_id": "fb-s1-or-20260731-retest-01",
+      "slot_role": "closed_frontier",
+      "canonical_name": "Anthropic Claude Sonnet 5",
+      "provider": "openrouter",
+      "endpoint_id": "anthropic/claude-sonnet-5",
+      "canonical_slug": "anthropic/claude-sonnet-5-20260630",
+      "provider_slug": "anthropic",
+      "catalog_observed": true,
+      "status": "contract_required"
+    },
+    {
+      "snapshot_model_id": "fb-s1-or-20260731-retest-02",
+      "slot_role": "reasoning",
+      "canonical_name": "Anthropic Claude Opus 5",
+      "provider": "openrouter",
+      "endpoint_id": "anthropic/claude-opus-5",
+      "canonical_slug": "anthropic/claude-opus-5-20260723",
+      "provider_slug": "anthropic",
+      "catalog_observed": true,
+      "status": "contract_required"
+    },
+    {
+      "snapshot_model_id": "fb-s1-or-20260731-retest-03",
+      "slot_role": "reasoning",
+      "canonical_name": "MoonshotAI Kimi K3",
+      "provider": "openrouter",
+      "endpoint_id": "moonshotai/kimi-k3",
+      "canonical_slug": "moonshotai/kimi-k3-20260715",
+      "provider_slug": "moonshotai/mxfp4",
+      "catalog_observed": true,
+      "status": "contract_required"
+    }
+  ],
+  "routing_policy": {
+    "one_endpoint_per_model": true,
+    "allow_fallbacks": false,
+    "require_parameters": true,
+    "data_collection": "deny",
+    "provider_substitution_rank_eligible": false
+  },
+  "freeze_preconditions": [
+    "finish_reason stop",
+    "real provider response",
+    "real Epicure MCP call",
+    "complete tool trace",
+    "non-empty normalized final answer",
+    "canonical route identity",
+    "append-only reconciled cost record"
+  ]
+}

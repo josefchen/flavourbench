@@ -1,0 +1,155 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "epicure-flavourbench"
+version = "0.1.0"
+description = "Governed, Epicure-powered culinary LLM arena and uplift benchmark"
+requires-python = ">=3.12"
+dependencies = [
+  "alembic>=1.13,<2",
+  "arena-rank==0.1.1",
+  "cryptography==50.0.0",
+  "fastapi>=0.115,<1",
+  "httpx>=0.27,<1",
+  "numpy>=1.26,<3",
+  "pandas>=2,<4",
+  "psycopg[binary]>=3.2,<4",
+  "pydantic-settings>=2.6,<3",
+  "sqlalchemy>=2.0,<3",
+  "uvicorn[standard]>=0.30,<1",
+]
+
+[project.optional-dependencies]
+bedrock = [
+  "anthropic[bedrock]>=0.60,<1",
+  "boto3==1.43.48",
+  "botocore==1.43.48",
+]
+distributed = [
+  "modal==1.5.3",
+]
+dev = [
+  "ipykernel>=6.29,<8",
+  "jsonschema>=4.23,<5",
+  "matplotlib>=3.10,<4",
+  "nbclient>=0.10,<1",
+  "nbformat>=5.10,<6",
+  "pytest>=8,<9",
+  "pytest-asyncio>=0.24,<1",
+  "ruff>=0.8,<1",
+]
+
+[project.scripts]
+flavourbench-api = "flavourbench.main:run"
+flavourbench-worker = "flavourbench.worker:run"
+flavourbench-seed = "flavourbench.seed:run"
+flavourbench-smoke = "flavourbench.smoke:run"
+flavourbench-live-smoke = "flavourbench.live_smoke:run"
+flavourbench-freeze-frontier-manifest = "flavourbench.frontier_manifest:run"
+flavourbench-reconcile-live-smoke = "flavourbench.reconcile:run"
+flavourbench-run-frontier-contracts = "flavourbench.frontier_contract_runner:run"
+flavourbench-run-real-dataset = "flavourbench.real_dataset_runner:run"
+flavourbench-aggregate-real-evidence = "flavourbench.evidence_aggregate:run"
+flavourbench-render-real-operational-figure = "flavourbench.operational_figure:run"
+flavourbench-bedrock-preflight = "flavourbench.bedrock_manifest:run"
+flavourbench-bedrock-contract-smoke = "flavourbench.bedrock_contract_smoke:run"
+flavourbench-bedrock-mantle-plan = "flavourbench.bedrock_mantle:run"
+flavourbench-freeze-bedrock-b2 = "flavourbench.bedrock_b2_manifest:run"
+flavourbench-run-bedrock-b2 = "flavourbench.bedrock_b2_runner:run"
+flavourbench-build-real-task-bank = "flavourbench.real_task_bank:run"
+flavourbench-build-development-task-validity = "flavourbench.development_task_validity:run"
+flavourbench-build-development-task-validity-v2 = "flavourbench.development_task_validity_v2:run"
+flavourbench-build-development-task-validation = "flavourbench.development_task_validation:run"
+flavourbench-build-current-development-manifest = "flavourbench.current_development_manifest:run"
+flavourbench-build-routed-development-manifest = "flavourbench.routed_development_manifest:run"
+flavourbench-direct-kimi-pair = "flavourbench.direct_kimi_pair:run"
+flavourbench-direct-cohere-pair = "flavourbench.direct_cohere_pair:run"
+flavourbench-build-cohere-development-manifest = "flavourbench.cohere_development_manifest:run"
+flavourbench-matched-protocol-preflight = "flavourbench.matched_protocol_preflight:run"
+flavourbench-curate-real-tasks = "flavourbench.task_curation:run"
+flavourbench-build-historical-task-pool = "flavourbench.stackexchange_dump:run"
+flavourbench-run-season0-compatibility = "flavourbench.season0_compatibility:run"
+flavourbench-freeze-season0-tasks = "flavourbench.season0_tasks:run"
+flavourbench-run-season0-openrouter-compatibility = "flavourbench.season0_openrouter_compatibility:run"
+flavourbench-sync-season0-openrouter-routes = "flavourbench.season0_openrouter_routes:run"
+flavourbench-freeze-season0-epicure = "flavourbench.season0_epicure_release:run"
+flavourbench-freeze-season0-models = "flavourbench.season0_model_manifest:run"
+flavourbench-run-season0-collection = "flavourbench.legacy_paid_cli:run_season0_collection"
+flavourbench-audit-season0-calibration = "flavourbench.season0_calibration:run"
+flavourbench-reconcile-season0-costs = "flavourbench.season0_costs:run"
+flavourbench-freeze-season0-cost-envelope = "flavourbench.season0_cost_envelope:run"
+flavourbench-freeze-season0-comparisons = "flavourbench.season0_pairs:run"
+flavourbench-freeze-season0-judges = "flavourbench.season0_judge_manifest:run"
+flavourbench-run-season0-judging = "flavourbench.legacy_paid_cli:run_season0_judging"
+flavourbench-recover-season0-throttles = "flavourbench.legacy_paid_cli:run_season0_judgment_recovery"
+flavourbench-analyze-season0 = "flavourbench.season0_analysis:run"
+flavourbench-freeze-season0-judge-envelope = "flavourbench.season0_judge_envelope:run"
+flavourbench-render-season0 = "flavourbench.season0_visualization:run"
+flavourbench-render-season0-paper = "flavourbench.season0_paper_assets:run"
+flavourbench-render-pilot-paper = "flavourbench.pilot_publication_assets:run"
+flavourbench-export-season0-web = "flavourbench.season0_web_export:run"
+flavourbench-package-season0 = "flavourbench.season0_release:run"
+flavourbench-frontier-refresh = "flavourbench.frontier_refresh:run"
+flavourbench-run-cohere-compatibility = "flavourbench.cohere_compatibility:run"
+flavourbench-run-kimi-compatibility = "flavourbench.kimi_compatibility:run"
+flavourbench-freeze-qwencloud-catalog = "flavourbench.qwencloud_catalog:run"
+flavourbench-run-qwencloud-pair = "flavourbench.direct_qwencloud_pair:run"
+flavourbench-freeze-qwencloud-route = "flavourbench.qwencloud_route_manifest:run"
+flavourbench-reserve-qwencloud-smoke = "flavourbench.qwencloud_smoke_admission:run"
+flavourbench-authorize-qwencloud-smoke = "flavourbench.qwencloud_smoke_authorization:run"
+flavourbench-freeze-task-validation-campaign = "flavourbench.task_validation_campaign:run"
+flavourbench-bundle-frontier-evidence = "flavourbench.frontier_evidence:run"
+flavourbench-render-frontier-paper-table = "flavourbench.frontier_paper_asset:run"
+flavourbench-render-current-pilot-paper = "flavourbench.current_pilot_assets:run"
+flavourbench-import-current-pilot-review = "flavourbench.current_pilot_review_import:run"
+flavourbench-import-frontier-model-arena-review = "flavourbench.frontier_model_arena_review_pool:run"
+flavourbench-freeze-current-task-quarantine = "flavourbench.current_frontier_task_quarantine:run"
+flavourbench-freeze-frontier-coverage-repair = "flavourbench.frontier_coverage_repair:run"
+flavourbench-run-frontier-coverage-repair = "flavourbench.frontier_coverage_repair_executor:run"
+flavourbench-run-frontier-coverage-continuation = "flavourbench.frontier_coverage_continuation_executor:run"
+flavourbench-materialize-frontier-coverage-postrun = "flavourbench.frontier_coverage_postrun:run"
+flavourbench-render-frontier-corrections = "flavourbench.current_frontier_correction_assets:run"
+flavourbench-render-required-pilot-paper = "flavourbench.required_pilot_assets:run"
+flavourbench-import-required-pilot-review = "flavourbench.required_pilot_review_import:run"
+flavourbench-rotate-anonymous-pool = "flavourbench.anonymous_pool_rotation:run"
+flavourbench-freeze-season1-panel = "flavourbench.season1_panel:run"
+flavourbench-render-academic-audit = "flavourbench.academic_figures:run"
+flavourbench-expert-calibration = "flavourbench.expert_calibration:run"
+flavourbench-import-author-evaluator-pool = "flavourbench.author_evaluator_import:run"
+flavourbench-build-anonymous-review-report = "flavourbench.anonymous_review_report:run"
+flavourbench-build-real-human-pilot = "flavourbench.real_human_pilot:run"
+flavourbench-backfill-real-pilot-validators = "flavourbench.validator_backfill:run"
+flavourbench-build-season1-readiness = "flavourbench.season1_readiness:run"
+flavourbench-audit-current-catalog = "flavourbench.current_catalog_audit:run"
+flavourbench-validate-season1-statistics = "flavourbench.season1_method_validation:run"
+flavourbench-validate-season1-arena-monte-carlo = "flavourbench.season1_arena_monte_carlo:run"
+flavourbench-run-season1-arena-distributed = "flavourbench.season1_arena_distributed:run"
+flavourbench-render-confirmatory-paper = "flavourbench.confirmatory_paper_assets:run"
+flavourbench-build-research-release = "flavourbench.research_release:run"
+flavourbench-verify-research-release = "flavourbench.research_release:verify_run"
+flavourbench-inventory-epicure-lineage = "flavourbench.epicure_lineage_inventory:run"
+flavourbench-audit-epicure-candidate-lineage = "flavourbench.epicure_candidate_lineage:run"
+flavourbench-freeze-reasoning-sensitivity = "flavourbench.reasoning_effort_sensitivity:run"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/flavourbench"]
+
+[tool.pytest.ini_options]
+pythonpath = [".", "src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.per-file-ignores]
+"src/flavourbench/tasks.py" = ["E501"]
+"src/flavourbench/season0_visualization.py" = ["E501"]
+"src/flavourbench/pilot_publication_assets.py" = ["E501"]
+"src/flavourbench/expert_calibration.py" = ["E501"]
+"hf/space/app.py" = ["E501"]

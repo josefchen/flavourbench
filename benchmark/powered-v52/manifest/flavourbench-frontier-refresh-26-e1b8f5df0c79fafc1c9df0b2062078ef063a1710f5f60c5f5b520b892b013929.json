@@ -1,0 +1,4279 @@
+{
+  "budget": {
+    "bounded_forecast_usd": "180.67095552",
+    "cap_usd": "200",
+    "currency": "USD",
+    "forecast_scope": "eight new or replacement 704-response blocks only",
+    "headroom_usd": "19.32904448",
+    "per_model_worst_case_usd": {
+      "anthropic/claude-fable-5": "100.92544",
+      "bytedance-seed/seed-2-1-turbo": "5.046272",
+      "deepseek/deepseek-v4-pro-0813": "10.03487232",
+      "meta/muse-glimmer-30b": "2.5952256",
+      "meta/muse-spark-1.2": "15.859712",
+      "qwen/qwen3.8-2.4t-a95b": "23.068672",
+      "thinkingmachines/inkling": "8.7228416",
+      "x-ai/grok-4.6": "14.41792"
+    },
+    "within_cap": true
+  },
+  "content_address": {
+    "algorithm": "sha256",
+    "digest": "e1b8f5df0c79fafc1c9df0b2062078ef063a1710f5f60c5f5b520b892b013929",
+    "uri": "sha256:e1b8f5df0c79fafc1c9df0b2062078ef063a1710f5f60c5f5b520b892b013929"
+  },
+  "fable_route_v49": {
+    "all_other_model_entries_byte_preserved": true,
+    "automatic_fallback": false,
+    "changed_model_ids": [
+      "anthropic/claude-fable-5"
+    ],
+    "complete_replacement_blocks_required": true,
+    "first_panel_successes_reused": false,
+    "quality_scores_or_selections_used": false,
+    "reasoning_effort": "minimal",
+    "schema_version": "flavourbench-frontier-fable-bedrock-route-v49",
+    "selected_exact_tag": "amazon-bedrock/claude-on-aws",
+    "selected_provider": "Amazon Bedrock",
+    "selection_uses_status_and_finish_metadata_only": true,
+    "selective_failed_cell_retry": false,
+    "source_manifest": {
+      "physical_sha256": "d8e3652c4378ae87f71a35d26c665ed8b9e9db77e668e4e93e5c35f59f7c941d",
+      "semantic_sha256": "3caaa80fa8c3a646d27b5cad834a2e42fda6edaea82e0c29af9c7e14b1393df7"
+    }
+  },
+  "generation_calls_made": 0,
+  "generation_spend_usd": "0",
+  "governance": {
+    "historical_scores_reused_only_for_unchanged_exact_model_route_blocks": true,
+    "scope": "automated Epicure-scored leaderboard; no human ratings"
+  },
+  "manifest_role": "frontier_refresh_26_replication_2_route_repair_v52",
+  "models": [
+    {
+      "backend_contract": {},
+      "backend_contract_sha256": "unfrozen",
+      "contract_evidence": {
+        "generation_calls": 0,
+        "quality_observations": 0,
+        "status": "live_read_only_endpoint_contract_selected"
+      },
+      "cost_accounting_policy": "provider_generation_metadata",
+      "endpoint": {
+        "context_length": 1050000,
+        "latency_last_30m": {
+          "p50": 4593.5,
+          "p75": 8260.75,
+          "p90": 11867.500000000002,
+          "p99": 14031.549999999997
+        },
+        "max_completion_tokens": 128000,
+        "model_id": "openai/gpt-5.6-sol-pro",
+        "name": "OpenAI | openai/gpt-5.6-sol-pro-20260709",
+        "pricing": {
+          "completion": "0.000015",
+          "discount": 0,
+          "input_cache_read": "0.00000025",
+          "input_cache_write": "0.000003125",
+          "overrides": [
+            {
+              "completion": "0.0000225",
+              "input_cache_read": "0.0000005",
+              "input_cache_write": "0.00000625",
+              "min_prompt_tokens": 272000,
+              "prompt": "0.000005"
+            }
+          ],
+          "prompt": "0.0000025",
+          "web_search": "0.01"
+        },
+        "provider_name": "OpenAI",
+        "quantization": "unknown",
+        "status": 0,
+        "supported_parameters": [
+          "include_reasoning",
+          "max_tokens",
+          "reasoning",
+          "reasoning_effort",
+          "response_format",
+          "seed",
+          "structured_outputs",
+          "tool_choice",
+          "tools"
+        ],
+        "tag": "openai/flex",
+        "throughput_last_30m": {
+          "p50": 50.5,
+          "p75": 55.75,
+          "p90": 60.7,
+          "p99": 63.669999999999995
+        },
+        "uptime_last_1d": 97.0480909009998,
+        "uptime_last_30d": null,
+        "uptime_last_7d": null
+      },
+      "endpoint_document_sha256": "7475b287a2fd9b2c15a123884ac36335b93176a16ee8497c84a4a8f2d6ef928a",
+      "endpoint_selection": {
+        "eligible_endpoint_count": 3,
+        "method": "lowest bounded text-generation cost among strictly eligible endpoints; OpenRouter endpoint order breaks exact price ties",
+        "pending_checks": [
+          "no-spend tool/structured-output contract smoke",
+          "paid identity and provider-return contract smoke after authorisation",
+          "provider data-policy and jurisdiction review"
+        ],
+        "selected_exact_tag": "openai/flex"
+      },
+      "execution_route": {
+        "fallback_used": false,
+        "generation_time_automatic_fallback": false,
+        "policy": "exact_openrouter_endpoint_v1",
+        "preferred_backend": "openrouter",
+        "selected_backend": "openrouter",
+        "selection_frozen_before_generation": true,
+        "selection_reason": "live_capability_and_price_contract"
+      },
+      "forecast": {
+        "model_block_worst_case_usd": "0",
+        "new_provider_calls": 0,
+        "response_source": "complete_powered_v31_block_reused_exactly"
+      },
+      "model": {
+        "architecture": {
+          "input_modalities": [
+            "file",
+            "image",
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+file->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "GPT"
+        },
+        "canonical_slug": "openai/gpt-5.6-sol-pro-20260709",
+        "context_length": 1050000,
+        "created": 1783590854,
+        "hugging_face_id": null,
+        "id": "openai/gpt-5.6-sol-pro",
+        "name": "OpenAI: GPT-5.6 Sol Pro",
+        "pricing": {
+          "completion": "0.00003",
+          "input_cache_read": "0.0000005",
+          "input_cache_write": "0.00000625",
+          "overrides": [
+            {
+              "completion": "0.000045",
+              "input_cache_read": "0.000001",
+              "input_cache_write": "0.0000125",
+              "min_prompt_tokens": 272000,
+              "prompt": "0.00001"
+            }
+          ],
+          "prompt": "0.000005",
+          "web_search": "0.01"
+        },
+        "supported_parameters": [
+          "include_reasoning",
+          "max_completion_tokens",
+          "max_tokens",
+          "reasoning",
+          "reasoning_effort",
+          "response_format",
+          "seed",
+          "structured_outputs",
+          "tool_choice",
+          "tools"
+        ],
+        "top_provider": {
+          "context_length": 1050000,
+          "is_moderated": true,
+          "max_completion_tokens": 128000
+        }
+      },
+      "open_weight_evidence": null,
+      "request_policy": {
+        "endpoint_retention_attestation": "not_present_in_endpoint_metadata",
+        "official_eligibility": "pending_contract_smoke_and_governance_approval",
+        "policy_scope": "request_enforced",
+        "provider": {
+          "allow_fallbacks": false,
+          "data_collection": "deny",
+          "only": [
+            "openai/flex"
+          ],
+          "require_parameters": true
+        }
+      },
+      "slot": {
+        "cohort": "openai",
+        "model_id": "openai/gpt-5.6-sol-pro",
+        "open_weight_candidate": false,
+        "rationale": "Sol quality tier.",
+        "slot_id": "frontier-refresh-01"
+      }
+    },
+    {
+      "backend_contract": {},
+      "backend_contract_sha256": "unfrozen",
+      "contract_evidence": {
+        "generation_calls": 0,
+        "quality_observations": 0,
+        "status": "live_read_only_endpoint_contract_selected"
+      },
+      "cost_accounting_policy": "provider_generation_metadata",
+      "endpoint": {
+        "context_length": 1050000,
+        "latency_last_30m": {
+          "p50": 20199,
+          "p75": 23875,
+          "p90": 73231.40000000001,
+          "p99": 84716.64
+        },
+        "max_completion_tokens": 128000,
+        "model_id": "openai/gpt-5.6-terra-pro",
+        "name": "OpenAI | openai/gpt-5.6-terra-pro-20260709",
+        "pricing": {
+          "completion": "0.000003",
+          "discount": 0.5,
+          "input_cache_read": "0.00000005",
+          "input_cache_write": "0.000000625",
+          "overrides": [
+            {
+              "completion": "0.0000045",
+              "input_cache_read": "0.0000001",
+              "input_cache_write": "0.00000125",
+              "min_prompt_tokens": 272000,
+              "prompt": "0.000001"
+            }
+          ],
+          "prompt": "0.0000005",
+          "web_search": "0.005"
+        },
+        "provider_name": "OpenAI",
+        "quantization": "unknown",
+        "status": 0,
+        "supported_parameters": [
+          "include_reasoning",
+          "max_tokens",
+          "reasoning",
+          "reasoning_effort",
+          "response_format",
+          "seed",
+          "structured_outputs",
+          "tool_choice",
+          "tools"
+        ],
+        "tag": "openai/flex",
+        "throughput_last_30m": {
+          "p50": 204,
+          "p75": 225,
+          "p90": 281.8,
+          "p99": 333.28
+        },
+        "uptime_last_1d": 99.89878349216049,
+        "uptime_last_30d": null,
+        "uptime_last_7d": null
+      },
+      "endpoint_document_sha256": "39049520def969fcddef9546405e6713e304e21fe5c277b66b8869ad429b2161",
+      "endpoint_selection": {
+        "eligible_endpoint_count": 3,
+        "method": "lowest bounded text-generation cost among strictly eligible endpoints; OpenRouter endpoint order breaks exact price ties",
+        "pending_checks": [
+          "no-spend tool/structured-output contract smoke",
+          "paid identity and provider-return contract smoke after authorisation",
+          "provider data-policy and jurisdiction review"
+        ],
+        "selected_exact_tag": "openai/flex"
+      },
+      "execution_route": {
+        "fallback_used": false,
+        "generation_time_automatic_fallback": false,
+        "policy": "exact_openrouter_endpoint_v1",
+        "preferred_backend": "openrouter",
+        "selected_backend": "openrouter",
+        "selection_frozen_before_generation": true,
+        "selection_reason": "live_capability_and_price_contract"
+      },
+      "forecast": {
+        "model_block_worst_case_usd": "0",
+        "new_provider_calls": 0,
+        "response_source": "complete_powered_v31_block_reused_exactly"
+      },
+      "model": {
+        "architecture": {
+          "input_modalities": [
+            "file",
+            "image",
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+file->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "GPT"
+        },
+        "canonical_slug": "openai/gpt-5.6-terra-pro-20260709",
+        "context_length": 1050000,
+        "created": 1783590861,
+        "hugging_face_id": null,
+        "id": "openai/gpt-5.6-terra-pro",
+        "name": "OpenAI: GPT-5.6 Terra Pro",
+        "pricing": {
+          "completion": "0.000006",
+          "input_cache_read": "0.0000001",
+          "input_cache_write": "0.00000125",
+          "overrides": [
+            {
+              "completion": "0.000009",
+              "input_cache_read": "0.0000002",
+              "input_cache_write": "0.0000025",
+              "min_prompt_tokens": 272000,
+              "prompt": "0.000002"
+            }
+          ],
+          "prompt": "0.000001",
+          "web_search": "0.005"
+        },
+        "supported_parameters": [
+          "include_reasoning",
+          "max_completion_tokens",
+          "max_tokens",
+          "reasoning",
+          "reasoning_effort",
+          "response_format",
+          "seed",
+          "structured_outputs",
+          "tool_choice",
+          "tools"
+        ],
+        "top_provider": {
+          "context_length": 1050000,
+          "is_moderated": true,
+          "max_completion_tokens": 128000
+        }
+      },
+      "open_weight_evidence": null,
+      "request_policy": {
+        "endpoint_retention_attestation": "not_present_in_endpoint_metadata",
+        "official_eligibility": "pending_contract_smoke_and_governance_approval",
+        "policy_scope": "request_enforced",
+        "provider": {
+          "allow_fallbacks": false,
+          "data_collection": "deny",
+          "only": [
+            "openai/flex"
+          ],
+          "require_parameters": true
+        }
+      },
+      "slot": {
+        "cohort": "openai",
+        "model_id": "openai/gpt-5.6-terra-pro",
+        "open_weight_candidate": false,
+        "rationale": "Terra quality-cost tier.",
+        "slot_id": "frontier-refresh-02"
+      }
+    },
+    {
+      "backend_contract": {},
+      "backend_contract_sha256": "unfrozen",
+      "contract_evidence": {
+        "generation_calls": 0,
+        "quality_observations": 0,
+        "requires_complete_primary_and_repeat_blocks": true,
+        "status": "route_frozen_before_complete_replacement_block"
+      },
+      "cost_accounting_policy": "provider_generation_metadata",
+      "endpoint": {
+        "context_length": 1050000,
+        "latency_last_30m": null,
+        "max_completion_tokens": 128000,
+        "max_prompt_tokens": 922000,
+        "model_id": "openai/gpt-5.6-luna-pro",
+        "model_name": "OpenAI: GPT-5.6 Luna Pro",
+        "name": "OpenAI | openai/gpt-5.6-luna-pro-20260709",
+        "pricing": {
+          "completion": "0.0000006",
+          "discount": 0.5,
+          "input_cache_read": "0.00000001",
+          "input_cache_write": "0.000000125",
+          "overrides": [
+            {
+              "completion": "0.0000009",
+              "input_cache_read": "0.00000002",
+              "input_cache_write": "0.00000025",
+              "min_prompt_tokens": 272000,
+              "prompt": "0.0000002"
+            }
+          ],
+          "prompt": "0.0000001",
+          "web_search": "0.01"
+        },
+        "provider_name": "OpenAI",
+        "quantization": "unknown",
+        "status": 0,
+        "supported_parameters": [
+          "include_reasoning",
+          "max_tokens",
+          "reasoning",
+          "reasoning_effort",
+          "response_format",
+          "seed",
+          "structured_outputs",
+          "tool_choice",
+          "tools"
+        ],
+        "supports_implicit_caching": false,
+        "supports_voice_cloning": false,
+        "tag": "openai",
+        "throughput_last_30m": null,
+        "uptime_last_1d": 99.98425030891399,
+        "uptime_last_30m": 99.98708344097132,
+        "uptime_last_5m": 100
+      },
+      "endpoint_document_sha256": "e3db87a8ae116a2618d01e7831d9fee39e63af6ac9c870513f612cc0703b3c89",
+      "endpoint_execution_sha256": "4fab334d6bc19e9ac2ba17d60717a05468ec9e5b6073f9d54fa4611e1fafc38f",
+      "endpoint_selection": {
+        "automatic_fallback": false,
+        "eligible_endpoint_count": 1,
+        "method": "score-blind transport-failure replacement plus current public endpoint contract",
+        "observed_at": "2026-08-15T07:30:49.988137Z",
+        "quality_scores_or_selections_used": false,
+        "selected_exact_tag": "openai",
+        "superseded_exact_tag": "openai/flex",
+        "transport_finding": "quota_rejection"
+      },
+      "execution_route": {
+        "fallback_used": false,
+        "generation_time_automatic_fallback": false,
+        "policy": "exact_openrouter_provider_only_v1",
+        "preferred_backend": "openrouter",
+        "selected_backend": "openrouter",
+        "selection_frozen_before_generation": true,
+        "selection_reason": "score-blind transport availability repair"
+      },
+      "forecast": {
+        "new_provider_calls": 704,
+        "primary_tasks": 640,
+        "prompt_token_bound": 4096,
+        "repeat_tasks": 64,
+        "route_max_output_tokens": 2048,
+        "worst_case_usd": "1.1534336"
+      },
+      "model": {
+        "architecture": {
+          "input_modalities": [
+            "file",
+            "image",
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+file->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "GPT"
+        },
+        "canonical_slug": "openai/gpt-5.6-luna-pro-20260709",
+        "context_length": 1050000,
+        "created": 1783590867,
+        "hugging_face_id": null,
+        "id": "openai/gpt-5.6-luna-pro",
+        "name": "OpenAI: GPT-5.6 Luna Pro",
+        "pricing": {
+          "completion": "0.0000006",
+          "input_cache_read": "0.00000001",
+          "input_cache_write": "0.000000125",
+          "overrides": [
+            {
+              "completion": "0.0000009",
+              "input_cache_read": "0.00000002",
+              "input_cache_write": "0.00000025",
+              "min_prompt_tokens": 272000,
+              "prompt": "0.0000002"
+            }
+          ],
+          "prompt": "0.0000001",
+          "web_search": "0.005"
+        },
+        "supported_parameters": [
+          "include_reasoning",
+          "max_completion_tokens",
+          "max_tokens",
+          "reasoning",
+          "reasoning_effort",
+          "response_format",
+          "seed",
+          "structured_outputs",
+          "tool_choice",
+          "tools"
+        ],
+        "top_provider": {
+          "context_length": 1050000,
+          "is_moderated": true,
+          "max_completion_tokens": 128000
+        }
+      },
+      "open_weight_evidence": null,
+      "request_policy": {
+        "endpoint_retention_attestation": "not_present_in_endpoint_metadata",
+        "official_eligibility": "pending_contract_smoke_and_governance_approval",
+        "policy_scope": "request_enforced",
+        "provider": {
+          "allow_fallbacks": false,
+          "data_collection": "deny",
+          "only": [
+            "openai"
+          ],
+          "require_parameters": true
+        }
+      },
+      "slot": {
+        "cohort": "openai",
+        "model_id": "openai/gpt-5.6-luna-pro",
+        "open_weight_candidate": false,
+        "rationale": "Luna efficiency tier.",
+        "slot_id": "frontier-refresh-03"
+      }
+    },
+    {
+      "backend_contract": {},
+      "backend_contract_sha256": "unfrozen",
+      "contract_evidence": {
+        "generation_calls": 0,
+        "quality_observations": 0,
+        "requires_successful_successor_pilot": true,
+        "status": "live_endpoint_selected_before_successor_pilot"
+      },
+      "cost_accounting_policy": "provider_generation_metadata",
+      "endpoint": {
+        "context_length": 128000,
+        "latency_last_30m": null,
+        "max_completion_tokens": null,
+        "max_prompt_tokens": null,
+        "model_id": "meta-llama/llama-4-maverick",
+        "model_name": "Meta: Llama 4 Maverick",
+        "name": "DigitalOcean | meta-llama/llama-4-maverick-17b-128e-instruct",
+        "pricing": {
+          "completion": "0.000000696",
+          "discount": 0,
+          "prompt": "0.0000002"
+        },
+        "provider_name": "DigitalOcean",
+        "quantization": "unknown",
+        "status": 0,
+        "supported_parameters": [
+          "logprobs",
+          "max_tokens",
+          "response_format",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_logprobs",
+          "top_p"
+        ],
+        "supports_implicit_caching": false,
+        "supports_voice_cloning": false,
+        "tag": "digitalocean",
+        "throughput_last_30m": null,
+        "uptime_last_1d": 99.85533634300252,
+        "uptime_last_30m": 99.85023214018271,
+        "uptime_last_5m": 100
+      },
+      "endpoint_document_sha256": "e7caf54c3ea0d25dde5ef21a1ec60fb27c78ce0ead475d31cef8db240d5c196c",
+      "endpoint_selection": {
+        "automatic_fallback": false,
+        "eligible_endpoint_count": 5,
+        "method": "refusal_prone_candidate_replaced_before_primary_collection",
+        "observed_at": "2026-08-11T21:13:51.029519Z",
+        "selected_exact_tag": "digitalocean"
+      },
+      "execution_route": {
+        "fallback_used": false,
+        "generation_time_automatic_fallback": false,
+        "policy": "exact_openrouter_endpoint_v1",
+        "preferred_backend": "openrouter",
+        "selected_backend": "openrouter",
+        "selection_frozen_before_generation": true,
+        "selection_reason": "preprimary_refusal_replacement"
+      },
+      "forecast": {
+        "model_block_worst_case_usd": "0",
+        "new_provider_calls": 0,
+        "response_source": "complete_powered_v31_block_reused_exactly"
+      },
+      "model": {
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image"
+          ],
+          "instruct_type": null,
+          "modality": "text+image->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Llama4"
+        },
+        "benchmarks": {
+          "artificial_analysis": {
+            "agentic_index": 1.2,
+            "coding_index": 16.3,
+            "intelligence_index": 14.5
+          },
+          "design_arena": [
+            {
+              "arena": "models",
+              "category": "3d",
+              "elo": 954,
+              "rank": 102,
+              "win_rate": 40.2
+            },
+            {
+              "arena": "models",
+              "category": "codecategories",
+              "elo": 907,
+              "rank": 114,
+              "win_rate": 35.8
+            },
+            {
+              "arena": "models",
+              "category": "dataviz",
+              "elo": 908,
+              "rank": 111,
+              "win_rate": 38.4
+            },
+            {
+              "arena": "models",
+              "category": "gamedev",
+              "elo": 879,
+              "rank": 113,
+              "win_rate": 33.7
+            },
+            {
+              "arena": "models",
+              "category": "uicomponent",
+              "elo": 933,
+              "rank": 106,
+              "win_rate": 40.8
+            },
+            {
+              "arena": "models",
+              "category": "website",
+              "elo": 893,
+              "rank": 117,
+              "win_rate": 34.4
+            }
+          ]
+        },
+        "canonical_slug": "meta-llama/llama-4-maverick-17b-128e-instruct",
+        "context_length": 1048576,
+        "created": 1743881822,
+        "default_parameters": {},
+        "description": "Llama 4 Maverick 17B Instruct (128E) is a high-capacity multimodal language model from Meta, built on a mixture-of-experts (MoE) architecture with 128 experts and 17 billion active parameters per forward...",
+        "expiration_date": null,
+        "hugging_face_id": "meta-llama/Llama-4-Maverick-17B-128E-Instruct",
+        "id": "meta-llama/llama-4-maverick",
+        "knowledge_cutoff": "2024-08-31",
+        "links": {
+          "details": "/api/v1/models/meta-llama/llama-4-maverick-17b-128e-instruct/endpoints"
+        },
+        "name": "Meta: Llama 4 Maverick",
+        "per_request_limits": null,
+        "pricing": {
+          "completion": "0.000000696",
+          "prompt": "0.0000002"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "supported_voices": null,
+        "top_provider": {
+          "context_length": 128000,
+          "is_moderated": false,
+          "max_completion_tokens": null
+        }
+      },
+      "open_weight_evidence": null,
+      "request_policy": {
+        "endpoint_retention_attestation": "not_present_in_endpoint_metadata",
+        "official_eligibility": "pending_contract_smoke_and_governance_approval",
+        "policy_scope": "request_enforced",
+        "provider": {
+          "allow_fallbacks": false,
+          "data_collection": "deny",
+          "only": [
+            "digitalocean"
+          ],
+          "require_parameters": true
+        }
+      },
+      "slot": {
+        "cohort": "meta",
+        "model_id": "meta-llama/llama-4-maverick",
+        "open_weight_candidate": true,
+        "rationale": "Recognizable open-weight frontier baseline replacing a refusal-prone candidate before primary collection.",
+        "slot_id": "frontier-refresh-04"
+      }
+    },
+    {
+      "backend_contract": {},
+      "backend_contract_sha256": "unfrozen",
+      "contract_evidence": {
+        "generation_calls": 0,
+        "quality_observations": 0,
+        "status": "live_read_only_endpoint_contract_selected"
+      },
+      "cost_accounting_policy": "provider_generation_metadata",
+      "endpoint": {
+        "context_length": 1000000,
+        "latency_last_30m": {
+          "p50": 2537.5,
+          "p75": 4449,
+          "p90": 5937.800000000001,
+          "p99": 10122.100000000013
+        },
+        "max_completion_tokens": 128000,
+        "model_id": "anthropic/claude-opus-5",
+        "name": "Amazon Bedrock | anthropic/claude-opus-5-20260723",
+        "pricing": {
+          "completion": "0.000025",
+          "discount": 0,
+          "input_cache_read": "0.0000005",
+          "input_cache_write": "0.00000625",
+          "input_cache_write_1h": "0.00001",
+          "prompt": "0.000005",
+          "web_search": "0.01"
+        },
+        "provider_name": "Amazon Bedrock",
+        "quantization": "unknown",
+        "status": 0,
+        "supported_parameters": [
+          "include_reasoning",
+          "max_tokens",
+          "reasoning",
+          "reasoning_effort",
+          "response_format",
+          "stop",
+          "structured_outputs",
+          "tool_choice",
+          "tools",
+          "verbosity"
+        ],
+        "tag": "amazon-bedrock/claude-on-aws",
+        "throughput_last_30m": {
+          "p50": 53,
+          "p75": 60,
+          "p90": 72,
+          "p99": 105
+        },
+        "uptime_last_1d": 99.50359819520568,
+        "uptime_last_30d": null,
+        "uptime_last_7d": null
+      },
+      "endpoint_document_sha256": "b82d9ccde9d4458622e7ddec4098798da5199d67f4c7bc09c9a1b5b61c4e4fd4",
+      "endpoint_selection": {
+        "eligible_endpoint_count": 6,
+        "method": "lowest bounded text-generation cost among strictly eligible endpoints; OpenRouter endpoint order breaks exact price ties",
+        "pending_checks": [
+          "no-spend tool/structured-output contract smoke",
+          "paid identity and provider-return contract smoke after authorisation",
+          "provider data-policy and jurisdiction review"
+        ],
+        "selected_exact_tag": "amazon-bedrock/claude-on-aws"
+      },
+      "execution_route": {
+        "fallback_used": false,
+        "generation_time_automatic_fallback": false,
+        "policy": "exact_openrouter_endpoint_v1",
+        "preferred_backend": "openrouter",
+        "selected_backend": "openrouter",
+        "selection_frozen_before_generation": true,
+        "selection_reason": "live_capability_and_price_contract"
+      },
+      "forecast": {
+        "model_block_worst_case_usd": "0",
+        "new_provider_calls": 0,
+        "response_source": "complete_powered_v31_block_reused_exactly"
+      },
+      "model": {
+        "architecture": {
+          "input_modalities": [
+            "file",
+            "image",
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+file->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Claude"
+        },
+        "canonical_slug": "anthropic/claude-opus-5-20260723",
+        "context_length": 1000000,
+        "created": 1784912544,
+        "hugging_face_id": null,
+        "id": "anthropic/claude-opus-5",
+        "name": "Claude Opus 5",
+        "pricing": {
+          "completion": "0.000025",
+          "input_cache_read": "0.0000005",
+          "input_cache_write": "0.00000625",
+          "input_cache_write_1h": "0.00001",
+          "prompt": "0.000005",
+          "web_search": "0.01"
+        },
+        "supported_parameters": [
+          "include_reasoning",
+          "max_completion_tokens",
+          "max_tokens",
+          "reasoning",
+          "reasoning_effort",
+          "response_format",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "verbosity"
+        ],
+        "top_provider": {
+          "context_length": 1000000,
+          "is_moderated": true,
+          "max_completion_tokens": 128000
+        }
+      },
+      "open_weight_evidence": null,
+      "request_policy": {
+        "endpoint_retention_attestation": "not_present_in_endpoint_metadata",
+        "official_eligibility": "pending_contract_smoke_and_governance_approval",
+        "policy_scope": "request_enforced",
+        "provider": {
+          "allow_fallbacks": false,
+          "data_collection": "deny",
+          "only": [
+            "amazon-bedrock/claude-on-aws"
+          ],
+          "require_parameters": true
+        }
+      },
+      "slot": {
+        "cohort": "anthropic",
+        "model_id": "anthropic/claude-opus-5",
+        "open_weight_candidate": false,
+        "rationale": "Claude Opus 5.",
+        "slot_id": "frontier-refresh-05"
+      }
+    },
+    {
+      "backend_contract": {},
+      "backend_contract_sha256": "unfrozen",
+      "contract_evidence": {
+        "generation_calls": 0,
+        "quality_observations": 0,
+        "status": "live_read_only_endpoint_contract_selected"
+      },
+      "cost_accounting_policy": "provider_generation_metadata",
+      "endpoint": {
+        "context_length": 1000000,
+        "latency_last_30m": {
+          "p50": 2706.5,
+          "p75": 3952.25,
+          "p90": 5281.900000000006,
+          "p99": 8027.350000000002
+        },
+        "max_completion_tokens": 128000,
+        "model_id": "anthropic/claude-sonnet-5",
+        "name": "Amazon Bedrock | anthropic/claude-sonnet-5-20260630",
+        "pricing": {
+          "completion": "0.00001",
+          "discount": 0,
+          "input_cache_read": "0.0000002",
+          "input_cache_write": "0.0000025",
+          "input_cache_write_1h": "0.000004",
+          "prompt": "0.000002",
+          "web_search": "0.01"
+        },
+        "provider_name": "Amazon Bedrock",
+        "quantization": "unknown",
+        "status": 0,
+        "supported_parameters": [
+          "include_reasoning",
+          "max_tokens",
+          "reasoning",
+          "reasoning_effort",
+          "response_format",
+          "stop",
+          "structured_outputs",
+          "tool_choice",
+          "tools",
+          "verbosity"
+        ],
+        "tag": "amazon-bedrock/claude-on-aws",
+        "throughput_last_30m": {
+          "p50": 19,
+          "p75": 49,
+          "p90": 72,
+          "p99": 107
+        },
+        "uptime_last_1d": 99.56646985851417,
+        "uptime_last_30d": null,
+        "uptime_last_7d": null
+      },
+      "endpoint_document_sha256": "71c7e557b04e6493b8e988b8f8e50a1c7bb4d447aba5c5bb655c5b2cefd791ea",
+      "endpoint_selection": {
+        "eligible_endpoint_count": 5,
+        "method": "lowest bounded text-generation cost among strictly eligible endpoints; OpenRouter endpoint order breaks exact price ties",
+        "pending_checks": [
+          "no-spend tool/structured-output contract smoke",
+          "paid identity and provider-return contract smoke after authorisation",
+          "provider data-policy and jurisdiction review"
+        ],
+        "selected_exact_tag": "amazon-bedrock/claude-on-aws"
+      },
+      "execution_route": {
+        "fallback_used": false,
+        "generation_time_automatic_fallback": false,
+        "policy": "exact_openrouter_endpoint_v1",
+        "preferred_backend": "openrouter",
+        "selected_backend": "openrouter",
+        "selection_frozen_before_generation": true,
+        "selection_reason": "live_capability_and_price_contract"
+      },
+      "forecast": {
+        "model_block_worst_case_usd": "0",
+        "new_provider_calls": 0,
+        "response_source": "complete_powered_v31_block_reused_exactly"
+      },
+      "model": {
+        "architecture": {
+          "input_modalities": [
+            "file",
+            "image",
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+file->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Claude"
+        },
+        "canonical_slug": "anthropic/claude-sonnet-5-20260630",
+        "context_length": 1000000,
+        "created": 1782843083,
+        "hugging_face_id": null,
+        "id": "anthropic/claude-sonnet-5",
+        "name": "Anthropic: Claude Sonnet 5",
+        "pricing": {
+          "completion": "0.00001",
+          "input_cache_read": "0.0000002",
+          "input_cache_write": "0.0000025",
+          "input_cache_write_1h": "0.000004",
+          "prompt": "0.000002",
+          "web_search": "0.01"
+        },
+        "supported_parameters": [
+          "include_reasoning",
+          "max_completion_tokens",
+          "max_tokens",
+          "reasoning",
+          "reasoning_effort",
+          "response_format",
+          "stop",
+          "structured_outputs",
+          "tool_choice",
+          "tools",
+          "verbosity"
+        ],
+        "top_provider": {
+          "context_length": 1000000,
+          "is_moderated": true,
+          "max_completion_tokens": 128000
+        }
+      },
+      "open_weight_evidence": null,
+      "request_policy": {
+        "endpoint_retention_attestation": "not_present_in_endpoint_metadata",
+        "official_eligibility": "pending_contract_smoke_and_governance_approval",
+        "policy_scope": "request_enforced",
+        "provider": {
+          "allow_fallbacks": false,
+          "data_collection": "deny",
+          "only": [
+            "amazon-bedrock/claude-on-aws"
+          ],
+          "require_parameters": true
+        }
+      },
+      "slot": {
+        "cohort": "anthropic",
+        "model_id": "anthropic/claude-sonnet-5",
+        "open_weight_candidate": false,
+        "rationale": "Claude Sonnet 5.",
+        "slot_id": "frontier-refresh-06"
+      }
+    },
+    {
+      "backend_contract": {},
+      "backend_contract_sha256": "unfrozen",
+      "contract_evidence": {
+        "generation_calls": 0,
+        "quality_observations": 0,
+        "status": "live_read_only_endpoint_contract_selected"
+      },
+      "cost_accounting_policy": "provider_generation_metadata",
+      "endpoint": {
+        "context_length": 1048576,
+        "latency_last_30m": {
+          "p50": 87837,
+          "p75": 88001,
+          "p90": 88703,
+          "p99": 90152
+        },
+        "max_completion_tokens": 65536,
+        "model_id": "google/gemini-3.1-pro-preview",
+        "name": "Google | google/gemini-3.1-pro-preview-20260219",
+        "pricing": {
+          "audio": "0.000001",
+          "completion": "0.000006",
+          "discount": 0,
+          "image": "0.000001",
+          "input_audio_cache": "0.0000001",
+          "input_cache_read": "0.0000001",
+          "input_cache_write": "0.0000001875",
+          "internal_reasoning": "0.000006",
+          "overrides": [
+            {
+              "audio": "0.000002",
+              "completion": "0.000009",
+              "input_audio_cache": "0.0000002",
+              "input_cache_read": "0.0000002",
+              "min_prompt_tokens": 200000,
+              "prompt": "0.000002"
+            }
+          ],
+          "prompt": "0.000001",
+          "web_search": "0.014"
+        },
+        "provider_name": "Google",
+        "quantization": "unknown",
+        "status": 0,
+        "supported_parameters": [
+          "include_reasoning",
+          "max_tokens",
+          "reasoning",
+          "reasoning_effort",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_p"
+        ],
+        "tag": "google-vertex/global/flex",
+        "throughput_last_30m": {
+          "p50": 8.5,
+          "p75": 24.25,
+          "p90": 31,
+          "p99": 37.3
+        },
+        "uptime_last_1d": 97.57218723643241,
+        "uptime_last_30d": null,
+        "uptime_last_7d": null
+      },
+      "endpoint_document_sha256": "f9d3b88bb1ea8c4d53fc21b84b771008be1458f3792c590dc3c0ce220551d89c",
+      "endpoint_selection": {
+        "eligible_endpoint_count": 6,
+        "method": "lowest bounded text-generation cost among strictly eligible endpoints; OpenRouter endpoint order breaks exact price ties",
+        "pending_checks": [
+          "no-spend tool/structured-output contract smoke",
+          "paid identity and provider-return contract smoke after authorisation",
+          "provider data-policy and jurisdiction review"
+        ],
+        "selected_exact_tag": "google-vertex/global/flex"
+      },
+      "execution_route": {
+        "fallback_used": false,
+        "generation_time_automatic_fallback": false,
+        "policy": "exact_openrouter_endpoint_v1",
+        "preferred_backend": "openrouter",
+        "selected_backend": "openrouter",
+        "selection_frozen_before_generation": true,
+        "selection_reason": "live_capability_and_price_contract"
+      },
+      "forecast": {
+        "model_block_worst_case_usd": "0",
+        "new_provider_calls": 0,
+        "response_source": "complete_powered_v31_block_reused_exactly"
+      },
+      "model": {
+        "architecture": {
+          "input_modalities": [
+            "audio",
+            "file",
+            "image",
+            "text",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+file+audio+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Gemini"
+        },
+        "canonical_slug": "google/gemini-3.1-pro-preview-20260219",
+        "context_length": 1048576,
+        "created": 1771509627,
+        "hugging_face_id": null,
+        "id": "google/gemini-3.1-pro-preview",
+        "name": "Google: Gemini 3.1 Pro Preview",
+        "pricing": {
+          "audio": "0.000002",
+          "completion": "0.000012",
+          "image": "0.000002",
+          "input_audio_cache": "0.0000002",
+          "input_cache_read": "0.0000002",
+          "input_cache_write": "0.000000375",
+          "internal_reasoning": "0.000012",
+          "overrides": [
+            {
+              "audio": "0.000004",
+              "completion": "0.000018",
+              "input_audio_cache": "0.0000004",
+              "input_cache_read": "0.0000004",
+              "min_prompt_tokens": 200000,
+              "prompt": "0.000004"
+            }
+          ],
+          "prompt": "0.000002",
+          "web_search": "0.014"
+        },
+        "supported_parameters": [
+          "include_reasoning",
+          "max_tokens",
+          "reasoning",
+          "reasoning_effort",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_p"
+        ],
+        "top_provider": {
+          "context_length": 1048576,
+          "is_moderated": false,
+          "max_completion_tokens": 65536
+        }
+      },
+      "open_weight_evidence": null,
+      "request_policy": {
+        "endpoint_retention_attestation": "not_present_in_endpoint_metadata",
+        "official_eligibility": "pending_contract_smoke_and_governance_approval",
+        "policy_scope": "request_enforced",
+        "provider": {
+          "allow_fallbacks": false,
+          "data_collection": "deny",
+          "only": [
+            "google-vertex/global/flex"
+          ],
+          "require_parameters": true
+        }
+      },
+      "slot": {
+        "cohort": "google",
+        "model_id": "google/gemini-3.1-pro-preview",
+        "open_weight_candidate": false,
+        "rationale": "Gemini 3.1 Pro.",
+        "slot_id": "frontier-refresh-07"
+      }
+    },
+    {
+      "backend_contract": {},
+      "backend_contract_sha256": "unfrozen",
+      "contract_evidence": {
+        "generation_calls": 0,
+        "quality_observations": 0,
+        "requires_successful_successor_pilot": true,
+        "status": "live_endpoint_repaired_before_successor_pilot"
+      },
+      "cost_accounting_policy": "provider_generation_metadata",
+      "endpoint": {
+        "context_length": 1048576,
+        "latency_last_30m": null,
+        "max_completion_tokens": 65536,
+        "max_prompt_tokens": null,
+        "model_id": "google/gemini-3.6-flash",
+        "model_name": "Google: Gemini 3.6 Flash",
+        "name": "Google | google/gemini-3.6-flash-20260721",
+        "pricing": {
+          "audio": "0.00000165",
+          "completion": "0.00000825",
+          "discount": 0,
+          "image": "0.00000165",
+          "input_audio_cache": "0.000000165",
+          "input_cache_read": "0.000000165",
+          "input_cache_write": "0.0000000833333333333333",
+          "internal_reasoning": "0.00000825",
+          "prompt": "0.00000165",
+          "web_search": "0.014"
+        },
+        "provider_name": "Google",
+        "quantization": "unknown",
+        "status": 0,
+        "supported_parameters": [
+          "include_reasoning",
+          "max_tokens",
+          "reasoning",
+          "reasoning_effort",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "tool_choice",
+          "tools"
+        ],
+        "supports_implicit_caching": true,
+        "supports_voice_cloning": false,
+        "tag": "google-vertex/us",
+        "throughput_last_30m": null,
+        "uptime_last_1d": 100,
+        "uptime_last_30m": 100,
+        "uptime_last_5m": null
+      },
+      "endpoint_document_sha256": "d1a48bc5a0f4cdaf0ef6940dce2be02e42ffa5508668cd273a2e57c00c70fb46",
+      "endpoint_selection": {
+        "automatic_fallback": false,
+        "eligible_endpoint_count": 7,
+        "method": "failed_final_pilot_route_replaced_before_primary_collection",
+        "observed_at": "2026-08-11T21:36:38.740619Z",
+        "selected_exact_tag": "google-vertex/us"
+      },
+      "execution_route": {
+        "fallback_used": false,
+        "generation_time_automatic_fallback": false,
+        "policy": "exact_openrouter_endpoint_v1",
+        "preferred_backend": "openrouter",
+        "selected_backend": "openrouter",
+        "selection_frozen_before_generation": true,
+        "selection_reason": "preprimary_route_reliability_repair"
+      },
+      "forecast": {
+        "model_block_worst_case_usd": "0",
+        "new_provider_calls": 0,
+        "response_source": "complete_powered_v31_block_reused_exactly"
+      },
+      "model": {
+        "architecture": {
+          "input_modalities": [
+            "audio",
+            "file",
+            "image",
+            "text",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+file+audio+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Gemini"
+        },
+        "canonical_slug": "google/gemini-3.6-flash-20260721",
+        "context_length": 1048576,
+        "created": 1784646733,
+        "hugging_face_id": null,
+        "id": "google/gemini-3.6-flash",
+        "name": "Google: Gemini 3.6 Flash",
+        "pricing": {
+          "audio": "0.0000015",
+          "completion": "0.0000075",
+          "image": "0.0000015",
+          "input_audio_cache": "0.00000015",
+          "input_cache_read": "0.00000015",
+          "input_cache_write": "0.0000000833333333333333",
+          "internal_reasoning": "0.0000075",
+          "prompt": "0.0000015",
+          "web_search": "0.014"
+        },
+        "supported_parameters": [
+          "include_reasoning",
+          "max_tokens",
+          "reasoning",
+          "reasoning_effort",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_p"
+        ],
+        "top_provider": {
+          "context_length": 1048576,
+          "is_moderated": false,
+          "max_completion_tokens": 65536
+        }
+      },
+      "open_weight_evidence": null,
+      "request_policy": {
+        "endpoint_retention_attestation": "not_present_in_endpoint_metadata",
+        "official_eligibility": "pending_contract_smoke_and_governance_approval",
+        "policy_scope": "request_enforced",
+        "provider": {
+          "allow_fallbacks": false,
+          "data_collection": "deny",
+          "only": [
+            "google-vertex/us"
+          ],
+          "require_parameters": true
+        }
+      },
+      "slot": {
+        "cohort": "google",
+        "model_id": "google/gemini-3.6-flash",
+        "open_weight_candidate": false,
+        "rationale": "Gemini 3.6 Flash.",
+        "slot_id": "frontier-refresh-08"
+      }
+    },
+    {
+      "backend_contract": {},
+      "backend_contract_sha256": "unfrozen",
+      "contract_evidence": {
+        "generation_calls": 0,
+        "quality_observations": 0,
+        "requires_complete_primary_and_repeat_blocks": true,
+        "status": "route_frozen_before_complete_successor_block"
+      },
+      "cost_accounting_policy": "provider_generation_metadata",
+      "endpoint": {
+        "context_length": 500000,
+        "latency_last_30m": null,
+        "max_completion_tokens": null,
+        "max_prompt_tokens": null,
+        "model_id": "x-ai/grok-4.6",
+        "model_name": "SpaceXAI: Grok 4.6",
+        "name": "xAI | x-ai/grok-4.6-20260810",
+        "pricing": {
+          "completion": "0.000006",
+          "discount": 0,
+          "input_cache_read": "0.0000005",
+          "overrides": [
+            {
+              "completion": "0.000012",
+              "input_cache_read": "0.000001",
+              "min_prompt_tokens": 200000,
+              "prompt": "0.000004"
+            }
+          ],
+          "prompt": "0.000002",
+          "web_search": "0.005"
+        },
+        "provider_name": "xAI",
+        "quantization": "unknown",
+        "status": 0,
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logprobs",
+          "max_tokens",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_logprobs",
+          "top_p"
+        ],
+        "supports_implicit_caching": false,
+        "supports_voice_cloning": false,
+        "tag": "xai/zdr",
+        "throughput_last_30m": null,
+        "uptime_last_1d": 99.93564948554562,
+        "uptime_last_30m": 100,
+        "uptime_last_5m": 100
+      },
+      "endpoint_document_sha256": "6ab49b5dcca62dae6276921754d7f672b533286e3948c7ff84874ad3ec55f67e",
+      "endpoint_selection": {
+        "automatic_fallback": false,
+        "eligible_endpoint_count": 1,
+        "method": "exact dated endpoint selected before successor score collection",
+        "observed_at": "2026-08-13T22:58:34.500894Z",
+        "quality_observations_used": 0,
+        "selected_exact_tag": "xai/zdr"
+      },
+      "execution_route": {
+        "fallback_used": false,
+        "generation_time_automatic_fallback": false,
+        "policy": "exact_openrouter_provider_only_v1",
+        "preferred_backend": "openrouter",
+        "selected_backend": "openrouter",
+        "selection_frozen_before_generation": true,
+        "selection_reason": "dated_frontier_successor_route_freeze"
+      },
+      "forecast": {
+        "model_block_worst_case_usd": "14.41792",
+        "new_provider_calls": 704,
+        "primary_tasks": 640,
+        "prompt_token_bound": 4096,
+        "repeat_tasks": 64,
+        "route_max_output_tokens": 2048
+      },
+      "model": {
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ]
+        },
+        "canonical_slug": "x-ai/grok-4.6-20260810",
+        "context_length": 500000,
+        "description": "Grok 4.6 on the exact native xAI zero-data-retention route.",
+        "id": "x-ai/grok-4.6",
+        "name": "SpaceXAI: Grok 4.6",
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logprobs",
+          "max_tokens",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_logprobs",
+          "top_p"
+        ],
+        "top_provider": {
+          "context_length": 500000,
+          "is_moderated": false,
+          "max_completion_tokens": null
+        }
+      },
+      "open_weight_evidence": null,
+      "request_policy": {
+        "official_eligibility": "successor_collection_only",
+        "policy_scope": "request_enforced",
+        "provider": {
+          "allow_fallbacks": false,
+          "data_collection": "deny",
+          "only": [
+            "xai/zdr"
+          ],
+          "require_parameters": true
+        }
+      },
+      "slot": {
+        "cohort": "xai",
+        "model_id": "x-ai/grok-4.6",
+        "open_weight_candidate": false,
+        "rationale": "Grok 4.6 on the exact native xAI zero-data-retention route.",
+        "slot_id": "frontier-refresh-09"
+      }
+    },
+    {
+      "backend_contract": {},
+      "backend_contract_sha256": "unfrozen",
+      "contract_evidence": {
+        "accounting_model": "moonshotai/kimi-k3-20260715",
+        "actual_provider": "Morph",
+        "generation_calls": 2,
+        "quality_observations": 0,
+        "response_envelope_model": "moonshotai/kimi-k3",
+        "responses_used_as_primary_data": false,
+        "status": "live_identity_repaired_before_successor_primary"
+      },
+      "cost_accounting_policy": "provider_usage_times_frozen_rate_card",
+      "endpoint": {
+        "context_length": 1048576,
+        "latency_last_30m": null,
+        "max_completion_tokens": 1048576,
+        "max_prompt_tokens": null,
+        "model_id": "moonshotai/kimi-k3",
+        "model_name": "MoonshotAI: Kimi K3",
+        "name": "Morph | moonshotai/kimi-k3-20260715",
+        "pricing": {
+          "completion": "0.000014",
+          "discount": 0,
+          "input_cache_read": "0.00000029",
+          "prompt": "0.0000028"
+        },
+        "provider_name": "Morph",
+        "quantization": "unknown",
+        "status": 0,
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "supports_implicit_caching": false,
+        "supports_voice_cloning": false,
+        "tag": "morph",
+        "throughput_last_30m": null,
+        "uptime_last_1d": 97.85023246375773,
+        "uptime_last_30m": 99.29358575868889,
+        "uptime_last_5m": 100
+      },
+      "endpoint_document_sha256": "ae0461e91a9c49c5795821bc3355e4cb4a195a3fa6c4e1e531aee92a9b1fc894",
+      "endpoint_execution_sha256": "2b210984fb3e14c974958a8cd8c692ab9acefac344a28805b9ed61a5ce87c69f",
+      "endpoint_selection": {
+        "automatic_fallback": false,
+        "eligible_endpoint_count": 12,
+        "method": "single_flight_429_route_replaced_before_clean_primary_collection",
+        "observed_at": "2026-08-11T23:27:15.609493Z",
+        "selected_exact_tag": "morph"
+      },
+      "execution_route": {
+        "evidence": {
+          "catalog_sha256": "ca3fcfdba2612735b6365afdefa6af90f373ea4a30c6d939a23dd01e75b3b8ba",
+          "compatibility_artifact_sha256": "63496d48c2f81dd26efd02d7ba56a84b4946d3666c7ab1092de8fa3e47208313"
+        },
+        "fallback_used": false,
+        "generation_time_automatic_fallback": false,
+        "policy": "exact_openrouter_endpoint_v1",
+        "preferred_backend": "openrouter",
+        "selected_backend": "openrouter",
+        "selection_frozen_before_generation": true,
+        "selection_reason": "DeepInfra rejected bounded single-flight calibration requests"
+      },
+      "forecast": {
+        "model_block_worst_case_usd": "0",
+        "new_provider_calls": 0,
+        "response_source": "complete_powered_v31_block_reused_exactly"
+      },
+      "model": {
+        "architecture": {
+          "input_modalities": [
+            "text",
+            "image"
+          ],
+          "instruct_type": null,
+          "modality": "text+image->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "benchmarks": {
+          "artificial_analysis": {
+            "agentic_index": 50.1,
+            "coding_index": 76.2,
+            "intelligence_index": 57.1
+          },
+          "design_arena": [
+            {
+              "arena": "agents",
+              "category": "godotgamedev",
+              "elo": 1199,
+              "rank": 11,
+              "win_rate": 48.5
+            },
+            {
+              "arena": "agents",
+              "category": "python-pptxslides",
+              "elo": 1378,
+              "rank": 1,
+              "win_rate": 70.9
+            },
+            {
+              "arena": "agents",
+              "category": "webapps",
+              "elo": 1330,
+              "rank": 1,
+              "win_rate": 63.2
+            },
+            {
+              "arena": "models",
+              "category": "3d",
+              "elo": 1456,
+              "rank": 1,
+              "win_rate": 69.4
+            },
+            {
+              "arena": "models",
+              "category": "codecategories",
+              "elo": 1418,
+              "rank": 1,
+              "win_rate": 67
+            },
+            {
+              "arena": "models",
+              "category": "dataviz",
+              "elo": 1380,
+              "rank": 1,
+              "win_rate": 66.3
+            },
+            {
+              "arena": "models",
+              "category": "uicomponent",
+              "elo": 1413,
+              "rank": 1,
+              "win_rate": 67.7
+            },
+            {
+              "arena": "models",
+              "category": "website",
+              "elo": 1375,
+              "rank": 1,
+              "win_rate": 63.5
+            }
+          ]
+        },
+        "canonical_slug": "moonshotai/kimi-k3-20260715",
+        "context_length": 1048576,
+        "created": 1784215858,
+        "default_parameters": {
+          "frequency_penalty": null,
+          "presence_penalty": null,
+          "repetition_penalty": null,
+          "temperature": null,
+          "top_k": null,
+          "top_p": 0.95
+        },
+        "description": "Kimi K3 is a 2.8T parameter open-weight multimodal reasoning model from Moonshot AI. It is suited for complex coding, knowledge work, and long-horizon agentic workflows, and is particularly strong at...",
+        "expiration_date": null,
+        "hugging_face_id": "moonshotai/Kimi-K3",
+        "id": "moonshotai/kimi-k3",
+        "knowledge_cutoff": null,
+        "links": {
+          "details": "/api/v1/models/moonshotai/kimi-k3-20260715/endpoints"
+        },
+        "name": "MoonshotAI: Kimi K3",
+        "per_request_limits": null,
+        "pricing": {
+          "completion": "0.000015",
+          "input_cache_read": "0.0000003",
+          "prompt": "0.000003"
+        },
+        "reasoning": {
+          "default_effort": "max",
+          "default_enabled": true,
+          "mandatory": false,
+          "supported_efforts": [
+            "max",
+            "high",
+            "low"
+          ]
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "supported_voices": null,
+        "top_provider": {
+          "context_length": 1048576,
+          "is_moderated": false,
+          "max_completion_tokens": null
+        }
+      },
+      "request_policy": {
+        "official_eligibility": "development_only",
+        "policy_scope": "request_enforced",
+        "provider": {
+          "allow_fallbacks": false,
+          "data_collection": "deny",
+          "only": [
+            "morph"
+          ],
+          "require_parameters": true
+        }
+      },
+      "slot": {
+        "cohort": "kimi",
+        "model_id": "moonshotai/kimi-k3",
+        "open_weight_candidate": null,
+        "rationale": "Current exact route passed structured-final and real Epicure contract checks; inclusion is not a quality claim.",
+        "slot_id": "frontier-refresh-10"
+      }
+    },
+    {
+      "backend_contract": {},
+      "backend_contract_sha256": "unfrozen",
+      "contract_evidence": {
+        "generation_calls": 0,
+        "quality_observations": 0,
+        "status": "live_read_only_endpoint_contract_selected"
+      },
+      "cost_accounting_policy": "provider_generation_metadata",
+      "endpoint": {
+        "context_length": 1000000,
+        "latency_last_30m": {
+          "p50": 1653,
+          "p75": 2503.5,
+          "p90": 4383.700000000002,
+          "p99": 17211.140000000007
+        },
+        "max_completion_tokens": 131072,
+        "model_id": "qwen/qwen3.8-max",
+        "name": "Alibaba | qwen/qwen3.8-max-20260803",
+        "pricing": {
+          "completion": "0.000006",
+          "discount": 0,
+          "input_cache_read": "0.00000025",
+          "input_cache_write": "0.0000025",
+          "prompt": "0.000002"
+        },
+        "provider_name": "Alibaba",
+        "quantization": "unknown",
+        "status": 0,
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logprobs",
+          "max_tokens",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "tag": "alibaba",
+        "throughput_last_30m": {
+          "p50": 40,
+          "p75": 46,
+          "p90": 52,
+          "p99": 65
+        },
+        "uptime_last_1d": 99.99830200754954,
+        "uptime_last_30d": null,
+        "uptime_last_7d": null
+      },
+      "endpoint_document_sha256": "43e59ccac8ac5b2f0d2c82043fe62b677d5b9d4257900b91eeb5a1b74b7dbc3b",
+      "endpoint_selection": {
+        "eligible_endpoint_count": 1,
+        "method": "lowest bounded text-generation cost among strictly eligible endpoints; OpenRouter endpoint order breaks exact price ties",
+        "pending_checks": [
+          "no-spend tool/structured-output contract smoke",
+          "paid identity and provider-return contract smoke after authorisation",
+          "provider data-policy and jurisdiction review"
+        ],
+        "selected_exact_tag": "alibaba"
+      },
+      "execution_route": {
+        "fallback_used": false,
+        "generation_time_automatic_fallback": false,
+        "policy": "exact_openrouter_endpoint_v1",
+        "preferred_backend": "openrouter",
+        "selected_backend": "openrouter",
+        "selection_frozen_before_generation": true,
+        "selection_reason": "live_capability_and_price_contract"
+      },
+      "forecast": {
+        "model_block_worst_case_usd": "0",
+        "new_provider_calls": 0,
+        "response_source": "complete_powered_v31_block_reused_exactly"
+      },
+      "model": {
+        "architecture": {
+          "input_modalities": [
+            "image",
+            "text",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Qwen"
+        },
+        "canonical_slug": "qwen/qwen3.8-max-20260803",
+        "context_length": 1000000,
+        "created": 1785731612,
+        "hugging_face_id": null,
+        "id": "qwen/qwen3.8-max",
+        "name": "Qwen: Qwen3.8 Max",
+        "pricing": {
+          "completion": "0.000006",
+          "input_cache_read": "0.00000025",
+          "input_cache_write": "0.0000025",
+          "prompt": "0.000002"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logprobs",
+          "max_tokens",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "top_provider": {
+          "context_length": 1000000,
+          "is_moderated": false,
+          "max_completion_tokens": 131072
+        }
+      },
+      "open_weight_evidence": null,
+      "request_policy": {
+        "endpoint_retention_attestation": "not_present_in_endpoint_metadata",
+        "official_eligibility": "pending_contract_smoke_and_governance_approval",
+        "policy_scope": "request_enforced",
+        "provider": {
+          "allow_fallbacks": false,
+          "data_collection": "deny",
+          "only": [
+            "alibaba"
+          ],
+          "require_parameters": true
+        }
+      },
+      "slot": {
+        "cohort": "qwen",
+        "model_id": "qwen/qwen3.8-max",
+        "open_weight_candidate": false,
+        "rationale": "Qwen3.8 Max through the exact OpenRouter pay-as-you-go route.",
+        "slot_id": "frontier-refresh-11"
+      }
+    },
+    {
+      "backend_contract": {},
+      "backend_contract_sha256": "unfrozen",
+      "contract_evidence": {
+        "generation_calls": 0,
+        "quality_observations": 0,
+        "status": "live_read_only_endpoint_contract_selected"
+      },
+      "cost_accounting_policy": "provider_generation_metadata",
+      "endpoint": {
+        "context_length": 262144,
+        "latency_last_30m": {
+          "p50": 818.5,
+          "p75": 1240.25,
+          "p90": 2034,
+          "p99": 6605.18
+        },
+        "max_completion_tokens": 262144,
+        "model_id": "z-ai/glm-5.2",
+        "name": "CoreWeave | z-ai/glm-5.2-20260616",
+        "pricing": {
+          "completion": "0.00000242",
+          "discount": 0,
+          "input_cache_read": "0.00000014",
+          "prompt": "0.00000076"
+        },
+        "provider_name": "CoreWeave",
+        "quantization": "fp4",
+        "status": 0,
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logprobs",
+          "max_tokens",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "tag": "coreweave/fp4",
+        "throughput_last_30m": {
+          "p50": 79,
+          "p75": 126,
+          "p90": 169,
+          "p99": 257.09000000000015
+        },
+        "uptime_last_1d": 99.8838639488383,
+        "uptime_last_30d": null,
+        "uptime_last_7d": null
+      },
+      "endpoint_document_sha256": "49b4af2286f1ed4184a1f9fdbfd9190e0bdaa28b6ef2648208bfda37f479576a",
+      "endpoint_selection": {
+        "eligible_endpoint_count": 22,
+        "method": "lowest bounded text-generation cost among strictly eligible endpoints; OpenRouter endpoint order breaks exact price ties",
+        "pending_checks": [
+          "no-spend tool/structured-output contract smoke",
+          "paid identity and provider-return contract smoke after authorisation",
+          "provider data-policy and jurisdiction review"
+        ],
+        "selected_exact_tag": "coreweave/fp4"
+      },
+      "execution_route": {
+        "fallback_used": false,
+        "generation_time_automatic_fallback": false,
+        "policy": "exact_openrouter_endpoint_v1",
+        "preferred_backend": "openrouter",
+        "selected_backend": "openrouter",
+        "selection_frozen_before_generation": true,
+        "selection_reason": "live_capability_and_price_contract"
+      },
+      "forecast": {
+        "model_block_worst_case_usd": "0",
+        "new_provider_calls": 0,
+        "response_source": "complete_powered_v31_block_reused_exactly"
+      },
+      "model": {
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "z-ai/glm-5.2-20260616",
+        "context_length": 1048576,
+        "created": 1781631930,
+        "hugging_face_id": "zai-org/GLM-5.2",
+        "id": "z-ai/glm-5.2",
+        "name": "Z.ai: GLM 5.2",
+        "pricing": {
+          "completion": "0.00000242",
+          "input_cache_read": "0.00000014",
+          "prompt": "0.00000076"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "parallel_tool_calls",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "top_provider": {
+          "context_length": 262144,
+          "is_moderated": false,
+          "max_completion_tokens": 262144
+        }
+      },
+      "open_weight_evidence": null,
+      "request_policy": {
+        "endpoint_retention_attestation": "not_present_in_endpoint_metadata",
+        "official_eligibility": "pending_contract_smoke_and_governance_approval",
+        "policy_scope": "request_enforced",
+        "provider": {
+          "allow_fallbacks": false,
+          "data_collection": "deny",
+          "only": [
+            "coreweave/fp4"
+          ],
+          "require_parameters": true
+        }
+      },
+      "slot": {
+        "cohort": "zai",
+        "model_id": "z-ai/glm-5.2",
+        "open_weight_candidate": false,
+        "rationale": "GLM 5.2.",
+        "slot_id": "frontier-refresh-12"
+      }
+    },
+    {
+      "backend_contract": {},
+      "backend_contract_sha256": "unfrozen",
+      "contract_evidence": {
+        "generation_calls": 0,
+        "quality_observations": 0,
+        "requires_complete_primary_and_repeat_blocks": true,
+        "status": "route_frozen_before_complete_successor_block"
+      },
+      "cost_accounting_policy": "provider_generation_metadata",
+      "endpoint": {
+        "context_length": 1048575,
+        "latency_last_30m": null,
+        "max_completion_tokens": null,
+        "max_prompt_tokens": null,
+        "model_id": "deepseek/deepseek-v4-pro-0813",
+        "model_name": "DeepSeek: DeepSeek V4 Pro 0813",
+        "name": "GMICloud | deepseek/deepseek-v4-pro-20260813",
+        "pricing": {
+          "completion": "0.00000348",
+          "discount": 0,
+          "input_cache_read": "0.000000145",
+          "prompt": "0.00000174"
+        },
+        "provider_name": "GMICloud",
+        "quantization": "fp8",
+        "status": 0,
+        "supported_parameters": [
+          "include_reasoning",
+          "logprobs",
+          "max_tokens",
+          "reasoning",
+          "reasoning_effort",
+          "response_format",
+          "seed",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_logprobs",
+          "top_p"
+        ],
+        "supports_implicit_caching": false,
+        "supports_voice_cloning": false,
+        "tag": "gmicloud/fp8",
+        "throughput_last_30m": null,
+        "uptime_last_1d": 99.75420916799803,
+        "uptime_last_30m": 99.91275265377345,
+        "uptime_last_5m": 99.51612903225806
+      },
+      "endpoint_document_sha256": "d5ccc57bf6f27f1a9e6d8f8a28968d1db32824d6b81057204f555bf4c988e6a4",
+      "endpoint_selection": {
+        "automatic_fallback": false,
+        "eligible_endpoint_count": 1,
+        "method": "exact transport-repair endpoint selected before successor scores",
+        "observed_at": "2026-08-13T22:58:34.500894Z",
+        "quality_observations_used": 0,
+        "selected_exact_tag": "gmicloud/fp8"
+      },
+      "execution_route": {
+        "fallback_used": false,
+        "generation_time_automatic_fallback": false,
+        "policy": "exact_openrouter_provider_only_v1",
+        "preferred_backend": "openrouter",
+        "selected_backend": "openrouter",
+        "selection_frozen_before_generation": true,
+        "selection_reason": "v36 transport-only repair"
+      },
+      "forecast": {
+        "model_block_worst_case_usd": "10.03487232",
+        "new_provider_calls": 704,
+        "primary_tasks": 640,
+        "prompt_token_bound": 4096,
+        "repeat_tasks": 64,
+        "route_max_output_tokens": 2048
+      },
+      "model": {
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ]
+        },
+        "canonical_slug": "deepseek/deepseek-v4-pro-20260813",
+        "context_length": 1048575,
+        "description": "Dated DeepSeek V4 Pro 0813 on the exact native DeepSeek route.",
+        "id": "deepseek/deepseek-v4-pro-0813",
+        "name": "DeepSeek: DeepSeek V4 Pro 0813",
+        "supported_parameters": [
+          "include_reasoning",
+          "logprobs",
+          "max_tokens",
+          "reasoning",
+          "reasoning_effort",
+          "response_format",
+          "seed",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_logprobs",
+          "top_p"
+        ],
+        "top_provider": {
+          "context_length": 1048576,
+          "is_moderated": false,
+          "max_completion_tokens": 384000
+        }
+      },
+      "open_weight_evidence": null,
+      "request_policy": {
+        "official_eligibility": "successor_collection_only",
+        "policy_scope": "request_enforced",
+        "provider": {
+          "allow_fallbacks": false,
+          "data_collection": "deny",
+          "only": [
+            "gmicloud/fp8"
+          ],
+          "require_parameters": true
+        }
+      },
+      "slot": {
+        "cohort": "deepseek",
+        "model_id": "deepseek/deepseek-v4-pro-0813",
+        "open_weight_candidate": true,
+        "rationale": "Dated DeepSeek V4 Pro 0813 on the exact native DeepSeek route.",
+        "slot_id": "frontier-refresh-13"
+      }
+    },
+    {
+      "backend_contract": {},
+      "backend_contract_sha256": "unfrozen",
+      "contract_evidence": {
+        "generation_calls": 0,
+        "quality_observations": 0,
+        "requires_complete_primary_and_repeat_blocks": true,
+        "status": "route_frozen_before_complete_replacement_block"
+      },
+      "cost_accounting_policy": "provider_generation_metadata",
+      "endpoint": {
+        "context_length": 1048576,
+        "latency_last_30m": null,
+        "max_completion_tokens": 384000,
+        "max_prompt_tokens": null,
+        "model_id": "deepseek/deepseek-v4-flash-0731",
+        "model_name": "DeepSeek: DeepSeek V4 Flash 0731",
+        "name": "DeepInfra | deepseek/deepseek-v4-flash-20260731",
+        "pricing": {
+          "completion": "0.00000018",
+          "discount": 0,
+          "input_cache_read": "0.000000016",
+          "prompt": "0.00000008"
+        },
+        "provider_name": "DeepInfra",
+        "quantization": "fp8",
+        "status": 0,
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_p"
+        ],
+        "supports_implicit_caching": false,
+        "supports_voice_cloning": false,
+        "tag": "deepinfra/fp8",
+        "throughput_last_30m": null,
+        "uptime_last_1d": 99.26055596312949,
+        "uptime_last_30m": 99.95568538431624,
+        "uptime_last_5m": 99.98092695021934
+      },
+      "endpoint_document_sha256": "bdf378ec2de3bf9f98a5ea1765eda7da47143a1016899176038fb468f7a34ddb",
+      "endpoint_execution_sha256": "56b60c0af8b4802e8087cafa7bab00e2b070b683f58054f4a0bd3d6d61bcee42",
+      "endpoint_selection": {
+        "automatic_fallback": false,
+        "eligible_endpoint_count": 1,
+        "method": "score-blind transport-failure replacement plus current public endpoint contract",
+        "observed_at": "2026-08-15T07:30:49.988137Z",
+        "quality_scores_or_selections_used": false,
+        "selected_exact_tag": "deepinfra/fp8",
+        "superseded_exact_tag": "deepinfra/fp4",
+        "transport_finding": "endpoint_not_found"
+      },
+      "execution_route": {
+        "fallback_used": false,
+        "generation_time_automatic_fallback": false,
+        "policy": "exact_openrouter_provider_only_v1",
+        "preferred_backend": "openrouter",
+        "selected_backend": "openrouter",
+        "selection_frozen_before_generation": true,
+        "selection_reason": "score-blind transport availability repair"
+      },
+      "forecast": {
+        "new_provider_calls": 704,
+        "primary_tasks": 640,
+        "prompt_token_bound": 4096,
+        "repeat_tasks": 64,
+        "route_max_output_tokens": 2048,
+        "worst_case_usd": "0.49020928"
+      },
+      "model": {
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "DeepSeek"
+        },
+        "canonical_slug": "deepseek/deepseek-v4-flash-20260731",
+        "context_length": 1048576,
+        "created": 1785478908,
+        "hugging_face_id": "deepseek-ai/DeepSeek-V4-Flash-0731",
+        "id": "deepseek/deepseek-v4-flash-0731",
+        "name": "DeepSeek: DeepSeek V4 Flash 0731",
+        "pricing": {
+          "completion": "0.00000018",
+          "input_cache_read": "0.000000016",
+          "prompt": "0.00000008"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_a",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "top_provider": {
+          "context_length": 1048576,
+          "is_moderated": false,
+          "max_completion_tokens": 384000
+        }
+      },
+      "open_weight_evidence": null,
+      "request_policy": {
+        "endpoint_retention_attestation": "not_present_in_endpoint_metadata",
+        "official_eligibility": "pending_contract_smoke_and_governance_approval",
+        "policy_scope": "request_enforced",
+        "provider": {
+          "allow_fallbacks": false,
+          "data_collection": "deny",
+          "only": [
+            "deepinfra/fp8"
+          ],
+          "require_parameters": true
+        }
+      },
+      "slot": {
+        "cohort": "deepseek",
+        "model_id": "deepseek/deepseek-v4-flash-0731",
+        "open_weight_candidate": false,
+        "rationale": "DeepSeek V4 Flash.",
+        "slot_id": "frontier-refresh-14"
+      }
+    },
+    {
+      "backend_contract": {},
+      "backend_contract_sha256": "unfrozen",
+      "contract_evidence": {
+        "generation_calls": 0,
+        "quality_observations": 0,
+        "status": "live_read_only_endpoint_contract_selected"
+      },
+      "cost_accounting_policy": "provider_generation_metadata",
+      "endpoint": {
+        "context_length": 524288,
+        "latency_last_30m": {
+          "p50": 966.5,
+          "p75": 1476.25,
+          "p90": 2450.2999999999997,
+          "p99": 20659.52999999994
+        },
+        "max_completion_tokens": null,
+        "model_id": "minimax/minimax-m3",
+        "name": "Together | minimax/minimax-m3-20260531",
+        "pricing": {
+          "completion": "0.0000012",
+          "discount": 0,
+          "input_cache_read": "0.00000006",
+          "prompt": "0.0000003"
+        },
+        "provider_name": "Together",
+        "quantization": "unknown",
+        "status": 0,
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "repetition_penalty",
+          "response_format",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_p"
+        ],
+        "tag": "together",
+        "throughput_last_30m": {
+          "p50": 45,
+          "p75": 72,
+          "p90": 115,
+          "p99": 176.01999999999953
+        },
+        "uptime_last_1d": 98.79198670182276,
+        "uptime_last_30d": null,
+        "uptime_last_7d": null
+      },
+      "endpoint_document_sha256": "0a3289788a578cc84a17b1572463b7b14e560702d6cbb936ba54597fbc20810c",
+      "endpoint_selection": {
+        "eligible_endpoint_count": 3,
+        "method": "lowest bounded text-generation cost among strictly eligible endpoints; OpenRouter endpoint order breaks exact price ties",
+        "pending_checks": [
+          "no-spend tool/structured-output contract smoke",
+          "paid identity and provider-return contract smoke after authorisation",
+          "provider data-policy and jurisdiction review"
+        ],
+        "selected_exact_tag": "together"
+      },
+      "execution_route": {
+        "fallback_used": false,
+        "generation_time_automatic_fallback": false,
+        "policy": "exact_openrouter_endpoint_v1",
+        "preferred_backend": "openrouter",
+        "selected_backend": "openrouter",
+        "selection_frozen_before_generation": true,
+        "selection_reason": "live_capability_and_price_contract"
+      },
+      "forecast": {
+        "model_block_worst_case_usd": "0",
+        "new_provider_calls": 0,
+        "response_source": "complete_powered_v31_block_reused_exactly"
+      },
+      "model": {
+        "architecture": {
+          "input_modalities": [
+            "image",
+            "text",
+            "video"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+video->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "minimax/minimax-m3-20260531",
+        "context_length": 1048576,
+        "created": 1780245374,
+        "hugging_face_id": "MiniMaxAI/Minimax-M3",
+        "id": "minimax/minimax-m3",
+        "name": "MiniMax: MiniMax M3",
+        "pricing": {
+          "completion": "0.0000012",
+          "input_cache_read": "0.00000006",
+          "prompt": "0.0000003"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "top_provider": {
+          "context_length": 524288,
+          "is_moderated": false,
+          "max_completion_tokens": 512000
+        }
+      },
+      "open_weight_evidence": null,
+      "request_policy": {
+        "endpoint_retention_attestation": "not_present_in_endpoint_metadata",
+        "official_eligibility": "pending_contract_smoke_and_governance_approval",
+        "policy_scope": "request_enforced",
+        "provider": {
+          "allow_fallbacks": false,
+          "data_collection": "deny",
+          "only": [
+            "together"
+          ],
+          "require_parameters": true
+        }
+      },
+      "slot": {
+        "cohort": "minimax",
+        "model_id": "minimax/minimax-m3",
+        "open_weight_candidate": false,
+        "rationale": "MiniMax M3.",
+        "slot_id": "frontier-refresh-15"
+      }
+    },
+    {
+      "backend_contract": {},
+      "backend_contract_sha256": "unfrozen",
+      "contract_evidence": {
+        "generation_calls": 0,
+        "quality_observations": 0,
+        "requires_successful_eight_cell_successor_check": true,
+        "status": "live_endpoint_selected_before_successor_primary"
+      },
+      "cost_accounting_policy": "provider_generation_metadata",
+      "endpoint": {
+        "context_length": 262144,
+        "latency_last_30m": null,
+        "max_completion_tokens": 262144,
+        "max_prompt_tokens": null,
+        "model_id": "nvidia/nemotron-3.5-lightning",
+        "model_name": "NVIDIA: Nemotron 3.5 Lightning",
+        "name": "CoreWeave | nvidia/nemotron-3.5-lightning-20260807",
+        "pricing": {
+          "completion": "0.00000025",
+          "discount": 0,
+          "input_cache_read": "0.00000005",
+          "prompt": "0.0000001"
+        },
+        "provider_name": "CoreWeave",
+        "quantization": "bf16",
+        "status": 0,
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logprobs",
+          "max_tokens",
+          "presence_penalty",
+          "reasoning",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "supports_implicit_caching": false,
+        "supports_voice_cloning": false,
+        "tag": "coreweave/bf16",
+        "throughput_last_30m": null,
+        "uptime_last_1d": 98.1489809501538,
+        "uptime_last_30m": 99.776,
+        "uptime_last_5m": 100
+      },
+      "endpoint_document_sha256": "d5fc689b18ae6e4ab409de184b712519e2860591e87ddbf1a050debc7dde40f0",
+      "endpoint_execution_sha256": "2d3dcdb892a25f2ccb73be5869a7cec78aff9036cda6ccbf9056b6c635602dbb",
+      "endpoint_selection": {
+        "automatic_fallback": false,
+        "eligible_endpoint_count": 2,
+        "method": "newest_dated_nvidia_successor_on_high_uptime_exact_bf16_endpoint",
+        "observed_at": "2026-08-12T00:20:56.684069Z",
+        "selected_exact_tag": "coreweave/bf16"
+      },
+      "execution_route": {
+        "fallback_used": false,
+        "generation_time_automatic_fallback": false,
+        "policy": "exact_openrouter_endpoint_v1",
+        "preferred_backend": "openrouter",
+        "selected_backend": "openrouter",
+        "selection_frozen_before_generation": true,
+        "selection_reason": "replace unavailable Ultra routes with dated Lightning BF16"
+      },
+      "forecast": {
+        "model_block_worst_case_usd": "0",
+        "new_provider_calls": 0,
+        "response_source": "complete_powered_v31_block_reused_exactly"
+      },
+      "model": {
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "nvidia/nemotron-3.5-lightning-20260807",
+        "context_length": 262144,
+        "created": 1786452751,
+        "hugging_face_id": "nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-BF16",
+        "id": "nvidia/nemotron-3.5-lightning",
+        "name": "NVIDIA: Nemotron 3.5 Lightning",
+        "pricing": {
+          "completion": "0.00000025",
+          "input_cache_read": "0.00000005",
+          "prompt": "0.0000001"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "logprobs",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "top_provider": {
+          "context_length": 262144,
+          "is_moderated": false,
+          "max_completion_tokens": 262144
+        }
+      },
+      "open_weight_evidence": null,
+      "request_policy": {
+        "endpoint_retention_attestation": "not_present_in_endpoint_metadata",
+        "official_eligibility": "pending_contract_smoke_and_governance_approval",
+        "policy_scope": "request_enforced",
+        "provider": {
+          "allow_fallbacks": false,
+          "data_collection": "deny",
+          "only": [
+            "coreweave/bf16"
+          ],
+          "require_parameters": true
+        }
+      },
+      "slot": {
+        "cohort": "nvidia",
+        "model_id": "nvidia/nemotron-3.5-lightning",
+        "open_weight_candidate": false,
+        "rationale": "Nemotron 3.5 Lightning.",
+        "slot_id": "frontier-refresh-16"
+      }
+    },
+    {
+      "backend_contract": {},
+      "backend_contract_sha256": "unfrozen",
+      "contract_evidence": {
+        "generation_calls": 0,
+        "quality_observations": 0,
+        "status": "live_read_only_endpoint_contract_selected"
+      },
+      "cost_accounting_policy": "provider_generation_metadata",
+      "endpoint": {
+        "context_length": 262144,
+        "latency_last_30m": {
+          "p50": 1110,
+          "p75": 2234.5,
+          "p90": 3779,
+          "p99": 19670.279999999915
+        },
+        "max_completion_tokens": null,
+        "model_id": "mistralai/mistral-large-2512",
+        "name": "Mistral | mistralai/mistral-large-2512",
+        "pricing": {
+          "completion": "0.0000015",
+          "discount": 0,
+          "input_cache_read": "0.00000005",
+          "prompt": "0.0000005"
+        },
+        "provider_name": "Mistral",
+        "quantization": "unknown",
+        "status": 0,
+        "supported_parameters": [
+          "frequency_penalty",
+          "max_tokens",
+          "presence_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_p"
+        ],
+        "tag": "mistral",
+        "throughput_last_30m": {
+          "p50": 31,
+          "p75": 42,
+          "p90": 53,
+          "p99": 67
+        },
+        "uptime_last_1d": 99.97754608516989,
+        "uptime_last_30d": null,
+        "uptime_last_7d": null
+      },
+      "endpoint_document_sha256": "6cc0a7d29fcee25e9e0674e5a4577af77aa09044a7573b97e2c470e71fd2e953",
+      "endpoint_selection": {
+        "eligible_endpoint_count": 1,
+        "method": "lowest bounded text-generation cost among strictly eligible endpoints; OpenRouter endpoint order breaks exact price ties",
+        "pending_checks": [
+          "no-spend tool/structured-output contract smoke",
+          "paid identity and provider-return contract smoke after authorisation",
+          "provider data-policy and jurisdiction review"
+        ],
+        "selected_exact_tag": "mistral"
+      },
+      "execution_route": {
+        "fallback_used": false,
+        "generation_time_automatic_fallback": false,
+        "policy": "exact_openrouter_endpoint_v1",
+        "preferred_backend": "openrouter",
+        "selected_backend": "openrouter",
+        "selection_frozen_before_generation": true,
+        "selection_reason": "live_capability_and_price_contract"
+      },
+      "forecast": {
+        "model_block_worst_case_usd": "0",
+        "new_provider_calls": 0,
+        "response_source": "complete_powered_v31_block_reused_exactly"
+      },
+      "model": {
+        "architecture": {
+          "input_modalities": [
+            "file",
+            "image",
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text+image+file->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Mistral"
+        },
+        "canonical_slug": "mistralai/mistral-large-2512",
+        "context_length": 262144,
+        "created": 1764624472,
+        "hugging_face_id": null,
+        "id": "mistralai/mistral-large-2512",
+        "name": "Mistral: Mistral Large 3 2512",
+        "pricing": {
+          "completion": "0.0000015",
+          "input_cache_read": "0.00000005",
+          "prompt": "0.0000005"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "max_tokens",
+          "presence_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_p"
+        ],
+        "top_provider": {
+          "context_length": 262144,
+          "is_moderated": false,
+          "max_completion_tokens": null
+        }
+      },
+      "open_weight_evidence": null,
+      "request_policy": {
+        "endpoint_retention_attestation": "not_present_in_endpoint_metadata",
+        "official_eligibility": "pending_contract_smoke_and_governance_approval",
+        "policy_scope": "request_enforced",
+        "provider": {
+          "allow_fallbacks": false,
+          "data_collection": "deny",
+          "only": [
+            "mistral"
+          ],
+          "require_parameters": true
+        }
+      },
+      "slot": {
+        "cohort": "mistral",
+        "model_id": "mistralai/mistral-large-2512",
+        "open_weight_candidate": false,
+        "rationale": "Mistral Large 3 2512.",
+        "slot_id": "frontier-refresh-17"
+      }
+    },
+    {
+      "backend_contract": {},
+      "backend_contract_sha256": "unfrozen",
+      "contract_evidence": {
+        "generation_calls": 0,
+        "quality_observations": 0,
+        "requires_successful_successor_pilot": true,
+        "status": "endpoint_selected_after_paid_calibration_failure"
+      },
+      "cost_accounting_policy": "provider_generation_metadata",
+      "endpoint": {
+        "context_length": 262144,
+        "latency_last_30m": null,
+        "max_completion_tokens": 131072,
+        "max_prompt_tokens": null,
+        "model_id": "tencent/hy3",
+        "model_name": "Tencent: Hy3",
+        "name": "AtlasCloud | tencent/hy3-20260706",
+        "pricing": {
+          "completion": "0.0000008",
+          "discount": 0,
+          "input_cache_read": "0.00000005",
+          "prompt": "0.0000002"
+        },
+        "provider_name": "AtlasCloud",
+        "quantization": "fp8",
+        "status": 0,
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_p"
+        ],
+        "supports_implicit_caching": false,
+        "supports_voice_cloning": false,
+        "tag": "atlas-cloud/fp8",
+        "throughput_last_30m": null,
+        "uptime_last_1d": 99.59787261642236,
+        "uptime_last_30m": 99.8800959232614,
+        "uptime_last_5m": 100
+      },
+      "endpoint_document_sha256": "9caff1e333d5b708c9464ed743de614313c104c68de7ccedeeba65a26b6f533c",
+      "endpoint_selection": {
+        "automatic_fallback": false,
+        "eligible_endpoint_count": 5,
+        "method": "paid_pilot_failure_then_exact_current_endpoint_refresh",
+        "observed_at": "2026-08-11T19:45:43.949077Z",
+        "selected_exact_tag": "atlas-cloud/fp8"
+      },
+      "execution_route": {
+        "fallback_used": false,
+        "generation_time_automatic_fallback": false,
+        "policy": "exact_openrouter_endpoint_v1",
+        "preferred_backend": "openrouter",
+        "selected_backend": "openrouter",
+        "selection_frozen_before_generation": true,
+        "selection_reason": "continuous_selection_paid_pilot_route_repair"
+      },
+      "forecast": {
+        "model_block_worst_case_usd": "0",
+        "new_provider_calls": 0,
+        "response_source": "complete_powered_v31_block_reused_exactly"
+      },
+      "model": {
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "instruct_type": null,
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ],
+          "tokenizer": "Other"
+        },
+        "canonical_slug": "tencent/hy3-20260706",
+        "context_length": 262144,
+        "created": 1783344048,
+        "hugging_face_id": "tencent/Hy3",
+        "id": "tencent/hy3",
+        "name": "Tencent: Hy3",
+        "pricing": {
+          "completion": "0.000000528",
+          "input_cache_read": "0.000000033",
+          "prompt": "0.000000132"
+        },
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "max_completion_tokens",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_p"
+        ],
+        "top_provider": {
+          "context_length": 262144,
+          "is_moderated": false,
+          "max_completion_tokens": 128000
+        }
+      },
+      "open_weight_evidence": null,
+      "request_policy": {
+        "endpoint_retention_attestation": "not_present_in_endpoint_metadata",
+        "official_eligibility": "pending_contract_smoke_and_governance_approval",
+        "policy_scope": "request_enforced",
+        "provider": {
+          "allow_fallbacks": false,
+          "data_collection": "deny",
+          "only": [
+            "atlas-cloud/fp8"
+          ],
+          "require_parameters": true
+        }
+      },
+      "slot": {
+        "cohort": "tencent",
+        "model_id": "tencent/hy3",
+        "open_weight_candidate": false,
+        "rationale": "Tencent Hy3.",
+        "slot_id": "frontier-refresh-18"
+      }
+    },
+    {
+      "backend_contract": {},
+      "backend_contract_sha256": "unfrozen",
+      "contract_evidence": {
+        "generation_calls": 0,
+        "quality_observations": 0,
+        "requires_full_primary_and_repeat_block_rerun": true,
+        "requires_successful_eight_cell_transport_check": true,
+        "status": "route_selected_before_any_successor_response"
+      },
+      "cost_accounting_policy": "provider_generation_metadata",
+      "endpoint": {
+        "context_length": 256000,
+        "latency_last_30m": null,
+        "max_completion_tokens": 8192,
+        "max_prompt_tokens": null,
+        "model_id": "cohere/command-a",
+        "model_name": "Cohere: Command A",
+        "name": "Cohere | cohere/command-a-03-2025",
+        "pricing": {
+          "completion": "0.00001",
+          "discount": 0,
+          "prompt": "0.0000025"
+        },
+        "provider_name": "Cohere",
+        "quantization": "unknown",
+        "status": 0,
+        "supported_parameters": [
+          "frequency_penalty",
+          "max_tokens",
+          "presence_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "top_k",
+          "top_p"
+        ],
+        "supports_implicit_caching": false,
+        "supports_voice_cloning": false,
+        "tag": "cohere",
+        "throughput_last_30m": null,
+        "uptime_last_1d": 100,
+        "uptime_last_30m": null,
+        "uptime_last_5m": null
+      },
+      "endpoint_document_sha256": "0203d582b4716a0d621c611fd408e14757754bf4c0fae29322dc6f827b00b203",
+      "endpoint_execution_sha256": "fb0577d90fc232bc9f4a7146b6cfa16ba41eb956081d29ad47ff97531ac4ea35",
+      "endpoint_selection": {
+        "automatic_fallback": false,
+        "eligible_endpoint_count": 1,
+        "method": "sole exact Cohere endpoint selected before any successor generation",
+        "observed_at": "2026-08-12T13:54:10.917488Z",
+        "quality_observations_used": 0,
+        "selected_exact_tag": "cohere"
+      },
+      "execution_route": {
+        "fallback_used": false,
+        "generation_time_automatic_fallback": false,
+        "policy": "exact_openrouter_provider_only_v1",
+        "preferred_backend": "openrouter",
+        "selected_backend": "openrouter",
+        "selection_frozen_before_generation": true,
+        "selection_reason": "direct Cohere monthly cap; full clean OpenRouter successor block"
+      },
+      "forecast": {
+        "model_block_worst_case_usd": "0",
+        "new_provider_calls": 0,
+        "response_source": "complete_powered_v35_block_reused_exactly"
+      },
+      "model": {
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ]
+        },
+        "canonical_slug": "cohere/command-a-03-2025",
+        "context_length": 256000,
+        "description": "Exact Cohere release served by the sole healthy Cohere endpoint exposed by OpenRouter at route freeze.",
+        "id": "cohere/command-a",
+        "name": "Cohere: Command A",
+        "supported_parameters": [
+          "frequency_penalty",
+          "max_tokens",
+          "presence_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "top_k",
+          "top_p"
+        ]
+      },
+      "request_policy": {
+        "official_eligibility": "development_only",
+        "policy_scope": "request_enforced",
+        "provider": {
+          "allow_fallbacks": false,
+          "data_collection": "deny",
+          "only": [
+            "cohere"
+          ],
+          "require_parameters": true
+        }
+      },
+      "slot": {
+        "cohort": "cohere",
+        "model_id": "cohere/command-a",
+        "open_weight_candidate": true,
+        "rationale": "Exact Cohere endpoint selected through OpenRouter after the direct account hit its monthly request limit; the full block is rerun without response pooling.",
+        "slot_id": "frontier-refresh-19"
+      }
+    },
+    {
+      "backend_contract": {},
+      "backend_contract_sha256": "unfrozen",
+      "contract_evidence": {
+        "generation_calls": 0,
+        "quality_observations": 0,
+        "requires_full_primary_and_repeat_block_rerun": true,
+        "requires_successful_eight_cell_transport_check": true,
+        "status": "route_selected_before_any_successor_response"
+      },
+      "cost_accounting_policy": "provider_generation_metadata",
+      "endpoint": {
+        "context_length": 128000,
+        "latency_last_30m": null,
+        "max_completion_tokens": 4000,
+        "max_prompt_tokens": null,
+        "model_id": "cohere/command-r-plus-08-2024",
+        "model_name": "Cohere: Command R+ (08-2024)",
+        "name": "Cohere | cohere/command-r-plus-08-2024",
+        "pricing": {
+          "completion": "0.00001",
+          "discount": 0,
+          "prompt": "0.0000025"
+        },
+        "provider_name": "Cohere",
+        "quantization": "unknown",
+        "status": 0,
+        "supported_parameters": [
+          "frequency_penalty",
+          "max_tokens",
+          "presence_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_p"
+        ],
+        "supports_implicit_caching": false,
+        "supports_voice_cloning": false,
+        "tag": "cohere",
+        "throughput_last_30m": null,
+        "uptime_last_1d": 99.67961553864637,
+        "uptime_last_30m": null,
+        "uptime_last_5m": null
+      },
+      "endpoint_document_sha256": "565a9e2594199fbf3e76b4be92763d83a09928a89a7c801eec940ab586c9b2d8",
+      "endpoint_execution_sha256": "ec219ff5db18b6fd7d9f67241ace6cbf1d1ad62bbd7a7b1444a4086e17cc1d43",
+      "endpoint_selection": {
+        "automatic_fallback": false,
+        "eligible_endpoint_count": 1,
+        "method": "sole exact Cohere endpoint selected before any successor generation",
+        "observed_at": "2026-08-12T13:54:10.917488Z",
+        "quality_observations_used": 0,
+        "selected_exact_tag": "cohere"
+      },
+      "execution_route": {
+        "fallback_used": false,
+        "generation_time_automatic_fallback": false,
+        "policy": "exact_openrouter_provider_only_v1",
+        "preferred_backend": "openrouter",
+        "selected_backend": "openrouter",
+        "selection_frozen_before_generation": true,
+        "selection_reason": "direct Cohere monthly cap; full clean OpenRouter successor block"
+      },
+      "forecast": {
+        "model_block_worst_case_usd": "0",
+        "new_provider_calls": 0,
+        "response_source": "complete_powered_v35_block_reused_exactly"
+      },
+      "model": {
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ]
+        },
+        "canonical_slug": "cohere/command-r-plus-08-2024",
+        "context_length": 128000,
+        "description": "Exact Cohere release served by the sole healthy Cohere endpoint exposed by OpenRouter at route freeze.",
+        "id": "cohere/command-r-plus-08-2024",
+        "name": "Cohere: Command R+ (08-2024)",
+        "supported_parameters": [
+          "frequency_penalty",
+          "max_tokens",
+          "presence_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_p"
+        ]
+      },
+      "request_policy": {
+        "official_eligibility": "development_only",
+        "policy_scope": "request_enforced",
+        "provider": {
+          "allow_fallbacks": false,
+          "data_collection": "deny",
+          "only": [
+            "cohere"
+          ],
+          "require_parameters": true
+        }
+      },
+      "slot": {
+        "cohort": "cohere",
+        "model_id": "cohere/command-r-plus-08-2024",
+        "open_weight_candidate": true,
+        "rationale": "Exact Cohere endpoint selected through OpenRouter after the direct account hit its monthly request limit; the full block is rerun without response pooling.",
+        "slot_id": "frontier-refresh-20"
+      }
+    },
+    {
+      "backend_contract": {},
+      "backend_contract_sha256": "unfrozen",
+      "contract_evidence": {
+        "generation_calls": 0,
+        "quality_observations": 0,
+        "requires_complete_primary_and_repeat_blocks": true,
+        "status": "route_frozen_before_complete_successor_block"
+      },
+      "cost_accounting_policy": "provider_generation_metadata",
+      "endpoint": {
+        "context_length": 1048576,
+        "latency_last_30m": null,
+        "max_completion_tokens": null,
+        "max_prompt_tokens": null,
+        "model_id": "meta/muse-spark-1.2",
+        "model_name": "Meta: Muse Spark 1.2",
+        "name": "Meta | meta/muse-spark-1.2-20260805",
+        "pricing": {
+          "completion": "0.00000425",
+          "discount": 0,
+          "input_cache_read": "0.00000015",
+          "prompt": "0.00000125",
+          "web_search": "0.0025"
+        },
+        "provider_name": "Meta",
+        "quantization": "unknown",
+        "status": 0,
+        "supported_parameters": [
+          "include_reasoning",
+          "max_tokens",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_p"
+        ],
+        "supports_implicit_caching": false,
+        "supports_voice_cloning": false,
+        "tag": "meta",
+        "throughput_last_30m": null,
+        "uptime_last_1d": 99.99976754079078,
+        "uptime_last_30m": 100,
+        "uptime_last_5m": 100
+      },
+      "endpoint_document_sha256": "64aaba62a7421a37ff4d6da9add66b2faf35b8283bb930f0f672c8aa79c860e7",
+      "endpoint_selection": {
+        "automatic_fallback": false,
+        "eligible_endpoint_count": 1,
+        "method": "exact dated endpoint selected before successor score collection",
+        "observed_at": "2026-08-13T22:58:34.500894Z",
+        "quality_observations_used": 0,
+        "selected_exact_tag": "meta"
+      },
+      "execution_route": {
+        "fallback_used": false,
+        "generation_time_automatic_fallback": false,
+        "policy": "exact_openrouter_provider_only_v1",
+        "preferred_backend": "openrouter",
+        "selected_backend": "openrouter",
+        "selection_frozen_before_generation": true,
+        "selection_reason": "dated_frontier_successor_route_freeze"
+      },
+      "forecast": {
+        "model_block_worst_case_usd": "15.859712",
+        "new_provider_calls": 704,
+        "primary_tasks": 640,
+        "prompt_token_bound": 4096,
+        "repeat_tasks": 64,
+        "route_max_output_tokens": 4096
+      },
+      "model": {
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ]
+        },
+        "canonical_slug": "meta/muse-spark-1.2-20260805",
+        "context_length": 1048576,
+        "description": "Muse Spark 1.2 on the exact first-party Meta route.",
+        "id": "meta/muse-spark-1.2",
+        "name": "Meta: Muse Spark 1.2",
+        "supported_parameters": [
+          "include_reasoning",
+          "max_tokens",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_p"
+        ],
+        "top_provider": {
+          "context_length": 1048576,
+          "is_moderated": false,
+          "max_completion_tokens": null
+        }
+      },
+      "open_weight_evidence": null,
+      "request_policy": {
+        "official_eligibility": "successor_collection_only",
+        "policy_scope": "request_enforced",
+        "provider": {
+          "allow_fallbacks": false,
+          "data_collection": "deny",
+          "only": [
+            "meta"
+          ],
+          "require_parameters": true
+        }
+      },
+      "slot": {
+        "cohort": "meta",
+        "model_id": "meta/muse-spark-1.2",
+        "open_weight_candidate": true,
+        "rationale": "Muse Spark 1.2 on the exact first-party Meta route.",
+        "slot_id": "frontier-refresh-21"
+      }
+    },
+    {
+      "backend_contract": {},
+      "backend_contract_sha256": "unfrozen",
+      "contract_evidence": {
+        "generation_calls": 0,
+        "quality_observations": 0,
+        "requires_complete_primary_and_repeat_blocks": true,
+        "status": "route_frozen_before_complete_successor_block"
+      },
+      "cost_accounting_policy": "provider_generation_metadata",
+      "endpoint": {
+        "context_length": 131072,
+        "latency_last_30m": null,
+        "max_completion_tokens": 16384,
+        "max_prompt_tokens": null,
+        "model_id": "meta/muse-glimmer-30b",
+        "model_name": "Meta: Muse Glimmer 30B",
+        "name": "DeepInfra | meta/muse-glimmer-30b-20260810",
+        "pricing": {
+          "completion": "0.0000012",
+          "discount": 0,
+          "input_cache_read": "0.00000004",
+          "prompt": "0.0000003"
+        },
+        "provider_name": "DeepInfra",
+        "quantization": "bf16",
+        "status": 0,
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_p"
+        ],
+        "supports_implicit_caching": false,
+        "supports_voice_cloning": false,
+        "tag": "deepinfra/bf16",
+        "throughput_last_30m": null,
+        "uptime_last_1d": 99.84685783455144,
+        "uptime_last_30m": 100,
+        "uptime_last_5m": 100
+      },
+      "endpoint_document_sha256": "2ad7c709896a02214af236040186727efbcca0bf8499157d843d7fe4497ec35f",
+      "endpoint_selection": {
+        "automatic_fallback": false,
+        "eligible_endpoint_count": 1,
+        "method": "exact dated endpoint selected before successor score collection",
+        "observed_at": "2026-08-13T22:58:34.500894Z",
+        "quality_observations_used": 0,
+        "selected_exact_tag": "deepinfra/bf16"
+      },
+      "execution_route": {
+        "fallback_used": false,
+        "generation_time_automatic_fallback": false,
+        "policy": "exact_openrouter_provider_only_v1",
+        "preferred_backend": "openrouter",
+        "selected_backend": "openrouter",
+        "selection_frozen_before_generation": true,
+        "selection_reason": "dated_frontier_successor_route_freeze"
+      },
+      "forecast": {
+        "model_block_worst_case_usd": "2.5952256",
+        "new_provider_calls": 704,
+        "primary_tasks": 640,
+        "prompt_token_bound": 4096,
+        "repeat_tasks": 64,
+        "route_max_output_tokens": 2048
+      },
+      "model": {
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ]
+        },
+        "canonical_slug": "meta/muse-glimmer-30b-20260810",
+        "context_length": 131072,
+        "description": "Muse Glimmer 30B on the exact DeepInfra BF16 route.",
+        "id": "meta/muse-glimmer-30b",
+        "name": "Meta: Muse Glimmer 30B",
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logit_bias",
+          "max_tokens",
+          "min_p",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_p"
+        ],
+        "top_provider": {
+          "context_length": 131072,
+          "is_moderated": false,
+          "max_completion_tokens": 16384
+        }
+      },
+      "open_weight_evidence": null,
+      "request_policy": {
+        "official_eligibility": "successor_collection_only",
+        "policy_scope": "request_enforced",
+        "provider": {
+          "allow_fallbacks": false,
+          "data_collection": "deny",
+          "only": [
+            "deepinfra/bf16"
+          ],
+          "require_parameters": true
+        }
+      },
+      "slot": {
+        "cohort": "meta",
+        "model_id": "meta/muse-glimmer-30b",
+        "open_weight_candidate": true,
+        "rationale": "Muse Glimmer 30B on the exact DeepInfra BF16 route.",
+        "slot_id": "frontier-refresh-22"
+      }
+    },
+    {
+      "backend_contract": {},
+      "backend_contract_sha256": "unfrozen",
+      "contract_evidence": {
+        "generation_calls": 0,
+        "quality_observations": 0,
+        "requires_complete_primary_and_repeat_blocks": true,
+        "status": "route_frozen_before_transport_pilot_and_complete_replacement_blocks"
+      },
+      "cost_accounting_policy": "provider_generation_metadata",
+      "endpoint": {
+        "context_length": 1000000,
+        "latency_last_30m": null,
+        "max_completion_tokens": 128000,
+        "max_prompt_tokens": null,
+        "model_id": "anthropic/claude-fable-5",
+        "model_name": "Anthropic: Claude Fable 5",
+        "name": "Amazon Bedrock | anthropic/claude-5-fable-20260609",
+        "pricing": {
+          "completion": "0.00005",
+          "discount": 0,
+          "input_cache_read": "0.000001",
+          "input_cache_write": "0.0000125",
+          "input_cache_write_1h": "0.00002",
+          "prompt": "0.00001",
+          "web_search": "0.01"
+        },
+        "provider_name": "Amazon Bedrock",
+        "quantization": "unknown",
+        "status": 0,
+        "supported_parameters": [
+          "include_reasoning",
+          "max_tokens",
+          "reasoning",
+          "reasoning_effort",
+          "response_format",
+          "stop",
+          "structured_outputs",
+          "tool_choice",
+          "tools",
+          "verbosity"
+        ],
+        "supports_implicit_caching": false,
+        "supports_voice_cloning": false,
+        "tag": "amazon-bedrock/claude-on-aws",
+        "throughput_last_30m": null,
+        "uptime_last_1d": 99.20440980005463,
+        "uptime_last_30m": 99.92736956784893,
+        "uptime_last_5m": 100
+      },
+      "endpoint_document_sha256": "c64d0aaa1054972692e287fc7e8da3a92473b36a59776d99962272510f6b135a",
+      "endpoint_execution_sha256": "3a35e0af2366dc0c9a9f65116704ce10ffbd609a206cda8d227c3be4e8594a44",
+      "endpoint_selection": {
+        "automatic_fallback": false,
+        "eligible_endpoint_count": 1,
+        "method": "score-blind normal-completion recovery plus current public route contract",
+        "observed_at": "2026-08-15T04:59:43.801139Z",
+        "quality_scores_or_selections_used": false,
+        "selected_exact_tag": "amazon-bedrock/claude-on-aws"
+      },
+      "execution_route": {
+        "fallback_used": false,
+        "generation_time_automatic_fallback": false,
+        "policy": "exact_openrouter_provider_only_v1",
+        "preferred_backend": "openrouter",
+        "selected_backend": "openrouter",
+        "selection_frozen_before_generation": true,
+        "selection_reason": "score-blind recovery after Anthropic and Google routes showed high refusal rates"
+      },
+      "forecast": {
+        "new_provider_calls_per_panel": 704,
+        "per_panel_worst_case_usd": "100.92544",
+        "primary_tasks": 640,
+        "prompt_token_bound": 4096,
+        "repeat_tasks": 64,
+        "replacement_panel_count": 2,
+        "route_max_output_tokens": 2048
+      },
+      "model": {
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ]
+        },
+        "canonical_slug": "anthropic/claude-5-fable-20260609",
+        "context_length": 1000000,
+        "description": "Claude Fable 5 through OpenRouter's exact public Anthropic endpoint.",
+        "id": "anthropic/claude-fable-5",
+        "name": "Anthropic: Claude Fable 5",
+        "supported_parameters": [
+          "include_reasoning",
+          "max_tokens",
+          "reasoning",
+          "reasoning_effort",
+          "response_format",
+          "stop",
+          "structured_outputs",
+          "tool_choice",
+          "tools",
+          "verbosity"
+        ],
+        "top_provider": {
+          "context_length": 1000000,
+          "is_moderated": false,
+          "max_completion_tokens": 128000
+        }
+      },
+      "open_weight_evidence": null,
+      "request_policy": {
+        "official_eligibility": "successor_collection_only",
+        "policy_scope": "request_enforced",
+        "provider": {
+          "allow_fallbacks": false,
+          "data_collection": "deny",
+          "only": [
+            "amazon-bedrock/claude-on-aws"
+          ],
+          "require_parameters": true
+        }
+      },
+      "slot": {
+        "cohort": "anthropic",
+        "model_id": "anthropic/claude-fable-5",
+        "open_weight_candidate": false,
+        "rationale": "Claude Fable 5 through OpenRouter's exact public Anthropic endpoint.",
+        "slot_id": "frontier-refresh-23"
+      }
+    },
+    {
+      "backend_contract": {},
+      "backend_contract_sha256": "unfrozen",
+      "contract_evidence": {
+        "generation_calls": 0,
+        "quality_observations": 0,
+        "requires_complete_primary_and_repeat_blocks": true,
+        "status": "route_frozen_before_transport_pilot_and_complete_replacement_block"
+      },
+      "cost_accounting_policy": "provider_generation_metadata",
+      "endpoint": {
+        "context_length": 1000000,
+        "latency_last_30m": null,
+        "max_completion_tokens": 131072,
+        "max_prompt_tokens": null,
+        "model_id": "qwen/qwen3.8-2.4t-a95b",
+        "model_name": "Qwen: Qwen3.8 2.4T A95B",
+        "name": "Alibaba | qwen/qwen3.8-2.4t-a95b-20260812",
+        "pricing": {
+          "completion": "0.000006",
+          "discount": 0,
+          "input_cache_read": "0.00000025",
+          "input_cache_write": "0.0000025",
+          "prompt": "0.000002"
+        },
+        "provider_name": "Alibaba",
+        "quantization": "unknown",
+        "status": 0,
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "logprobs",
+          "max_tokens",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "seed",
+          "stop",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_logprobs",
+          "top_p"
+        ],
+        "supports_implicit_caching": false,
+        "supports_voice_cloning": false,
+        "tag": "alibaba",
+        "throughput_last_30m": null,
+        "uptime_last_1d": 99.86270808306162,
+        "uptime_last_30m": null,
+        "uptime_last_5m": null
+      },
+      "endpoint_document_sha256": "89cf3f497ae6d6b28493561a69971c375f5da018032aac88b9c44331d05ae9f3",
+      "endpoint_execution_sha256": "e3ff0bd045ebd7ad3caa89296f3ca1cdb6037de0a722f0b09ed534c31aaa81c0",
+      "endpoint_selection": {
+        "automatic_fallback": false,
+        "eligible_endpoint_count": 1,
+        "method": "score-blind normal-completion recovery plus current public route contract",
+        "observed_at": "2026-08-15T02:14:31.417750Z",
+        "quality_scores_or_selections_used": false,
+        "selected_exact_tag": "alibaba"
+      },
+      "execution_route": {
+        "fallback_used": false,
+        "generation_time_automatic_fallback": false,
+        "policy": "exact_openrouter_provider_only_v1",
+        "preferred_backend": "openrouter",
+        "selected_backend": "openrouter",
+        "selection_frozen_before_generation": true,
+        "selection_reason": "first-party route with supported low reasoning and a larger output ceiling"
+      },
+      "forecast": {
+        "model_block_worst_case_usd": "74.973184",
+        "new_provider_calls": 704,
+        "primary_tasks": 640,
+        "prompt_token_bound": 4096,
+        "repeat_tasks": 64,
+        "route_max_output_tokens": 16384
+      },
+      "model": {
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ]
+        },
+        "canonical_slug": "qwen/qwen3.8-2.4t-a95b-20260812",
+        "context_length": 262144,
+        "description": "Qwen3.8 2.4T A95B on the exact DigitalOcean route.",
+        "id": "qwen/qwen3.8-2.4t-a95b",
+        "name": "Qwen: Qwen3.8 2.4T A95B",
+        "supported_parameters": [
+          "include_reasoning",
+          "logprobs",
+          "max_tokens",
+          "reasoning",
+          "reasoning_effort",
+          "response_format",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_logprobs",
+          "top_p"
+        ],
+        "top_provider": {
+          "context_length": 262144,
+          "is_moderated": false,
+          "max_completion_tokens": 52429
+        }
+      },
+      "open_weight_evidence": null,
+      "request_policy": {
+        "official_eligibility": "successor_collection_only",
+        "policy_scope": "request_enforced",
+        "provider": {
+          "allow_fallbacks": false,
+          "data_collection": "deny",
+          "only": [
+            "alibaba"
+          ],
+          "require_parameters": true
+        }
+      },
+      "slot": {
+        "cohort": "qwen",
+        "model_id": "qwen/qwen3.8-2.4t-a95b",
+        "open_weight_candidate": true,
+        "rationale": "Qwen3.8 2.4T A95B on the exact DigitalOcean route.",
+        "slot_id": "frontier-refresh-24"
+      }
+    },
+    {
+      "backend_contract": {},
+      "backend_contract_sha256": "unfrozen",
+      "contract_evidence": {
+        "generation_calls": 0,
+        "quality_observations": 0,
+        "requires_complete_primary_and_repeat_blocks": true,
+        "status": "route_frozen_before_complete_successor_block"
+      },
+      "cost_accounting_policy": "provider_generation_metadata",
+      "endpoint": {
+        "context_length": 262144,
+        "latency_last_30m": null,
+        "max_completion_tokens": 262144,
+        "max_prompt_tokens": null,
+        "model_id": "bytedance-seed/seed-2-1-turbo",
+        "model_name": "ByteDance Seed: Seed 2.1 Turbo",
+        "name": "Seed | bytedance-seed/seed-2-1-turbo-20260810",
+        "pricing": {
+          "completion": "0.0000025",
+          "discount": 0,
+          "prompt": "0.0000005"
+        },
+        "provider_name": "Seed",
+        "quantization": "fp8",
+        "status": 0,
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "max_tokens",
+          "reasoning",
+          "response_format",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_p"
+        ],
+        "supports_implicit_caching": false,
+        "supports_voice_cloning": false,
+        "tag": "seed/fp8",
+        "throughput_last_30m": null,
+        "uptime_last_1d": 99.99327580410176,
+        "uptime_last_30m": null,
+        "uptime_last_5m": null
+      },
+      "endpoint_document_sha256": "8d35542a61699f6af0a26816b27b4e9652b352392e8e117d4ad97212ac131e2e",
+      "endpoint_selection": {
+        "automatic_fallback": false,
+        "eligible_endpoint_count": 1,
+        "method": "exact dated endpoint selected before successor score collection",
+        "observed_at": "2026-08-13T22:58:34.500894Z",
+        "quality_observations_used": 0,
+        "selected_exact_tag": "seed/fp8"
+      },
+      "execution_route": {
+        "fallback_used": false,
+        "generation_time_automatic_fallback": false,
+        "policy": "exact_openrouter_provider_only_v1",
+        "preferred_backend": "openrouter",
+        "selected_backend": "openrouter",
+        "selection_frozen_before_generation": true,
+        "selection_reason": "dated_frontier_successor_route_freeze"
+      },
+      "forecast": {
+        "model_block_worst_case_usd": "5.046272",
+        "new_provider_calls": 704,
+        "primary_tasks": 640,
+        "prompt_token_bound": 4096,
+        "repeat_tasks": 64,
+        "route_max_output_tokens": 2048
+      },
+      "model": {
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ]
+        },
+        "canonical_slug": "bytedance-seed/seed-2-1-turbo-20260810",
+        "context_length": 262144,
+        "description": "Seed 2.1 Turbo on the exact first-party Seed FP8 route.",
+        "id": "bytedance-seed/seed-2-1-turbo",
+        "name": "ByteDance Seed: Seed 2.1 Turbo",
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "max_tokens",
+          "reasoning",
+          "response_format",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_p"
+        ],
+        "top_provider": {
+          "context_length": 262144,
+          "is_moderated": false,
+          "max_completion_tokens": 262144
+        }
+      },
+      "open_weight_evidence": null,
+      "request_policy": {
+        "official_eligibility": "successor_collection_only",
+        "policy_scope": "request_enforced",
+        "provider": {
+          "allow_fallbacks": false,
+          "data_collection": "deny",
+          "only": [
+            "seed/fp8"
+          ],
+          "require_parameters": true
+        }
+      },
+      "slot": {
+        "cohort": "bytedance-seed",
+        "model_id": "bytedance-seed/seed-2-1-turbo",
+        "open_weight_candidate": false,
+        "rationale": "Seed 2.1 Turbo on the exact first-party Seed FP8 route.",
+        "slot_id": "frontier-refresh-25"
+      }
+    },
+    {
+      "backend_contract": {},
+      "backend_contract_sha256": "unfrozen",
+      "contract_evidence": {
+        "generation_calls": 0,
+        "quality_observations": 0,
+        "requires_complete_primary_and_repeat_blocks": true,
+        "status": "route_frozen_before_complete_successor_block"
+      },
+      "cost_accounting_policy": "provider_generation_metadata",
+      "endpoint": {
+        "context_length": 1048576,
+        "latency_last_30m": null,
+        "max_completion_tokens": 32768,
+        "max_prompt_tokens": null,
+        "model_id": "thinkingmachines/inkling",
+        "model_name": "Thinking Machines: Inkling",
+        "name": "BaseTen | thinkingmachines/inkling-20260715",
+        "pricing": {
+          "completion": "0.00000405",
+          "discount": 0,
+          "input_cache_read": "0.00000017",
+          "prompt": "0.000001"
+        },
+        "provider_name": "BaseTen",
+        "quantization": "fp8",
+        "status": 0,
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "max_tokens",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "stop",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_p"
+        ],
+        "supports_implicit_caching": false,
+        "supports_voice_cloning": false,
+        "tag": "baseten/fp8",
+        "throughput_last_30m": null,
+        "uptime_last_1d": 99.92815354613569,
+        "uptime_last_30m": 99.41002949852508,
+        "uptime_last_5m": null
+      },
+      "endpoint_document_sha256": "323c889fb5acb1758dbb653d35ba8ef66d5ef829652376a5511080f1ec0e341e",
+      "endpoint_selection": {
+        "automatic_fallback": false,
+        "eligible_endpoint_count": 1,
+        "method": "exact dated endpoint selected before successor score collection",
+        "observed_at": "2026-08-13T22:58:34.500894Z",
+        "quality_observations_used": 0,
+        "selected_exact_tag": "baseten/fp8"
+      },
+      "execution_route": {
+        "fallback_used": false,
+        "generation_time_automatic_fallback": false,
+        "policy": "exact_openrouter_provider_only_v1",
+        "preferred_backend": "openrouter",
+        "selected_backend": "openrouter",
+        "selection_frozen_before_generation": true,
+        "selection_reason": "dated_frontier_successor_route_freeze"
+      },
+      "forecast": {
+        "model_block_worst_case_usd": "8.7228416",
+        "new_provider_calls": 704,
+        "primary_tasks": 640,
+        "prompt_token_bound": 4096,
+        "repeat_tasks": 64,
+        "route_max_output_tokens": 2048
+      },
+      "model": {
+        "architecture": {
+          "input_modalities": [
+            "text"
+          ],
+          "modality": "text->text",
+          "output_modalities": [
+            "text"
+          ]
+        },
+        "canonical_slug": "thinkingmachines/inkling-20260715",
+        "context_length": 1048576,
+        "description": "Inkling on the exact BaseTen FP8 route.",
+        "id": "thinkingmachines/inkling",
+        "name": "Thinking Machines: Inkling",
+        "supported_parameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "max_tokens",
+          "presence_penalty",
+          "reasoning",
+          "reasoning_effort",
+          "stop",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_p"
+        ],
+        "top_provider": {
+          "context_length": 1048576,
+          "is_moderated": false,
+          "max_completion_tokens": 32768
+        }
+      },
+      "open_weight_evidence": null,
+      "request_policy": {
+        "official_eligibility": "successor_collection_only",
+        "policy_scope": "request_enforced",
+        "provider": {
+          "allow_fallbacks": false,
+          "data_collection": "deny",
+          "only": [
+            "baseten/fp8"
+          ],
+          "require_parameters": true
+        }
+      },
+      "slot": {
+        "cohort": "thinking-machines",
+        "model_id": "thinkingmachines/inkling",
+        "open_weight_candidate": false,
+        "rationale": "Inkling on the exact BaseTen FP8 route.",
+        "slot_id": "frontier-refresh-26"
+      }
+    }
+  ],
+  "observed_at": "2026-08-15T07:30:49.988137Z",
+  "official_results_authorised": false,
+  "replication_route_repair_v52": {
+    "all_other_model_entries_byte_preserved": true,
+    "automatic_fallback": false,
+    "changed_model_ids": [
+      "openai/gpt-5.6-luna-pro",
+      "deepseek/deepseek-v4-flash-0731"
+    ],
+    "complete_replacement_blocks_required": true,
+    "quality_scores_or_selections_used": false,
+    "schema_version": "flavourbench-frontier-replication-2-route-repair-v52",
+    "selected_exact_tags": {
+      "deepseek/deepseek-v4-flash-0731": "deepinfra/fp8",
+      "openai/gpt-5.6-luna-pro": "openai"
+    },
+    "selection_uses_transport_status_only": true,
+    "selective_failed_cell_retry": false,
+    "source_manifest": {
+      "physical_sha256": "54befddcc6a35b3967c387a909da10ec57f20382393621666bcd178e9c47d150",
+      "semantic_sha256": "0251a89259c9cedfc2f2c9660481961b71fadfe80bb8db27536b94ef6476fa33"
+    },
+    "superseded_exact_tags": {
+      "deepseek/deepseek-v4-flash-0731": "deepinfra/fp4",
+      "openai/gpt-5.6-luna-pro": "openai/flex"
+    },
+    "superseded_responses_used": false
+  },
+  "replication_route_v46": {
+    "all_other_model_entries_byte_preserved": true,
+    "automatic_fallback": false,
+    "changed_model_ids": [
+      "qwen/qwen3.8-2.4t-a95b"
+    ],
+    "first_panel_responses_reused": false,
+    "quality_scores_or_selections_used": false,
+    "qwen_recovery_manifest": {
+      "physical_sha256": "d13b3e83ffc9b8285749d29ed5cafa0156ecb3da2a86bf3b8741b5675f85bd90",
+      "semantic_sha256": "7c81719d454a35144a3eaacda4392a08d12496787b78e39edb7a66742501f197"
+    },
+    "reasoning_effort": "low",
+    "replication_index": 2,
+    "schema_version": "flavourbench-frontier-replication-2-route-v46",
+    "selected_exact_tag": "alibaba",
+    "selected_provider": "Alibaba",
+    "selection_uses_status_and_finish_metadata_only": true,
+    "source_manifest": {
+      "physical_sha256": "be7d2a98661563fbf99fd1e6d34e39db67e01e764507553dba3b10e25027b853",
+      "semantic_sha256": "33796dd9a0a4580f15fa79ec9cd50179c2b6ddc7c120c03f1814faf8259f8e9d"
+    }
+  },
+  "route_refresh": {
+    "current_v35_manifest": {
+      "physical_sha256": "baa5c42c491971e9a67d588d835500bb223d8fc7c5ad7822ec3e5d05a5acdd9d",
+      "semantic_sha256": "03a290ae84e8429e56cf66a57e09590b1c473e5c3a61ce5ba3fec1123c53c4cc"
+    },
+    "pilot_responses_used_as_final_score_data": false,
+    "pilot_scores_or_selections_used": false,
+    "repairs": {
+      "anthropic/claude-fable-5": "Bedrock refusals; exact Anthropic route",
+      "bytedance-seed/seed-2-1-turbo": "reasoning disabled in plan after four length finishes",
+      "cohere": "direct monthly cap; retain complete exact OpenRouter Cohere blocks",
+      "deepseek/deepseek-v4-pro-0813": "native route 404; exact GMICloud FP8",
+      "qwen/qwen3.8-2.4t-a95b": "reasoning disabled in plan after one length finish"
+    },
+    "schema_version": "flavourbench-selection-route-refresh-v37",
+    "source_manifest": {
+      "physical_sha256": "9fd4190be93686d15a9330855b966843fd4a579d7656f213658ed53ecb56afed",
+      "semantic_sha256": "fefc6541f5211d61daa0175d6f7ba567a6540193496faa4f368839b05dbd945d"
+    },
+    "v36_transport_pilot": {
+      "attempt_journal_physical_sha256": "71a78c563ad6305f12a4a4d46f4f8ac416f9d1d9b059acc8dc18f28ed8c1c6c7",
+      "completed_count": 20,
+      "failed_count": 20,
+      "plan_sha256": "e131da119bcf324fc32a95ced99c4a947e978fc133cfd7063088f900e6a4d09a",
+      "response_artifact_set_sha256": "ea585584a8e1a1874cbea9b15d1de44e14853a34a396b862a5f88d8fcfcbe24c",
+      "response_count": 40,
+      "response_physical_set_sha256": "c31b2ae0df6c3bd1b55a1aa20d871770282c48a944f68fb1d017a65fd085e8f2",
+      "responses_used_as_final_score_data": false,
+      "scores_or_selections_used": false,
+      "status_counts_by_model": {
+        "anthropic/claude-fable-5": {
+          "completed": 1,
+          "failed": 3
+        },
+        "bytedance-seed/seed-2-1-turbo": {
+          "completed": 0,
+          "failed": 4
+        },
+        "cohere/command-a-plus-05-2026": {
+          "completed": 0,
+          "failed": 4
+        },
+        "cohere/command-a-reasoning-08-2025": {
+          "completed": 0,
+          "failed": 4
+        },
+        "deepseek/deepseek-v4-pro-0813": {
+          "completed": 0,
+          "failed": 4
+        },
+        "meta/muse-glimmer-30b": {
+          "completed": 4,
+          "failed": 0
+        },
+        "meta/muse-spark-1.2": {
+          "completed": 4,
+          "failed": 0
+        },
+        "qwen/qwen3.8-2.4t-a95b": {
+          "completed": 3,
+          "failed": 1
+        },
+        "thinkingmachines/inkling": {
+          "completed": 4,
+          "failed": 0
+        },
+        "x-ai/grok-4.6": {
+          "completed": 4,
+          "failed": 0
+        }
+      }
+    }
+  },
+  "route_refresh_v41": {
+    "all_other_model_entries_byte_preserved": true,
+    "automatic_fallback": false,
+    "canonical_model_slug": "anthropic/claude-5-fable-20260609",
+    "changed_model_ids": [
+      "anthropic/claude-fable-5"
+    ],
+    "current_endpoint_count": 6,
+    "current_endpoint_network_reads": 1,
+    "schema_version": "flavourbench-frontier-refresh-route-v41",
+    "scores_or_selections_used": false,
+    "selected_exact_tag": "azure",
+    "selected_provider_name": "Azure",
+    "source_manifest_physical_sha256": "b4e2e82f8cf976529c02614b496729ce170f6f1f7bebe6937a422750ba24ed46",
+    "source_manifest_semantic_sha256": "39dcbf59a283730af013ed9474599c6560e71cea14cc184997db821bb6e172a3",
+    "successor_provider_calls": 0
+  },
+  "route_refresh_v42": {
+    "all_other_model_entries_byte_preserved": true,
+    "automatic_fallback": false,
+    "canonical_model_slug": "anthropic/claude-5-fable-20260609",
+    "changed_model_ids": [
+      "anthropic/claude-fable-5"
+    ],
+    "current_endpoint_count": 6,
+    "current_endpoint_network_reads": 1,
+    "schema_version": "flavourbench-frontier-refresh-route-v42",
+    "scores_or_selections_used": false,
+    "selected_exact_tag": "google-vertex/global",
+    "selected_provider_name": "Google",
+    "source_manifest_physical_sha256": "2a93d691cf267e6f46966aa1053729b34fc43dd823706eb8a246234707438416",
+    "source_manifest_semantic_sha256": "78dab752abd827a98075cc4a3f38e8ae748a5b616e066a1a1ed0610a957cac69",
+    "successor_provider_calls": 0
+  },
+  "route_refresh_v43": {
+    "all_other_model_entries_byte_preserved": true,
+    "automatic_fallback": false,
+    "canonical_model_slug": "anthropic/claude-5-fable-20260609",
+    "changed_model_ids": [
+      "anthropic/claude-fable-5"
+    ],
+    "current_endpoint_count": 6,
+    "current_endpoint_network_reads": 1,
+    "prior_aggregate_result_inspected": true,
+    "schema_version": "flavourbench-frontier-refresh-route-v43",
+    "selected_exact_tag": "anthropic",
+    "selected_provider_name": "Anthropic",
+    "selective_failed_cell_retry": false,
+    "source_manifest_physical_sha256": "095de0e3b3b3719beb1f2ef26f8bfa90d0452a6238a5f5af043e3e63f33c00b2",
+    "source_manifest_semantic_sha256": "309f9886b2604d9087db8e806616ba3049e90f23227dfaaa1ab40c0604fb4cbe",
+    "successor_provider_calls": 0
+  },
+  "routing_policy": {
+    "direct_cohere_retained": true,
+    "generation_time_automatic_fallback": false,
+    "provider_substitution": "prohibited",
+    "resolved_before_successor_generation": true
+  },
+  "run_design": {
+    "composite_primary_cells": 16640,
+    "composite_repeat_cells": 1664,
+    "new_provider_calls": 5632,
+    "primary_tasks": 640,
+    "repeat_tasks": 64,
+    "response_source_pooling_within_model": false,
+    "track": "epicure_scored_combinatorial_culinary_decisions"
+  },
+  "schema_version": "flavourbench-routed-candidate-manifest-v1",
+  "selection": {
+    "method": "transport_repaired_before_complete_successor_blocks",
+    "model_count": 26,
+    "new_complete_model_blocks": [
+      "x-ai/grok-4.6",
+      "deepseek/deepseek-v4-pro-0813",
+      "meta/muse-spark-1.2",
+      "meta/muse-glimmer-30b",
+      "anthropic/claude-fable-5",
+      "qwen/qwen3.8-2.4t-a95b",
+      "bytedance-seed/seed-2-1-turbo",
+      "thinkingmachines/inkling"
+    ],
+    "panel_order": [
+      "openai/gpt-5.6-sol-pro",
+      "openai/gpt-5.6-terra-pro",
+      "openai/gpt-5.6-luna-pro",
+      "meta-llama/llama-4-maverick",
+      "anthropic/claude-opus-5",
+      "anthropic/claude-sonnet-5",
+      "google/gemini-3.1-pro-preview",
+      "google/gemini-3.6-flash",
+      "x-ai/grok-4.6",
+      "moonshotai/kimi-k3",
+      "qwen/qwen3.8-max",
+      "z-ai/glm-5.2",
+      "deepseek/deepseek-v4-pro-0813",
+      "deepseek/deepseek-v4-flash-0731",
+      "minimax/minimax-m3",
+      "nvidia/nemotron-3.5-lightning",
+      "mistralai/mistral-large-2512",
+      "tencent/hy3",
+      "cohere/command-a",
+      "cohere/command-r-plus-08-2024",
+      "meta/muse-spark-1.2",
+      "meta/muse-glimmer-30b",
+      "anthropic/claude-fable-5",
+      "qwen/qwen3.8-2.4t-a95b",
+      "bytedance-seed/seed-2-1-turbo",
+      "thinkingmachines/inkling"
+    ],
+    "quality_observations_used": 0,
+    "retained_base_model_blocks": [
+      "openai/gpt-5.6-sol-pro",
+      "openai/gpt-5.6-terra-pro",
+      "openai/gpt-5.6-luna-pro",
+      "meta-llama/llama-4-maverick",
+      "anthropic/claude-opus-5",
+      "anthropic/claude-sonnet-5",
+      "google/gemini-3.1-pro-preview",
+      "google/gemini-3.6-flash",
+      "moonshotai/kimi-k3",
+      "qwen/qwen3.8-max",
+      "z-ai/glm-5.2",
+      "deepseek/deepseek-v4-flash-0731",
+      "minimax/minimax-m3",
+      "nvidia/nemotron-3.5-lightning",
+      "mistralai/mistral-large-2512",
+      "tencent/hy3"
+    ],
+    "retained_cohere_model_blocks": [
+      "cohere/command-a",
+      "cohere/command-r-plus-08-2024"
+    ],
+    "route_counts": {
+      "openrouter": 26
+    }
+  },
+  "source": {
+    "direct_cohere_manifest": {
+      "physical_sha256": "176f1db5d20a2a541f9d18f1fe298bdab295d39bdd35c94b23be8d198b93f294",
+      "semantic_sha256": "5bde0e2a323506ae78103dfd8d47ff5f64706133c568ae7a88428b2763dde3fb"
+    },
+    "powered_v35_manifest": {
+      "physical_sha256": "baa5c42c491971e9a67d588d835500bb223d8fc7c5ad7822ec3e5d05a5acdd9d",
+      "semantic_sha256": "03a290ae84e8429e56cf66a57e09590b1c473e5c3a61ce5ba3fec1123c53c4cc"
+    }
+  },
+  "status": "unranked_candidate"
+}

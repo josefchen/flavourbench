@@ -1,0 +1,119 @@
+{
+  "artifact_sha256": "6858ed57d70de1d58fd0d7fa0881c9c371840e0efa6837ef48ead6a4a6897b2c",
+  "cases": [
+    {
+      "choices": {
+        "A": "caciocavallo",
+        "B": "fromage_blanc",
+        "C": "quail_egg",
+        "D": "egg_white",
+        "E": "whipped_topping",
+        "F": "goose_egg",
+        "G": "goat_milk",
+        "H": "grana_padano"
+      },
+      "family": "substitution",
+      "higher_ranked": {
+        "ingredients": [
+          "caciocavallo",
+          "fromage blanc",
+          "grana padano"
+        ],
+        "model_id": "x-ai/grok-4.6",
+        "score": 100.0,
+        "selection": "ABH"
+      },
+      "lower_ranked": {
+        "ingredients": [
+          "fromage blanc",
+          "quail egg",
+          "goose egg"
+        ],
+        "model_id": "cohere/command-r-plus-08-2024",
+        "score": 14.78,
+        "selection": "BCF"
+      },
+      "optimal_selection": "ABH",
+      "prompt": "FlavourBench executable culinary decision task. Epicure is the deterministic scoring environment. Select the best portfolio using culinary knowledge; do not browse or call external tools. Partial credit reflects the quality of the complete selection.\n\nFamily: substitution\nSelect three alternatives to `boursin cheese` that best preserve its dairy role, regional context, and mutual portfolio coherence.\n\nCandidates:\nA. caciocavallo\nB. fromage blanc\nC. quail egg\nD. egg white\nE. whipped topping\nF. goose egg\nG. goat milk\nH. grana padano\n\nChoose exactly 3 distinct labels. Return exactly one line beginning with the marker `FINAL_SELECTION:`, followed by the three selected A-through-H labels separated by commas and ordered alphabetically.",
+      "selection_rule": "largest observed score gap within family; illustrative only",
+      "task_id": "fb-executable-rep2-substitution-126"
+    },
+    {
+      "choices": {
+        "A": "paprika",
+        "B": "parsnip",
+        "C": "pickled_onion",
+        "D": "cipollini_onion",
+        "E": "peppadew_pepper",
+        "F": "hatch_chile",
+        "G": "rye_bread",
+        "H": "porcini_mushroom"
+      },
+      "family": "pairing",
+      "higher_ranked": {
+        "ingredients": [
+          "parsnip",
+          "cipollini onion",
+          "porcini mushroom"
+        ],
+        "model_id": "x-ai/grok-4.6",
+        "score": 91.68,
+        "selection": "BDH"
+      },
+      "lower_ranked": {
+        "ingredients": [
+          "parsnip",
+          "pickled onion",
+          "peppadew pepper"
+        ],
+        "model_id": "cohere/command-r-plus-08-2024",
+        "score": 0.0,
+        "selection": "BCE"
+      },
+      "optimal_selection": "ABD",
+      "prompt": "FlavourBench executable culinary decision task. Epicure is the deterministic scoring environment. Select the best portfolio using culinary knowledge; do not browse or call external tools. Partial credit reflects the quality of the complete selection.\n\nFamily: pairing\nSelect the three-ingredient bundle with the strongest learned pairing to `sweetbread` and the best internal coherence.\n\nCandidates:\nA. paprika\nB. parsnip\nC. pickled onion\nD. cipollini onion\nE. peppadew pepper\nF. hatch chile\nG. rye bread\nH. porcini mushroom\n\nChoose exactly 3 distinct labels. Return exactly one line beginning with the marker `FINAL_SELECTION:`, followed by the three selected A-through-H labels separated by commas and ordered alphabetically.",
+      "selection_rule": "largest observed score gap within family; illustrative only",
+      "task_id": "fb-executable-pairing-058"
+    },
+    {
+      "choices": {
+        "A": "cheese",
+        "B": "bay_leaf",
+        "C": "curd",
+        "D": "mozzarella_cheese",
+        "E": "spaetzle",
+        "F": "parsley",
+        "G": "black_pepper",
+        "H": "thyme"
+      },
+      "family": "constraint",
+      "higher_ranked": {
+        "ingredients": [
+          "parsley",
+          "black pepper",
+          "thyme"
+        ],
+        "model_id": "x-ai/grok-4.6",
+        "score": 100.0,
+        "selection": "FGH"
+      },
+      "lower_ranked": {
+        "ingredients": [
+          "cheese",
+          "bay leaf",
+          "parsley"
+        ],
+        "model_id": "cohere/command-r-plus-08-2024",
+        "score": 0.0,
+        "selection": "ABF"
+      },
+      "optimal_selection": "FGH",
+      "prompt": "FlavourBench executable culinary decision task. Epicure is the deterministic scoring environment. Select the best portfolio using culinary knowledge; do not browse or call external tools. Partial credit reflects the quality of the complete selection.\n\nFamily: constraint\nFor a dish centered on `potato`, select three vegetarian complements with NOVA processing level at most 2; among valid portfolios, maximize learned pairing and coherence.\n\nCandidates:\nA. cheese\nB. bay leaf\nC. curd\nD. mozzarella cheese\nE. spaetzle\nF. parsley\nG. black pepper\nH. thyme\n\nChoose exactly 3 distinct labels. Return exactly one line beginning with the marker `FINAL_SELECTION:`, followed by the three selected A-through-H labels separated by commas and ordered alphabetically.",
+      "selection_rule": "largest observed score gap within family; illustrative only",
+      "task_id": "fb-executable-constraint-103"
+    }
+  ],
+  "higher_ranked_model_id": "x-ai/grok-4.6",
+  "lower_ranked_model_id": "cohere/command-r-plus-08-2024",
+  "schema_version": "flavourbench-complete-core-paper-examples-v1"
+}

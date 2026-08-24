@@ -1,0 +1,126 @@
+name: Powered public release integrity
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install benchmark and development dependencies
+        run: pip install -e '.[dev]' -r hf/space/requirements.txt
+
+      - name: Verify the complete common-core statistical release
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          release="$(awk '$1 == "RELEASE" && $2 == ":=" {print "paper/" $3}' \
+            paper/Makefile.powered)"
+          test -n "$release"
+          test -f "$release"
+          test ! -L "$release"
+          python -I paper/verify_complete_core_release.py --release "$release"
+
+      - name: Verify powered benchmark and publication code
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          pytest -q \
+            tests/epicure_native_powered*_test.py \
+            tests/epicure_native_taskset_v*_test.py \
+            tests/epicure_selection_*_test.py \
+            tests/frontier_refresh_*_test.py \
+            tests/build_powered*_test.py \
+            tests/build_joint_powered_dataset_test.py \
+            tests/hf_powered_space_app_test.py \
+            tests/reproduce_powered_release_test.py \
+            tests/restore_powered_runs_test.py \
+            tests/restore_joint_powered_runs_test.py \
+            tests/selection_response_parser_v3_test.py \
+            tests/test_service_internals.py \
+            tests/test_service_zai.py
+          python -m py_compile \
+            paper/build_complete_core_assets.py \
+            paper/build_powered_selection_assets.py \
+            paper/reproduce_complete_core_release.py \
+            paper/reproduce_powered_release.py \
+            paper/verify_complete_core_release.py \
+            hf/dataset/build_complete_core_dataset.py \
+            hf/dataset/build_joint_powered_dataset.py \
+            hf/dataset/build_powered_dataset.py \
+            hf/dataset/restore_complete_core_sources.py \
+            hf/dataset/restore_joint_powered_runs.py \
+            hf/dataset/restore_powered_runs.py \
+            hf/dataset/verify_complete_core_dataset.py \
+            hf/space/build_complete_core_space_bundle.py \
+            hf/space/build_powered_space_bundle.py \
+            hf/space/app.py
+
+      - name: Verify PDF and self-contained arXiv bundle
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          (cd paper/build && sha256sum --check ARTIFACTS.sha256)
+          gzip -t paper/build/flavourbench-arxiv-source.tar.gz
+          stage="$(mktemp -d)"
+          trap 'rm -rf -- "$stage"' EXIT
+          tar -xzf paper/build/flavourbench-arxiv-source.tar.gz -C "$stage"
+          (cd "$stage" && sha256sum --check SOURCE_MANIFEST.sha256)
+
+      - name: Lint powered public surfaces
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          files=(
+            src/flavourbench/epicure_native_powered*.py
+            src/flavourbench/epicure_native_taskset_v*.py
+            src/flavourbench/epicure_selection_*.py
+            src/flavourbench/frontier_refresh_*.py
+            paper/build_complete_core_assets.py
+            paper/build_powered_selection_assets.py
+            paper/reproduce_complete_core_release.py
+            paper/reproduce_powered_release.py
+            paper/verify_complete_core_release.py
+            hf/dataset/build_complete_core_dataset.py
+            hf/dataset/build_joint_powered_dataset.py
+            hf/dataset/build_powered_dataset.py
+            hf/dataset/restore_complete_core_sources.py
+            hf/dataset/restore_joint_powered_runs.py
+            hf/dataset/restore_powered_runs.py
+            hf/dataset/verify_complete_core_dataset.py
+            hf/space/build_complete_core_space_bundle.py
+            hf/space/build_powered_space_bundle.py
+            hf/space/app.py
+            scripts/scan_public_release.py
+            tests/epicure_native_powered*_test.py
+            tests/epicure_native_taskset_v*_test.py
+            tests/epicure_selection_*_test.py
+            tests/frontier_refresh_*_test.py
+            tests/build_powered*_test.py
+            tests/build_joint_powered_dataset_test.py
+            tests/hf_powered_space_app_test.py
+            tests/reproduce_powered_release_test.py
+            tests/restore_powered_runs_test.py
+            tests/restore_joint_powered_runs_test.py
+            tests/selection_response_parser_v3_test.py
+            tests/test_service_internals.py
+            tests/test_service_zai.py
+          )
+          ruff check "${files[@]}"
+          ruff format --check "${files[@]}"
+
+      - name: Reject private material and credential patterns
+        run: python scripts/scan_public_release.py

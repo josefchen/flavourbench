@@ -1,0 +1,119 @@
+{
+  "schema_version": "flavourbench-season1-arena-distributed-execution-v1",
+  "contract_revision": 2,
+  "status": "frozen_before_distributed_execution",
+  "supersedes_execution_contract_sha256": "2fe57592e1850cfe32def554bc8a29c03184a95978b59e173d8d30e8aa6571c7",
+  "supersession_reason": "Revision 1 bound the entire mutable project manifest; unrelated CLI additions changed pyproject.toml without changing the estimator, worker, locked dependencies, or image contract.",
+  "policy_artifact_sha256": "bdc0fa93c6365cdcd45694d1d5500d82ccbd622f3be897be9217e252855ffff5",
+  "layout_artifact_sha256": "2549176a534c97a43f5fe5085204547a81eebef70669f916622dee865cb0ccdc",
+  "engine_source_bundle_sha256": "382151bc013d19240873de764f54ecab90bc554f663c44b2c3ca405c8975943a",
+  "implementation_files": {
+    "Dockerfile": "84b684580699e542e92e8620b929525c2981d5292719313c1ceb273dfca2c84b",
+    "contracts/season1/method-validation/season1-arena-production-monte-carlo-v1.json": "ef259b46e2e549ab163fe7f695a9619adb07cc66afecb4a89cb6d102424b937b",
+    "contracts/season1/method-validation/season1-arena-runtime-projection-v2.json": "b828b646715c4631b5544b828604c446af49131f00553b9a92d8310ad8fc2c04",
+    "contracts/season1/season1-arena-inference-acceptance-v1.json": "02adfc4a32e2690c1f8f5ddce6edba3f1974159956027b88003a484f5a0655bc",
+    "requirements.lock": "17ed63400e42c4b1914fb2c54a35b10da14c40df7050ce7f6957c74760d793a3",
+    "src/flavourbench/season1_arena_acceptance.py": "c33f3bb1390626ceba792431b3e7d796ad8ef69e76970060a4ba9f5638fa2223",
+    "src/flavourbench/season1_arena_distributed.py": "cfab886d505bcca2302d75527209e459a389c853c4da03222afec585a6d93df2",
+    "src/flavourbench/season1_arena_modal.py": "078d164c7ac65fee829e1f32f05c9271fbf7788cc25cc0b7da524e89162e76f1",
+    "src/flavourbench/season1_arena_monte_carlo.py": "e157419b99de8b5547ba2543931a3d2ab9906598594ae860adb5c3a06715e3f2",
+    "src/flavourbench/season1_statistics.py": "4739a404be983956ff6d178dbc1521c8c5fb5fea3699014687f1e7c40ce2e452"
+  },
+  "runtime_projection": {
+    "path": "contracts/season1/method-validation/season1-arena-runtime-projection-v2.json",
+    "sha256": "b828b646715c4631b5544b828604c446af49131f00553b9a92d8310ad8fc2c04",
+    "full_pyproject_hash_required": false,
+    "reason": "The worker invokes the module directly and verifies installed distribution/dependency versions plus every imported estimator source; unrelated project script entries do not enter the computation."
+  },
+  "production_image": {
+    "dockerfile": "Dockerfile",
+    "base_image": "python:3.12.11-slim-bookworm@sha256:519591d6871b7bc437060736b9f7456b8731f1499a57e22e6c285135ae657bf7",
+    "python_version": "3.12.11",
+    "machine": "x86_64",
+    "dependency_versions": {
+      "arena-rank": "0.1.1",
+      "epicure-flavourbench": "0.1.0",
+      "jax": "0.8.1",
+      "jaxlib": "0.8.1",
+      "numpy": "2.3.3",
+      "pandas": "3.0.3",
+      "scipy": "1.18.0"
+    },
+    "thread_environment": {
+      "JAX_ENABLE_X64": "true",
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    }
+  },
+  "campaign": {
+    "scenarios": 8,
+    "datasets_per_scenario": 2000,
+    "total_dataset_records": 16000,
+    "bootstrap_replicates_per_dataset": 5000,
+    "maximum_datasets_per_shard": 1,
+    "preflight_cpu_hour_lower": 250,
+    "preflight_cpu_hour_upper": 350,
+    "measurement_runtime_multiplier": 1.5,
+    "billing_safety_factor": 1.25,
+    "budget_admission_fraction": 0.85
+  },
+  "modal": {
+    "sdk_version": "1.5.3",
+    "app_name": "flavourbench-season1-arena-method-validation",
+    "cpu_cores": 1.0,
+    "memory_request_mib": 768,
+    "memory_limit_mib": 2048,
+    "function_timeout_seconds": 600,
+    "automatic_retries": 0,
+    "maximum_containers": 64,
+    "admission_wave_size": 64,
+    "regional_selection": false,
+    "nonpreemptible": false,
+    "result_transport": "return_to_controller_and_atomic_content_addressed_local_write"
+  },
+  "pricing_snapshot": {
+    "observed_date": "2026-08-03",
+    "source_url": "https://modal.com/pricing",
+    "cpu_usd_per_core_second": 0.0000131,
+    "memory_usd_per_gib_second": 0.00000222,
+    "volume_usd_per_gib_month": 0.09,
+    "region_multiplier_applied": 1.0,
+    "nonpreemptible_multiplier_applied": 1.0
+  },
+  "budget_controls": {
+    "full_run_requires_positive_repository_modal_cap": true,
+    "full_run_requires_modal_enabled": true,
+    "full_run_requires_workspace_hard_budget_attestation": true,
+    "full_run_requires_measured_modal_production_image_shard": true,
+    "full_run_admission_status_at_freeze": "blocked_repository_modal_cap_zero",
+    "measured_shard_authorization_is_not_full_run_authorization": true
+  },
+  "result_verification": {
+    "complete_engine_result_requires_content_addressed_distributed_receipts": true,
+    "full_shard_set_verified_before_aggregation": true,
+    "receipt_binds": [
+      "execution_contract_sha256",
+      "execution_manifest_sha256",
+      "shard_result_set_sha256",
+      "shard_count",
+      "dataset_record_count",
+      "checkpoint_record_set_sha256",
+      "unsealed_engine_result_sha256",
+      "policy_sha256",
+      "layout_sha256",
+      "engine_source_bundle_sha256"
+    ],
+    "incomplete_result_can_pass": false,
+    "method_validation_results_can_be_model_quality_evidence": false
+  },
+  "claim_boundary": {
+    "simulation_method_validation_only": true,
+    "model_quality_evidence": false,
+    "model_calls": false,
+    "benchmark_scores_modified": false,
+    "full_campaign_executed": false
+  },
+  "artifact_sha256": "64fd29ec8755a09504ba251252f05c07526aa167fe88b8f53ece84dbb9a2b10b"
+}

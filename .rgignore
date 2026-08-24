@@ -1,0 +1,4 @@
+# Raw target and judgment artifacts contain model answers and blinded preferences.
+# Exclude them from casual recursive searches; use field-restricted JSON queries only.
+artifacts/season0/scored-v1/arms/
+artifacts/season0/judging-v1/judgments/

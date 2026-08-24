@@ -1,0 +1,50 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.db
+*.log
+*.partial
+*.tmp
+
+# Local benchmark evidence and credentials are never public artifacts.
+flavourbench/artifacts/
+flavourbench/data/*.sqlite3
+data/private/
+secrets/
+
+# Paper build intermediates. Canonical release files are explicitly retained.
+paper/build/*
+!paper/build/ARTIFACTS.sha256
+!paper/build/flavourbench.pdf
+!paper/build/flavourbench-arxiv-source.tar.gz
+paper/neurips2026/build/*
+!paper/neurips2026/build/flavourbench-neurips2026-*.pdf
+
+# Hugging Face export scratch space.
+hf/.cache/
+hf/**/.gradio/
+hf/dataset/data-powered/
+hf/space/data-powered/
+hf/dataset/data-complete-core/
+hf/space/data-complete-core/
+
+# Raw powered-run journals and responses are published as the Hugging Face
+# dataset. GitHub retains the frozen task/route/analysis inputs, compact final
+# release, checksums, paper, and deterministic exporter without duplicating
+# hundreds of megabytes across thousands of small API-response files.
+benchmark/**/run/attempts/
+benchmark/**/run/responses/
+benchmark/**/run-*/attempts/
+benchmark/**/run-*/responses/
+
+# Private deployment-recovery forensics are not part of the public benchmark package.
+tests/legacy_0001_upgrade_bridge_test.py
+tests/rollback_api_*.py

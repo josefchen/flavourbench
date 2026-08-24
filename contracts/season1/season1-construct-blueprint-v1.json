@@ -1,0 +1,110 @@
+{
+  "artifact_sha256": "83e5b115ddcac3cb4622ede99d0b39d870b6617425568b3248818bc8f6368b19",
+  "schema_version": "flavourbench-season1-construct-blueprint-v1",
+  "version": "1.0.0",
+  "status": "prospective-frozen-before-task-import",
+  "target_population": "English-language non-specialist home-cooking decision support",
+  "task_count": 240,
+  "family_count": 4,
+  "tasks_per_family": 60,
+  "splits_per_family": {
+    "scored": 40,
+    "development": 10,
+    "private_reserve": 10
+  },
+  "difficulty_tiers": {
+    "foundation": {
+      "tasks_per_family": 20,
+      "definition": "One principal culinary decision with explicit context and a short dependency chain."
+    },
+    "integrative": {
+      "tasks_per_family": 20,
+      "definition": "Two or more interacting culinary constraints requiring trade-off reasoning and an executable plan."
+    },
+    "stress": {
+      "tasks_per_family": 20,
+      "definition": "Conflicting evidence, recovery, multi-stage dependencies, or a tempting but materially wrong shortcut."
+    }
+  },
+  "families": {
+    "substitution": {
+      "construct_cells": [
+        "functional_role_preservation",
+        "sensory_profile_preservation",
+        "compound_constraint_substitution",
+        "availability_and_process_adaptation",
+        "multi_objective_tradeoff_calibration"
+      ]
+    },
+    "composition": {
+      "construct_cells": [
+        "complementary_pairing",
+        "bridge_ingredient_reasoning",
+        "multi_ingredient_balance",
+        "contrast_and_texture_architecture",
+        "evidence_bounded_composition"
+      ]
+    },
+    "cookability": {
+      "construct_cells": [
+        "sequencing_and_timing",
+        "heat_and_mass_transfer",
+        "texture_emulsion_and_structure",
+        "scaling_equipment_and_recovery",
+        "complete_recipe_execution"
+      ]
+    },
+    "evidence": {
+      "construct_cells": [
+        "score_interpretation",
+        "correlation_mechanism_boundary",
+        "uncertainty_and_coverage",
+        "tool_conflict_resolution",
+        "actionable_evidence_translation"
+      ]
+    }
+  },
+  "cell_quotas": {
+    "tasks_per_family_cell": 12,
+    "splits_per_family_cell": {
+      "scored": 8,
+      "development": 2,
+      "private_reserve": 2
+    },
+    "tasks_per_family_cell_difficulty": 4
+  },
+  "authorship": {
+    "minimum_distinct_authors": 20,
+    "maximum_tasks_per_author": 12,
+    "maximum_tasks_per_author_family": 4,
+    "maximum_tasks_per_author_cell": 2,
+    "author_must_differ_from_all_task_reviewers": true
+  },
+  "objective_validation": {
+    "minimum_executable_subset_tasks": 96,
+    "minimum_executable_subset_tasks_per_family": 24,
+    "minimum_executable_subset_tasks_per_family_cell": 4,
+    "metric_name": "executable_constraint_subset_pass_rate"
+  },
+  "near_duplicate_policy": {
+    "normalization": "NFKC-casefold-whitespace",
+    "feature": "word-trigram-set",
+    "maximum_pairwise_jaccard": 0.72,
+    "exact_normalized_duplicates_allowed": false
+  },
+  "specialist_exclusions": [
+    "formal-nutrition",
+    "allergen-management",
+    "food-safety",
+    "cultural-authenticity",
+    "medical-or-legal-advice"
+  ],
+  "required_task_bindings": [
+    "construct_blueprint_sha256",
+    "construct_cell_id",
+    "difficulty_tier",
+    "human_author_id",
+    "source_candidate_id",
+    "task_evidence_root_sha256"
+  ]
+}

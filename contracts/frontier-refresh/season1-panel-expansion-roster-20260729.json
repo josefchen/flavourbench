@@ -1,0 +1,99 @@
+{
+  "schema_version": "flavourbench-frontier-refresh-roster-v1",
+  "benchmark": "FlavourBench",
+  "snapshot_label": "Season 1 panel expansion candidates 2026-07-29",
+  "status": "candidate_pending_live_contract_smoke",
+  "official": false,
+  "rank_eligible": false,
+  "bedrock_catalog_sha256": "78bb7081d8e5d3f141668098dbcd1c3ffe55efa08e73bc66a35bdd7606d2e279",
+  "selection_rule": "Six additional Bedrock families are tested to fill four remaining publication-panel slots after the primary provider contract batch. The OpenRouter slot exists only to bind this roster to a same-day exact-route catalog and is not regenerated in this expansion.",
+  "slots": [
+    {
+      "snapshot_model_id": "fb-s1-exp-20260729-01",
+      "slot_role": "closed_frontier",
+      "canonical_name": "Amazon Nova Pro",
+      "provider": "bedrock",
+      "endpoint_id": "eu.amazon.nova-pro-v1:0",
+      "canonical_slug": "amazon.nova-pro-v1:0",
+      "catalog_observed": true,
+      "status": "contract_required"
+    },
+    {
+      "snapshot_model_id": "fb-s1-exp-20260729-02",
+      "slot_role": "open_weight_frontier",
+      "canonical_name": "Mistral Devstral 2 123B",
+      "provider": "bedrock",
+      "endpoint_id": "mistral.devstral-2-123b",
+      "canonical_slug": "mistral.devstral-2-123b",
+      "catalog_observed": true,
+      "status": "contract_required"
+    },
+    {
+      "snapshot_model_id": "fb-s1-exp-20260729-03",
+      "slot_role": "reasoning",
+      "canonical_name": "Mistral Magistral Small 2509",
+      "provider": "bedrock",
+      "endpoint_id": "mistral.magistral-small-2509",
+      "canonical_slug": "mistral.magistral-small-2509",
+      "catalog_observed": true,
+      "status": "contract_required"
+    },
+    {
+      "snapshot_model_id": "fb-s1-exp-20260729-04",
+      "slot_role": "open_weight_frontier",
+      "canonical_name": "Google Gemma 3 27B IT",
+      "provider": "bedrock",
+      "endpoint_id": "google.gemma-3-27b-it",
+      "canonical_slug": "google.gemma-3-27b-it",
+      "catalog_observed": true,
+      "status": "contract_required"
+    },
+    {
+      "snapshot_model_id": "fb-s1-exp-20260729-05",
+      "slot_role": "open_weight_frontier",
+      "canonical_name": "Qwen3 VL 235B A22B",
+      "provider": "bedrock",
+      "endpoint_id": "qwen.qwen3-vl-235b-a22b",
+      "canonical_slug": "qwen.qwen3-vl-235b-a22b",
+      "catalog_observed": true,
+      "status": "contract_required"
+    },
+    {
+      "snapshot_model_id": "fb-s1-exp-20260729-06",
+      "slot_role": "closed_frontier",
+      "canonical_name": "Mistral Ministral 3 14B",
+      "provider": "bedrock",
+      "endpoint_id": "mistral.ministral-3-14b-instruct",
+      "canonical_slug": "mistral.ministral-3-14b-instruct",
+      "catalog_observed": true,
+      "status": "contract_required"
+    },
+    {
+      "snapshot_model_id": "fb-s1-exp-route-20260729-01",
+      "slot_role": "route_binding_only",
+      "canonical_name": "OpenAI GPT-5.6 Sol Pro",
+      "provider": "openrouter",
+      "endpoint_id": "openai/gpt-5.6-sol-pro",
+      "canonical_slug": "openai/gpt-5.6-sol-pro-20260709",
+      "provider_slug": "openai/flex",
+      "catalog_observed": true,
+      "status": "contract_passed_in_primary_batch"
+    }
+  ],
+  "routing_policy": {
+    "one_endpoint_per_model": true,
+    "allow_fallbacks": false,
+    "require_parameters": true,
+    "data_collection": "deny",
+    "provider_substitution_rank_eligible": false
+  },
+  "freeze_preconditions": [
+    "real provider response",
+    "real Epicure MCP call",
+    "complete tool trace",
+    "non-empty normalized final answer",
+    "canonical route identity",
+    "frozen token and cost policy",
+    "append-only artifact and cost record"
+  ]
+}

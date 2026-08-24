@@ -1,0 +1,52 @@
+{
+  "schema_version": "flavourbench-affiliated-expert-calibration-set-v1",
+  "calibration_set_id": "affiliated-expert-calibration-v1",
+  "status": "pending_independent_gold_adjudication",
+  "reviewer_cohort": "expert_product_affiliated",
+  "source_policy": {
+    "real_model_outputs_only": true,
+    "synthetic_outputs_permitted": false,
+    "official_season_items_permitted": false,
+    "legacy_or_development_items_permitted": true,
+    "model_provider_and_condition_blinded": true
+  },
+  "required_content": {
+    "sentinel_pairs": 20,
+    "minimum_pairs_per_family": 5,
+    "gold_label_sources": [
+      "objective_constraint_contract",
+      "independent_human_adjudication"
+    ],
+    "minimum_independent_gold_adjudicators": 2,
+    "agreement_resolution": "adjudicate disagreements before freezing the answer key"
+  },
+  "observed_content": {
+    "candidate_pairs": 32,
+    "candidate_pairs_per_family": 8,
+    "candidate_source_arms": 64,
+    "candidate_real_provider_calls": 113,
+    "candidate_real_epicure_calls": 80,
+    "candidate_successful_real_epicure_calls": 73,
+    "candidate_synthetic_arms": 0,
+    "sentinel_pairs": 0,
+    "independent_gold_adjudicators": 0,
+    "frozen_answer_key": false
+  },
+  "candidate_evidence": {
+    "candidate_pack_sha256": "12a5558def32bacaf5e34bd81592253af517ada559985de48e4ae6398ef7cd57",
+    "identity_commitment_sha256": "92d309f518749ac8403d94dd24c821237f1f50cf94b1a7d34a9cc1fef584b4b2",
+    "source_class": "paid_real_legacy_pilot_quarantined_from_season1",
+    "gold_workspace": "artifacts/expert-calibration/candidate-v1/adjudication-workspace-12a5558def32bacaf5e34bd81592253af517ada559985de48e4ae6398ef7cd57.html",
+    "share_packet_sha256": "439f171f2b1bbe4683e959ea32a258233533eddfa79be5cba840b879d4e6083b",
+    "selection_status": "complete",
+    "gold_status": "two independent ballots not yet received"
+  },
+  "score_rule": {
+    "metric": "exact_preference_accuracy",
+    "pass_threshold": 0.8,
+    "ties": "must match a gold tie label",
+    "both_bad": "must match a gold both_bad label"
+  },
+  "result_use": "reviewer admission only; calibration records are excluded from benchmark results",
+  "rank_eligible": false
+}

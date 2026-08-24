@@ -1,0 +1,70 @@
+{
+  "schema_version": "flavourbench-frontier-refresh-roster-v1",
+  "benchmark": "FlavourBench",
+  "snapshot_label": "Frontier refresh 2026-07-28",
+  "status": "candidate_pending_live_contract_smoke",
+  "official": false,
+  "rank_eligible": false,
+  "bedrock_catalog_sha256": "409240b9210008bb2e39503d523a58902d112181f5420dfd935d0bd373d8839d",
+  "selection_rule": "Four newly available frontier endpoints requested by the study owner. Each endpoint must pass a real tool-use contract smoke before a scored manifest can be frozen.",
+  "slots": [
+    {
+      "snapshot_model_id": "fb-fr-20260728-01",
+      "slot_role": "closed_frontier",
+      "canonical_name": "Anthropic Claude Opus 5",
+      "provider": "bedrock",
+      "endpoint_id": "global.anthropic.claude-opus-5",
+      "canonical_slug": "anthropic.claude-opus-5",
+      "catalog_observed": true,
+      "status": "contract_required"
+    },
+    {
+      "snapshot_model_id": "fb-fr-20260728-02",
+      "slot_role": "closed_frontier",
+      "canonical_name": "Anthropic Claude Sonnet 5",
+      "provider": "bedrock",
+      "endpoint_id": "global.anthropic.claude-sonnet-5",
+      "canonical_slug": "anthropic.claude-sonnet-5",
+      "catalog_observed": true,
+      "status": "contract_required"
+    },
+    {
+      "snapshot_model_id": "fb-fr-20260728-03",
+      "slot_role": "open_weight_frontier",
+      "canonical_name": "MoonshotAI Kimi K3",
+      "provider": "openrouter",
+      "endpoint_id": "moonshotai/kimi-k3",
+      "canonical_slug": "moonshotai/kimi-k3-20260715",
+      "provider_slug": "moonshotai/mxfp4",
+      "catalog_observed": true,
+      "status": "contract_required"
+    },
+    {
+      "snapshot_model_id": "fb-fr-20260728-04",
+      "slot_role": "open_weight_frontier",
+      "canonical_name": "Z.ai GLM 5.2",
+      "provider": "openrouter",
+      "endpoint_id": "z-ai/glm-5.2",
+      "canonical_slug": "z-ai/glm-5.2-20260616",
+      "provider_slug": "z-ai/fp8",
+      "catalog_observed": true,
+      "status": "contract_required"
+    }
+  ],
+  "routing_policy": {
+    "one_endpoint_per_model": true,
+    "allow_fallbacks": false,
+    "require_parameters": true,
+    "data_collection": "deny",
+    "provider_substitution_rank_eligible": false
+  },
+  "freeze_preconditions": [
+    "real provider response",
+    "real Epicure MCP call",
+    "complete tool trace",
+    "non-empty normalized final answer",
+    "canonical route identity",
+    "frozen token and cost policy",
+    "append-only artifact and cost record"
+  ]
+}

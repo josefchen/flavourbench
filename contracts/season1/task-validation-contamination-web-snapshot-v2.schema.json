@@ -1,0 +1,208 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://flavourbench.org/schemas/task-validation-contamination-web-snapshot-v2.schema.json",
+  "title": "FlavourBench redacted external-web capture commitments v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_role",
+    "campaign_sha256",
+    "provider_contract",
+    "provider_contract_sha256",
+    "capture_user_agent",
+    "query_receipts",
+    "result_records",
+    "collection_failures",
+    "coverage",
+    "claim_boundary",
+    "artifact_sha256"
+  ],
+  "properties": {
+    "schema_version": { "const": "flavourbench-contamination-web-snapshot-v2" },
+    "artifact_role": {
+      "const": "captured_external_web_search_commitments_redacted"
+    },
+    "campaign_sha256": {
+      "const": "76b248477b3adc81b6eb198666a93538534db8e945567e2a99fc69085f709709"
+    },
+    "provider_contract": { "$ref": "#/$defs/providerContract" },
+    "provider_contract_sha256": { "$ref": "#/$defs/sha256" },
+    "capture_user_agent": { "type": "string", "minLength": 20 },
+    "query_receipts": {
+      "type": "array",
+      "minItems": 180,
+      "maxItems": 180,
+      "items": { "$ref": "#/$defs/queryReceipt" }
+    },
+    "result_records": {
+      "type": "array",
+      "minItems": 1769,
+      "maxItems": 1769,
+      "items": { "$ref": "#/$defs/resultRecord" }
+    },
+    "collection_failures": { "const": [] },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assigned_prompts",
+        "queries_attempted",
+        "successful_response_receipts",
+        "queries_with_at_least_one_result",
+        "result_records",
+        "known_positive_source_urls_returned",
+        "known_positive_retrieval_rate_million",
+        "full_query_receipt_coverage",
+        "provider_known_positive_validation_passed"
+      ],
+      "properties": {
+        "assigned_prompts": { "const": 180 },
+        "queries_attempted": { "const": 180 },
+        "successful_response_receipts": { "const": 180 },
+        "queries_with_at_least_one_result": { "const": 180 },
+        "result_records": { "const": 1769 },
+        "known_positive_source_urls_returned": { "const": 0 },
+        "known_positive_retrieval_rate_million": { "const": 0 },
+        "full_query_receipt_coverage": { "const": true },
+        "provider_known_positive_validation_passed": { "const": false }
+      }
+    },
+    "claim_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "live_search_reproducible",
+        "captured_response_replayable",
+        "captured_response_hashes_replayable",
+        "result_text_redistribution_rights_confirmed",
+        "external_web_method_suitable_for_admission",
+        "contamination_free",
+        "rank_eligible"
+      ],
+      "properties": {
+        "live_search_reproducible": { "const": false },
+        "captured_response_replayable": { "const": false },
+        "captured_response_hashes_replayable": { "const": true },
+        "result_text_redistribution_rights_confirmed": { "const": false },
+        "external_web_method_suitable_for_admission": { "const": false },
+        "contamination_free": { "const": false },
+        "rank_eligible": { "const": false }
+      }
+    },
+    "artifact_sha256": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "candidateId": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://"
+    },
+    "httpUrl": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https?://"
+    },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "providerContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider",
+        "endpoint",
+        "interface",
+        "official_authenticated_api",
+        "query_policy",
+        "terms_url",
+        "result_text_redistribution_license",
+        "result_text_license_status",
+        "known_positive_requirement"
+      ],
+      "properties": {
+        "provider": { "const": "Bing web search RSS" },
+        "endpoint": { "const": "https://www.bing.com/search" },
+        "interface": { "type": "string", "minLength": 10 },
+        "official_authenticated_api": { "const": false },
+        "query_policy": { "type": "string", "minLength": 20 },
+        "terms_url": { "$ref": "#/$defs/url" },
+        "result_text_redistribution_license": { "type": "null" },
+        "result_text_license_status": { "const": "unknown" },
+        "known_positive_requirement": { "type": "string", "minLength": 20 }
+      }
+    },
+    "queryReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_id",
+        "prompt_sha256",
+        "query_sha256",
+        "query_text_sha256",
+        "query_url",
+        "source_url",
+        "provider_contract_sha256",
+        "http_status",
+        "response_date",
+        "raw_response_sha256",
+        "raw_response_bytes",
+        "raw_response_retained",
+        "raw_file",
+        "result_count",
+        "result_record_set_sha256",
+        "source_url_returned"
+      ],
+      "properties": {
+        "candidate_id": { "$ref": "#/$defs/candidateId" },
+        "prompt_sha256": { "$ref": "#/$defs/sha256" },
+        "query_sha256": { "$ref": "#/$defs/sha256" },
+        "query_text_sha256": { "$ref": "#/$defs/sha256" },
+        "query_url": { "$ref": "#/$defs/url" },
+        "source_url": { "$ref": "#/$defs/url" },
+        "provider_contract_sha256": { "$ref": "#/$defs/sha256" },
+        "http_status": { "const": 200 },
+        "response_date": { "$ref": "#/$defs/timestamp" },
+        "raw_response_sha256": { "$ref": "#/$defs/sha256" },
+        "raw_response_bytes": { "type": "integer", "minimum": 1 },
+        "raw_response_retained": { "const": false },
+        "raw_file": { "type": "null" },
+        "result_count": { "type": "integer", "minimum": 1, "maximum": 10 },
+        "result_record_set_sha256": { "$ref": "#/$defs/sha256" },
+        "source_url_returned": { "const": false }
+      }
+    },
+    "resultRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_reference_sha256",
+        "candidate_id",
+        "query_sha256",
+        "result_rank",
+        "source_url",
+        "source_host",
+        "captured_at",
+        "license_id",
+        "license_status"
+      ],
+      "properties": {
+        "source_reference_sha256": { "$ref": "#/$defs/sha256" },
+        "candidate_id": { "$ref": "#/$defs/candidateId" },
+        "query_sha256": { "$ref": "#/$defs/sha256" },
+        "result_rank": { "type": "integer", "minimum": 1, "maximum": 10 },
+        "source_url": { "$ref": "#/$defs/httpUrl" },
+        "source_host": { "type": "string", "minLength": 1 },
+        "captured_at": { "$ref": "#/$defs/timestamp" },
+        "license_id": { "type": "null" },
+        "license_status": { "const": "destination_page_license_not_evaluated" }
+      }
+    }
+  }
+}

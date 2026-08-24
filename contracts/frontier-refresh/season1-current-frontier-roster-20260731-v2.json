@@ -1,0 +1,61 @@
+{
+  "schema_version": "flavourbench-frontier-refresh-roster-v1",
+  "benchmark": "FlavourBench",
+  "snapshot_label": "Season 1 current open-model contracts 2026-07-31 v2",
+  "status": "candidate_pending_live_contract_smoke",
+  "official": false,
+  "rank_eligible": false,
+  "bedrock_catalog_sha256": "162c4fcf9d539d169031b8266546773af6e42d9a79144c76e63bdb7c15b0a10f",
+  "selection_rule": "Three exact Cloudflare-hosted OpenRouter routes selected after the corresponding first-party or Decart endpoints failed before generation under the benchmark's mandatory data-collection-deny policy. The provider route is frozen before any quality measurement, with fallbacks disabled and returned identity reconciled after generation.",
+  "slots": [
+    {
+      "snapshot_model_id": "fb-s1-or-20260731-v2-01",
+      "slot_role": "open_weight_frontier",
+      "canonical_name": "DeepSeek V4 Pro",
+      "provider": "openrouter",
+      "endpoint_id": "deepseek/deepseek-v4-pro",
+      "canonical_slug": "deepseek/deepseek-v4-pro-20260423",
+      "provider_slug": "cloudflare",
+      "catalog_observed": true,
+      "status": "contract_required"
+    },
+    {
+      "snapshot_model_id": "fb-s1-or-20260731-v2-02",
+      "slot_role": "efficiency",
+      "canonical_name": "DeepSeek V4 Flash",
+      "provider": "openrouter",
+      "endpoint_id": "deepseek/deepseek-v4-flash",
+      "canonical_slug": "deepseek/deepseek-v4-flash-20260423",
+      "provider_slug": "cloudflare",
+      "catalog_observed": true,
+      "status": "contract_required"
+    },
+    {
+      "snapshot_model_id": "fb-s1-or-20260731-v2-03",
+      "slot_role": "open_weight_frontier",
+      "canonical_name": "Z.AI GLM 5.2",
+      "provider": "openrouter",
+      "endpoint_id": "z-ai/glm-5.2",
+      "canonical_slug": "z-ai/glm-5.2-20260616",
+      "provider_slug": "cloudflare",
+      "catalog_observed": true,
+      "status": "contract_required"
+    }
+  ],
+  "routing_policy": {
+    "one_endpoint_per_model": true,
+    "allow_fallbacks": false,
+    "require_parameters": true,
+    "data_collection": "deny",
+    "provider_substitution_rank_eligible": false
+  },
+  "freeze_preconditions": [
+    "real provider response",
+    "real Epicure MCP call",
+    "complete tool trace",
+    "non-empty normalized final answer",
+    "canonical route identity",
+    "frozen token and cost policy",
+    "append-only artifact and cost record"
+  ]
+}

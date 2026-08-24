@@ -1,0 +1,891 @@
+{
+  "artifact_sha256": "903ad89c44afcf0657b8079c12f01c2487aec2edb2e8ab39b986303d65c7c675",
+  "budget": {
+    "admission": "actual spend plus concurrent price reservations must remain within cap",
+    "calibration_spend_micros": 13592501,
+    "currency": "USD",
+    "hard_cap": "72",
+    "pilot_extrapolated_mean_usd": "33.2",
+    "program_cap": "87",
+    "two_x_pilot_contingency_usd": "66.4"
+  },
+  "claim_boundary": "finite-panel Epicure alignment and executable culinary decision quality under the frozen task distribution; not universal language-model quality",
+  "design": {
+    "choices_per_task": 8,
+    "families": [
+      "substitution",
+      "pairing",
+      "constraint",
+      "cultural_composition"
+    ],
+    "posthoc_item_exclusion": false,
+    "prefrozen_scored_selections_per_task": 56,
+    "primary_provider_calls": 12800,
+    "primary_tasks": 640,
+    "repeat_provider_calls": 1280,
+    "repeat_tasks": 64,
+    "result_adaptive_sampling": false,
+    "selection_size": 3,
+    "tasks_per_family": 160,
+    "total_provider_calls": 14080
+  },
+  "eligibility": {
+    "below_threshold": "DNF, not worst capability",
+    "minimum_completed_fraction": 0.95,
+    "minimum_completed_tasks": 608
+  },
+  "execution": {
+    "collection_concurrency": {
+      "global": 24,
+      "per_model_by_backend": {
+        "cohere_direct": 1,
+        "kimi_direct": 1,
+        "openrouter": 4
+      },
+      "per_model_by_model_id": {
+        "deepseek/deepseek-v4-pro": 1,
+        "meta-llama/llama-4-maverick": 1,
+        "moonshotai/kimi-k3": 1,
+        "nvidia/nemotron-3.5-lightning": 1,
+        "openai/gpt-5.6-luna-pro": 1,
+        "openai/gpt-5.6-sol-pro": 1,
+        "openai/gpt-5.6-terra-pro": 1
+      },
+      "per_model_default": 4,
+      "reason": "parallelize independent routes while single-flighting Nemotron Lightning, Llama, DeepSeek V4 Pro, exact Kimi, and each GPT-5.6 route; Cohere uses its backend limiter"
+    },
+    "condition": "model_only_with_epicure_frozen_as_the_scoring_environment",
+    "epicure_application_sha256": "be4216ae799f330b76f1f8c009ad2e79ce891d5dec452854dbc449e66e2eb313",
+    "epicure_bundle_sha256": "98d0403115bf8eb4fb71dbb89a53362e9b9acafda7494c464763df7d764174d1",
+    "epicure_release_id": "exploratory-unmatched-1790-runtime",
+    "epicure_tool_schema_sha256": "666a9a44b3534d7c8321f179e4513f71e0acf0d281a01fb3f41be5f8c0dfc8dd",
+    "execution_policy": {
+      "content_address": {
+        "algorithm": "sha256",
+        "digest": "e689e9da09c42a7342ba694c6f5ac7d559b9ebc4d2f6a68fa08fb10cd0e948a7",
+        "uri": "sha256:e689e9da09c42a7342ba694c6f5ac7d559b9ebc4d2f6a68fa08fb10cd0e948a7"
+      },
+      "cost_forecast": {
+        "approximate_non_user_prompt_bytes": 2000,
+        "conservative_bytes_per_token": 3,
+        "tool_catalog_bytes_bound": 0
+      },
+      "decoding": {
+        "seed": 20260810,
+        "temperature": 0.0,
+        "top_p": 1.0
+      },
+      "epicure_on_tool_required": false,
+      "evidence_protocol": "selection_text_v1",
+      "final_response_mode": "plain_text",
+      "limits": {
+        "max_cumulative_tool_result_bytes": 4096,
+        "max_intermediate_tokens": 1024,
+        "max_output_tokens": 16384,
+        "max_provider_attempts": 2,
+        "max_tool_calls_per_round": 1,
+        "max_tool_calls_total": 1,
+        "max_tool_result_bytes": 4096,
+        "max_tool_rounds": 1,
+        "required_tool_contract_max_intermediate_tokens": 2048,
+        "tool_argument_repair_turns": 1
+      },
+      "matched_planning": false,
+      "pair_arm_scheduling": "sequential",
+      "provider_retry_policy": {
+        "ambiguous_delivery_retried": false,
+        "backoff": "retry_after_or_exponential_0.4s_plus_sha256_idempotency_jitter_0_to_0.999s",
+        "maximum_attempts": 2,
+        "maximum_backoff_seconds": 30,
+        "retryable_failures": [
+          "connect_error_before_send",
+          "http_429_request_rejected"
+        ]
+      },
+      "reasoning": {
+        "exclude_from_provider_response": true,
+        "final_effort": null,
+        "intermediate_effort": null
+      },
+      "required_tool_contract_protocol": "direct_tool_first_v1",
+      "schema_version": "flavourbench-real-execution-policy-v11"
+    },
+    "execution_policy_sha256": "e689e9da09c42a7342ba694c6f5ac7d559b9ebc4d2f6a68fa08fb10cd0e948a7",
+    "minimum_request_interval_seconds_by_backend": {
+      "cohere_direct": 6.5
+    },
+    "nemotron_lightning_requalification": {
+      "required_before_full_collection": "eight_completed_normal_responses",
+      "score_adaptive": false,
+      "selection_basis": "the same eight transport probes used for Ultra",
+      "task_ids": [
+        "fb-executable-constraint-031",
+        "fb-executable-constraint-124",
+        "fb-executable-constraint-142",
+        "fb-executable-cultural_composition-085",
+        "fb-executable-pairing-063",
+        "fb-executable-pairing-130",
+        "fb-executable-substitution-027",
+        "fb-executable-substitution-079"
+      ]
+    },
+    "pilot": {
+      "cells": 80,
+      "one_task_per_family_per_model": true,
+      "responses_reused_in_primary": true,
+      "task_ids": [
+        "fb-executable-substitution-079",
+        "fb-executable-pairing-063",
+        "fb-executable-constraint-031",
+        "fb-executable-cultural_composition-085"
+      ]
+    },
+    "reasoning_control": "reasoning disabled on DeepSeek Flash and GLM; low reasoning on Kimi K3; minimal hidden reasoning on eleven other controllable endpoints; provider-fixed on six endpoints",
+    "reasoning_control_model_ids": [
+      "anthropic/claude-opus-5",
+      "anthropic/claude-sonnet-5",
+      "deepseek/deepseek-v4-flash-0731",
+      "deepseek/deepseek-v4-pro",
+      "google/gemini-3.1-pro-preview",
+      "google/gemini-3.6-flash",
+      "moonshotai/kimi-k3",
+      "openai/gpt-5.6-luna-pro",
+      "openai/gpt-5.6-sol-pro",
+      "openai/gpt-5.6-terra-pro",
+      "qwen/qwen3.8-max",
+      "tencent/hy3",
+      "x-ai/grok-4.5",
+      "z-ai/glm-5.2"
+    ],
+    "reasoning_disabled_model_ids": [
+      "deepseek/deepseek-v4-flash-0731",
+      "z-ai/glm-5.2"
+    ],
+    "response_contract": "FINAL_SELECTION with three distinct A-H labels",
+    "response_parser": {
+      "allowed_labels": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H"
+      ],
+      "distinct_labels_required": true,
+      "invalid_result": "zero score",
+      "marker": "FINAL_SELECTION",
+      "match_rule": "last exact marker line",
+      "normalization": "uppercase then sort as an unordered ingredient set",
+      "schema_version": "flavourbench-selection-set-parser-v2",
+      "selection_size": 3,
+      "sha256": "7d88b6a055aa0962066a09a6ccf2c7cc7333dbe5261bbb03f5c894d3e4d5618a"
+    },
+    "uniform_output_ceiling_successor": {
+      "applies_to_all_models": true,
+      "max_output_tokens": 16384,
+      "predecessor_max_output_tokens": 8192,
+      "prompt_or_scoring_change": false,
+      "required_before_full_collection": "eight_completed_normal_lightning_responses",
+      "route_or_roster_change": false
+    }
+  },
+  "frozen_date": "2026-08-11",
+  "inference": {
+    "bootstrap_resamples": 50000,
+    "chance_tests": "paired taskwise difference from exact chance baseline with Holm correction",
+    "definitive_top": "positive paired mean difference and Holm p<0.05 versus every other eligible model, plus repeat set agreement at least 0.80",
+    "effect_sizes": "paired mean difference, bootstrap interval, and paired standardized effect",
+    "familywise_alpha": 0.05,
+    "no_result_dependent_test_selection": true,
+    "paired_tests": "all 190 two-sided paired sign-flip permutation tests with Holm correction",
+    "permutation_resamples": 100000,
+    "rank_display": "statistical rank groups; no forced ordering inside unresolved groups",
+    "score_intervals": "family-stratified task bootstrap with simultaneous max-t bands",
+    "seed": 20260811
+  },
+  "inputs": {
+    "calibration_v10": {
+      "attempt_journal_physical_sha256": "2fa1f6e0209bdbb502d132f43151154435f6a4bc7e297e7332fd93c685766432",
+      "interface_finding": "Claude Fable reproduced the same single cultural-item refusal on Azure, showing a prompt-model interaction rather than an endpoint outage",
+      "response_artifact_set_sha256": "652558bccea02262d3eb32dd1e138e15cdf5dde9121862fbf4853f9de8e009d7",
+      "response_count": 4,
+      "spend_micros": 48640,
+      "successor_change": "replace normative cultural-coherence wording on all cultural items with a neutral target-cuisine-label instruction; score maps remain unchanged",
+      "used_as_primary_data": false
+    },
+    "calibration_v11": {
+      "attempt_journal_physical_sha256": "2e5743982610506023da7e7883d16e17cd617a33452b95aa1c35753c50a6af09",
+      "interface_finding": "the neutral cultural prompt produced 79 of 80 completed parseable pilot cells; the sole failure was DeepSeek Flash exhausting 4096 tokens",
+      "response_artifact_set_sha256": "3d1b5e05657adece6859727c7b636be6dca23a72f1a672a65e986bc002572165",
+      "response_count": 80,
+      "spend_micros": 330992,
+      "successor_change": "raise the final-token ceiling to the preregistered runner maximum of 8192; the response parser and scoring rule remain unchanged",
+      "used_as_primary_data": false
+    },
+    "calibration_v12": {
+      "attempt_journal_physical_sha256": "de2fcb8efccb15c8e70b6a737dfac150b76b31320a5d1e869a476bcbae9ce596",
+      "interface_finding": "four concurrent lanes per model caused construct-irrelevant transport failures, concentrated on direct Cohere and Kimi routes",
+      "interrupted_after_detecting_transport_noise": true,
+      "response_artifact_set_sha256": "7bf110ea73554f8225365c7981afa065910a391f97c46e6c3413508c5766a95e",
+      "response_count": 207,
+      "spend_micros": 653621,
+      "successor_change": "freeze one in-flight request per model and twenty globally for the primary collection; every captured v12 response remains calibration-only",
+      "used_as_primary_data": false
+    },
+    "calibration_v13": {
+      "attempt_journal_physical_sha256": "2e0b0ee0642a6007ab005a0d98ed401a96dd46ba287ea0011700e61ea7bcb441",
+      "interface_finding": "one request per model removed connection pressure, but the two Cohere models still exceeded their shared direct-account per-minute limit",
+      "interrupted_after_detecting_rate_limit": true,
+      "response_artifact_set_sha256": "ddc8bc4de5922550a6e77d893027e652f911f5efa56e6b7fd1e0b43f76f0f1c0",
+      "response_count": 136,
+      "spend_micros": 257402,
+      "successor_change": "pace all direct Cohere request starts 6.5 seconds apart across both models; remove the residual cultural-composition display label",
+      "used_as_primary_data": false
+    },
+    "calibration_v14": {
+      "attempt_journal_physical_sha256": "fde1f226290b62983fe2507ee3fb361a4235714a77166e65aa8341e02a8e9a7e",
+      "captured_responses_remain_calibration_only": true,
+      "interface_finding": "Claude Fable refused four of eight focused cells after both endpoint and prompt repairs, including ordinary pairing items",
+      "response_artifact_set_sha256": "51ded3b9918d59af3bffe34de0114a28f323a25d7f53f49effadb4c78b8fe324",
+      "response_count": 8,
+      "spend_micros": 51601,
+      "successor_change": "replace the refusal-prone Fable slot with the exact DigitalOcean route for Meta Llama 4 Maverick before collecting any primary response",
+      "used_as_primary_data": false
+    },
+    "calibration_v15": {
+      "attempt_journal_physical_sha256": "85a983920cc23eba9b42cc910122663101fc8e83804959e47b7f6a9700f22db1",
+      "interface_findings": [
+        "Google Vertex Flex returned two HTTP-200 responses with finish_reason error",
+        "the pinned Together Nemotron route became unhealthy and failed two cells",
+        "three models returned valid three-label sets in non-alphabetical order"
+      ],
+      "interrupted_after_decisive_findings": true,
+      "response_artifact_set_sha256": "a951947c334b4c9e8dc6c127cf1221e92cac2b6c706f5fa564a498d44260ff72",
+      "response_count": 103,
+      "spend_micros": 277180,
+      "successor_changes": [
+        "pin Gemini 3.6 Flash to Google Vertex US",
+        "pin Nemotron 3 Ultra to BaseTen FP4",
+        "normalize three distinct answer labels as an unordered set before lookup"
+      ],
+      "used_as_primary_data": false
+    },
+    "calibration_v16": {
+      "attempt_journal_physical_sha256": "f5d121b79459d45e0cca5960bdbbdb91bbc68c1c2cf8920545b59702572fd388",
+      "captured_responses_remain_calibration_only": true,
+      "interface_finding": "all repaired routes completed, but one of four Qwen cells exhausted the 8192-token cap on a one-line selection task",
+      "response_artifact_set_sha256": "5af6a7dea41fd55542648be6347aa42815471b3ae445e8c3e64a6384867f5cd0",
+      "response_count": 80,
+      "spend_micros": 349191,
+      "successor_change": "freeze minimal hidden reasoning for Qwen; permit four concurrent requests per OpenRouter model while retaining one per direct Kimi or Cohere model",
+      "used_as_primary_data": false
+    },
+    "calibration_v17": {
+      "attempt_journal_physical_sha256": "97c6bccffb0f356eacfdaac2f15ff188f9055cedbbf6a479afabb7acf8dca207",
+      "captured_responses_remain_calibration_only": true,
+      "interface_findings": [
+        "BaseTen Nemotron produced repeated HTTP 429 responses under four concurrent calls",
+        "two Nemotron responses exhausted the 8192-token final-response ceiling"
+      ],
+      "interrupted_after_decisive_transport_finding": true,
+      "response_artifact_set_sha256": "e8ab1c8e14429bc7c93348e6835eab2637776bb84a5049005133732ce754ec41",
+      "response_count": 835,
+      "spend_micros": 3087080,
+      "successor_changes": [
+        "freeze one in-flight request for the exact Nemotron route",
+        "freeze minimal hidden reasoning for Nemotron as already used for Qwen"
+      ],
+      "used_as_primary_data": false
+    },
+    "calibration_v18": {
+      "attempt_journal_physical_sha256": "eda1c08f7efb78dcc35ba30e53723cff4944de491b457d78106888627372fed8",
+      "captured_responses_remain_calibration_only": true,
+      "interface_finding": "the exact BaseTen route returned HTTP 429 for all eight sequential single-flight requests before billable generation",
+      "response_artifact_set_sha256": "9d3bfc5f4d9aac02f7bca86304ebf59167af72ab5ee40f0ef3489b2aa8a96b6e",
+      "response_count": 8,
+      "spend_micros": 0,
+      "successor_change": "pin the restored exact Together route from a fresh endpoint catalog read",
+      "used_as_primary_data": false
+    },
+    "calibration_v19": {
+      "attempt_journal_physical_sha256": "432b227d68c7534cba58f0fa70a44c288485fda63e215f5b7bd50d8ca066b7cf",
+      "captured_responses_remain_calibration_only": true,
+      "interface_finding": "four reasoning routes produced eight length terminations before 934 sealed cells, including four of 45 DeepSeek Flash cells",
+      "response_artifact_set_sha256": "14de679ec33d32502fefef5cde17149f8c6c4735eeed6e9b4da3f06167f57e19",
+      "response_count": 934,
+      "spend_micros": 3466380,
+      "successor_change": "freeze minimal hidden reasoning for every exact endpoint that advertises the reasoning_effort control; leave unsupported endpoints provider-fixed",
+      "used_as_primary_data": false
+    },
+    "calibration_v2": {
+      "attempt_journal_physical_sha256": "1af5f5a005b6ad5166a3e58c3a3c8a23d710797b2f1b1ab3a959ef86488c9cfe",
+      "response_artifact_set_sha256": "207bb7f16e1c7333cd2ef762a4fab71c019cdb14103dbb4c525fd31e005cea78",
+      "response_count": 20,
+      "spend_micros": 57470,
+      "used_as_primary_data": false
+    },
+    "calibration_v20": {
+      "attempt_journal_physical_sha256": "b887d5db278feeac730ac867bfe1d5837c071fd8953a3dc360045297af15dad8",
+      "captured_responses_remain_calibration_only": true,
+      "interface_finding": "minimal reasoning still produced two abnormal long DeepSeek Flash responses in 31 observed cells and one abnormal long GLM response in 38 observed cells",
+      "response_artifact_set_sha256": "1d4a9134f6d23c8621548f3c84bd2306917dada560154bdbe2c9c7d7a5b48ce7",
+      "response_count": 579,
+      "spend_micros": 1424274,
+      "successor_change": "disable reasoning for the exact DeepSeek Flash and GLM routes; preserve minimal reasoning on the other twelve controllable routes",
+      "used_as_primary_data": false
+    },
+    "calibration_v21": {
+      "attempt_journal_physical_sha256": "7efd5fc4055533f0ab0ce219fb53b8f3c2a7437d6180c7334a92c85c5187ebc7",
+      "captured_responses_remain_calibration_only": true,
+      "interface_finding": "GPT-5.6 Luna produced two upstream 429 failures in its first eight observed cells while Sol, Terra, and Luna could jointly issue twelve concurrent requests",
+      "response_artifact_set_sha256": "bf8d714b85269d1d1545cf9e1fdf8a20fa541135cc5727515377d39af87bef90",
+      "response_count": 181,
+      "spend_micros": 407956,
+      "successor_change": "single-flight each GPT-5.6 route while preserving all task, scoring, reasoning, eligibility, route, and inference contracts",
+      "used_as_primary_data": false
+    },
+    "calibration_v22": {
+      "attempt_journal_physical_sha256": "ef57def687c874aa009f22e57dadaac43d65358c77908e47b3fe01d00d37bedf",
+      "captured_responses_remain_calibration_only": true,
+      "interface_finding": "direct Kimi returned billing-cycle quota HTTP 403 responses despite single-flight",
+      "response_artifact_set_sha256": "2d45ac5397b793b03661faeb676b0fee5736fb2b89147253d1dd0b62e912ca3b",
+      "response_count": 186,
+      "spend_micros": 277759,
+      "successor_change": "freeze Kimi to the exact DeepInfra BF16 OpenRouter route with no fallback and low reasoning; preserve every other model route and analysis contract",
+      "used_as_primary_data": false
+    },
+    "calibration_v23": {
+      "attempt_journal_physical_sha256": "ad201423591dbbab4bed49243cdff7c3d3c21bdaa144abcfab7a0e6efe31d783",
+      "captured_responses_remain_calibration_only": true,
+      "interface_finding": "the exact DeepInfra Kimi route returned upstream HTTP 429 for both bounded checks",
+      "response_artifact_set_sha256": "0264263cdf302741d1b474abb6e9ecdfd57aebfd435970f6fdc4196aa8584901",
+      "response_count": 2,
+      "spend_micros": 0,
+      "successor_change": "freeze Kimi to the exact Morph OpenRouter route; preserve low reasoning, single-flight execution, no fallback, and all analysis contracts",
+      "used_as_primary_data": false
+    },
+    "calibration_v24": {
+      "attempt_journal_physical_sha256": "89c2437bcb7d407fd6b6bb504b82cce607f5c0089b1d079ee85c4b97c2f029df",
+      "captured_responses_remain_calibration_only": true,
+      "interface_finding": "Morph returned normal Kimi responses and exact provider identity, while the legacy direct-route shorthand model identity caused a strict verification refusal",
+      "response_artifact_set_sha256": "962fc9de5a4f61056df8ab00e334f05b2df9253887572f8db10efb2c6a72c4fa",
+      "response_count": 2,
+      "spend_micros": 7228,
+      "successor_change": "bind the dated OpenRouter accounting identity without changing route, request, reasoning, scoring, or inference contracts",
+      "used_as_primary_data": false
+    },
+    "calibration_v25": {
+      "attempt_journal_physical_sha256": "31959d1f7ccc183ff0b6ad51f581af80fd830b7ac5ec80a07aa7efd4e3b538d7",
+      "captured_responses_remain_calibration_only": true,
+      "failed_task_ids": [
+        "fb-executable-constraint-031",
+        "fb-executable-cultural_composition-085",
+        "fb-executable-pairing-063",
+        "fb-executable-substitution-079"
+      ],
+      "interface_finding": "the exact Baidu DeepSeek V4 Pro route failed all four early cells with mixed HTTP 429 and HTTP 404 attempts while the other active routes continued",
+      "response_artifact_set_sha256": "892307a886532f16d259d342dfd495e67eccd3003dbe571af8b0e7462fbf666a",
+      "response_count": 61,
+      "spend_micros": 91086,
+      "successor_change": "replace only DeepSeek V4 Pro with the exact native DeepSeek endpoint, single-flight that route, and preserve all tasks, prompts, scoring, inference, and other routes",
+      "used_as_primary_data": false
+    },
+    "calibration_v26": {
+      "attempt_journal_physical_sha256": "16bc26f6d0f7cf268d118badd79bc78cec80cdd3e5e0c9889f2bc11bbdecec9c",
+      "captured_responses_remain_calibration_only": true,
+      "failed_task_ids": [
+        "fb-executable-constraint-031",
+        "fb-executable-cultural_composition-085",
+        "fb-executable-pairing-063",
+        "fb-executable-substitution-079"
+      ],
+      "interface_finding": "the exact native DeepSeek catalog route returned HTTP 404 on every bounded check",
+      "response_artifact_set_sha256": "e18a7df216c122fa062dec03a8b10d7c3088624e4ca48d41cd60449154b3f16f",
+      "response_count": 4,
+      "spend_micros": 0,
+      "successor_change": "replace only DeepSeek V4 Pro with exact Novita FP8, retain single-flight, and preserve all tasks, prompts, scoring, inference, and other routes",
+      "used_as_primary_data": false
+    },
+    "calibration_v27": {
+      "attempt_journal_physical_sha256": "779e14fb5ad1c72ee18150c3247c328d0e0124040e11a378d0e60efaa68f813f",
+      "captured_responses_remain_calibration_only": true,
+      "interface_findings": [
+        "Llama Maverick exhausted two HTTP 429 retries in its first 52 recorded cells",
+        "Nemotron recorded one ambiguous HTTP 503 and one 7971-token length termination in 11 cells"
+      ],
+      "response_artifact_set_sha256": "13cbcfb2783fe60619a19f34a24fc35e8247d4f3905ffd2446b8e40732c171a1",
+      "response_count": 639,
+      "spend_micros": 982552,
+      "successor_changes": [
+        "single-flight the unchanged exact Llama route",
+        "replace the under-reliable Nemotron slot with Claude Fable 5 on exact Amazon Bedrock after the user-confirmed usage-limit repair"
+      ],
+      "used_as_primary_data": false
+    },
+    "calibration_v28": {
+      "attempt_journal_physical_sha256": "9351821a4d1294f3ab3dd9fda59928f2bdb19f2273a105a89d1d8662aac6dfd2",
+      "captured_responses_remain_calibration_only": true,
+      "interface_finding": "Fable completed three of six historical stress cells and returned three zero-token non-normal provider finishes after quota access was restored",
+      "response_artifact_set_sha256": "27122c4eca598b206332bdd4b929d500c4d654a31794166d8f237920be2ae89f",
+      "response_count": 6,
+      "spend_micros": 16712,
+      "successor_change": "restore Nemotron on the exact BaseTen FP4 route under single-flight while retaining the Llama single-flight correction",
+      "used_as_primary_data": false
+    },
+    "calibration_v29": {
+      "attempt_journal_physical_sha256": "bf1fb82f024bec8008255887f1299f3a3489d8050e3037e2b22f8362096231dc",
+      "captured_responses_remain_calibration_only": true,
+      "interface_finding": "the exact BaseTen Ultra route still exhausted a retry within six sequential cells",
+      "response_artifact_set_sha256": "7e3b55387d012ae9d4f54143a6f255f1eb54dcaa38b2dba29054e9fb34342193",
+      "response_count": 6,
+      "spend_micros": 7719,
+      "successor_change": "replace Ultra with the newly released dated Nemotron 3.5 Lightning model on exact CoreWeave BF16, retain single-flight, and preserve all other contracts",
+      "used_as_primary_data": false
+    },
+    "calibration_v3": {
+      "attempt_journal_physical_sha256": "b9ad6c0ce09f10502934455453b40c8e927be4d4583da0db069d6814f5b83602",
+      "response_artifact_set_sha256": "de6d055372e2dbba036c596f916e0ed5a7a7268b995982c5e7b175143d006a2b",
+      "response_count": 80,
+      "spend_micros": 188585,
+      "used_as_primary_data": false
+    },
+    "calibration_v30": {
+      "attempt_journal_physical_sha256": "f28199be4a70725488e901c490ba1284c8e061c0743c079dcedcbecb239f8269",
+      "captured_responses_remain_calibration_only": true,
+      "interface_finding": "the exact CoreWeave Nemotron 3.5 Lightning route produced four normal responses; one further response reached the uniform 8192-token ceiling with 8165 provider-accounted completion tokens before the eight-cell check was stopped",
+      "response_artifact_set_sha256": "f19f6d6f3f93e962ea11980b61bce9058bc524a4f67731596f9e48eabb6e616a",
+      "response_count": 5,
+      "spend_micros": 5124,
+      "successor_change": "raise max_output_tokens uniformly from 8192 to 16384 for all twenty models; retain the exact roster, routes, prompts, task order, parser, Epicure scores, and inference",
+      "used_as_primary_data": false
+    },
+    "calibration_v4": {
+      "attempt_journal_physical_sha256": "f7ac87de09ae78892e1535d202508b47ca2ed12ce5a58a2280fc95123f4f6c37",
+      "interface_finding": "portable MCQ suffix overrode the three-selection response contract",
+      "response_artifact_set_sha256": "d0eb9b6487deadb109901b21f039fb44e63cb9deb7cf6308612167be37b5a498",
+      "response_count": 80,
+      "spend_micros": 528480,
+      "superseded_protocol": "portable_text_tool_v1",
+      "used_as_primary_data": false
+    },
+    "calibration_v5": {
+      "attempt_journal_physical_sha256": "23abae125ba8b120a4e243e724cfd4a59b03842cc30d5e7d46d603150416634c",
+      "interface_finding": "generic Markdown final turn permitted avoidable length terminations",
+      "response_artifact_set_sha256": "c9b44511ac7a391b8c7db9ca05e22c38b769ca2a2dfbb82aa9b06da4609c2236",
+      "response_count": 80,
+      "spend_micros": 575586,
+      "superseded_protocol": "legacy_v6",
+      "used_as_primary_data": false
+    },
+    "calibration_v6": {
+      "attempt_journal_physical_sha256": "bece873691603ea169610e1c33a8146c5eed7a201f2c31a38ed49b23bbbfdcec",
+      "cohere_rejected_before_generation": true,
+      "interface_finding": "dedicated selection protocol succeeded outside one Cohere schema keyword",
+      "response_artifact_set_sha256": "5f175073108fbcc64e2b870fcfb7d1f7311ccd5a9848b671d6997afb02a433e4",
+      "response_count": 80,
+      "spend_micros": 320924,
+      "successor_change": "explicit 56-value Cohere enum",
+      "used_as_primary_data": false
+    },
+    "calibration_v7": {
+      "attempt_journal_physical_sha256": "3a6bcc6706c6b76d5a317711af3438ba8cdbddfb4ead2af8ca7bebca741be015",
+      "interface_finding": "reasoning field support did not imply acceptance of effort none",
+      "response_artifact_set_sha256": "8c62a5f517824e78f5541a7e17977d88a5c95c7c574ca0e5a3ebf1032bb6ee70",
+      "response_count": 80,
+      "spend_micros": 111808,
+      "superseded_request_rule": "route-adaptive reasoning effort none",
+      "used_as_primary_data": false
+    },
+    "calibration_v8": {
+      "attempt_journal_physical_sha256": "bfbcd3b0383a79e1447bd8055e73985f0aa8a6928a643108f8735daced73dfd8",
+      "interface_finding": "the explicit 56-value Cohere enum completed and parsed all four live family-stratified pilot cells",
+      "response_artifact_set_sha256": "22825c83be47cb319be85277ca9005004100fa60a7c351c142dba34741ac57d5",
+      "response_count": 4,
+      "spend_micros": 0,
+      "successor_change": "raise the final-token ceiling from 2048 to 4096 to reduce avoidable length terminations on long-reasoning routes",
+      "used_as_primary_data": false
+    },
+    "calibration_v9": {
+      "attempt_journal_physical_sha256": "47239669347fbf9798905627c7b80ad803530dcc96e4d84ec79b60da901ed8ad",
+      "interface_finding": "the 4096-token selection contract removed every observed Qwen and DeepSeek length termination; Claude Fable retained one route-level content-filter refusal",
+      "response_artifact_set_sha256": "6a6c75f064947062bf3eeaa484644049dd78d3845ff1f6dcd4476e173948a0c8",
+      "response_count": 20,
+      "spend_micros": 67151,
+      "successor_change": "replace only Claude Fable's Amazon Bedrock route with the exact healthy Azure endpoint while preserving all other routes",
+      "used_as_primary_data": false
+    },
+    "development_predecessor": {
+      "physical_sha256": "813199562f2bf1a89f0fdb6bb529fca56e26512d7737d78a15ff830c7f1a7128",
+      "semantic_sha256": "197b84d75ccaa549650ad08cc88f934a4ac1173c8e51c9fb149a703ce2602ce8"
+    },
+    "plan_v17_predecessor": {
+      "physical_sha256": "a682087d643e8f3d04b1ce9c4cf70f67057504f3d54e8d2daa3f862c583fa705",
+      "semantic_sha256": "028850ed25fedbaa8015c29a70fa7a1da93121c817d158e2fe3751dc1b0de9d7"
+    },
+    "plan_v18_predecessor": {
+      "physical_sha256": "42478bbec6d7b370ab658a1f0b55918adc9d8e080cb2d3b82234f312618c733c",
+      "semantic_sha256": "3d235f0b2dd9578b65f4bdc6228be7d7fbfa812e68b43a2f0f3d8f95c4450dc2"
+    },
+    "plan_v19_predecessor": {
+      "physical_sha256": "493d4bf56e023f8c6abe19d89fbda99744c921ef72599d2a96a553420c66c8c9",
+      "semantic_sha256": "6579a4f393a40dfd41174029b167f590637ef57b87de15b225715b8de09e2658"
+    },
+    "plan_v20_predecessor": {
+      "physical_sha256": "c9770cf646f334acd163cb77cda77ccb364f084bdef2b73f2f0c521c8735ca1f",
+      "semantic_sha256": "1f8bee7ea88a7c28dd9abea5b5c0b20e05a2836051c55bfc9843452ac33b50aa"
+    },
+    "plan_v21_predecessor": {
+      "physical_sha256": "3f6519c4702d2e4605976775f8b2363cf25fafbfe3dbeaae516c443db525a850",
+      "semantic_sha256": "7637725bfccc8fadea85cf902b177756e00e35ec3b07b465a10d44082635e884"
+    },
+    "plan_v22_predecessor": {
+      "physical_sha256": "4480d83ddd100af7bf365bc98b3316a74d6d7f3f0ea8c12c037def6b4791ab31",
+      "semantic_sha256": "19909b305b1af2a00a95defdb5156d7b07f6f12eea5f67388c1587741f0ac9d1"
+    },
+    "plan_v23_predecessor": {
+      "physical_sha256": "28fc4a14cf3ffc1cfadcff9f9dad9e3dba738214a58c9ee5b8d35206bf7914c3",
+      "semantic_sha256": "e6f14ce236c93cda231d83defab9602edba659cf398c74f9b254dc9627d3e80b"
+    },
+    "plan_v24_predecessor": {
+      "physical_sha256": "cf504d9528e62ffee0e601133835c3eb5cb80c9763a7003a34f919a43bed863c",
+      "semantic_sha256": "38b0b72da71a1f843a2746b3aad38371a0fc6183c5721630e64b19af4b541355"
+    },
+    "plan_v25_predecessor": {
+      "physical_sha256": "a16a1763a50f39c2ed25cbeb0c29f2d2a2716740f0a381b652944e9d1d5786a2",
+      "semantic_sha256": "591cd6f3a1c1b725f3cc753412b2d72428808b4c078fd97211f80fb2138a4414"
+    },
+    "plan_v26_predecessor": {
+      "physical_sha256": "4cb504f0b67dcbd3a26c3f552763c35dd32af96cc7521d483f0875b4a0bf5680",
+      "semantic_sha256": "12996a28fd22011386e3d954cc604feb31a5c0900a07594fbe8a9a339b6bd4eb"
+    },
+    "plan_v27_predecessor": {
+      "physical_sha256": "3eccefb15d29e99c100fd93fe6314e627804d170cc7e77d645703874dc3535b7",
+      "semantic_sha256": "2c60e4db289fcaff589bb63bcbb70e802576ab4210100e4bb029a4f67ab5d161"
+    },
+    "plan_v28_predecessor": {
+      "physical_sha256": "d4779560b18c074d230a2df32948462bd96acc5ff1da9a38fdc39cbe82b9069f",
+      "semantic_sha256": "19cf9b463a4d76774f5ecc7f147c444d5bcde4d9fdf3bf1472f95fe213569423"
+    },
+    "plan_v29_predecessor": {
+      "physical_sha256": "e6b3b3325beee5a241ab34ea8821b983336d983149f29f04f483c07bbc446535",
+      "semantic_sha256": "849a89d72e6f0432f64fc0d137aefcc2182c954fe5f72c8091d2742d691ca140"
+    },
+    "plan_v30_predecessor": {
+      "physical_sha256": "de11ebfab077a020a388b3433ba28d81c52f67790fb1ac986a8653b7e1c734ae",
+      "semantic_sha256": "22ca1a6b4ea638d0bd9f02bc9a2d2e5991ecb5e68856502a4f19221bae2f4c5b"
+    },
+    "repeat_panel": {
+      "physical_sha256": "b3d0f690d5811a84c0ef08d2ee849df436090a9871a0dae5a937f387a3e394cd",
+      "semantic_sha256": "c3829d4cdb7039f920411c6edde13691237f42cafc20e463ac326a06895c97fb"
+    },
+    "route_manifest": {
+      "physical_sha256": "176f1db5d20a2a541f9d18f1fe298bdab295d39bdd35c94b23be8d198b93f294",
+      "semantic_sha256": "5bde0e2a323506ae78103dfd8d47ff5f64706133c568ae7a88428b2763dde3fb"
+    },
+    "taskset": {
+      "physical_sha256": "520812b0b2c28764ca9b46ff17a0f536872d264be3b4c1de7ba756d5f6d644ae",
+      "semantic_sha256": "99932ef2e72d34b61641270670e6d56233f167273a8877d03ac214115c084ff7",
+      "task_set_sha256": "0274bf68fef8eb3b7b041c1e9003dd9b235b358cff9a9dfad7a021bf26298f9f"
+    }
+  },
+  "outcomes": {
+    "availability_reported_separately": true,
+    "chance": "exact task-specific mean across all 56 possible selections",
+    "epicure_is_judge_not_a_competing_model": true,
+    "failed_unparseable_or_invalid": "zero in intention-to-evaluate denominator",
+    "primary_definition": "equal-family macro mean Epicure selection score from 0 to 100",
+    "primary_name": "FlavourBench Score",
+    "task_score": "prefrozen continuous lookup over all three-of-eight selections"
+  },
+  "plan_version": "flavourbench-selection-20x640-v28",
+  "power": {
+    "assumed_paired_sd_points": 20,
+    "familywise_comparisons": 190,
+    "five_point_difference_power": 0.996268579,
+    "method": "preregistered normal approximation for paired continuous task scores",
+    "primary_target_difference_points": 5,
+    "primary_target_meets_power": true,
+    "simulation_required_for_final_observed_precision": true,
+    "target": 0.8,
+    "tasks": 640,
+    "three_point_difference_power": 0.557893453809
+  },
+  "repeatability": {
+    "acceptance_floor": 0.8,
+    "answer_labels_permuted": true,
+    "excluded_from_primary_score": true,
+    "primary": "selected-ingredient-set Jaccard agreement",
+    "secondary": "absolute task-score difference",
+    "tasks_per_model": 64
+  },
+  "roster": {
+    "fallbacks": "disabled",
+    "model_count": 20,
+    "models": [
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "openai/gpt-5.6-sol-pro-20260709",
+        "endpoint_execution_sha256": "e3a66e8d2f076ab7ea21fc7553600dd5c867a6b9d293715ef7ad0198cf6c7fb2",
+        "endpoint_sha256": "6732e098ed818429693359ecf1b4030621419c709146fa53a0d4ad65991c67bd",
+        "execution_backend": "openrouter",
+        "final_reasoning_effort": "minimal",
+        "model_id": "openai/gpt-5.6-sol-pro",
+        "model_name": "OpenAI: GPT-5.6 Sol Pro",
+        "provider_name": "OpenAI",
+        "provider_tag": "openai/flex",
+        "slot_id": "frontier-refresh-01"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "openai/gpt-5.6-terra-pro-20260709",
+        "endpoint_execution_sha256": "9e801c0569255c2aae51efab7bfc309ee09f1fe9ca72f9ceb15ea5fc43319f54",
+        "endpoint_sha256": "05655ffb2d601c1065ddf09e5dc3df52bc29d26604cb420437d3762f36d02cc7",
+        "execution_backend": "openrouter",
+        "final_reasoning_effort": "minimal",
+        "model_id": "openai/gpt-5.6-terra-pro",
+        "model_name": "OpenAI: GPT-5.6 Terra Pro",
+        "provider_name": "OpenAI",
+        "provider_tag": "openai/flex",
+        "slot_id": "frontier-refresh-02"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "openai/gpt-5.6-luna-pro-20260709",
+        "endpoint_execution_sha256": "7867105b770c7c89c308ab76b780a904fdef0b6a778459df43309595ecd77bc1",
+        "endpoint_sha256": "612ba2eb3eaf21f67f9d7b5cf2c8cbb7820dacb2e661a8f1e8c24fc4634ba113",
+        "execution_backend": "openrouter",
+        "final_reasoning_effort": "minimal",
+        "model_id": "openai/gpt-5.6-luna-pro",
+        "model_name": "OpenAI: GPT-5.6 Luna Pro",
+        "provider_name": "OpenAI",
+        "provider_tag": "openai/flex",
+        "slot_id": "frontier-refresh-03"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "meta-llama/llama-4-maverick-17b-128e-instruct",
+        "endpoint_execution_sha256": "fda92fa53c18c84478d3d543444db70d4daf17db0deede98bc7502b78fee6ebd",
+        "endpoint_sha256": "e7caf54c3ea0d25dde5ef21a1ec60fb27c78ce0ead475d31cef8db240d5c196c",
+        "execution_backend": "openrouter",
+        "final_reasoning_effort": "provider_fixed",
+        "model_id": "meta-llama/llama-4-maverick",
+        "model_name": "Meta: Llama 4 Maverick",
+        "provider_name": "DigitalOcean",
+        "provider_tag": "digitalocean",
+        "slot_id": "frontier-refresh-04"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "anthropic/claude-opus-5-20260723",
+        "endpoint_execution_sha256": "988565d5dc8aed926d8241ac704f84b01bbd2e0545f436b544d989ef1637943c",
+        "endpoint_sha256": "98f21b9061404e6c19a47e0a3f9097c796ace56a292503e67cb8111eef318c04",
+        "execution_backend": "openrouter",
+        "final_reasoning_effort": "minimal",
+        "model_id": "anthropic/claude-opus-5",
+        "model_name": "Claude Opus 5",
+        "provider_name": "Amazon Bedrock",
+        "provider_tag": "amazon-bedrock/claude-on-aws",
+        "slot_id": "frontier-refresh-05"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "anthropic/claude-sonnet-5-20260630",
+        "endpoint_execution_sha256": "1be1903f6107ed7c7432b678bd695f997b6ab3e46f24756a41067c2366f06779",
+        "endpoint_sha256": "520d4a17bdcdb78b28652b3f678b0b8513e35f9f2826811e2524c8112a6d15b0",
+        "execution_backend": "openrouter",
+        "final_reasoning_effort": "minimal",
+        "model_id": "anthropic/claude-sonnet-5",
+        "model_name": "Anthropic: Claude Sonnet 5",
+        "provider_name": "Amazon Bedrock",
+        "provider_tag": "amazon-bedrock/claude-on-aws",
+        "slot_id": "frontier-refresh-06"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "google/gemini-3.1-pro-preview-20260219",
+        "endpoint_execution_sha256": "ff9e871fbbea0b24047d135583063605eeac68374ad4e94aa8717ee6ca8568e6",
+        "endpoint_sha256": "3985aec306c4f97a6fd909b15043f24f315e3b964af9e9c1b4f32ddd487f70c6",
+        "execution_backend": "openrouter",
+        "final_reasoning_effort": "minimal",
+        "model_id": "google/gemini-3.1-pro-preview",
+        "model_name": "Google: Gemini 3.1 Pro Preview",
+        "provider_name": "Google",
+        "provider_tag": "google-vertex/global/flex",
+        "slot_id": "frontier-refresh-07"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "google/gemini-3.6-flash-20260721",
+        "endpoint_execution_sha256": "43fe5001a373732ba9bbd4445b704a4cd3d0f4efd62d7fb934212f1c115352fb",
+        "endpoint_sha256": "d1a48bc5a0f4cdaf0ef6940dce2be02e42ffa5508668cd273a2e57c00c70fb46",
+        "execution_backend": "openrouter",
+        "final_reasoning_effort": "minimal",
+        "model_id": "google/gemini-3.6-flash",
+        "model_name": "Google: Gemini 3.6 Flash",
+        "provider_name": "Google",
+        "provider_tag": "google-vertex/us",
+        "slot_id": "frontier-refresh-08"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "x-ai/grok-4.5-20260708",
+        "endpoint_execution_sha256": "829a6665ff23a38476b854e6dfb1a3473b6d7063f8200a3fc1050b6fd99cbb00",
+        "endpoint_sha256": "4fee624ca2e6f9bba91d99895d077de2ef89d602179267c1ab4718f478294171",
+        "execution_backend": "openrouter",
+        "final_reasoning_effort": "minimal",
+        "model_id": "x-ai/grok-4.5",
+        "model_name": "SpaceXAI: Grok 4.5",
+        "provider_name": "xAI",
+        "provider_tag": "xai/zdr",
+        "slot_id": "frontier-refresh-09"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "moonshotai/kimi-k3-20260715",
+        "endpoint_execution_sha256": "2b210984fb3e14c974958a8cd8c692ab9acefac344a28805b9ed61a5ce87c69f",
+        "endpoint_sha256": "ae0461e91a9c49c5795821bc3355e4cb4a195a3fa6c4e1e531aee92a9b1fc894",
+        "execution_backend": "openrouter",
+        "final_reasoning_effort": "low",
+        "model_id": "moonshotai/kimi-k3",
+        "model_name": "MoonshotAI: Kimi K3",
+        "provider_name": "Morph",
+        "provider_tag": "morph",
+        "slot_id": "frontier-refresh-10"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "qwen/qwen3.8-max-20260803",
+        "endpoint_execution_sha256": "ae07ea67979826783a3d92af08f15e52dbbf1dbfc9ce0b7ef14e2a166731ffa8",
+        "endpoint_sha256": "b9f6417588021b2fab64210cb74cb35e6aebbfb8a5f4f61957cbd5558c800e6e",
+        "execution_backend": "openrouter",
+        "final_reasoning_effort": "minimal",
+        "model_id": "qwen/qwen3.8-max",
+        "model_name": "Qwen: Qwen3.8 Max",
+        "provider_name": "Alibaba",
+        "provider_tag": "alibaba",
+        "slot_id": "frontier-refresh-11"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "z-ai/glm-5.2-20260616",
+        "endpoint_execution_sha256": "fe4dbcefb419486825b786c8430b4dc243874b814e62c5d20867904ae9ec83f3",
+        "endpoint_sha256": "8173bdcd9bc14c8bce66cce596d1fbdebafed331355ddd90e06ef7173f9f772b",
+        "execution_backend": "openrouter",
+        "final_reasoning_effort": "none",
+        "model_id": "z-ai/glm-5.2",
+        "model_name": "Z.ai: GLM 5.2",
+        "provider_name": "CoreWeave",
+        "provider_tag": "coreweave/fp4",
+        "slot_id": "frontier-refresh-12"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "deepseek/deepseek-v4-pro-20260423",
+        "endpoint_execution_sha256": "99edd3f99ff8165d255537c7a199a2d41b21fbfebe8f2d43d48d70cca6788414",
+        "endpoint_sha256": "3b7e8e07b47f2e5361af0c3dbb3d2f75cc140995bc62b4c33d5437fbf04acdc3",
+        "execution_backend": "openrouter",
+        "final_reasoning_effort": "minimal",
+        "model_id": "deepseek/deepseek-v4-pro",
+        "model_name": "DeepSeek: DeepSeek V4 Pro",
+        "provider_name": "Novita",
+        "provider_tag": "novita/fp8",
+        "slot_id": "frontier-refresh-13"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "deepseek/deepseek-v4-flash-20260731",
+        "endpoint_execution_sha256": "5db4ff38fef3f2d2fb4f64643ded89a20870de23ce96ac9e45aed202f4af6c82",
+        "endpoint_sha256": "6cec862b6592fbeada148b3497e9ab306b7a43823d655a28c8c707a051a78792",
+        "execution_backend": "openrouter",
+        "final_reasoning_effort": "none",
+        "model_id": "deepseek/deepseek-v4-flash-0731",
+        "model_name": "DeepSeek: DeepSeek V4 Flash 0731",
+        "provider_name": "DeepInfra",
+        "provider_tag": "deepinfra/fp4",
+        "slot_id": "frontier-refresh-14"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "minimax/minimax-m3-20260531",
+        "endpoint_execution_sha256": "79a537351ad485e8f21318bf92c32d438f10cc29577d22043e4750313711ce04",
+        "endpoint_sha256": "bb74b02f81ec6e1477764ca317182f67bcf8b7af161bc310e2b65d30dccda1cb",
+        "execution_backend": "openrouter",
+        "final_reasoning_effort": "provider_fixed",
+        "model_id": "minimax/minimax-m3",
+        "model_name": "MiniMax: MiniMax M3",
+        "provider_name": "Together",
+        "provider_tag": "together",
+        "slot_id": "frontier-refresh-15"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "nvidia/nemotron-3.5-lightning-20260807",
+        "endpoint_execution_sha256": "2d3dcdb892a25f2ccb73be5869a7cec78aff9036cda6ccbf9056b6c635602dbb",
+        "endpoint_sha256": "d5fc689b18ae6e4ab409de184b712519e2860591e87ddbf1a050debc7dde40f0",
+        "execution_backend": "openrouter",
+        "final_reasoning_effort": "provider_fixed",
+        "model_id": "nvidia/nemotron-3.5-lightning",
+        "model_name": "NVIDIA: Nemotron 3.5 Lightning",
+        "provider_name": "CoreWeave",
+        "provider_tag": "coreweave/bf16",
+        "slot_id": "frontier-refresh-16"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "mistralai/mistral-large-2512",
+        "endpoint_execution_sha256": "a3d9fe9f310c03b0df3b87d0a6ff86ef80654a4adec9ea32ef9969b068e27910",
+        "endpoint_sha256": "46ab918b21f3c04475b3812aa54899f6375010f39f32b7e573985f90fdfaa136",
+        "execution_backend": "openrouter",
+        "final_reasoning_effort": "provider_fixed",
+        "model_id": "mistralai/mistral-large-2512",
+        "model_name": "Mistral: Mistral Large 3 2512",
+        "provider_name": "Mistral",
+        "provider_tag": "mistral",
+        "slot_id": "frontier-refresh-17"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "tencent/hy3-20260706",
+        "endpoint_execution_sha256": "a1606462219f54d4ced7172c0556698493e3aa017ba8a441923e9152998afc24",
+        "endpoint_sha256": "9caff1e333d5b708c9464ed743de614313c104c68de7ccedeeba65a26b6f533c",
+        "execution_backend": "openrouter",
+        "final_reasoning_effort": "minimal",
+        "model_id": "tencent/hy3",
+        "model_name": "Tencent: Hy3",
+        "provider_name": "AtlasCloud",
+        "provider_tag": "atlas-cloud/fp8",
+        "slot_id": "frontier-refresh-18"
+      },
+      {
+        "backend_contract_sha256": "537e6efcd0419bcd7df9c153374f4d2f07d49bb0b2b2f638e5edd200773e5389",
+        "canonical_model_slug": "command-a-plus-05-2026",
+        "endpoint_execution_sha256": "01169afdd37b1e4273e1a9ebf624e38a42ad1cac640c7bc40d95f2e3af156098",
+        "endpoint_sha256": "c001b9194e90fd176f65b92407107e51b9c503c372b3e9a3641ce26af7c2e89b",
+        "execution_backend": "cohere_direct",
+        "final_reasoning_effort": "provider_fixed",
+        "model_id": "cohere/command-a-plus-05-2026",
+        "model_name": "Cohere Command A Plus",
+        "provider_name": "cohere-direct",
+        "provider_tag": "cohere-direct",
+        "slot_id": "frontier-refresh-19"
+      },
+      {
+        "backend_contract_sha256": "b3059a835949705fb0d196491c4f1ae65b296d100e725c6bb63d63c17f0f23ca",
+        "canonical_model_slug": "command-a-reasoning-08-2025",
+        "endpoint_execution_sha256": "680cd38f5c0c542b187ed2b7af619c1493a2acd650c26c5ad4dc9ff27909487f",
+        "endpoint_sha256": "378ba018a49a6eff899672cd789919ecc780f8c755d22f429fb6e78046478207",
+        "execution_backend": "cohere_direct",
+        "final_reasoning_effort": "provider_fixed",
+        "model_id": "cohere/command-a-reasoning-08-2025",
+        "model_name": "Cohere Command A Reasoning",
+        "provider_name": "cohere-direct",
+        "provider_tag": "cohere-direct",
+        "slot_id": "frontier-refresh-20"
+      }
+    ]
+  },
+  "schema_version": "flavourbench-selection-powered-analysis-plan-v28",
+  "status": "preregistered_after_v30_calibration_before_primary_responses"
+}

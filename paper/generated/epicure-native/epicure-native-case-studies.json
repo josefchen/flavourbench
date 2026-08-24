@@ -1,0 +1,228 @@
+[
+  {
+    "choices": {
+      "A": "oregano",
+      "B": "bell_pepper",
+      "C": "olive_oil",
+      "D": "onion"
+    },
+    "expected_choice": "B",
+    "family": "substitution",
+    "model": "GPT-5.6 Sol Pro",
+    "model_id": "openai/gpt-5.6-sol-pro",
+    "off_answer": "FINAL_CHOICE: D",
+    "on_answer": "FINAL_CHOICE: B",
+    "prompt": "FlavourBench Epicure-native exact task. Use the read-only culinary evidence tools if they are available; otherwise answer from your own knowledge.\n\nAccording to Epicure's `neighbors` result for `tomato` with top_k=4, which ingredient is ranked first?\n\nChoices:\nA. oregano\nB. bell_pepper\nC. olive_oil\nD. onion\n\nIn your final answer, explain briefly if useful and finish on its own line with exactly `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+    "reference_tool_result": {
+      "ingredient": "tomato",
+      "neighbors": [
+        {
+          "name": "bell_pepper",
+          "rank": 1,
+          "sim": 0.4799
+        },
+        {
+          "name": "olive_oil",
+          "rank": 2,
+          "sim": 0.4786
+        },
+        {
+          "name": "oregano",
+          "rank": 3,
+          "sim": 0.4646
+        },
+        {
+          "name": "onion",
+          "rank": 4,
+          "sim": 0.4567
+        }
+      ]
+    },
+    "task_id": "fb-native-substitution-001",
+    "tool_trace": [
+      {
+        "arguments": {
+          "ingredient": "tomato",
+          "top_k": 4
+        },
+        "is_error": false,
+        "latency_ms": 13,
+        "name": "neighbors",
+        "result_sha256": "d08b4e8d1c6fd39953a5a7be63c2aacb3452e26668c04dce2b4aae65863d4321"
+      }
+    ]
+  },
+  {
+    "choices": {
+      "A": "0.2707",
+      "B": "0.2407",
+      "C": "0.3207",
+      "D": "0.1907"
+    },
+    "expected_choice": "A",
+    "family": "composition",
+    "model": "DeepSeek V4 Pro",
+    "model_id": "deepseek/deepseek-v4-pro",
+    "off_answer": "FINAL_CHOICE: B",
+    "on_answer": "FINAL_CHOICE: A",
+    "prompt": "FlavourBench Epicure-native exact task. Use the read-only culinary evidence tools if they are available; otherwise answer from your own knowledge.\n\nWhat exact four-decimal `pairing_score` does Epicure return for `tomato` and `basil`?\n\nChoices:\nA. 0.2707\nB. 0.2407\nC. 0.3207\nD. 0.1907\n\nIn your final answer, explain briefly if useful and finish on its own line with exactly `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+    "reference_tool_result": {
+      "all_pairs_range": {
+        "median": 0.092,
+        "p10": 0.0197,
+        "p25": 0.0521,
+        "p75": 0.1392,
+        "p90": 0.1899
+      },
+      "pairing_score": 0.2707,
+      "percentile_label": "very high (>=p90)",
+      "resolved_a": "tomato",
+      "resolved_b": "basil"
+    },
+    "task_id": "fb-native-composition-001",
+    "tool_trace": [
+      {
+        "arguments": {
+          "ingredient_a": "tomato",
+          "ingredient_b": "basil"
+        },
+        "is_error": false,
+        "latency_ms": 5,
+        "name": "pairing_score",
+        "result_sha256": "60f994dadd7d0f410418515a191bc0daf7067288c9c93913399da005511c1942"
+      }
+    ]
+  },
+  {
+    "choices": {
+      "A": "coffee has the higher projection",
+      "B": "the projections are equal to four decimals",
+      "C": "Epicure cannot resolve one or both ingredients",
+      "D": "chocolate has the higher projection"
+    },
+    "expected_choice": "D",
+    "family": "cookability",
+    "model": "GPT-5.6 Sol Pro",
+    "model_id": "openai/gpt-5.6-sol-pro",
+    "off_answer": "FINAL_CHOICE: A",
+    "on_answer": "FINAL_CHOICE: D",
+    "prompt": "FlavourBench Epicure-native exact task. Use the read-only culinary evidence tools if they are available; otherwise answer from your own knowledge.\n\nWhich statement matches Epicure's `compare_on_axis` result for `coffee` versus `chocolate` on `cf_bitter`?\n\nChoices:\nA. coffee has the higher projection\nB. the projections are equal to four decimals\nC. Epicure cannot resolve one or both ingredients\nD. chocolate has the higher projection\n\nIn your final answer, explain briefly if useful and finish on its own line with exactly `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+    "reference_tool_result": {
+      "axis": "cf_bitter",
+      "axis_range": {
+        "p10": -0.0877,
+        "p90": 0.1429
+      },
+      "delta": 0.0835,
+      "label_a": "moderate",
+      "label_b": "high",
+      "projection_a": 0.0076,
+      "projection_b": 0.0911,
+      "resolved_a": "coffee",
+      "resolved_b": "chocolate"
+    },
+    "task_id": "fb-native-cookability-001",
+    "tool_trace": [
+      {
+        "arguments": {
+          "axis": "cf_bitter",
+          "ingredient_a": "coffee",
+          "ingredient_b": "chocolate"
+        },
+        "is_error": false,
+        "latency_ms": 4,
+        "name": "compare_on_axis",
+        "result_sha256": "df2f720e0a55add71264a6c703826497c2fa7b072897b1d5948d658fd710375f"
+      }
+    ]
+  },
+  {
+    "choices": {
+      "A": "Japanese",
+      "B": "East_Asian",
+      "C": "Southeast_Asian",
+      "D": "South_Asian"
+    },
+    "expected_choice": "A",
+    "family": "evidence",
+    "model": "Grok 4.5",
+    "model_id": "x-ai/grok-4.5",
+    "off_answer": "{\"name\": \"cultural_profile\", \"arguments\": {\"ingredient\": \"miso\"}}",
+    "on_answer": "FINAL_CHOICE: A",
+    "prompt": "FlavourBench Epicure-native exact task. Use the read-only culinary evidence tools if they are available; otherwise answer from your own knowledge.\n\nWhich cuisine direction has the highest cosine score in Epicure's `cultural_profile` result for `miso`?\n\nChoices:\nA. Japanese\nB. East_Asian\nC. Southeast_Asian\nD. South_Asian\n\nIn your final answer, explain briefly if useful and finish on its own line with exactly `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+    "reference_tool_result": {
+      "cuisines": {
+        "East_Asian": {
+          "range": {
+            "p10": -0.1649,
+            "p90": 0.3039
+          },
+          "score": 0.1625
+        },
+        "Eastern_European": {
+          "range": {
+            "p10": -0.1466,
+            "p90": 0.1034
+          },
+          "score": -0.1494
+        },
+        "Japanese": {
+          "range": {
+            "p10": -0.1359,
+            "p90": 0.1896
+          },
+          "score": 0.3227
+        },
+        "Latin_American": {
+          "range": {
+            "p10": -0.1672,
+            "p90": 0.1281
+          },
+          "score": -0.1538
+        },
+        "Mediterranean": {
+          "range": {
+            "p10": -0.2323,
+            "p90": 0.206
+          },
+          "score": -0.1198
+        },
+        "South_Asian": {
+          "range": {
+            "p10": -0.0808,
+            "p90": 0.071
+          },
+          "score": -0.0585
+        },
+        "Southeast_Asian": {
+          "range": {
+            "p10": -0.1625,
+            "p90": 0.193
+          },
+          "score": 0.0426
+        },
+        "Western_Atlantic": {
+          "range": {
+            "p10": -0.2304,
+            "p90": 0.183
+          },
+          "score": -0.1546
+        }
+      },
+      "note": "Cosine similarity to each cuisine direction. Use p10/p90 to judge whether a score is typical or extreme.",
+      "resolved": "miso"
+    },
+    "task_id": "fb-native-evidence-001",
+    "tool_trace": [
+      {
+        "arguments": {
+          "ingredient": "miso"
+        },
+        "is_error": false,
+        "latency_ms": 4,
+        "name": "cultural_profile",
+        "result_sha256": "deaabfed3682161a047ce3991975d502a12b7bcca4f561c0f7f3d75a08d88616"
+      }
+    ]
+  }
+]

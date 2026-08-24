@@ -1,0 +1,1177 @@
+{
+  "artifact_sha256": "673366449bc3646c46cdcffa422072941cb6bba8f77a2eab6e40b06e437ab3eb",
+  "counts": {
+    "models": 20,
+    "provider_calls": 1280,
+    "tasks": 64,
+    "tasks_per_family": 16
+  },
+  "purpose": {
+    "not_used_for": [
+      "primary FlavourBench Score",
+      "model selection",
+      "item pruning"
+    ],
+    "primary": "choice-content repeatability under answer-position permutation",
+    "secondary": "answer-position sensitivity"
+  },
+  "schema_version": "flavourbench-powered-repeat-panel-v1",
+  "selection_seed": "flavourbench-powered-repeat-panel-20260811",
+  "source_task_set_sha256": "22047dd96424ac4b648816e15b16d771bb4078a5c0380ee036e845274fdecfe8",
+  "source_taskset_artifact_sha256": "d64f606052bf5d4766a01f76d73655d0df605b82fc2164232479921c1d15e996",
+  "status": "frozen_before_powered_model_execution",
+  "tasks": [
+    {
+      "choices": {
+        "A": "marjoram",
+        "B": "madeira_wine",
+        "C": "fennel",
+        "D": "red_wine"
+      },
+      "expected_choice": "A",
+      "expected_choice_value_sha256": "9b64c0847956417f4024e87d8bf1e11434ea2944499be9ee4a1284cb2c37059c",
+      "family": "substitution",
+      "original_expected_choice": "D",
+      "original_prompt_sha256": "5e761d640784d2a50d0068e1aa8a5c1f4fa1b9c04d3aedba5d9a717938bae03a",
+      "original_task_id": "fb-powered-substitution-104",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nAmong these candidates, which ingredient is the nearest neighbour of `mixed_herbs` in the pinned Epicure embedding?\n\nChoices:\nA. marjoram\nB. madeira_wine\nC. fennel\nD. red_wine\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "5c27d134c05efa5fe4cc9d2e563028bb9ef36d11ec5c2f44dc9af89d18184127",
+      "task_id": "repeat-substitution-01"
+    },
+    {
+      "choices": {
+        "A": "harissa",
+        "B": "grana_padano",
+        "C": "farro",
+        "D": "freekeh"
+      },
+      "expected_choice": "C",
+      "expected_choice_value_sha256": "a9aa18b1dab1597df0ac7cf6b1e617add92258200a91337f3514aeed10c45efb",
+      "family": "substitution",
+      "original_expected_choice": "A",
+      "original_prompt_sha256": "2d952136c599cfa78b7779765e73149958f466bb66da6761d7a0040904f14728",
+      "original_task_id": "fb-powered-substitution-145",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nAmong these candidates, which ingredient is the nearest neighbour of `zaatar` in the pinned Epicure embedding?\n\nChoices:\nA. harissa\nB. grana_padano\nC. farro\nD. freekeh\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "17d7b8619d0cfd23a6de09c588843c4042f198cfcb64d388035d982c7c52f4e0",
+      "task_id": "repeat-substitution-02"
+    },
+    {
+      "choices": {
+        "A": "char_siu_pork",
+        "B": "umami_sauce",
+        "C": "braising_liquid",
+        "D": "seasoning_sauce"
+      },
+      "expected_choice": "B",
+      "expected_choice_value_sha256": "727392d0ad25915669c20dd133af4189f2bbe21bf633389ddd42d1d9d8f8b153",
+      "family": "substitution",
+      "original_expected_choice": "D",
+      "original_prompt_sha256": "359c2a611aff432b800bf41fd0acdfbc4088c4b5b16fb2e0d3080027a6eb9fc6",
+      "original_task_id": "fb-powered-substitution-120",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nAmong these candidates, which ingredient is the nearest neighbour of `chinese_celery` in the pinned Epicure embedding?\n\nChoices:\nA. char_siu_pork\nB. umami_sauce\nC. braising_liquid\nD. seasoning_sauce\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "ce7ce71668d0053010adc75f38ae2368e97c0c22d3b357c2eb4531919861d1a8",
+      "task_id": "repeat-substitution-03"
+    },
+    {
+      "choices": {
+        "A": "kashkaval_cheese",
+        "B": "tulum_cheese",
+        "C": "simit",
+        "D": "kasseri_cheese"
+      },
+      "expected_choice": "D",
+      "expected_choice_value_sha256": "b1f2b8e1f466b2d9392aed5c3f5876ab2a1514a50b142012a48d9a3dd1e8da3a",
+      "family": "substitution",
+      "original_expected_choice": "C",
+      "original_prompt_sha256": "11764c3ec905a5dfb1060f53c697fb11827af56759af81ffc9aef4edf4c0ca13",
+      "original_task_id": "fb-powered-substitution-139",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nAmong these candidates, which ingredient is the nearest neighbour of `sucuk` in the pinned Epicure embedding?\n\nChoices:\nA. kashkaval_cheese\nB. tulum_cheese\nC. simit\nD. kasseri_cheese\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "2c3a57cf75721e8528a69c2487986e890b762c5b1d19cbe626839acef0666f74",
+      "task_id": "repeat-substitution-04"
+    },
+    {
+      "choices": {
+        "A": "bell_pepper",
+        "B": "thyme",
+        "C": "parsley",
+        "D": "onion"
+      },
+      "expected_choice": "D",
+      "expected_choice_value_sha256": "288971671685b8da56623362c82e1ead68186c5150a35e3b35b5ef74cd7ceebc",
+      "family": "substitution",
+      "original_expected_choice": "A",
+      "original_prompt_sha256": "0a6049bc185eb8374595a8bda69863f87d0997666765bfe18295690366cff5a0",
+      "original_task_id": "fb-powered-substitution-153",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nAmong these candidates, which ingredient is the nearest neighbour of `paprika` in the pinned Epicure embedding?\n\nChoices:\nA. bell_pepper\nB. thyme\nC. parsley\nD. onion\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "da8d2523006b5176a84896aea43be67f989537be2b4bcca4894d179b34599b1a",
+      "task_id": "repeat-substitution-05"
+    },
+    {
+      "choices": {
+        "A": "brewers_yeast",
+        "B": "lecithin",
+        "C": "sunflower_seed",
+        "D": "rice_milk"
+      },
+      "expected_choice": "B",
+      "expected_choice_value_sha256": "d488be59fe6ab60f262e1b994a367ceefcdb9df65b71da3a90b6e05e7fa444cc",
+      "family": "substitution",
+      "original_expected_choice": "C",
+      "original_prompt_sha256": "b14dd7765019d60894273ce0c7d889acd61eeda30bfe2cca3862b5faf8953c61",
+      "original_task_id": "fb-powered-substitution-051",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nAmong these candidates, which ingredient is the nearest neighbour of `mixed_seeds` in the pinned Epicure embedding?\n\nChoices:\nA. brewers_yeast\nB. lecithin\nC. sunflower_seed\nD. rice_milk\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "70c889eccb556a2e1e718d3933bde8ccc7727cad20344aa62e743f41e2febf54",
+      "task_id": "repeat-substitution-06"
+    },
+    {
+      "choices": {
+        "A": "udon_noodle",
+        "B": "sugar_snap_pea",
+        "C": "sweet_chili_sauce",
+        "D": "bamboo_shoot"
+      },
+      "expected_choice": "B",
+      "expected_choice_value_sha256": "15161f2cd35ec725c1f9e27f15b2dfe05503344e874f47d2cfd5903adabdb669",
+      "family": "substitution",
+      "original_expected_choice": "A",
+      "original_prompt_sha256": "1b5565bd05391276a27af8c70c78543f3e7dcb6a59e4c42f27784711cbf65711",
+      "original_task_id": "fb-powered-substitution-005",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nAmong these candidates, which ingredient is the nearest neighbour of `snow_pea` in the pinned Epicure embedding?\n\nChoices:\nA. udon_noodle\nB. sugar_snap_pea\nC. sweet_chili_sauce\nD. bamboo_shoot\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "fbf562a613f0edb15fbaefdf9643d9dee70312e72906e74da2d4641a85146f24",
+      "task_id": "repeat-substitution-07"
+    },
+    {
+      "choices": {
+        "A": "corn_husk",
+        "B": "queso_blanco",
+        "C": "panela_cheese",
+        "D": "salsa_verde"
+      },
+      "expected_choice": "D",
+      "expected_choice_value_sha256": "452204c9709b334df6b81a54b0eb39be0e557d2f2e8a8bd440cb6e451bf3f525",
+      "family": "substitution",
+      "original_expected_choice": "C",
+      "original_prompt_sha256": "8dd7b241ab2ad3e8db2230b872f895fbbfc779baee7b7e3935a865fb46f9c3e0",
+      "original_task_id": "fb-powered-substitution-103",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nAmong these candidates, which ingredient is the nearest neighbour of `tamale` in the pinned Epicure embedding?\n\nChoices:\nA. corn_husk\nB. queso_blanco\nC. panela_cheese\nD. salsa_verde\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "d263fae4294dc2d0a60e5bcda037fdad8c07426fd9c70699626b093e0e180409",
+      "task_id": "repeat-substitution-08"
+    },
+    {
+      "choices": {
+        "A": "custard",
+        "B": "meringue",
+        "C": "ladyfinger",
+        "D": "sprinkles"
+      },
+      "expected_choice": "B",
+      "expected_choice_value_sha256": "7284e59214311167fdbd7425354b797f7763d486efb4f620d29528867a5126f8",
+      "family": "substitution",
+      "original_expected_choice": "D",
+      "original_prompt_sha256": "531adcdad36e0b8ec4831b486e196f220886479c9b66a52c7b25e5290da6e682",
+      "original_task_id": "fb-powered-substitution-148",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nAmong these candidates, which ingredient is the nearest neighbour of `sponge_cake` in the pinned Epicure embedding?\n\nChoices:\nA. custard\nB. meringue\nC. ladyfinger\nD. sprinkles\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "83720be40116e70cf699246c7e4079641815ab02fd3d7627ef9b91f75c48ab98",
+      "task_id": "repeat-substitution-09"
+    },
+    {
+      "choices": {
+        "A": "rapeseed",
+        "B": "stinky_tofu",
+        "C": "vegetable_extract",
+        "D": "shepherds_purse"
+      },
+      "expected_choice": "D",
+      "expected_choice_value_sha256": "3349e2454166d9411136292f9d4148a14146ec6bec4c10d014a5d9d052d1ef36",
+      "family": "substitution",
+      "original_expected_choice": "B",
+      "original_prompt_sha256": "e7be9e45ed1c477e8d03770a537439dca4433492d42a0d98728f12553f4f253f",
+      "original_task_id": "fb-powered-substitution-026",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nAmong these candidates, which ingredient is the nearest neighbour of `clover` in the pinned Epicure embedding?\n\nChoices:\nA. rapeseed\nB. stinky_tofu\nC. vegetable_extract\nD. shepherds_purse\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "42274dca68b2a1d93b94be9d9e817634bf733681dc6dc44785b5e6ef5a5216be",
+      "task_id": "repeat-substitution-10"
+    },
+    {
+      "choices": {
+        "A": "hemp_seed",
+        "B": "arrowroot",
+        "C": "plant_based_milk",
+        "D": "bran"
+      },
+      "expected_choice": "D",
+      "expected_choice_value_sha256": "051945a27551270c442208045a38bf38bf4c5b819f1db0f0511ceafa74a2af59",
+      "family": "substitution",
+      "original_expected_choice": "C",
+      "original_prompt_sha256": "ffd154fffc727b6ddb034233ab31f12819e3d411da2467bf27f282ea7a2f5c7f",
+      "original_task_id": "fb-powered-substitution-031",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nAmong these candidates, which ingredient is the nearest neighbour of `lecithin` in the pinned Epicure embedding?\n\nChoices:\nA. hemp_seed\nB. arrowroot\nC. plant_based_milk\nD. bran\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "8339987ac10efdcea61d1aacb435cbadaf6672584668c0958ec68f6d4fa57af0",
+      "task_id": "repeat-substitution-11"
+    },
+    {
+      "choices": {
+        "A": "punch",
+        "B": "fruit_tea",
+        "C": "sparkling_wine",
+        "D": "blue_curacao"
+      },
+      "expected_choice": "B",
+      "expected_choice_value_sha256": "5994db58a713f36a8dd90addfec5548464ec0e0d7ea2e502d44d1f269bcd829b",
+      "family": "substitution",
+      "original_expected_choice": "D",
+      "original_prompt_sha256": "8f227aef474119ef6edb2d1db25694483d61d787c8c2b4fcea205b37ffceb49e",
+      "original_task_id": "fb-powered-substitution-016",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nAmong these candidates, which ingredient is the nearest neighbour of `calpis` in the pinned Epicure embedding?\n\nChoices:\nA. punch\nB. fruit_tea\nC. sparkling_wine\nD. blue_curacao\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "082c9a2160358f9a4d3e25191fca2b35a9b63c16e35e93ddc49fa9099fcd0df7",
+      "task_id": "repeat-substitution-12"
+    },
+    {
+      "choices": {
+        "A": "absinthe",
+        "B": "grenadine",
+        "C": "triple_sec",
+        "D": "maraschino_liqueur"
+      },
+      "expected_choice": "B",
+      "expected_choice_value_sha256": "f5d1611232b9b6a31561d4f43f839a36fd3cf71ff9fac86e5c6946ae96545090",
+      "family": "substitution",
+      "original_expected_choice": "D",
+      "original_prompt_sha256": "a9b25a044289506d5eec047c46e0d108e2400454d1d766e68107d8727f09b1bc",
+      "original_task_id": "fb-powered-substitution-144",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nAmong these candidates, which ingredient is the nearest neighbour of `orange_liqueur` in the pinned Epicure embedding?\n\nChoices:\nA. absinthe\nB. grenadine\nC. triple_sec\nD. maraschino_liqueur\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "02f17948b18e4b85f9a2437e87b75226ec25318cac4b77167877facdbc29c943",
+      "task_id": "repeat-substitution-13"
+    },
+    {
+      "choices": {
+        "A": "shrimp_paste",
+        "B": "scallion",
+        "C": "snakehead_fish",
+        "D": "tilapia"
+      },
+      "expected_choice": "D",
+      "expected_choice_value_sha256": "74fef61efa910682c3ef072efa1b0d55a5ac7b9a8bfec04b29b65c8cb6d31652",
+      "family": "substitution",
+      "original_expected_choice": "A",
+      "original_prompt_sha256": "8bd1f1fb37ccfad6e8d35f0d61226be674228036a7ad9893bfe8b205cfc8edc6",
+      "original_task_id": "fb-powered-substitution-009",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nAmong these candidates, which ingredient is the nearest neighbour of `catfish` in the pinned Epicure embedding?\n\nChoices:\nA. shrimp_paste\nB. scallion\nC. snakehead_fish\nD. tilapia\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "93c548fec5666583d22734e800ae425a4f348ba993479a2a45eb2002f7ed9547",
+      "task_id": "repeat-substitution-14"
+    },
+    {
+      "choices": {
+        "A": "scamorza",
+        "B": "pepperoncini",
+        "C": "capicola",
+        "D": "soppressata"
+      },
+      "expected_choice": "C",
+      "expected_choice_value_sha256": "4812972d510d895dba95d25875832799f4eb55836b18e95cad82f296868893b9",
+      "family": "substitution",
+      "original_expected_choice": "D",
+      "original_prompt_sha256": "920a5051133897f60c3e3e28a9d47f3dcf77460e9b1eb5bff877225d6734c68b",
+      "original_task_id": "fb-powered-substitution-060",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nAmong these candidates, which ingredient is the nearest neighbour of `cherry_pepper` in the pinned Epicure embedding?\n\nChoices:\nA. scamorza\nB. pepperoncini\nC. capicola\nD. soppressata\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "b8c8fa02415352c144dc417a3f541d97e68413d555271c412d6cf1dafcadfe66",
+      "task_id": "repeat-substitution-15"
+    },
+    {
+      "choices": {
+        "A": "gingerbread_spice",
+        "B": "aguardiente",
+        "C": "chicha",
+        "D": "sugar"
+      },
+      "expected_choice": "B",
+      "expected_choice_value_sha256": "c4c8ef8f9ef538bc9e8422ee915c59e1c4211164d3dbebe373c8963dadb8af3b",
+      "family": "substitution",
+      "original_expected_choice": "A",
+      "original_prompt_sha256": "6cf3598c2d1d9ef246a9228c4e8c3499ab45ad852e1b04ab529f837e2e60cc48",
+      "original_task_id": "fb-powered-substitution-157",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nAmong these candidates, which ingredient is the nearest neighbour of `piloncillo` in the pinned Epicure embedding?\n\nChoices:\nA. gingerbread_spice\nB. aguardiente\nC. chicha\nD. sugar\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "acb4ffe6dbb76a1267291700cd15874498a46b19b360e0a9389750bf5f90582d",
+      "task_id": "repeat-substitution-16"
+    },
+    {
+      "choices": {
+        "A": "sweet_bean_sauce",
+        "B": "doenjang",
+        "C": "deer_mushroom",
+        "D": "rice_tofu"
+      },
+      "expected_choice": "C",
+      "expected_choice_value_sha256": "8d8c4348e898e9aa1b9dcd181f3da6b0e262dafaa432029772f3c2a20cb8ec80",
+      "family": "composition",
+      "original_expected_choice": "D",
+      "original_prompt_sha256": "054bd9c073f8d1c2bbe70871b6c23033902b9192e8e9e1372ab1e110bea7ac4c",
+      "original_task_id": "fb-powered-composition-068",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich candidate has the highest Epicure pairing affinity with `myoga`?\n\nChoices:\nA. sweet_bean_sauce\nB. doenjang\nC. deer_mushroom\nD. rice_tofu\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "3a93d4f4063c5a5df0a6e802e8bfd9c06b2806bdf7b3677b051eba87591bce3b",
+      "task_id": "repeat-composition-01"
+    },
+    {
+      "choices": {
+        "A": "scallion",
+        "B": "marlin",
+        "C": "catfish",
+        "D": "pollock"
+      },
+      "expected_choice": "D",
+      "expected_choice_value_sha256": "f52160b30de2b143cd6681c65939da0c9d164bcb00fcfa32870352fb99699cad",
+      "family": "composition",
+      "original_expected_choice": "C",
+      "original_prompt_sha256": "689488663624c946ea3d0f1dadd97601263854c66ca6922091fb87aeaa08bae0",
+      "original_task_id": "fb-powered-composition-071",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich candidate has the highest Epicure pairing affinity with `seafood_seasoning`?\n\nChoices:\nA. scallion\nB. marlin\nC. catfish\nD. pollock\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "c09ed1e72323c2939e00cf0cf1f361cd5c55945e36ea5e17a14c0fdc2c0de607",
+      "task_id": "repeat-composition-02"
+    },
+    {
+      "choices": {
+        "A": "waffle",
+        "B": "meringue",
+        "C": "hazelnut_liqueur",
+        "D": "mastic"
+      },
+      "expected_choice": "A",
+      "expected_choice_value_sha256": "5fab5f43d0b2f97526e7daacb1e42ffd178e2067c59a0036d0d984a3bec289fb",
+      "family": "composition",
+      "original_expected_choice": "B",
+      "original_prompt_sha256": "4cf610fa8299cec14941b2c91aff3d00a534483cfcd029e785356b1fae805284",
+      "original_task_id": "fb-powered-composition-014",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich candidate has the highest Epicure pairing affinity with `praline`?\n\nChoices:\nA. waffle\nB. meringue\nC. hazelnut_liqueur\nD. mastic\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "e17a99d6ec090de8a21fa8f39f72094ef3e41e412382ae3327cc4c78d11d5fde",
+      "task_id": "repeat-composition-03"
+    },
+    {
+      "choices": {
+        "A": "italian_sausage",
+        "B": "balsamic_vinegar",
+        "C": "andouille_sausage",
+        "D": "buffalo_meat"
+      },
+      "expected_choice": "A",
+      "expected_choice_value_sha256": "6aaa292f632ee716464aeaa227a99efb486ea0bd0ab52b6b9844de7a114ab139",
+      "family": "composition",
+      "original_expected_choice": "C",
+      "original_prompt_sha256": "14c50eb3b355beae5b80d6df36fc063bcf09802187e0184e388a98ba376a5b33",
+      "original_task_id": "fb-powered-composition-003",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich candidate has the highest Epicure pairing affinity with `polenta`?\n\nChoices:\nA. italian_sausage\nB. balsamic_vinegar\nC. andouille_sausage\nD. buffalo_meat\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "f8305696601961d92908f0fd26d59d087ef2de8e27770aa39f02ddb246fb7f0e",
+      "task_id": "repeat-composition-04"
+    },
+    {
+      "choices": {
+        "A": "new_mexico_chile",
+        "B": "achiote_paste",
+        "C": "chorizo",
+        "D": "hogao"
+      },
+      "expected_choice": "C",
+      "expected_choice_value_sha256": "79e82f84f57a169c800a9d657a1a43b53f1e17a573584b05de68af5e27096904",
+      "family": "composition",
+      "original_expected_choice": "D",
+      "original_prompt_sha256": "8f0f19e94682674a24f662c1c1f38274c1b796f8386196e0b3882a05e0396f28",
+      "original_task_id": "fb-powered-composition-012",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich candidate has the highest Epicure pairing affinity with `arepa`?\n\nChoices:\nA. new_mexico_chile\nB. achiote_paste\nC. chorizo\nD. hogao\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "4d00cb46dfb850a304604689b7e525abf867a324769efb0467c889c90f5ecd2c",
+      "task_id": "repeat-composition-05"
+    },
+    {
+      "choices": {
+        "A": "chocolate_liqueur",
+        "B": "punch",
+        "C": "chai_spice",
+        "D": "fudge"
+      },
+      "expected_choice": "B",
+      "expected_choice_value_sha256": "e4d916fa9d2e6d4c0d993976bd68952dd00add15ca1289b32750280b3f3cd45f",
+      "family": "composition",
+      "original_expected_choice": "D",
+      "original_prompt_sha256": "f7244f5ed36d84ac373559a2365d9a549af5cb90a45102a42e48be9b52d04e0e",
+      "original_task_id": "fb-powered-composition-128",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich candidate has the highest Epicure pairing affinity with `cajeta`?\n\nChoices:\nA. chocolate_liqueur\nB. punch\nC. chai_spice\nD. fudge\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "996e7423b2018fbd12b4e5d118adbcc76f591e4ee868c6f4c90fae7c9227768a",
+      "task_id": "repeat-composition-06"
+    },
+    {
+      "choices": {
+        "A": "syrup",
+        "B": "spice_mix",
+        "C": "cinnamon",
+        "D": "anise"
+      },
+      "expected_choice": "C",
+      "expected_choice_value_sha256": "6011d7a8f33ed8ec9a98ae8103b24310067dd7eb1a6dff6baa3c478612d313a1",
+      "family": "composition",
+      "original_expected_choice": "D",
+      "original_prompt_sha256": "e20712ef40f0fb32de98fe40f1019d326dce99ecdbe9c40cfff66be3d9114fbd",
+      "original_task_id": "fb-powered-composition-144",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich candidate has the highest Epicure pairing affinity with `cardamom`?\n\nChoices:\nA. syrup\nB. spice_mix\nC. cinnamon\nD. anise\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "08706e10afb7624e834831dca19ebddb5ee9a4ac3cd4cfd9c1fac7abd6f074a8",
+      "task_id": "repeat-composition-07"
+    },
+    {
+      "choices": {
+        "A": "mung_bean_paste",
+        "B": "grass_jelly",
+        "C": "activated_charcoal_powder",
+        "D": "milk_tea"
+      },
+      "expected_choice": "B",
+      "expected_choice_value_sha256": "feec80094428804d4b08ce66a7e8a2d3b0dca9d39408a22ff9c9f5329d1e7716",
+      "family": "composition",
+      "original_expected_choice": "A",
+      "original_prompt_sha256": "55f41f08d5d48f374078bb484dbfa7d8662e895d80c819149c3d7b4248be0cdd",
+      "original_task_id": "fb-powered-composition-065",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich candidate has the highest Epicure pairing affinity with `buffalo_milk`?\n\nChoices:\nA. mung_bean_paste\nB. grass_jelly\nC. activated_charcoal_powder\nD. milk_tea\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "ca736caa68047d17921bae91304d956586de8c105b444268698dc691e6e1d03f",
+      "task_id": "repeat-composition-08"
+    },
+    {
+      "choices": {
+        "A": "purple_sweet_potato",
+        "B": "meat_floss",
+        "C": "soybean",
+        "D": "meringue"
+      },
+      "expected_choice": "A",
+      "expected_choice_value_sha256": "a41df895710b2b19d5a535786ec782d0cf333da216d11d966a5a3837d26c5df0",
+      "family": "composition",
+      "original_expected_choice": "C",
+      "original_prompt_sha256": "e9b43316123ca05819a5721c513328881e6c51a9218db422fa5ec6ff74164b89",
+      "original_task_id": "fb-powered-composition-159",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich candidate has the highest Epicure pairing affinity with `mochi`?\n\nChoices:\nA. purple_sweet_potato\nB. meat_floss\nC. soybean\nD. meringue\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "64247c5bb9cbe983685904e47a1eb38b9313529d043b051330134f07e957cee4",
+      "task_id": "repeat-composition-09"
+    },
+    {
+      "choices": {
+        "A": "wolfberry_leaf",
+        "B": "la_giang_leaf",
+        "C": "qingtou_mushroom",
+        "D": "water_lily_flower"
+      },
+      "expected_choice": "B",
+      "expected_choice_value_sha256": "528fa58b3c2c90d2018c5326c568387a51fc175fc02f1f54389b69355b49d04a",
+      "family": "composition",
+      "original_expected_choice": "C",
+      "original_prompt_sha256": "fa24df5173b58a12b6d9b8ab59285731e28f46c5d7ab3153f17bd1ce6b6e90f9",
+      "original_task_id": "fb-powered-composition-143",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich candidate has the highest Epicure pairing affinity with `mudskipper`?\n\nChoices:\nA. wolfberry_leaf\nB. la_giang_leaf\nC. qingtou_mushroom\nD. water_lily_flower\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "7103ab128f5efaee5e65c06920267f2462294d6f379fcbb450656555226473b4",
+      "task_id": "repeat-composition-10"
+    },
+    {
+      "choices": {
+        "A": "duck_sauce",
+        "B": "tangelo",
+        "C": "calabrian_chili",
+        "D": "butter"
+      },
+      "expected_choice": "A",
+      "expected_choice_value_sha256": "3748d6b2ed65fda06f1ab2f276d49f5faabae35c5966e01f0bd29a2598f0678b",
+      "family": "composition",
+      "original_expected_choice": "B",
+      "original_prompt_sha256": "f11e7c80be5d12778ea40383330cb413ab93718fcb2dac81db7ac393c732bc69",
+      "original_task_id": "fb-powered-composition-118",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich candidate has the highest Epicure pairing affinity with `sweet_roll`?\n\nChoices:\nA. duck_sauce\nB. tangelo\nC. calabrian_chili\nD. butter\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "ede7ba05bfa6eae6dc05d1cb53a64be68f3f1628f44b35713f4bcec9a5512b43",
+      "task_id": "repeat-composition-11"
+    },
+    {
+      "choices": {
+        "A": "sea_snail",
+        "B": "braising_liquid",
+        "C": "razor_clam",
+        "D": "korean_bbq_sauce"
+      },
+      "expected_choice": "B",
+      "expected_choice_value_sha256": "4b9857fe6b1a2fbce45c9370f28a33dc3686234305df20250b1003455682358e",
+      "family": "composition",
+      "original_expected_choice": "C",
+      "original_prompt_sha256": "d5679cb30a3c90ac43e727cec061c0397ae8b6775e227c6a3fe7aa243eada52b",
+      "original_task_id": "fb-powered-composition-039",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich candidate has the highest Epicure pairing affinity with `shellfish`?\n\nChoices:\nA. sea_snail\nB. braising_liquid\nC. razor_clam\nD. korean_bbq_sauce\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "59c4bba1ad46f441ed998c7b8c368cea28092af5abc4340ac73e86d9101a1682",
+      "task_id": "repeat-composition-12"
+    },
+    {
+      "choices": {
+        "A": "oat",
+        "B": "almond_milk",
+        "C": "coconut",
+        "D": "pumpkin_seed"
+      },
+      "expected_choice": "C",
+      "expected_choice_value_sha256": "23ebce72c4424e81ef48a495bc9ca88c93b8a34ab398bed854b76f1c784ab227",
+      "family": "composition",
+      "original_expected_choice": "A",
+      "original_prompt_sha256": "3cceff99e65ac528b9a9f4de7cfe5015bce33bfca9513f847d8e2303ea095079",
+      "original_task_id": "fb-powered-composition-049",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich candidate has the highest Epicure pairing affinity with `coconut_oil`?\n\nChoices:\nA. oat\nB. almond_milk\nC. coconut\nD. pumpkin_seed\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "514442b3f6f5266eded152bc7331de86d31ebef38705a086385e80bc9e0482d6",
+      "task_id": "repeat-composition-13"
+    },
+    {
+      "choices": {
+        "A": "salt_pork",
+        "B": "hair_vegetable",
+        "C": "porcini_mushroom",
+        "D": "goose"
+      },
+      "expected_choice": "C",
+      "expected_choice_value_sha256": "3e45fead62bb27cb26d764a472b5eec9a239bacb0e95f25de7b08123168a040d",
+      "family": "composition",
+      "original_expected_choice": "A",
+      "original_prompt_sha256": "2856bbf07bfa476544cf83320a477a83c70fff2343167db016e366e4e7408c8c",
+      "original_task_id": "fb-powered-composition-121",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich candidate has the highest Epicure pairing affinity with `morel_mushroom`?\n\nChoices:\nA. salt_pork\nB. hair_vegetable\nC. porcini_mushroom\nD. goose\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "382166424c25bac0d2c1188b2368aa03824154cef0e8bfa5db6ed0608d29073d",
+      "task_id": "repeat-composition-14"
+    },
+    {
+      "choices": {
+        "A": "chinese_yam",
+        "B": "bamboo_pith_mushroom",
+        "C": "dried_tangerine_peel",
+        "D": "lily_bulb"
+      },
+      "expected_choice": "D",
+      "expected_choice_value_sha256": "2a5690fff4d1a3661dbc11e941ec1a68e9f64d2e3037e7afea706e2f4f3515e2",
+      "family": "composition",
+      "original_expected_choice": "A",
+      "original_prompt_sha256": "24ef47840493112fe19a14f4e284d4c97d043116d4993b41bf17eb4669ce4dd6",
+      "original_task_id": "fb-powered-composition-137",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich candidate has the highest Epicure pairing affinity with `fox_nut`?\n\nChoices:\nA. chinese_yam\nB. bamboo_pith_mushroom\nC. dried_tangerine_peel\nD. lily_bulb\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "e1351a3bbd2c444c898f97c83b8e165fbf646886b478898f46f3d6fb1cfef598",
+      "task_id": "repeat-composition-15"
+    },
+    {
+      "choices": {
+        "A": "rum",
+        "B": "lemon_verbena",
+        "C": "red_currant",
+        "D": "peach"
+      },
+      "expected_choice": "B",
+      "expected_choice_value_sha256": "81e2cc4daeb4b00ab0ededa34e6628e6b1a0a5537386051c33057fd75df239df",
+      "family": "composition",
+      "original_expected_choice": "D",
+      "original_prompt_sha256": "c4fb48dae22a558be4b0a50c7950442a977f719d213d50f1d1482fc209ba379e",
+      "original_task_id": "fb-powered-composition-028",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich candidate has the highest Epicure pairing affinity with `nectarine`?\n\nChoices:\nA. rum\nB. lemon_verbena\nC. red_currant\nD. peach\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "898d1bcb20858359da93799ba9cdbd3b08277440326e79ec24b340908e0e15bc",
+      "task_id": "repeat-composition-16"
+    },
+    {
+      "choices": {
+        "A": "thousand_island_dressing",
+        "B": "meat_stock",
+        "C": "ketchup",
+        "D": "mushroom_soy_sauce"
+      },
+      "expected_choice": "C",
+      "expected_choice_value_sha256": "0bc3a5ae30466de3d77b506d364eabc28b1b7ceea061c2519328c7be72827483",
+      "family": "cookability",
+      "original_expected_choice": "A",
+      "original_prompt_sha256": "3423835559d0818067d8f34933fd05bf2ec7b2c9b0fd04221105005be02a8ee9",
+      "original_task_id": "fb-powered-cookability-041",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich `Pantry` ingredient has the highest projection on Epicure's `cf_savory` axis?\n\nChoices:\nA. thousand_island_dressing\nB. meat_stock\nC. ketchup\nD. mushroom_soy_sauce\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "8e37d76526c049620f909eb95c7c2a30b4b6449e1e87935c682045388bb88baf",
+      "task_id": "repeat-cookability-01"
+    },
+    {
+      "choices": {
+        "A": "choy_sum",
+        "B": "scotch_bonnet_pepper",
+        "C": "cubanelle_pepper",
+        "D": "mirepoix"
+      },
+      "expected_choice": "A",
+      "expected_choice_value_sha256": "a7fe0ca07471583913d337aa9db73fc43ca536e0923825e0b11f34c9230ce6a1",
+      "family": "cookability",
+      "original_expected_choice": "D",
+      "original_prompt_sha256": "a1f9ef1e23741f5abe76b278498d62a25ce6d12a71bc3cec522aca57961af373",
+      "original_task_id": "fb-powered-cookability-112",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich `Vegetable` ingredient has the highest projection on Epicure's `cf_pungent` axis?\n\nChoices:\nA. choy_sum\nB. scotch_bonnet_pepper\nC. cubanelle_pepper\nD. mirepoix\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "277e641aa800a8ef52b101bffdf72fa1ad865bb5f0314c4c47fce6a05fb1e01a",
+      "task_id": "repeat-cookability-02"
+    },
+    {
+      "choices": {
+        "A": "zaatar",
+        "B": "black_pepper",
+        "C": "paprika",
+        "D": "mastic"
+      },
+      "expected_choice": "C",
+      "expected_choice_value_sha256": "67aa6b6c143c668356e0bf2568c44deafba7758bc84b5d53372d41cab0d5fa98",
+      "family": "cookability",
+      "original_expected_choice": "A",
+      "original_prompt_sha256": "a0fe01509f7a68b8ccf987973f94e7cf141881febc1ed4574a61b6dfb14a7c60",
+      "original_task_id": "fb-powered-cookability-093",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich `Spice` ingredient has the highest projection on Epicure's `cf_citrus` axis?\n\nChoices:\nA. zaatar\nB. black_pepper\nC. paprika\nD. mastic\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "a23c7715117d860cbb900069f1e5541c6e79bfb82f4ca8c4b991238a3deb42d3",
+      "task_id": "repeat-cookability-03"
+    },
+    {
+      "choices": {
+        "A": "chinese_bayberry",
+        "B": "grapefruit",
+        "C": "date",
+        "D": "schisandra_berry"
+      },
+      "expected_choice": "D",
+      "expected_choice_value_sha256": "b3ce596fe8e70512f09e864fcbf7bfb14bddcfd49bdd8f5827cfc745a3c12092",
+      "family": "cookability",
+      "original_expected_choice": "C",
+      "original_prompt_sha256": "5381c08051e87c9b2c706bfc8c07d10dcb5828cd00033d693b4646bc02121bbb",
+      "original_task_id": "fb-powered-cookability-083",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich `Fruit` ingredient has the highest projection on Epicure's `cf_fatty` axis?\n\nChoices:\nA. chinese_bayberry\nB. grapefruit\nC. date\nD. schisandra_berry\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "8133c9dab84db50aa44dd7e744054e60d603bfdcf28bcf822188c33243d725c3",
+      "task_id": "repeat-cookability-04"
+    },
+    {
+      "choices": {
+        "A": "elderflower_liqueur",
+        "B": "blue_curacao",
+        "C": "milk_tea",
+        "D": "rompope"
+      },
+      "expected_choice": "B",
+      "expected_choice_value_sha256": "2ad42100074d2305d9dbd312b503ce8296d5e02b21db02396e3af883af96818a",
+      "family": "cookability",
+      "original_expected_choice": "C",
+      "original_prompt_sha256": "8a408d338cd4171846d948172c6467ccbd1462dc65f2a52bd148fd97b13a14ba",
+      "original_task_id": "fb-powered-cookability-015",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich `Beverage` ingredient has the highest projection on Epicure's `cf_sweet` axis?\n\nChoices:\nA. elderflower_liqueur\nB. blue_curacao\nC. milk_tea\nD. rompope\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "3d7acae24e50a51e95651ef5ca1ae88bbe359f7db2618d0476257779a3dc9ac5",
+      "task_id": "repeat-cookability-05"
+    },
+    {
+      "choices": {
+        "A": "spirulina",
+        "B": "tatsoi",
+        "C": "bitter_melon",
+        "D": "scotch_bonnet_pepper"
+      },
+      "expected_choice": "B",
+      "expected_choice_value_sha256": "e290589980ee5d0188bfac991979b3b998c655347f9a09c7b6fe740c6b8d3029",
+      "family": "cookability",
+      "original_expected_choice": "D",
+      "original_prompt_sha256": "696c51f774e964b9b15e55fc07d2022518ea00dc2590a5f2133faa3da914428b",
+      "original_task_id": "fb-powered-cookability-028",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich `Vegetable` ingredient has the highest projection on Epicure's `cf_pungent` axis?\n\nChoices:\nA. spirulina\nB. tatsoi\nC. bitter_melon\nD. scotch_bonnet_pepper\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "a07415722c41b8d6a6cc3f9d6a70e7faa9f6c3d5f9f43321b89cda07fa1c99e1",
+      "task_id": "repeat-cookability-06"
+    },
+    {
+      "choices": {
+        "A": "spirulina",
+        "B": "squash_blossom",
+        "C": "onion",
+        "D": "sugar_snap_pea"
+      },
+      "expected_choice": "C",
+      "expected_choice_value_sha256": "288971671685b8da56623362c82e1ead68186c5150a35e3b35b5ef74cd7ceebc",
+      "family": "cookability",
+      "original_expected_choice": "B",
+      "original_prompt_sha256": "2d33562a4f599e76b2a5ca8ea1d792d4dae9fadd4a8790a76b7e3130c7ad0f9c",
+      "original_task_id": "fb-powered-cookability-026",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich `Vegetable` ingredient has the highest projection on Epicure's `cf_meaty` axis?\n\nChoices:\nA. spirulina\nB. squash_blossom\nC. onion\nD. sugar_snap_pea\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "075299b362e9ae33839dbbd7753a42aaa1a51537889df6133ab004687372b92a",
+      "task_id": "repeat-cookability-07"
+    },
+    {
+      "choices": {
+        "A": "banana",
+        "B": "red_currant",
+        "C": "crab_apple",
+        "D": "cape_gooseberry"
+      },
+      "expected_choice": "B",
+      "expected_choice_value_sha256": "b116bf9540be20cfdddbe0759009f81c59d1a72e5973794778ddf134bf669282",
+      "family": "cookability",
+      "original_expected_choice": "A",
+      "original_prompt_sha256": "a38372bacdd5a82374685c7ad2ed9c36d8ad03b76e8f860efdbe18187bbe1ed8",
+      "original_task_id": "fb-powered-cookability-145",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich `Fruit` ingredient has the highest projection on Epicure's `cf_savory` axis?\n\nChoices:\nA. banana\nB. red_currant\nC. crab_apple\nD. cape_gooseberry\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "ef536528a343429d0c0f90d60b25979ed1eb3c71eeadcbdb6543af2a7a51bce9",
+      "task_id": "repeat-cookability-08"
+    },
+    {
+      "choices": {
+        "A": "achiote_paste",
+        "B": "piri_piri",
+        "C": "utskho_suneli",
+        "D": "paprika"
+      },
+      "expected_choice": "A",
+      "expected_choice_value_sha256": "863aeb82f732b3207aa70c40c5a22f5a72cf14c7d7ee55a3b839abcb925c82b5",
+      "family": "cookability",
+      "original_expected_choice": "D",
+      "original_prompt_sha256": "2c7611a8b218b113da2717d015996c15f0b897b8282d0e1c7a4bb6d69f969ce3",
+      "original_task_id": "fb-powered-cookability-148",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich `Spice` ingredient has the highest projection on Epicure's `cf_sweet` axis?\n\nChoices:\nA. achiote_paste\nB. piri_piri\nC. utskho_suneli\nD. paprika\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "58cf166769e5be2ef587258da77803410863d56babd27eda362300e523f83870",
+      "task_id": "repeat-cookability-09"
+    },
+    {
+      "choices": {
+        "A": "honeysuckle_flower",
+        "B": "peppermint",
+        "C": "rosemary",
+        "D": "sage"
+      },
+      "expected_choice": "D",
+      "expected_choice_value_sha256": "7e5d4325a44714fc86a9b6989e41e966a7297bfe7e913c15fb9ab19588e33d61",
+      "family": "cookability",
+      "original_expected_choice": "C",
+      "original_prompt_sha256": "e02357d2027bc21161fcf06aa3c40e9fb7596e3200f074c657a11a1bbb734a82",
+      "original_task_id": "fb-powered-cookability-067",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich `Herb` ingredient has the highest projection on Epicure's `cf_pungent` axis?\n\nChoices:\nA. honeysuckle_flower\nB. peppermint\nC. rosemary\nD. sage\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "0beb4b5d3100722858d88ab336611f7e2e5bf71f61db14ba513389149384595e",
+      "task_id": "repeat-cookability-10"
+    },
+    {
+      "choices": {
+        "A": "white_wine",
+        "B": "ginger_beer",
+        "C": "tea",
+        "D": "sambuca"
+      },
+      "expected_choice": "A",
+      "expected_choice_value_sha256": "d794dd75f1b02072398c7d3d69941ecaa937aea902f8aa5bf8383094535ffaea",
+      "family": "cookability",
+      "original_expected_choice": "D",
+      "original_prompt_sha256": "5a8cf3f930298b2228c06b902e51da3e57d74ec0c9144fb8b6166c94c7b6ac75",
+      "original_task_id": "fb-powered-cookability-040",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich `Beverage` ingredient has the highest projection on Epicure's `cf_spicy` axis?\n\nChoices:\nA. white_wine\nB. ginger_beer\nC. tea\nD. sambuca\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "7d4e437dfa40d3c7421f838b4b0844e6845cea1a1ae179380b39eb85d4c6d494",
+      "task_id": "repeat-cookability-11"
+    },
+    {
+      "choices": {
+        "A": "edamame",
+        "B": "soy_protein_isolate",
+        "C": "white_bean",
+        "D": "peanut_butter"
+      },
+      "expected_choice": "D",
+      "expected_choice_value_sha256": "d0bf0f869230bbbd00f92283af75a736d834db2fe72c89c8e47ccb8d2471d930",
+      "family": "cookability",
+      "original_expected_choice": "C",
+      "original_prompt_sha256": "9a3fc09ddada33de9a95aabc0a75202e307e73ad724b7ed848f77226f8c0bff2",
+      "original_task_id": "fb-powered-cookability-023",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich `Legume` ingredient has the highest projection on Epicure's `cf_sour` axis?\n\nChoices:\nA. edamame\nB. soy_protein_isolate\nC. white_bean\nD. peanut_butter\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "d7a6b901e4372346b1d9a7e16823deffd78267cab3c17970577967b6b57f6fd2",
+      "task_id": "repeat-cookability-12"
+    },
+    {
+      "choices": {
+        "A": "annatto_seed",
+        "B": "choricero_pepper",
+        "C": "blackening_seasoning",
+        "D": "cardamom"
+      },
+      "expected_choice": "A",
+      "expected_choice_value_sha256": "515b556f82fd947a1383bef42e7deb2dfc389f8670787412978279148e9c9e26",
+      "family": "cookability",
+      "original_expected_choice": "D",
+      "original_prompt_sha256": "d6e0398fd60d25ca9067ffaf05a594e5b4e9be390dabfff61da5fe958cb2ac5a",
+      "original_task_id": "fb-powered-cookability-060",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich `Spice` ingredient has the highest projection on Epicure's `cf_spicy` axis?\n\nChoices:\nA. annatto_seed\nB. choricero_pepper\nC. blackening_seasoning\nD. cardamom\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "1e32b43d74db800dcdcdb53e60ea921e92008caa2ce2cc6bb83b2ca73334a5c1",
+      "task_id": "repeat-cookability-13"
+    },
+    {
+      "choices": {
+        "A": "chive",
+        "B": "loquat_leaf",
+        "C": "elderflower",
+        "D": "honeysuckle_flower"
+      },
+      "expected_choice": "C",
+      "expected_choice_value_sha256": "bcf4a44c105afbed60d7530d6f0e16e7918d7756fb85909c0db0726d9e4574cf",
+      "family": "cookability",
+      "original_expected_choice": "A",
+      "original_prompt_sha256": "3b75fa758e80364983e69950167767009dfb5786df614119e37b31ac6255e181",
+      "original_task_id": "fb-powered-cookability-157",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich `Herb` ingredient has the highest projection on Epicure's `cf_balsamic` axis?\n\nChoices:\nA. chive\nB. loquat_leaf\nC. elderflower\nD. honeysuckle_flower\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "4afdbe007427100b110d7d42fa9e2e75640da0e081851d0ccf3a5137fdfa1e7b",
+      "task_id": "repeat-cookability-14"
+    },
+    {
+      "choices": {
+        "A": "stinky_mandarin_fish",
+        "B": "red_snapper",
+        "C": "mahi_mahi",
+        "D": "balyk"
+      },
+      "expected_choice": "A",
+      "expected_choice_value_sha256": "4da906cb70c7cc5e20cecea9be0e388cd52ce826aed6293f2b6b310f4bcb4a4c",
+      "family": "cookability",
+      "original_expected_choice": "B",
+      "original_prompt_sha256": "e7a62773ced550eb3f281015d43b2873e2bf51a8d1e7012d00f8934ab0dd04a0",
+      "original_task_id": "fb-powered-cookability-158",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich `Fish` ingredient has the highest projection on Epicure's `cf_nutty` axis?\n\nChoices:\nA. stinky_mandarin_fish\nB. red_snapper\nC. mahi_mahi\nD. balyk\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "2a5f95c1492f339a9ece1e9f9da2565ac2002957ea9244c35833e9bffe50ba9f",
+      "task_id": "repeat-cookability-15"
+    },
+    {
+      "choices": {
+        "A": "hijiki",
+        "B": "seafood",
+        "C": "oyster",
+        "D": "crab"
+      },
+      "expected_choice": "D",
+      "expected_choice_value_sha256": "3349a915f7cd0c2ff25e4b8ee4eaf965ba1de9c25062e649e4d94f8137ce9342",
+      "family": "cookability",
+      "original_expected_choice": "A",
+      "original_prompt_sha256": "02e544c5922f03a6a2807dd3cc14160e0a9c6384bae309b6b5b5e7900ec94123",
+      "original_task_id": "fb-powered-cookability-149",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich `Seafood` ingredient has the highest projection on Epicure's `cf_fruity` axis?\n\nChoices:\nA. hijiki\nB. seafood\nC. oyster\nD. crab\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "b5bb4afe2f2c84b7a00fc9eb2b6dcd8b67aee3b9f37dc6d483784aaffc9b20f2",
+      "task_id": "repeat-cookability-16"
+    },
+    {
+      "choices": {
+        "A": "South_Asian",
+        "B": "Eastern_European",
+        "C": "Mediterranean",
+        "D": "Western_Atlantic"
+      },
+      "expected_choice": "C",
+      "expected_choice_value_sha256": "b01c72c717ff7be4954281f8a4460839edf88e0a08a52965707568813ac868a9",
+      "family": "evidence",
+      "original_expected_choice": "B",
+      "original_prompt_sha256": "585556da107dcb6abf17c85af8ed495176e77a257ecab5466b81ee03c8dedcac",
+      "original_task_id": "fb-powered-evidence-046",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich cuisine direction is most aligned with `hemp_seed` in Epicure's pinned cultural projection?\n\nChoices:\nA. South_Asian\nB. Eastern_European\nC. Mediterranean\nD. Western_Atlantic\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "e10f17354fb2b3088104fdf2ca89266cd87de36975f017e7a6d698d20be0bda7",
+      "task_id": "repeat-evidence-01"
+    },
+    {
+      "choices": {
+        "A": "Western_Atlantic",
+        "B": "Mediterranean",
+        "C": "Latin_American",
+        "D": "Eastern_European"
+      },
+      "expected_choice": "C",
+      "expected_choice_value_sha256": "e76ea9a480aba3d48281a5c2f7a9239846e23c066ca99f36e45954ae15e89a94",
+      "family": "evidence",
+      "original_expected_choice": "D",
+      "original_prompt_sha256": "c3f69e2c19192e5eb79feac30dde8379fa82ce2991322ad2cc06e63c627e85e1",
+      "original_task_id": "fb-powered-evidence-008",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich cuisine direction is most aligned with `whitefish` in Epicure's pinned cultural projection?\n\nChoices:\nA. Western_Atlantic\nB. Mediterranean\nC. Latin_American\nD. Eastern_European\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "fc7c795083dbf2fa25c001fecda96fb08370850118546088a9ab42b7c47cdbdf",
+      "task_id": "repeat-evidence-02"
+    },
+    {
+      "choices": {
+        "A": "Japanese",
+        "B": "Southeast_Asian",
+        "C": "East_Asian",
+        "D": "South_Asian"
+      },
+      "expected_choice": "C",
+      "expected_choice_value_sha256": "e604a8a942f6a0ed70d0932f3bb2e472b96f99ea44ea1e876de3cd05f0de9441",
+      "family": "evidence",
+      "original_expected_choice": "A",
+      "original_prompt_sha256": "64646a2c21c54f05bd76c302a5cf02cf941a12103826f460695ffbf9cfbe6573",
+      "original_task_id": "fb-powered-evidence-137",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich cuisine direction is most aligned with `donkey_meat` in Epicure's pinned cultural projection?\n\nChoices:\nA. Japanese\nB. Southeast_Asian\nC. East_Asian\nD. South_Asian\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "21afd49f68d146031048d79aed0bf42ca3781c44b300267b2c49730899f448d5",
+      "task_id": "repeat-evidence-03"
+    },
+    {
+      "choices": {
+        "A": "Western_Atlantic",
+        "B": "South_Asian",
+        "C": "Mediterranean",
+        "D": "Eastern_European"
+      },
+      "expected_choice": "B",
+      "expected_choice_value_sha256": "d67770e232c33c24e408eba1ea857164b8b425dd007c4a95907d6d06ea3ebffb",
+      "family": "evidence",
+      "original_expected_choice": "D",
+      "original_prompt_sha256": "8a8289c1b4bf7812a0e49400522066bfeced0d0355e3240a8a6164601ca3f1a5",
+      "original_task_id": "fb-powered-evidence-044",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich cuisine direction is most aligned with `cauliflower` in Epicure's pinned cultural projection?\n\nChoices:\nA. Western_Atlantic\nB. South_Asian\nC. Mediterranean\nD. Eastern_European\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "f4a8b427d89bc8614b92b774faf76b0df54a90e680f2f7d601e01c947e118750",
+      "task_id": "repeat-evidence-04"
+    },
+    {
+      "choices": {
+        "A": "Mediterranean",
+        "B": "Eastern_European",
+        "C": "Latin_American",
+        "D": "Western_Atlantic"
+      },
+      "expected_choice": "A",
+      "expected_choice_value_sha256": "b01c72c717ff7be4954281f8a4460839edf88e0a08a52965707568813ac868a9",
+      "family": "evidence",
+      "original_expected_choice": "D",
+      "original_prompt_sha256": "ea57a1feb99b4c971d39c1cd353d196a14ead7662e3ec042265f1cf30c9706d4",
+      "original_task_id": "fb-powered-evidence-084",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich cuisine direction is most aligned with `armagnac` in Epicure's pinned cultural projection?\n\nChoices:\nA. Mediterranean\nB. Eastern_European\nC. Latin_American\nD. Western_Atlantic\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "6911a2ebe7b032ddfd3b1d10afd8f80ad3e94d53568ae76f7761781219616bbe",
+      "task_id": "repeat-evidence-05"
+    },
+    {
+      "choices": {
+        "A": "Western_Atlantic",
+        "B": "Eastern_European",
+        "C": "Mediterranean",
+        "D": "Latin_American"
+      },
+      "expected_choice": "C",
+      "expected_choice_value_sha256": "b01c72c717ff7be4954281f8a4460839edf88e0a08a52965707568813ac868a9",
+      "family": "evidence",
+      "original_expected_choice": "A",
+      "original_prompt_sha256": "937968adaa232c549f2f5eb334d39db3bd01b7cb203c1d21aaff529539f44496",
+      "original_task_id": "fb-powered-evidence-037",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich cuisine direction is most aligned with `violet` in Epicure's pinned cultural projection?\n\nChoices:\nA. Western_Atlantic\nB. Eastern_European\nC. Mediterranean\nD. Latin_American\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "8f5cb39ab8fce7aea85cb8c12406e63c123772371856fd3d5e5690f0b1fafc9d",
+      "task_id": "repeat-evidence-06"
+    },
+    {
+      "choices": {
+        "A": "Western_Atlantic",
+        "B": "Eastern_European",
+        "C": "South_Asian",
+        "D": "Mediterranean"
+      },
+      "expected_choice": "B",
+      "expected_choice_value_sha256": "b7776943b50dd57910aaef6de86b616c07aa11e181ce8fd4f3c7d912983159bf",
+      "family": "evidence",
+      "original_expected_choice": "D",
+      "original_prompt_sha256": "b2a1add219f087476b819926b957c7b47b629878f23ebafbb93b7539120a1eea",
+      "original_task_id": "fb-powered-evidence-148",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich cuisine direction is most aligned with `kefir` in Epicure's pinned cultural projection?\n\nChoices:\nA. Western_Atlantic\nB. Eastern_European\nC. South_Asian\nD. Mediterranean\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "5e2ea1cf768ddeae2e86b85aef3a536500b8e94f8640fa2bb72ef3306d85ad4b",
+      "task_id": "repeat-evidence-07"
+    },
+    {
+      "choices": {
+        "A": "Japanese",
+        "B": "Southeast_Asian",
+        "C": "South_Asian",
+        "D": "East_Asian"
+      },
+      "expected_choice": "D",
+      "expected_choice_value_sha256": "e604a8a942f6a0ed70d0932f3bb2e472b96f99ea44ea1e876de3cd05f0de9441",
+      "family": "evidence",
+      "original_expected_choice": "C",
+      "original_prompt_sha256": "30bbc8cb56bae63b843924f55a940cd8245a54cbf410d6f8a3cd8cbc2308440f",
+      "original_task_id": "fb-powered-evidence-147",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich cuisine direction is most aligned with `fermented_black_bean` in Epicure's pinned cultural projection?\n\nChoices:\nA. Japanese\nB. Southeast_Asian\nC. South_Asian\nD. East_Asian\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "577cfe6bb2af482245ddb55ff97a252be91e15f2897d04396e59738cb2bf51ab",
+      "task_id": "repeat-evidence-08"
+    },
+    {
+      "choices": {
+        "A": "Southeast_Asian",
+        "B": "Japanese",
+        "C": "South_Asian",
+        "D": "East_Asian"
+      },
+      "expected_choice": "D",
+      "expected_choice_value_sha256": "e604a8a942f6a0ed70d0932f3bb2e472b96f99ea44ea1e876de3cd05f0de9441",
+      "family": "evidence",
+      "original_expected_choice": "C",
+      "original_prompt_sha256": "4644b0a68aa1afdb31881d70c04fffcdca112ef0342224e3360e01ca23222efb",
+      "original_task_id": "fb-powered-evidence-119",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich cuisine direction is most aligned with `pagoda_tree_flower` in Epicure's pinned cultural projection?\n\nChoices:\nA. Southeast_Asian\nB. Japanese\nC. South_Asian\nD. East_Asian\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "da6ac85884ef57d31f12c8baaab298fdfce1da9b87788cd4d3088589ef85637a",
+      "task_id": "repeat-evidence-09"
+    },
+    {
+      "choices": {
+        "A": "Western_Atlantic",
+        "B": "Latin_American",
+        "C": "Mediterranean",
+        "D": "Eastern_European"
+      },
+      "expected_choice": "C",
+      "expected_choice_value_sha256": "b01c72c717ff7be4954281f8a4460839edf88e0a08a52965707568813ac868a9",
+      "family": "evidence",
+      "original_expected_choice": "B",
+      "original_prompt_sha256": "c2071b1effc38fc71bc71f249cc4b3c622ffc35af70bd3e3733926a59de8a44e",
+      "original_task_id": "fb-powered-evidence-038",
+      "permutation_shift": 1,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich cuisine direction is most aligned with `orange_roughy` in Epicure's pinned cultural projection?\n\nChoices:\nA. Western_Atlantic\nB. Latin_American\nC. Mediterranean\nD. Eastern_European\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "7aa961916e14d2f3f0d76672d898c1c02ec9c6dd7e7e229ea8acf734b599fcdb",
+      "task_id": "repeat-evidence-10"
+    },
+    {
+      "choices": {
+        "A": "Western_Atlantic",
+        "B": "Mediterranean",
+        "C": "Latin_American",
+        "D": "Eastern_European"
+      },
+      "expected_choice": "B",
+      "expected_choice_value_sha256": "b01c72c717ff7be4954281f8a4460839edf88e0a08a52965707568813ac868a9",
+      "family": "evidence",
+      "original_expected_choice": "C",
+      "original_prompt_sha256": "9e57877a2a2647b73436e5ec2ffb8bc8a27458c7b267f8eabf5ad9c28551404a",
+      "original_task_id": "fb-powered-evidence-071",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich cuisine direction is most aligned with `aquafaba` in Epicure's pinned cultural projection?\n\nChoices:\nA. Western_Atlantic\nB. Mediterranean\nC. Latin_American\nD. Eastern_European\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "aecdba8b415baa190a93c68a839fc2a32f63705006f13fab63a3b6bc1d3ddffe",
+      "task_id": "repeat-evidence-11"
+    },
+    {
+      "choices": {
+        "A": "South_Asian",
+        "B": "East_Asian",
+        "C": "Japanese",
+        "D": "Southeast_Asian"
+      },
+      "expected_choice": "B",
+      "expected_choice_value_sha256": "e604a8a942f6a0ed70d0932f3bb2e472b96f99ea44ea1e876de3cd05f0de9441",
+      "family": "evidence",
+      "original_expected_choice": "D",
+      "original_prompt_sha256": "4c25d611c9a8d3ad26d261fad8504e7f8ab38d53e614db5f2dceff0944fd618d",
+      "original_task_id": "fb-powered-evidence-020",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich cuisine direction is most aligned with `ssamjang` in Epicure's pinned cultural projection?\n\nChoices:\nA. South_Asian\nB. East_Asian\nC. Japanese\nD. Southeast_Asian\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "4b4fb86c74ef542c0516b22edffec2d5e9251e4a27f07aad8f9ba58c5c7a95d4",
+      "task_id": "repeat-evidence-12"
+    },
+    {
+      "choices": {
+        "A": "Mediterranean",
+        "B": "Eastern_European",
+        "C": "Western_Atlantic",
+        "D": "Latin_American"
+      },
+      "expected_choice": "C",
+      "expected_choice_value_sha256": "19893778da480d09be9402b747161bc689380d5a1886665808a7a1c25a13f575",
+      "family": "evidence",
+      "original_expected_choice": "A",
+      "original_prompt_sha256": "a769c54903afa62ba8aaff3ed1b9e3cc19d8625b032aa66808c1f246cb2f7e3c",
+      "original_task_id": "fb-powered-evidence-077",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich cuisine direction is most aligned with `sour_mix` in Epicure's pinned cultural projection?\n\nChoices:\nA. Mediterranean\nB. Eastern_European\nC. Western_Atlantic\nD. Latin_American\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "b3d8185663afd9c7d16234b3fa1a9faa3539849f85cca1cdee288f0403572ebf",
+      "task_id": "repeat-evidence-13"
+    },
+    {
+      "choices": {
+        "A": "East_Asian",
+        "B": "Japanese",
+        "C": "South_Asian",
+        "D": "Southeast_Asian"
+      },
+      "expected_choice": "D",
+      "expected_choice_value_sha256": "956012bc4822c683d289d3e28a120c8a301b0325f8ce089e2521d1cfa157789c",
+      "family": "evidence",
+      "original_expected_choice": "B",
+      "original_prompt_sha256": "50f58aa96246eb6064b6b25514cee5a9ebce3049ad21700f85120168a5d6b34b",
+      "original_task_id": "fb-powered-evidence-122",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich cuisine direction is most aligned with `starfruit` in Epicure's pinned cultural projection?\n\nChoices:\nA. East_Asian\nB. Japanese\nC. South_Asian\nD. Southeast_Asian\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "5aaf7df4ae80d7c54a713f45fac17269ad596b6abc342cf605a65dbbba9e6859",
+      "task_id": "repeat-evidence-14"
+    },
+    {
+      "choices": {
+        "A": "Latin_American",
+        "B": "Eastern_European",
+        "C": "Western_Atlantic",
+        "D": "Mediterranean"
+      },
+      "expected_choice": "D",
+      "expected_choice_value_sha256": "b01c72c717ff7be4954281f8a4460839edf88e0a08a52965707568813ac868a9",
+      "family": "evidence",
+      "original_expected_choice": "A",
+      "original_prompt_sha256": "47b0d3619d5f7f6ead1f8c92de36241574cab110e9458f10a3addf43ccf7663f",
+      "original_task_id": "fb-powered-evidence-001",
+      "permutation_shift": 3,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich cuisine direction is most aligned with `apricot_brandy` in Epicure's pinned cultural projection?\n\nChoices:\nA. Latin_American\nB. Eastern_European\nC. Western_Atlantic\nD. Mediterranean\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "cecab7a306134186b6ce3652a5ca426afc5c758f5a95dbe036690ccbc8fb67ca",
+      "task_id": "repeat-evidence-15"
+    },
+    {
+      "choices": {
+        "A": "Western_Atlantic",
+        "B": "Mediterranean",
+        "C": "Latin_American",
+        "D": "Eastern_European"
+      },
+      "expected_choice": "A",
+      "expected_choice_value_sha256": "19893778da480d09be9402b747161bc689380d5a1886665808a7a1c25a13f575",
+      "family": "evidence",
+      "original_expected_choice": "C",
+      "original_prompt_sha256": "e3e3a3e4424de01dcba7e18090d1ec43f216bcd1f78d13aa49795216569504d2",
+      "original_task_id": "fb-powered-evidence-103",
+      "permutation_shift": 2,
+      "prompt": "FlavourBench powered Epicure-native task. Answer against the pinned Epicure culinary representation; no external browsing is allowed.\n\nWhich cuisine direction is most aligned with `andouille_sausage` in Epicure's pinned cultural projection?\n\nChoices:\nA. Western_Atlantic\nB. Mediterranean\nC. Latin_American\nD. Eastern_European\n\nReturn exactly one line: `FINAL_CHOICE: X`, replacing X with A, B, C, or D.",
+      "prompt_sha256": "1d67ff7e90122314a61be878b9e675a4d2e825822d2dfe118056b6eaa0571878",
+      "task_id": "repeat-evidence-16"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "schema_version": "flavourbench-frontier-refresh-roster-v1",
+  "benchmark": "FlavourBench",
+  "snapshot_label": "Bedrock Claude Fable 5 global route recheck 2026-08-02",
+  "status": "candidate_pending_live_contract_smoke",
+  "official": false,
+  "rank_eligible": false,
+  "bedrock_catalog_sha256": "09b42d5a659acca11a6697013f39ad80f2eaeead789614b817773febd874b23a",
+  "selection_rule": "The only exact Bedrock inference profile for Claude Fable 5 was selected before response observation.",
+  "slots": [
+    {
+      "snapshot_model_id": "fb-s1-br-global-20260802-01",
+      "slot_role": "closed_frontier",
+      "canonical_name": "Anthropic Claude Fable 5",
+      "provider": "bedrock",
+      "endpoint_id": "global.anthropic.claude-fable-5",
+      "canonical_slug": "anthropic.claude-fable-5",
+      "catalog_observed": true,
+      "status": "contract_required"
+    }
+  ],
+  "routing_policy": {
+    "one_endpoint_per_model": true,
+    "allow_fallbacks": false,
+    "require_parameters": true,
+    "data_collection": "aws_bedrock_service_terms",
+    "provider_substitution_rank_eligible": false
+  },
+  "freeze_preconditions": [
+    "real provider response",
+    "real Epicure MCP call",
+    "complete tool trace",
+    "non-empty normalized final answer",
+    "canonical route identity",
+    "frozen token and cost policy",
+    "append-only artifact and cost record"
+  ]
+}

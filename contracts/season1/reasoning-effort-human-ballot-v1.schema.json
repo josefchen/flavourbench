@@ -1,0 +1,249 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://flavourbench.org/schemas/reasoning-effort-human-ballot-v1.schema.json",
+  "title": "FlavourBench reasoning-effort human ballot v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "presentation_id",
+    "assignment_block_id",
+    "reviewer_pseudonym",
+    "cohort",
+    "task_validity",
+    "preference",
+    "rubric",
+    "confidence",
+    "failure_tags",
+    "comparative_rationale",
+    "verification_basis",
+    "identity_leakage_suspected",
+    "supersedes_ballot_sha256",
+    "ballot_sha256"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "flavourbench-reasoning-effort-human-ballot-v1"
+    },
+    "presentation_id": {"$ref": "#/$defs/sha256"},
+    "assignment_block_id": {"type": "string", "minLength": 1, "maxLength": 160},
+    "reviewer_pseudonym": {"$ref": "#/$defs/sha256"},
+    "cohort": {"enum": ["culinary_expert", "general_public"]},
+    "task_validity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision", "checks", "issue_tags", "sealed_before_answers"],
+      "properties": {
+        "decision": {"enum": ["valid", "revise", "exclude"]},
+        "checks": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "construct_fit",
+            "context_complete",
+            "coherent_question",
+            "general_track_scope",
+            "answer_leakage_absent",
+            "discrimination_value"
+          ],
+          "properties": {
+            "construct_fit": {"type": "boolean"},
+            "context_complete": {"type": "boolean"},
+            "coherent_question": {"type": "boolean"},
+            "general_track_scope": {"type": "boolean"},
+            "answer_leakage_absent": {"type": "boolean"},
+            "discrimination_value": {"type": "boolean"}
+          }
+        },
+        "issue_tags": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "construct_mismatch",
+              "missing_context",
+              "multiple_unrelated_questions",
+              "specialist_scope",
+              "answer_leakage",
+              "low_discrimination",
+              "duplicate_or_contaminated",
+              "other"
+            ]
+          }
+        },
+        "sealed_before_answers": {"const": true}
+      }
+    },
+    "preference": {
+      "oneOf": [
+        {"enum": ["left", "right", "tie", "both_bad"]},
+        {"type": "null"}
+      ]
+    },
+    "rubric": {
+      "oneOf": [
+        {"$ref": "#/$defs/two_arm_rubric"},
+        {"type": "null"}
+      ]
+    },
+    "confidence": {
+      "oneOf": [
+        {"type": "integer", "minimum": 1, "maximum": 5},
+        {"type": "null"}
+      ]
+    },
+    "failure_tags": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["left", "right"],
+      "properties": {
+        "left": {"$ref": "#/$defs/failure_tag_list"},
+        "right": {"$ref": "#/$defs/failure_tag_list"}
+      }
+    },
+    "comparative_rationale": {
+      "oneOf": [
+        {"type": "string", "minLength": 20, "maxLength": 4000},
+        {"type": "null"}
+      ]
+    },
+    "verification_basis": {
+      "oneOf": [
+        {
+          "enum": [
+            "direct_culinary_practice",
+            "reasoned_from_practice",
+            "checked_authoritative_reference",
+            "not_independently_verified"
+          ]
+        },
+        {"type": "null"}
+      ]
+    },
+    "identity_leakage_suspected": {
+      "oneOf": [{"type": "boolean"}, {"type": "null"}]
+    },
+    "supersedes_ballot_sha256": {
+      "oneOf": [{"type": "null"}, {"$ref": "#/$defs/sha256"}]
+    },
+    "ballot_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "task_validity": {
+            "properties": {"decision": {"const": "valid"}}
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "preference": {"enum": ["left", "right", "tie", "both_bad"]},
+          "rubric": {"$ref": "#/$defs/two_arm_rubric"},
+          "confidence": {"type": "integer", "minimum": 1, "maximum": 5},
+          "comparative_rationale": {"type": "string", "minLength": 20, "maxLength": 4000},
+          "verification_basis": {
+            "enum": [
+              "direct_culinary_practice",
+              "reasoned_from_practice",
+              "checked_authoritative_reference",
+              "not_independently_verified"
+            ]
+          },
+          "identity_leakage_suspected": {"type": "boolean"}
+        }
+      },
+      "else": {
+        "properties": {
+          "preference": {"type": "null"},
+          "rubric": {"type": "null"},
+          "confidence": {"type": "null"},
+          "comparative_rationale": {"type": "null"},
+          "verification_basis": {"type": "null"},
+          "identity_leakage_suspected": {"type": "null"}
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "required_score": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5
+    },
+    "optional_score": {
+      "oneOf": [
+        {"type": "integer", "minimum": 1, "maximum": 5},
+        {"type": "null"}
+      ]
+    },
+    "arm_rubric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task_completion",
+        "constraint_compliance",
+        "coherence",
+        "sensory_promise",
+        "cookability",
+        "clarity",
+        "originality",
+        "evidence_use",
+        "calibration",
+        "not_applicable_reasons"
+      ],
+      "properties": {
+        "task_completion": {"$ref": "#/$defs/required_score"},
+        "constraint_compliance": {"$ref": "#/$defs/required_score"},
+        "coherence": {"$ref": "#/$defs/required_score"},
+        "sensory_promise": {"$ref": "#/$defs/required_score"},
+        "cookability": {"$ref": "#/$defs/required_score"},
+        "clarity": {"$ref": "#/$defs/required_score"},
+        "originality": {"$ref": "#/$defs/optional_score"},
+        "evidence_use": {"$ref": "#/$defs/optional_score"},
+        "calibration": {"$ref": "#/$defs/required_score"},
+        "not_applicable_reasons": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "originality": {"type": "string", "minLength": 1, "maxLength": 500},
+            "evidence_use": {"type": "string", "minLength": 1, "maxLength": 500}
+          }
+        }
+      }
+    },
+    "two_arm_rubric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["left", "right"],
+      "properties": {
+        "left": {"$ref": "#/$defs/arm_rubric"},
+        "right": {"$ref": "#/$defs/arm_rubric"}
+      }
+    },
+    "failure_tag_list": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "truncated",
+          "unresponsive",
+          "constraint_violation",
+          "unsafe_advice",
+          "unsupported_mechanistic_claim",
+          "misused_epicure_evidence",
+          "tool_identity_leakage",
+          "fabricated_citation",
+          "internally_inconsistent",
+          "impractical_method",
+          "other"
+        ]
+      }
+    }
+  }
+}

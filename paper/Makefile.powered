@@ -1,0 +1,171 @@
+SHELL := /bin/bash
+.SHELLFLAGS := -Eeuo pipefail -c
+.ONESHELL:
+
+export LC_ALL := C
+export TZ := UTC
+export SOURCE_DATE_EPOCH := 1786456800
+export FORCE_SOURCE_DATE := 1
+export PYTHONPATH := ../src
+export PYTHONDONTWRITEBYTECODE := 1
+
+PYTHON ?= ../.venv/bin/python
+RUFF ?= ../.venv/bin/ruff
+LATEXMK ?= latexmk
+LOCK_FILE ?= /tmp/flavourbench-complete-core-paper-$(shell id -u).lock
+
+TASKSET := ../benchmark/powered-v44/taskset/epicure-selection-taskset-a33bf28db372090015118371417b0e8ed1254f416d03d2c2c5816a6a752beb41.json
+TASKSET_SECONDARY := ../benchmark/powered-v45/taskset/epicure-selection-taskset-925ba9d1d4be9c2b7a1e9956ecd6c18d34ffcad22eee28522f16892922c91e3f.json
+PANEL_1_PLAN := ../benchmark/powered-v74/plan/epicure-selection-analysis-plan-55fef84440b6dda3db7ad44ba3947a3b2d81f127c2ad81fce7e6fbd38c8df6c0.json
+PANEL_2_PLAN := ../benchmark/powered-v75/plan/epicure-selection-analysis-plan-48d9d8f12d6da1910621d15ea7f26750119745ecde3b94fb8dfb3ec5c382cf75.json
+PLAN ?= $(firstword $(sort $(wildcard ../benchmark/powered-v84/plan/epicure-selection-joint-analysis-plan-*.json)))
+RELEASE := generated/complete-core/flavourbench-complete-core-release-0a20655c97aa1363c2266e247f3dd03b759d0f80bca9154c6619c5549b2fac99.json
+GENERATED := generated/complete-core
+FIGURES := figures/complete-core
+ASSET_BUILDER := build_complete_core_assets.py
+RELEASE_BUILDER := reproduce_complete_core_release.py
+RELEASE_VERIFIER := verify_complete_core_release.py
+
+TABLE_ASSETS := \
+	$(GENERATED)/complete-core-macros.tex \
+	$(GENERATED)/complete-core-leaderboard-table.tex \
+	$(GENERATED)/complete-core-route-table.tex \
+	$(GENERATED)/complete-core-family-table.tex \
+	$(GENERATED)/complete-core-task-table.tex \
+	$(GENERATED)/complete-core-examples-table.tex \
+	$(GENERATED)/complete-core-examples.json
+
+FIGURE_ASSETS := \
+	$(FIGURES)/complete-core-leaderboard-forest.pdf \
+	$(FIGURES)/complete-core-family-heatmap.pdf \
+	$(FIGURES)/complete-core-pairwise-matrix.pdf \
+	$(FIGURES)/complete-core-panel-replication.pdf \
+	$(FIGURES)/complete-core-rank-intervals.pdf
+
+.PHONY: all analysis assets verify verify-static paper _paper arxiv _arxiv clean
+
+all: paper
+
+analysis:
+	$(PYTHON) $(RELEASE_BUILDER)
+
+assets:
+	test -n "$(PLAN)"
+	test -n "$(RELEASE)"
+	$(PYTHON) $(ASSET_BUILDER) \
+		--root .. \
+		--release $(RELEASE) \
+		--plan $(PLAN) \
+		--taskset $(TASKSET) \
+		--taskset-secondary $(TASKSET_SECONDARY) \
+		--panel-1-plan $(PANEL_1_PLAN) \
+		--panel-2-plan $(PANEL_2_PLAN) \
+		--generated-directory $(GENERATED) \
+		--figure-directory $(FIGURES)
+
+verify: assets verify-static
+
+verify-static:
+	test -n "$(PLAN)"
+	test -n "$(RELEASE)"
+	for file in main_powered.tex references.bib README.md LICENSES.md Makefile.powered \
+		$(ASSET_BUILDER) $(RELEASE_BUILDER) $(RELEASE_VERIFIER) $(PLAN) $(RELEASE) \
+		$(TABLE_ASSETS) $(FIGURE_ASSETS); do
+		test -f "$$file"
+		test ! -L "$$file"
+	done
+	$(PYTHON) -I $(RELEASE_VERIFIER) --release $(RELEASE)
+	$(RUFF) check $(ASSET_BUILDER) $(RELEASE_BUILDER) $(RELEASE_VERIFIER)
+	$(RUFF) format --check $(ASSET_BUILDER) $(RELEASE_BUILDER) $(RELEASE_VERIFIER)
+	$(PYTHON) -m pytest -q \
+		../tests/epicure_selection_common_core_analysis_v1_test.py \
+		../tests/epicure_selection_complete_core_plan_v84_test.py
+
+paper:
+	flock -x "$(LOCK_FILE)" $(MAKE) -f Makefile.powered --no-print-directory _paper
+
+_paper: verify-static
+	mkdir -p build
+	$(LATEXMK) -g -pdf -interaction=nonstopmode -halt-on-error -file-line-error \
+		-jobname=flavourbench-complete-core -outdir=build main_powered.tex
+	install -m 0644 build/flavourbench-complete-core.pdf build/flavourbench.pdf
+	if grep -Eq 'Overfull \\hbox|There were undefined references|Citation .* undefined' \
+	  build/flavourbench-complete-core.log; then
+		grep -En 'Overfull \\hbox|There were undefined references|Citation .* undefined' \
+		  build/flavourbench-complete-core.log >&2
+		exit 1
+	fi
+	test "$$(pdffonts build/flavourbench.pdf | awk 'NR > 2 && NF && $$(NF - 4) != "yes" {bad=1} END {print bad+0}')" = 0
+
+arxiv:
+	flock -x "$(LOCK_FILE)" $(MAKE) -f Makefile.powered --no-print-directory _arxiv
+
+_arxiv: _paper
+	build_dir="$(CURDIR)/build"
+	stage=$$(mktemp -d "$$build_dir/.complete-core-arxiv-stage.XXXXXX")
+	check=$$(mktemp -d "$$build_dir/.complete-core-arxiv-check.XXXXXX")
+	archive=$$(mktemp "$$build_dir/.flavourbench-arxiv.XXXXXX.tar.gz")
+	cleanup() { rm -rf -- "$$stage" "$$check"; rm -f -- "$$archive"; }
+	trap cleanup EXIT HUP INT TERM
+
+	install -m 0644 main_powered.tex references.bib README.md LICENSES.md \
+		$(RELEASE_VERIFIER) "$$stage/"
+	install -d -m 0755 "$$stage/generated/complete-core" "$$stage/figures/complete-core"
+	install -m 0644 $(TABLE_ASSETS) "$$stage/generated/complete-core/"
+	install -m 0644 $(RELEASE) "$$stage/generated/complete-core/"
+	$(PYTHON) -c 'import json,pathlib,shutil,sys; p=pathlib.Path(sys.argv[1]); d=json.loads(p.read_text()); [shutil.copy2(p.parent/d["tables"][k]["filename"],sys.argv[2]) for k in ("leaderboard","pairwise")]' \
+		$(RELEASE) "$$stage/generated/complete-core/"
+	install -m 0644 $(FIGURE_ASSETS) "$$stage/figures/complete-core/"
+	(
+		cd "$$stage"
+		find . -type f ! -name SOURCE_MANIFEST.sha256 -printf '%P\0' \
+			| sort -z | xargs -0 sha256sum
+	) > "$$stage/SOURCE_MANIFEST.sha256"
+	if rg -l -I --pcre2 \
+		"/hom[e]/|remy-simpc[4]|hf_[A-Za-z0-9]{20,}|(?:AKIA|ASIA)[0-9A-Z]{16}|sk-(?:or-v1|kimi)-[A-Za-z0-9_-]{20,}|sk-(?:sp|ws)-[A-Za-z0-9._-]{20,}|[0-9a-f]{32}\.[A-Za-z0-9_-]{16,}|BEGIN (?:RSA|OPENSSH|EC) PRIVATE KEY" \
+		"$$stage"; then
+		echo "arXiv package refused: local path or credential marker present" >&2
+		exit 1
+	fi
+
+	(
+		cd "$$stage"
+		tar --sort=name --format=gnu --mtime="@$(SOURCE_DATE_EPOCH)" \
+			--owner=0 --group=0 --numeric-owner --mode='u+rwX,go+rX,go-w' \
+			-cf - .
+	) | gzip -n -9 > "$$archive"
+	gzip -t "$$archive"
+	tar -xzf "$$archive" -C "$$check"
+	(
+		cd "$$check"
+		sha256sum --check SOURCE_MANIFEST.sha256
+		python3 -I verify_complete_core_release.py \
+			--release generated/complete-core/$$(basename "$(RELEASE)") >/dev/null
+		mkdir -p build
+		$(LATEXMK) -pdf -interaction=nonstopmode -halt-on-error -file-line-error \
+			-jobname=flavourbench-complete-core -outdir=build main_powered.tex >/dev/null
+		if grep -Eq 'Overfull \\hbox|There were undefined references|Citation .* undefined' \
+		  build/flavourbench-complete-core.log; then
+			grep -En 'Overfull \\hbox|There were undefined references|Citation .* undefined' \
+			  build/flavourbench-complete-core.log >&2
+			exit 1
+		fi
+	)
+	cmp -s build/flavourbench.pdf "$$check/build/flavourbench-complete-core.pdf"
+	test "$$(pdffonts "$$check/build/flavourbench-complete-core.pdf" | awk 'NR > 2 && NF && $$(NF - 4) != "yes" {bad=1} END {print bad+0}')" = 0
+
+	chmod 0644 "$$archive"
+	mv -f -- "$$archive" build/flavourbench-arxiv-source.tar.gz
+	(
+		cd build
+		sha256sum flavourbench.pdf flavourbench-arxiv-source.tar.gz
+	) > build/ARTIFACTS.sha256
+	(
+		cd build
+		sha256sum --check ARTIFACTS.sha256
+	)
+	trap - EXIT HUP INT TERM
+
+clean:
+	rm -f build/flavourbench-complete-core.*
+	rm -rf $(GENERATED) $(FIGURES)

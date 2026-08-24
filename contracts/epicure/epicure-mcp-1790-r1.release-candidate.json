@@ -1,0 +1,66 @@
+{
+  "schema_version": "epicure-model-release-candidate-v1",
+  "release_id": "epicure-mcp-1790-r1",
+  "display_name": "Epicure MCP 1790 R1",
+  "runtime_id": "epicure-mcp-1790-r1+bundle.98d0403115bf",
+  "canonical_urn": "urn:epicure:model:epicure-mcp-1790-r1:sha256:98d0403115bf8eb4fb71dbb89a53362e9b9acafda7494c464763df7d764174d1",
+  "representation_class": "opaque_recovered_artifact",
+  "public_sibling_match": "none_exact",
+  "prohibited_identity_claims": ["cooc", "core", "chem", "paper_ii_exact_model"],
+  "bundle": {
+    "manifest_algorithm": "epicure-data-bundle-manifest-v1",
+    "sha256": "98d0403115bf8eb4fb71dbb89a53362e9b9acafda7494c464763df7d764174d1",
+    "ingredient_count": 1790,
+    "embedding_dimensions": 300,
+    "files": [
+      {"path": "consolidated_nodes.csv", "bytes": 66703, "sha256": "b935b9a31f7ea87e04a29f6e4e6c523723343d2c054149cfcc258b6b06259752"},
+      {"path": "embeddings.csv", "bytes": 10425903, "sha256": "b27fe776a59b59d703ae24170ccfcf384b89a753fd358307d085514a4fde6f69"},
+      {"path": "factor_dirs_ica_n20.npy", "bytes": 24128, "sha256": "dd20d0c5c6fe1db763f0edbef601de4d01544c5e1cb7f44cf3879040e4664336"},
+      {"path": "factor_labels_ica_cooc.json", "bytes": 75043, "sha256": "f11f4fd01e39f039665bb9874e72fe4a13957051744420a62e4f45254d526f91"},
+      {"path": "ingredient_list.csv", "bytes": 75127, "sha256": "31f46abfce52a18647b07a5a60f971b97286849f1936d43b5dc9104f8942c849"},
+      {"path": "ingredient_tags.csv", "bytes": 101492, "sha256": "8f52e83a072069f436ab7d851ed0251e775da92afc46e0deaa61d49d91014772"},
+      {"path": "mode_explorer_cooc.json", "bytes": 1918235, "sha256": "382deb62764fa1459656373e21fb81bf3ab610c0d1900e7dfd784d5aa61465b6"},
+      {"path": "mode_poles_cooc.npy", "bytes": 180128, "sha256": "47477fe844280ec840cec18959f5e62ce468bd42374e8057c828e8f35d415fcb"},
+      {"path": "supervised_directions.npz", "bytes": 55310, "sha256": "44f0a5964a96d521b503c577979afd1c48a9b7e62f5826e651d2dfa2088b4d74"},
+      {"path": "umap_coords.csv", "bytes": 54018, "sha256": "a97761fe7648885a94a96bcd5f0eb652ca71f767810874ac6e5c0bba4992cd2d"},
+      {"path": "umap_coords_3d.csv", "bytes": 72836, "sha256": "9d09666cd003fa4d86d9263dd89359cdf60f05616c613ab7e28b9e133defe028"}
+    ]
+  },
+  "tool_contract": {
+    "semantic_sha256": "666a9a44b3534d7c8321f179e4513f71e0acf0d281a01fb3f41be5f8c0dfc8dd",
+    "raw_file_sha256": "847ca203c11a92b25938fa735d18b17d3da1c2312eac57f67477443007d9f1a0",
+    "catalog_reference": "tool-catalog-666a9a44b3534d7c8321f179e4513f71e0acf0d281a01fb3f41be5f8c0dfc8dd.json"
+  },
+  "application": {
+    "development_source_manifest_sha256": "be4216ae799f330b76f1f8c009ad2e79ce891d5dec452854dbc449e66e2eb313",
+    "clean_git_commit": null,
+    "signed_tag": null,
+    "oci_image_digest": null,
+    "sbom_sha256": null,
+    "dependency_lock_sha256": null
+  },
+  "training_lineage": {
+    "training_run_id": null,
+    "training_seed": null,
+    "training_code_revision": null,
+    "training_environment": null,
+    "status": "not_recovered"
+  },
+  "rights": {
+    "code_license": "MIT",
+    "payload_license": null,
+    "artifact_rights_attestation": null,
+    "source_rights_matrix": null,
+    "status": "pending"
+  },
+  "verification": {
+    "identity_response_corrected": false,
+    "provenance_endpoint_deployed": false,
+    "golden_parity_fixture_sha256": null,
+    "reproducibility_certification": null,
+    "data_steward_certification": null
+  },
+  "status": "release_candidate_blocked",
+  "rank_eligible": false,
+  "official_use_rule": "May become the opaque Epicure intervention only after every null or false release field is resolved and a new immutable runtime contract is frozen; this candidate itself is not executable official evidence."
+}

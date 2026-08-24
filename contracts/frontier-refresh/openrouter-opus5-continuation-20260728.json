@@ -1,0 +1,37 @@
+{
+  "schema_version": "flavourbench-frontier-refresh-roster-v1",
+  "benchmark": "FlavourBench",
+  "snapshot_label": "OpenRouter Opus 5 continuation 2026-07-28",
+  "status": "candidate_pending_live_contract_smoke",
+  "official": false,
+  "rank_eligible": false,
+  "selection_rule": "Continuation roster containing only the unfinished Opus 5 contract after Sonnet 5 completed before the parent process was interrupted.",
+  "slots": [
+    {
+      "snapshot_model_id": "fb-or-fr-20260728-02",
+      "slot_role": "closed_frontier",
+      "canonical_name": "Anthropic Claude Opus 5",
+      "provider": "openrouter",
+      "endpoint_id": "anthropic/claude-opus-5",
+      "canonical_slug": "anthropic/claude-opus-5-20260723",
+      "provider_slug": "anthropic",
+      "catalog_observed": true,
+      "status": "contract_required"
+    }
+  ],
+  "routing_policy": {
+    "one_endpoint_per_model": true,
+    "allow_fallbacks": false,
+    "require_parameters": true,
+    "data_collection": "deny",
+    "provider_substitution_rank_eligible": false
+  },
+  "freeze_preconditions": [
+    "real provider response",
+    "real Epicure MCP call",
+    "complete tool trace",
+    "non-empty normalized final answer",
+    "canonical returned model and provider identity",
+    "append-only artifact and reconciled OpenRouter generation cost"
+  ]
+}

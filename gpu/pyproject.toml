@@ -1,0 +1,28 @@
+[build-system]
+requires = ["hatchling==1.28.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "flavourbench-gpu-deployments"
+version = "0.1.0"
+description = "Dry-run-safe Modal and Lambda Cloud deployment scaffolding for FlavourBench"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+  "modal==1.5.2",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["common"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "S"]
+
+[tool.ruff.lint.per-file-ignores]
+"modal/app.py" = ["E402"]
+"modal/deploy.py" = ["E402"]
+"lambda_cloud/controller.py" = ["E402"]
+"lambda_cloud/watchdog.py" = ["E402"]

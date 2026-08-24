@@ -1,0 +1,293 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://flavourbench.org/schemas/task-validation-contamination-benchmark-snapshot-v2.schema.json",
+  "title": "FlavourBench captured benchmark corpus for contamination replay v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_role",
+    "campaign_sha256",
+    "source_provider",
+    "provider_documentation_url",
+    "capture_user_agent",
+    "dataset_receipts",
+    "records",
+    "excluded_culinary_dataset_receipts",
+    "coverage",
+    "claim_boundary",
+    "artifact_sha256"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "flavourbench-contamination-benchmark-snapshot-v2"
+    },
+    "artifact_role": {
+      "const": "captured_licensed_benchmark_question_corpus"
+    },
+    "campaign_sha256": {
+      "const": "76b248477b3adc81b6eb198666a93538534db8e945567e2a99fc69085f709709"
+    },
+    "source_provider": {
+      "const": "Hugging Face Hub and Dataset Viewer API"
+    },
+    "provider_documentation_url": {
+      "const": "https://huggingface.co/docs/dataset-viewer/rows"
+    },
+    "capture_user_agent": { "type": "string", "minLength": 20 },
+    "dataset_receipts": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": { "$ref": "#/$defs/datasetReceipt" }
+    },
+    "records": {
+      "type": "array",
+      "minItems": 4671,
+      "maxItems": 4671,
+      "items": { "$ref": "#/$defs/record" }
+    },
+    "excluded_culinary_dataset_receipts": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": { "$ref": "#/$defs/exclusionReceipt" }
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "captured_dataset_slices",
+        "captured_records",
+        "known_relevant_culinary_datasets_excluded",
+        "external_benchmark_universe_exhaustive",
+        "all_captured_records_have_declared_license"
+      ],
+      "properties": {
+        "captured_dataset_slices": { "const": 4 },
+        "captured_records": { "const": 4671 },
+        "known_relevant_culinary_datasets_excluded": { "const": 2 },
+        "external_benchmark_universe_exhaustive": { "const": false },
+        "all_captured_records_have_declared_license": { "const": true }
+      }
+    },
+    "claim_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "complete_benchmark_corpus_coverage",
+        "contamination_free",
+        "rank_eligible"
+      ],
+      "properties": {
+        "complete_benchmark_corpus_coverage": { "const": false },
+        "contamination_free": { "const": false },
+        "rank_eligible": { "const": false }
+      }
+    },
+    "artifact_sha256": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://"
+    },
+    "rawReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "request_url",
+        "http_status",
+        "response_date",
+        "raw_response_sha256",
+        "raw_response_bytes",
+        "raw_file"
+      ],
+      "properties": {
+        "request_url": { "$ref": "#/$defs/url" },
+        "http_status": { "const": 200 },
+        "response_date": { "$ref": "#/$defs/timestamp" },
+        "raw_response_sha256": { "$ref": "#/$defs/sha256" },
+        "raw_response_bytes": { "type": "integer", "minimum": 1 },
+        "raw_file": {
+          "type": "string",
+          "pattern": "^raw-benchmark/[0-9a-f]{64}\\.json$"
+        }
+      }
+    },
+    "pageReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "request_url",
+        "http_status",
+        "response_date",
+        "raw_response_sha256",
+        "raw_response_bytes",
+        "raw_file",
+        "dataset_revision_header",
+        "offset",
+        "row_count",
+        "row_index_min",
+        "row_index_max"
+      ],
+      "properties": {
+        "request_url": { "$ref": "#/$defs/url" },
+        "http_status": { "const": 200 },
+        "response_date": { "$ref": "#/$defs/timestamp" },
+        "raw_response_sha256": { "$ref": "#/$defs/sha256" },
+        "raw_response_bytes": { "type": "integer", "minimum": 1 },
+        "raw_file": {
+          "type": "string",
+          "pattern": "^raw-benchmark/[0-9a-f]{64}\\.json$"
+        },
+        "dataset_revision_header": { "$ref": "#/$defs/sha1" },
+        "offset": { "type": "integer", "minimum": 0 },
+        "row_count": { "type": "integer", "minimum": 1, "maximum": 100 },
+        "row_index_min": { "type": "integer", "minimum": 0 },
+        "row_index_max": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "sha1": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "datasetReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dataset",
+        "revision",
+        "config",
+        "split",
+        "row_count",
+        "license_id",
+        "license_url",
+        "scope_reason",
+        "metadata_receipt",
+        "page_receipts"
+      ],
+      "properties": {
+        "dataset": {
+          "enum": ["cais/mmlu", "truthfulqa/truthful_qa", "allenai/ai2_arc"]
+        },
+        "revision": { "$ref": "#/$defs/sha1" },
+        "config": {
+          "enum": ["nutrition", "generation", "ARC-Challenge", "ARC-Easy"]
+        },
+        "split": { "enum": ["test", "validation"] },
+        "row_count": { "enum": [306, 817, 1172, 2376] },
+        "license_id": { "enum": ["MIT", "Apache-2.0", "CC-BY-SA-4.0"] },
+        "license_url": { "$ref": "#/$defs/url" },
+        "scope_reason": { "type": "string", "minLength": 20 },
+        "metadata_receipt": { "$ref": "#/$defs/rawReceipt" },
+        "page_receipts": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 24,
+          "items": { "$ref": "#/$defs/pageReceipt" }
+        }
+      }
+    },
+    "record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_reference_sha256",
+        "source_id",
+        "dataset",
+        "dataset_revision",
+        "config",
+        "split",
+        "row_index",
+        "source_url",
+        "repository_revision_url",
+        "license_id",
+        "license_url",
+        "text",
+        "text_sha256",
+        "captured_at",
+        "raw_row_payload_sha256"
+      ],
+      "properties": {
+        "source_reference_sha256": { "$ref": "#/$defs/sha256" },
+        "source_id": { "type": "string", "pattern": "^hf:" },
+        "dataset": {
+          "enum": ["cais/mmlu", "truthfulqa/truthful_qa", "allenai/ai2_arc"]
+        },
+        "dataset_revision": { "$ref": "#/$defs/sha1" },
+        "config": {
+          "enum": ["nutrition", "generation", "ARC-Challenge", "ARC-Easy"]
+        },
+        "split": { "enum": ["test", "validation"] },
+        "row_index": { "type": "integer", "minimum": 0 },
+        "source_url": { "$ref": "#/$defs/url" },
+        "repository_revision_url": { "$ref": "#/$defs/url" },
+        "license_id": { "enum": ["MIT", "Apache-2.0", "CC-BY-SA-4.0"] },
+        "license_url": { "$ref": "#/$defs/url" },
+        "text": { "type": "string", "minLength": 1, "maxLength": 20000 },
+        "text_sha256": { "$ref": "#/$defs/sha256" },
+        "captured_at": { "$ref": "#/$defs/timestamp" },
+        "raw_row_payload_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "exclusionReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dataset",
+        "expected_revision",
+        "observed_revision",
+        "source_url",
+        "reason",
+        "license_status",
+        "gated",
+        "declared_licenses",
+        "request_url",
+        "http_status",
+        "response_date",
+        "raw_response_sha256",
+        "raw_response_bytes",
+        "raw_file",
+        "content_downloaded",
+        "scan_performed"
+      ],
+      "properties": {
+        "dataset": {
+          "enum": ["lyan62/FoodieQA", "AdaptLLM/food-VQA-benchmark"]
+        },
+        "expected_revision": { "$ref": "#/$defs/sha1" },
+        "observed_revision": { "$ref": "#/$defs/sha1" },
+        "source_url": { "$ref": "#/$defs/url" },
+        "reason": { "type": "string", "minLength": 20 },
+        "license_status": { "type": "string", "minLength": 3 },
+        "gated": { "type": ["boolean", "string"] },
+        "declared_licenses": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "request_url": { "$ref": "#/$defs/url" },
+        "http_status": { "const": 200 },
+        "response_date": { "$ref": "#/$defs/timestamp" },
+        "raw_response_sha256": { "$ref": "#/$defs/sha256" },
+        "raw_response_bytes": { "type": "integer", "minimum": 1 },
+        "raw_file": {
+          "type": "string",
+          "pattern": "^raw-benchmark/[0-9a-f]{64}\\.json$"
+        },
+        "content_downloaded": { "const": false },
+        "scan_performed": { "const": false }
+      }
+    }
+  }
+}

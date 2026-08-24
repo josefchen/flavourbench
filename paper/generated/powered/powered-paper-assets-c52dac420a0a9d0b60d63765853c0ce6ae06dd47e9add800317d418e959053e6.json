@@ -1,0 +1,87 @@
+{
+  "artifact_sha256": "c52dac420a0a9d0b60d63765853c0ce6ae06dd47e9add800317d418e959053e6",
+  "files": [
+    {
+      "bytes": 24863,
+      "path": "figures/powered/powered-family-heatmap.pdf",
+      "sha256": "7b5dc1f202ae499d662143c5be6c6548f21787a0f1610d45b9277b33691b93dc"
+    },
+    {
+      "bytes": 227970,
+      "path": "figures/powered/powered-family-heatmap.png",
+      "sha256": "c036f9b50cfc3b5a8712312f3501a27af48b07fead43e07bd63479026c23188e"
+    },
+    {
+      "bytes": 18434,
+      "path": "figures/powered/powered-leaderboard-forest.pdf",
+      "sha256": "1d8ecad8d7619b77facfda0b78a985ddf966c71cf652fe75b18fae0f237421aa"
+    },
+    {
+      "bytes": 199012,
+      "path": "figures/powered/powered-leaderboard-forest.png",
+      "sha256": "4d2e8f04b4cced41df110e4ec9d05e6aa380133355e03811e3cccc6789c1636f"
+    },
+    {
+      "bytes": 18347,
+      "path": "figures/powered/powered-pairwise-matrix.pdf",
+      "sha256": "1d2c77ccb1228348c0571f75c7b31a55df4e084433ee460ae1fab82f835466a8"
+    },
+    {
+      "bytes": 196997,
+      "path": "figures/powered/powered-pairwise-matrix.png",
+      "sha256": "e2ff569345a1538231b7aa4361456c880b5969cf7d77cb7c780d68029baa78cd"
+    },
+    {
+      "bytes": 20843,
+      "path": "figures/powered/powered-repeatability-scatter.pdf",
+      "sha256": "b28dfa48f431f3a38432d9686cf2f63dbf1a5c0bd08d21d500b33f133bf3ff65"
+    },
+    {
+      "bytes": 130377,
+      "path": "figures/powered/powered-repeatability-scatter.png",
+      "sha256": "ba76dc193721fbfb3ff523c7118e4156b6df9b6315f595c60d74ae9f6c9cd9ac"
+    },
+    {
+      "bytes": 1170,
+      "path": "generated/powered/powered-case-studies-table.tex",
+      "sha256": "a1d65a0c5ae99e5887af493b443b89a8ff6548d64aeb5a13293e0dc9eb75a71b"
+    },
+    {
+      "bytes": 7601,
+      "path": "generated/powered/powered-case-studies.json",
+      "sha256": "f8c6b296ff65726c221bc59afef0df8ef26181796289b70b7b282798f3a8462a"
+    },
+    {
+      "bytes": 1041,
+      "path": "generated/powered/powered-family-table.tex",
+      "sha256": "816dffd55693aa6b5751b08c2f59e6c8637fa5d1bab21e609661fc8830fc19e7"
+    },
+    {
+      "bytes": 1457,
+      "path": "generated/powered/powered-leaderboard-table.tex",
+      "sha256": "aa80a7b6214a55de1c4b4544e84ebbbd7bbf6c7f45876f45ad72b4da9238fec1"
+    },
+    {
+      "bytes": 787,
+      "path": "generated/powered/powered-macros.tex",
+      "sha256": "418a7b5f46944bb2f0c2e2d305c3f68f85c269ae8956062ccd45e6d6a919161c"
+    },
+    {
+      "bytes": 1029,
+      "path": "generated/powered/powered-route-table.tex",
+      "sha256": "45620efcf6bd0d567b922ab1e9348b1b7b041db983c5dbefa979c7d52b5fad9b"
+    },
+    {
+      "bytes": 257,
+      "path": "generated/powered/powered-task-diagnostics-table.tex",
+      "sha256": "7edc563b316375c2ede840989c2a7b52bce2104439252ed22192d59b9fee35bc"
+    }
+  ],
+  "manifest_physical_sha256": "baa5c42c491971e9a67d588d835500bb223d8fc7c5ad7822ec3e5d05a5acdd9d",
+  "manifest_semantic_sha256": "03a290ae84e8429e56cf66a57e09590b1c473e5c3a61ce5ba3fec1123c53c4cc",
+  "release_physical_sha256": "6eced1a6f0e69412b2216059a15dee9544e0baef240ef59d7d86c7e90d0b3652",
+  "release_semantic_sha256": "4bd53e485cd48dbb65b86c9ddd3ff4ad26e34069dd2e163a5b67d2bb47d4f7df",
+  "schema_version": "flavourbench-powered-paper-assets-v1",
+  "taskset_physical_sha256": "520812b0b2c28764ca9b46ff17a0f536872d264be3b4c1de7ba756d5f6d644ae",
+  "taskset_semantic_sha256": "99932ef2e72d34b61641270670e6d56233f167273a8877d03ac214115c084ff7"
+}

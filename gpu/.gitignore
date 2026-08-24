@@ -1,0 +1,6 @@
+__pycache__/
+.ruff_cache/
+!tests/test_gpu_scaffold.py
+*.lease.json
+*.watchdog-ready
+rendered-cloud-init.yaml

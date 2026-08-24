@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use FlavourBench, please cite this work."
+title: "FlavourBench: Ranking Frontier Language Models with Executable Culinary Ground Truth"
+type: software
+authors:
+  - family-names: Chen
+    given-names: Josef
+    affiliation: Independent Researcher
+  - family-names: Hayretci
+    given-names: Erim
+    affiliation: Imperial College London
+version: 1.0.2
+date-released: 2026-08-13
+repository-code: "https://github.com/josefchen/flavourbench"
+url: "https://github.com/josefchen/flavourbench"
+preferred-citation:
+  type: article
+  authors:
+    - family-names: Chen
+      given-names: Josef
+      affiliation: Independent Researcher
+    - family-names: Hayretci
+      given-names: Erim
+      affiliation: Imperial College London
+  title: "FlavourBench: Ranking Frontier Language Models with Executable Culinary Ground Truth"
+  year: 2026

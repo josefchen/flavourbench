@@ -1,0 +1,425 @@
+{
+  "artifact_sha256": "409cc17770ae854dda45c8eeebe127206050b18ed35d635701cf9add1e72049e",
+  "budget": {
+    "admission": "actual spend plus in-flight price envelope must remain within cap",
+    "currency": "USD",
+    "hard_cap": "85",
+    "high_envelope": "79.8"
+  },
+  "claim_boundary": "finite-panel exact culinary reasoning under the frozen task distribution; not universal language-model quality",
+  "construct_validity": {
+    "all_items_retained_after_successor_execution": true,
+    "constraint": "single exact dietary or NOVA metadata predicate",
+    "pairing": "prespecified complementary roles, overlapping region, no lexical overlap",
+    "posthoc_item_pruning": false,
+    "provenance": "recorded single region equals top learned cuisine direction",
+    "substitution": "same role, overlapping region, no lexical overlap"
+  },
+  "design": {
+    "families": [
+      "substitution",
+      "pairing",
+      "constraint",
+      "provenance"
+    ],
+    "posthoc_item_exclusion": false,
+    "primary_provider_calls": 12800,
+    "primary_tasks": 640,
+    "repeat_provider_calls": 1280,
+    "repeat_tasks": 64,
+    "result_adaptive_sampling": false,
+    "tasks_per_family": 160,
+    "tasks_per_stratum_per_family": 40,
+    "total_provider_calls": 14080,
+    "unique_anchor_ingredients": 640,
+    "validation_strata_per_family": 4
+  },
+  "eligibility": {
+    "below_threshold": "DNF, not worst capability",
+    "minimum_completed_fraction": 0.95,
+    "minimum_completed_tasks": 608
+  },
+  "execution": {
+    "condition": "model_only_no_epicure_runtime_access",
+    "epicure_application_sha256": "be4216ae799f330b76f1f8c009ad2e79ce891d5dec452854dbc449e66e2eb313",
+    "epicure_bundle_sha256": "98d0403115bf8eb4fb71dbb89a53362e9b9acafda7494c464763df7d764174d1",
+    "epicure_release_id": "exploratory-unmatched-1790-runtime",
+    "epicure_tool_schema_sha256": "666a9a44b3534d7c8321f179e4513f71e0acf0d281a01fb3f41be5f8c0dfc8dd",
+    "execution_policy": {
+      "content_address": {
+        "algorithm": "sha256",
+        "digest": "399af57b916d3a23e19f396ff01be909883fed29dce15aa1d1c79306961a30ef",
+        "uri": "sha256:399af57b916d3a23e19f396ff01be909883fed29dce15aa1d1c79306961a30ef"
+      },
+      "cost_forecast": {
+        "approximate_non_user_prompt_bytes": 2000,
+        "conservative_bytes_per_token": 3,
+        "tool_catalog_bytes_bound": 16000
+      },
+      "decoding": {
+        "seed": 20260810,
+        "temperature": 0.0,
+        "top_p": 1.0
+      },
+      "epicure_on_tool_required": false,
+      "evidence_protocol": "portable_text_tool_v1",
+      "final_response_mode": "plain_text",
+      "limits": {
+        "max_cumulative_tool_result_bytes": 4096,
+        "max_intermediate_tokens": 1024,
+        "max_output_tokens": 2048,
+        "max_provider_attempts": 2,
+        "max_tool_calls_per_round": 1,
+        "max_tool_calls_total": 1,
+        "max_tool_result_bytes": 4096,
+        "max_tool_rounds": 1,
+        "required_tool_contract_max_intermediate_tokens": 2048,
+        "tool_argument_repair_turns": 1
+      },
+      "matched_planning": false,
+      "pair_arm_scheduling": "sequential",
+      "provider_retry_policy": {
+        "ambiguous_delivery_retried": false,
+        "backoff": "retry_after_or_exponential_0.4s_plus_sha256_idempotency_jitter_0_to_0.999s",
+        "maximum_attempts": 2,
+        "maximum_backoff_seconds": 30,
+        "retryable_failures": [
+          "connect_error_before_send",
+          "http_429_request_rejected"
+        ]
+      },
+      "reasoning": {
+        "exclude_from_provider_response": true,
+        "final_effort": null,
+        "intermediate_effort": null
+      },
+      "required_tool_contract_protocol": "direct_tool_first_v1",
+      "schema_version": "flavourbench-real-execution-policy-v10"
+    },
+    "execution_policy_sha256": "399af57b916d3a23e19f396ff01be909883fed29dce15aa1d1c79306961a30ef",
+    "pilot": {
+      "cells": 80,
+      "one_task_per_family_per_model": true,
+      "responses_reused_in_primary": true,
+      "task_ids": [
+        "fb-validated-substitution-004",
+        "fb-validated-pairing-080",
+        "fb-validated-constraint-048",
+        "fb-validated-provenance-026"
+      ]
+    },
+    "schedule": "four-family pilot across all models, deterministic per-model primary order, then frozen repeats"
+  },
+  "frozen_date": "2026-08-11",
+  "inference": {
+    "chance_tests": "one-sided exact binomial with Holm correction across 20 models",
+    "definitive_top": "positive paired difference and Holm p<0.05 versus every other eligible model, plus repeatability at least 0.80",
+    "family_intervals": "Bonferroni-simultaneous Wilson over 80 model-family cells",
+    "familywise_alpha": 0.05,
+    "no_result_dependent_test_selection": true,
+    "paired_tests": "all 190 two-sided exact McNemar tests with Holm correction",
+    "rank_display": "statistical rank groups, not forced total order",
+    "score_intervals": "Bonferroni-simultaneous Wilson over 20 models"
+  },
+  "inputs": {
+    "calibration_predecessor": {
+      "attempt_journal_physical_sha256": "1af5f5a005b6ad5166a3e58c3a3c8a23d710797b2f1b1ab3a959ef86488c9cfe",
+      "response_artifact_set_sha256": "207bb7f16e1c7333cd2ef762a4fab71c019cdb14103dbb4c525fd31e005cea78",
+      "response_count": 20,
+      "status": "superseded_construct_validity_calibration",
+      "used_as_primary_data": false
+    },
+    "predecessor_release": {
+      "physical_sha256": "813199562f2bf1a89f0fdb6bb529fca56e26512d7737d78a15ff830c7f1a7128",
+      "role": "development_predecessor_only",
+      "semantic_sha256": "197b84d75ccaa549650ad08cc88f934a4ac1173c8e51c9fb149a703ce2602ce8"
+    },
+    "repeat_panel": {
+      "physical_sha256": "d522453289f217e8e9ef12a19c79a931ac59486516c1538aa1be39488eaebb64",
+      "semantic_sha256": "1557cc079ccf11f7ba36412bc85caa2f874c2fe3d765963d013b8c034e819585"
+    },
+    "route_manifest": {
+      "physical_sha256": "1f692eb5852e1122b8e4af6c290a5c7231a77dac1fd0136cdeef3a67843d8db8",
+      "semantic_sha256": "44220f0a6c26798871f830f6ddd62ed99d8872ad5dcb7516491b90bfc71887fc"
+    },
+    "taskset": {
+      "physical_sha256": "f79d7a20d7cb7495201b6ac3b4ac89e55d3f178d2506473ba8a3f75871495b2f",
+      "semantic_sha256": "95aae66e8180510dc446a5f20c54aba00f18f07f3459b3245fbce41904b139da",
+      "task_set_sha256": "05582246169b315bcb86b321824bbb18c86e67e939fb243e257e6e6d3e511bdb"
+    }
+  },
+  "outcomes": {
+    "assisted_diagnostic_excluded": true,
+    "availability_reported_separately": true,
+    "chance_score": 25.0,
+    "missing_unparseable_or_failed": "zero in intention-to-evaluate denominator",
+    "primary_definition": "100 times equal-family macro exact accuracy",
+    "primary_name": "FlavourBench Score"
+  },
+  "plan_version": "flavourbench-construct-validated-20x640-v2",
+  "power": {
+    "all_190_meets_target": true,
+    "assumed_discordance": 0.3,
+    "bonferroni_all_190": 0.832091584221,
+    "bonferroni_leader_19": 0.946003003266,
+    "method": "exact unconditional two-sided conditional McNemar",
+    "pairs": 640,
+    "target": 0.8,
+    "target_accuracy_difference": 0.1
+  },
+  "repeatability": {
+    "acceptance_floor": 0.8,
+    "choice_positions_permuted": true,
+    "excluded_from_primary_score": true,
+    "primary": "selected choice-content agreement",
+    "tasks_per_model": 64
+  },
+  "roster": {
+    "fallbacks": "disabled",
+    "model_count": 20,
+    "models": [
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "openai/gpt-5.6-sol-pro-20260709",
+        "endpoint_execution_sha256": "e3a66e8d2f076ab7ea21fc7553600dd5c867a6b9d293715ef7ad0198cf6c7fb2",
+        "endpoint_sha256": "6732e098ed818429693359ecf1b4030621419c709146fa53a0d4ad65991c67bd",
+        "execution_backend": "openrouter",
+        "model_id": "openai/gpt-5.6-sol-pro",
+        "model_name": "OpenAI: GPT-5.6 Sol Pro",
+        "provider_name": "OpenAI",
+        "provider_tag": "openai/flex",
+        "slot_id": "frontier-refresh-01"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "openai/gpt-5.6-terra-pro-20260709",
+        "endpoint_execution_sha256": "9e801c0569255c2aae51efab7bfc309ee09f1fe9ca72f9ceb15ea5fc43319f54",
+        "endpoint_sha256": "05655ffb2d601c1065ddf09e5dc3df52bc29d26604cb420437d3762f36d02cc7",
+        "execution_backend": "openrouter",
+        "model_id": "openai/gpt-5.6-terra-pro",
+        "model_name": "OpenAI: GPT-5.6 Terra Pro",
+        "provider_name": "OpenAI",
+        "provider_tag": "openai/flex",
+        "slot_id": "frontier-refresh-02"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "openai/gpt-5.6-luna-pro-20260709",
+        "endpoint_execution_sha256": "7867105b770c7c89c308ab76b780a904fdef0b6a778459df43309595ecd77bc1",
+        "endpoint_sha256": "612ba2eb3eaf21f67f9d7b5cf2c8cbb7820dacb2e661a8f1e8c24fc4634ba113",
+        "execution_backend": "openrouter",
+        "model_id": "openai/gpt-5.6-luna-pro",
+        "model_name": "OpenAI: GPT-5.6 Luna Pro",
+        "provider_name": "OpenAI",
+        "provider_tag": "openai/flex",
+        "slot_id": "frontier-refresh-03"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "anthropic/claude-5-fable-20260609",
+        "endpoint_execution_sha256": "90403b6d1881346d1f63ca90b87d23c30a1cd75b4f9d8afef720879b1ad82d93",
+        "endpoint_sha256": "b36cebd99df39d3f7b245ee03b88f70cc0e6115da98aee5a401ffa53e6ac4008",
+        "execution_backend": "openrouter",
+        "model_id": "anthropic/claude-fable-5",
+        "model_name": "Anthropic: Claude Fable 5",
+        "provider_name": "Amazon Bedrock",
+        "provider_tag": "amazon-bedrock",
+        "slot_id": "frontier-refresh-04"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "anthropic/claude-opus-5-20260723",
+        "endpoint_execution_sha256": "988565d5dc8aed926d8241ac704f84b01bbd2e0545f436b544d989ef1637943c",
+        "endpoint_sha256": "98f21b9061404e6c19a47e0a3f9097c796ace56a292503e67cb8111eef318c04",
+        "execution_backend": "openrouter",
+        "model_id": "anthropic/claude-opus-5",
+        "model_name": "Claude Opus 5",
+        "provider_name": "Amazon Bedrock",
+        "provider_tag": "amazon-bedrock/claude-on-aws",
+        "slot_id": "frontier-refresh-05"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "anthropic/claude-sonnet-5-20260630",
+        "endpoint_execution_sha256": "1be1903f6107ed7c7432b678bd695f997b6ab3e46f24756a41067c2366f06779",
+        "endpoint_sha256": "520d4a17bdcdb78b28652b3f678b0b8513e35f9f2826811e2524c8112a6d15b0",
+        "execution_backend": "openrouter",
+        "model_id": "anthropic/claude-sonnet-5",
+        "model_name": "Anthropic: Claude Sonnet 5",
+        "provider_name": "Amazon Bedrock",
+        "provider_tag": "amazon-bedrock/claude-on-aws",
+        "slot_id": "frontier-refresh-06"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "google/gemini-3.1-pro-preview-20260219",
+        "endpoint_execution_sha256": "ff9e871fbbea0b24047d135583063605eeac68374ad4e94aa8717ee6ca8568e6",
+        "endpoint_sha256": "3985aec306c4f97a6fd909b15043f24f315e3b964af9e9c1b4f32ddd487f70c6",
+        "execution_backend": "openrouter",
+        "model_id": "google/gemini-3.1-pro-preview",
+        "model_name": "Google: Gemini 3.1 Pro Preview",
+        "provider_name": "Google",
+        "provider_tag": "google-vertex/global/flex",
+        "slot_id": "frontier-refresh-07"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "google/gemini-3.6-flash-20260721",
+        "endpoint_execution_sha256": "a8292d3605a4f92010328f8f90f35a37f958a958132cd16f40fc294d40248ea6",
+        "endpoint_sha256": "f5e60f938bee89da4203c377727ec81fc9c558307601a3b87f4399f61bae1a58",
+        "execution_backend": "openrouter",
+        "model_id": "google/gemini-3.6-flash",
+        "model_name": "Google: Gemini 3.6 Flash",
+        "provider_name": "Google",
+        "provider_tag": "google-vertex/global/flex",
+        "slot_id": "frontier-refresh-08"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "x-ai/grok-4.5-20260708",
+        "endpoint_execution_sha256": "829a6665ff23a38476b854e6dfb1a3473b6d7063f8200a3fc1050b6fd99cbb00",
+        "endpoint_sha256": "4fee624ca2e6f9bba91d99895d077de2ef89d602179267c1ab4718f478294171",
+        "execution_backend": "openrouter",
+        "model_id": "x-ai/grok-4.5",
+        "model_name": "SpaceXAI: Grok 4.5",
+        "provider_name": "xAI",
+        "provider_tag": "xai/zdr",
+        "slot_id": "frontier-refresh-09"
+      },
+      {
+        "backend_contract_sha256": "a2d8be613a4bb92511b5ad7a8fef3596cd2d688fc132d77bb346f45ffb6882fa",
+        "canonical_model_slug": "k3",
+        "endpoint_execution_sha256": "e7349faa3dd05fad75f2311639ad5083eef2dfe367355e0bbefd9eab959f3e75",
+        "endpoint_sha256": "04f90090224539805df4b03ba563efdd647d58957321cb75ba17f0f6576312cb",
+        "execution_backend": "kimi_direct",
+        "model_id": "moonshotai/kimi-k3",
+        "model_name": "MoonshotAI: Kimi K3",
+        "provider_name": "kimi-code-direct",
+        "provider_tag": "kimi-code-direct",
+        "slot_id": "frontier-refresh-10"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "qwen/qwen3.8-max-20260803",
+        "endpoint_execution_sha256": "ae07ea67979826783a3d92af08f15e52dbbf1dbfc9ce0b7ef14e2a166731ffa8",
+        "endpoint_sha256": "b9f6417588021b2fab64210cb74cb35e6aebbfb8a5f4f61957cbd5558c800e6e",
+        "execution_backend": "openrouter",
+        "model_id": "qwen/qwen3.8-max",
+        "model_name": "Qwen: Qwen3.8 Max",
+        "provider_name": "Alibaba",
+        "provider_tag": "alibaba",
+        "slot_id": "frontier-refresh-11"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "z-ai/glm-5.2-20260616",
+        "endpoint_execution_sha256": "fe4dbcefb419486825b786c8430b4dc243874b814e62c5d20867904ae9ec83f3",
+        "endpoint_sha256": "8173bdcd9bc14c8bce66cce596d1fbdebafed331355ddd90e06ef7173f9f772b",
+        "execution_backend": "openrouter",
+        "model_id": "z-ai/glm-5.2",
+        "model_name": "Z.ai: GLM 5.2",
+        "provider_name": "CoreWeave",
+        "provider_tag": "coreweave/fp4",
+        "slot_id": "frontier-refresh-12"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "deepseek/deepseek-v4-pro-20260423",
+        "endpoint_execution_sha256": "f519da9f6502bf142e61df29aa58cbe52477de5525364f3c7636eac4d07470db",
+        "endpoint_sha256": "33dae17b46cec9bd7bb244189263cb3c4debc286404d46807838a2e4a8febd39",
+        "execution_backend": "openrouter",
+        "model_id": "deepseek/deepseek-v4-pro",
+        "model_name": "DeepSeek: DeepSeek V4 Pro",
+        "provider_name": "Baidu",
+        "provider_tag": "baidu/fp8",
+        "slot_id": "frontier-refresh-13"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "deepseek/deepseek-v4-flash-20260731",
+        "endpoint_execution_sha256": "5b23eae32dd3764a7cf279aa96117aef5d6c259703bad5ca8edeb96e06fa7fbf",
+        "endpoint_sha256": "970ef743578819a328d2ec8f62de34a6332b1a7997286281cbde0a2ef1b4ef54",
+        "execution_backend": "openrouter",
+        "model_id": "deepseek/deepseek-v4-flash-0731",
+        "model_name": "DeepSeek: DeepSeek V4 Flash 0731",
+        "provider_name": "Cloudflare",
+        "provider_tag": "cloudflare/fp8",
+        "slot_id": "frontier-refresh-14"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "minimax/minimax-m3-20260531",
+        "endpoint_execution_sha256": "79a537351ad485e8f21318bf92c32d438f10cc29577d22043e4750313711ce04",
+        "endpoint_sha256": "bb74b02f81ec6e1477764ca317182f67bcf8b7af161bc310e2b65d30dccda1cb",
+        "execution_backend": "openrouter",
+        "model_id": "minimax/minimax-m3",
+        "model_name": "MiniMax: MiniMax M3",
+        "provider_name": "Together",
+        "provider_tag": "together",
+        "slot_id": "frontier-refresh-15"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "nvidia/nemotron-3-ultra-550b-a55b-20260604",
+        "endpoint_execution_sha256": "e61c12fecf0d7f4d1832754a80fa2a7501ed99bb025ba2f3bedd93f23d09ddb1",
+        "endpoint_sha256": "aaab38aa73bd3549b44954f50131d7b46ec408db9083164d452ae7187e9f9a20",
+        "execution_backend": "openrouter",
+        "model_id": "nvidia/nemotron-3-ultra-550b-a55b",
+        "model_name": "NVIDIA: Nemotron 3 Ultra",
+        "provider_name": "DeepInfra",
+        "provider_tag": "deepinfra/fp4",
+        "slot_id": "frontier-refresh-16"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "mistralai/mistral-large-2512",
+        "endpoint_execution_sha256": "a3d9fe9f310c03b0df3b87d0a6ff86ef80654a4adec9ea32ef9969b068e27910",
+        "endpoint_sha256": "46ab918b21f3c04475b3812aa54899f6375010f39f32b7e573985f90fdfaa136",
+        "execution_backend": "openrouter",
+        "model_id": "mistralai/mistral-large-2512",
+        "model_name": "Mistral: Mistral Large 3 2512",
+        "provider_name": "Mistral",
+        "provider_tag": "mistral",
+        "slot_id": "frontier-refresh-17"
+      },
+      {
+        "backend_contract_sha256": "unfrozen",
+        "canonical_model_slug": "tencent/hy3-20260706",
+        "endpoint_execution_sha256": "5576d716e955746b528493370f0d31d385237824ead38bb7854f00ffdf68391d",
+        "endpoint_sha256": "ab738e4fb32c8b89241f16bbf90bed0f1b207451c0a64cd28f4c6673cdb2d533",
+        "execution_backend": "openrouter",
+        "model_id": "tencent/hy3",
+        "model_name": "Tencent: Hy3",
+        "provider_name": "Baidu",
+        "provider_tag": "baidu/fp8",
+        "slot_id": "frontier-refresh-18"
+      },
+      {
+        "backend_contract_sha256": "537e6efcd0419bcd7df9c153374f4d2f07d49bb0b2b2f638e5edd200773e5389",
+        "canonical_model_slug": "command-a-plus-05-2026",
+        "endpoint_execution_sha256": "01169afdd37b1e4273e1a9ebf624e38a42ad1cac640c7bc40d95f2e3af156098",
+        "endpoint_sha256": "c001b9194e90fd176f65b92407107e51b9c503c372b3e9a3641ce26af7c2e89b",
+        "execution_backend": "cohere_direct",
+        "model_id": "cohere/command-a-plus-05-2026",
+        "model_name": "Cohere Command A Plus",
+        "provider_name": "cohere-direct",
+        "provider_tag": "cohere-direct",
+        "slot_id": "frontier-refresh-19"
+      },
+      {
+        "backend_contract_sha256": "b3059a835949705fb0d196491c4f1ae65b296d100e725c6bb63d63c17f0f23ca",
+        "canonical_model_slug": "command-a-reasoning-08-2025",
+        "endpoint_execution_sha256": "680cd38f5c0c542b187ed2b7af619c1493a2acd650c26c5ad4dc9ff27909487f",
+        "endpoint_sha256": "378ba018a49a6eff899672cd789919ecc780f8c755d22f429fb6e78046478207",
+        "execution_backend": "cohere_direct",
+        "model_id": "cohere/command-a-reasoning-08-2025",
+        "model_name": "Cohere Command A Reasoning",
+        "provider_name": "cohere-direct",
+        "provider_tag": "cohere-direct",
+        "slot_id": "frontier-refresh-20"
+      }
+    ]
+  },
+  "schema_version": "flavourbench-powered-analysis-plan-v2",
+  "status": "preregistered_before_construct_validated_provider_responses"
+}
