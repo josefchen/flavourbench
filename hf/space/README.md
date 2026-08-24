@@ -1,8 +1,8 @@
 ---
 title: FlavourBench
 emoji: 🍲
-colorFrom: blue
-colorTo: blue
+colorFrom: red
+colorTo: red
 sdk: gradio
 sdk_version: 6.9.0
 app_file: app.py
@@ -10,67 +10,92 @@ pinned: false
 license: other
 datasets:
 - josefchen/flavourbench
+tags:
+- leaderboard
+- modality:text
+- judge:auto
+- submission:manual
+- test:public
+- reproducibility
+- culinary
 ---
 
 # FlavourBench
 
-**Josef Chen · Erim Hayretci**<br>
-Josef Chen, Independent Researcher · Erim Hayretci, Imperial College London
+![Which AI knows food best? FlavourBench leaderboard](./assets/flavourbench-leaderboard.svg)
 
-This Space explores the final FlavourBench complete common core: 27 frontier endpoints, 534
-identical tasks per model, 14,418 valid scored responses, and all 351 paired comparisons.
+**Pick 3 ingredients from 8. Epicure scores all 56 legal portfolios first. Then every model faces
+the same 534 decisions.**
 
-Epicure scores all 56 legal three-ingredient portfolios before a model is called. The Space lets
-you inspect the resulting leaderboard without relying on an LLM judge. It includes:
+The Space is both the public scorebook and a working benchmark interface:
 
-- the full score table with simultaneous 95% intervals and bootstrap rank intervals;
-- statistical rank groups and all Holm-adjusted pairwise comparisons;
-- family profiles and score replication across two independently compiled panels; and
-- exact prompts, candidate lists, Epicure score maps, model answers, and response hashes.
+- **Leaders** ranks all 27 endpoints with simultaneous intervals and statistical groups.
+- **Insights** shows score bands, pairwise resolution, and task-family fingerprints.
+- **Profiles** breaks each score into substitution, pairing, and constraint performance.
+- **Inspect** opens the exact prompt, answer, 56-choice score map, route, and content hashes.
+- **Run your model** builds a copyable endpoint or local-checkpoint command, demonstrates one dense
+  training reward, and scores a complete JSONL run.
+- **Compare** queries any of the 351 shared-task pairwise contrasts.
 
-Every ranked endpoint has one valid response for every task. The Space bundle is content-addressed
-and makes no provider calls.
+No model judge runs behind the interface. The Space performs deterministic lookups against the
+released reward maps and makes no model-provider calls.
 
-## Evaluate your own model
+## Run from your own environment
 
-The **Evaluate your model** tab scores a complete JSON or JSONL response artifact without receiving
-model credentials or weights. A public FlavourBench lab score is issued only when all 534 responses
-are present and parseable; incomplete runs retain coverage and per-task diagnostics. Uploads are not
-automatically added to the official leaderboard.
+```bash
+python -m pip install "epicure-flavourbench @ git+https://github.com/josefchen/flavourbench.git"
 
-Each JSONL row follows this compact contract:
+export LAB_MODEL_API_KEY='...'
+flavourbench run \
+  --backend openai-compatible \
+  --base-url https://your-endpoint.example/v1 \
+  --api-key-env LAB_MODEL_API_KEY \
+  --model your-exact-model-id \
+  --responses responses.jsonl \
+  --report flavourbench-report.json \
+  --resume
+```
+
+Add `--limit 12` for a balanced smoke test. The runner checkpoints each answer and resumes without
+repeating completed calls. Credentials and model weights stay in your environment.
+
+The accepted response contract is one JSON object per line:
 
 ```json
 {"task_id":"...","status":"completed","response":"FINAL_SELECTION: A,B,C"}
 ```
 
-The Space also exposes named Gradio endpoints:
+A comparable score requires one valid answer for all 534 tasks. Partial runs still receive
+per-task and coverage diagnostics. Uploads are never added to the official leaderboard
+automatically.
 
-- `/score_completion` performs one deterministic reward-map lookup;
-- `/score_submission` scores JSON or JSON Lines supplied as text;
-- `/training_reward` scores only the 426 non-leaderboard development maps; and
-- `/score_uploaded_submission` powers the file-upload interface.
+Verified complete runs can be proposed through the
+[result submission form](https://github.com/josefchen/flavourbench/issues/new?template=flavourbench-result.yml).
+The [submission contract](https://github.com/josefchen/flavourbench/blob/main/docs/submitting-results.md)
+lists the required response artifact, route metadata, settings, and training disclosure. Accepted
+results enter a new versioned release; the published release is never edited in place.
 
-Use **Use via API** in the running Space for generated Python, JavaScript, and curl examples. The
-local SDK is preferable for high-throughput RL because it avoids network latency and Space rate
-limits. The Space exposes released FlavourBench reward maps, not the private Epicure corpus or a
-general arbitrary-task generation service.
+## API and training
 
-## Train on separate reward maps
+The Space exposes four named endpoints:
 
-The linked dataset now includes anchor-disjoint development splits for SFT, DPO, and GRPO. These
-training maps do not reuse any task ID or ingredient anchor from the 534-task official test set.
-Runnable LoRA recipes and the local dense reward function live in the source repository under
-`examples/lab`.
+| Endpoint | Use |
+|---|---|
+| `/score_completion` | Score one completion on one official task |
+| `/score_submission` | Score a complete JSON or JSONL artifact supplied as text |
+| `/training_reward` | Query one of 426 anchor-disjoint development reward maps |
+| `/score_uploaded_submission` | Score an uploaded artifact and return a report |
 
-Josef Chen is a Cohere Labs Catalyst Grant recipient. This acknowledgement does not imply Cohere
-endorsement of FlavourBench, Epicure, the protocol, or any model ranking.
+Use **Use via API** in the running Space for generated Python, JavaScript, and curl clients. For
+high-throughput RL, use the local deterministic reward function. The linked dataset includes
+ready-to-load SFT, DPO, and GRPO views plus runnable LoRA recipes for Hugging Face Jobs.
 
-[Paper](https://github.com/josefchen/flavourbench/blob/main/paper/build/flavourbench.pdf) |
-[Dataset](https://huggingface.co/datasets/josefchen/flavourbench) |
+[Dataset and lab kit](https://huggingface.co/datasets/josefchen/flavourbench)&nbsp;&nbsp;&nbsp;
+[Paper](https://github.com/josefchen/flavourbench/blob/main/paper/build/flavourbench.pdf)&nbsp;&nbsp;&nbsp;
 [Source](https://github.com/josefchen/flavourbench)
 
-## Citation
+Josef Chen, Independent Researcher<br>
+Erim Hayretci, Imperial College London
 
 ```bibtex
 @article{chen2026flavourbench,

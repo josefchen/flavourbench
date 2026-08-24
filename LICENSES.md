@@ -21,6 +21,11 @@ The broader grant does not extend to material owned by third parties. In particu
   respective owners; and
 - cited publications and software retain their original licences.
 
+The Hugging Face Space bundles glyph-subset web fonts for deterministic rendering. Lato is
+distributed under the SIL Open Font License 1.1; DejaVu Sans Mono is distributed under the
+Bitstream Vera font licence. Their copyright notices, licence texts, and subsetting notes are
+included in [`hf/space/assets/fonts`](hf/space/assets/fonts).
+
 The repository's original software, including the public evaluation SDK, command-line tools,
 dataset builders, Space application, tests, and paper-build source, is released under the Apache
 License 2.0 in [`LICENSE`](LICENSE). That software licence does not relicense benchmark data,

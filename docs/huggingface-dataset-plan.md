@@ -1,57 +1,65 @@
-# Hugging Face dataset publication plan
+# Hugging Face dataset publication contract
 
 ## Repository
 
-Proposed dataset repository: `josefchen/flavourbench`
+Dataset: `josefchen/flavourbench`
 
-The source of truth is the content-addressed release at
-`paper/generated/epicure-native/epicure-native-release.json`. The exporter in
-`hf/dataset/build_dataset.py` validates its semantic hash, derives the five table configs, and
-writes a checksum manifest.
+The dataset is the public, content-addressed record behind the Space. It contains the complete
+common-core evaluation release and a separate development track for training. It contains no API
+keys, private model weights, participant data, or unrestricted Epicure source data.
 
-## Publication contract
+## Evaluation release
 
-- Preserve all assigned arms, not only successful responses.
-- Keep Model only and Model + Epicure observations separate and joinable.
-- Preserve route, model, prompt, result, response, and release hashes.
-- Never upload provider credentials, participant data, private databases, or unrestricted Epicure
-  payloads.
-- Pin the Space to an immutable dataset commit.
-- Publish changed benchmark semantics as a new dataset version, not an in-place reinterpretation.
+| Config | Rows | Unit |
+|---|---:|---|
+| `models` | 27 | Model identity, score, uncertainty, route, and family profile |
+| `tasks` | 534 | Prompt, choices, anchor, family, and all 56 released scores |
+| `primary_observations` | 14,418 | One complete response for every model-task cell |
+| `leaderboard` | 27 | Point rank, statistical group, score band, and rank interval |
+| `pairwise_comparisons` | 351 | Paired effect, sign-flip result, Holm result, and effect size |
 
-## Proposed commands
+The release is a complete 27 by 534 matrix. Each model receives the same 178 substitution, 178
+pairing, and 178 constraint tasks. The 534 ingredient anchors are the resampling units.
 
-After creating the Hugging Face dataset repository and authenticating locally:
+## Lab track
 
-```bash
-python hf/dataset/build_dataset.py
-npx @huggingface/hub upload josefchen/flavourbench \
-  hf/dataset . \
-  --repo-type dataset \
-  --commit-message "Publish FlavourBench executable benchmark release"
-```
+| Config | Split or rows | Purpose |
+|---|---:|---|
+| `lab_tasks` | 342 train, 84 validation | Anchor-disjoint development reward maps |
+| `sft` | 342 train, 84 validation | Optimal demonstrations |
+| `dpo` | 1,368 train, 336 validation | Deterministic chosen and rejected pairs |
+| `grpo` | 342 train, 84 validation | Dense 56-choice rewards |
+| `supplemental_cultural_composition` | 283 development | Non-ranked regional composition evidence |
 
-After creating the Space repository:
+No lab-track anchor appears in the official 534-task release. The package includes runnable LoRA
+recipes for SFT, DPO, and GRPO. GRPO evaluates reward locally and does not require one Space call
+per rollout.
 
-```bash
-npx @huggingface/hub upload josefchen/flavourbench-explorer \
-  hf/space . \
-  --repo-type space \
-  --commit-message "Launch FlavourBench evidence explorer"
-```
+## Integrity
 
-These are external publication operations and should run only after the software and dataset
-license choices are explicit.
-
-## Quality checks
+`data-complete-core/DATA_MANIFEST.json` binds the evaluation tables by byte size and SHA-256.
+`data-lab/DATA_MANIFEST.json` independently binds the development views. The Space bundle is built
+from those verified directories and records both manifest identities.
 
 ```bash
-python hf/dataset/build_dataset.py --check
-python -m py_compile hf/dataset/build_dataset.py hf/space/app.py
-python -I paper/reproduce_epicure_native.py \
-  --release paper/generated/epicure-native/epicure-native-release.json
+python hf/dataset/build_lab_dataset.py --check
+python3 -I hf/dataset/verify_complete_core_dataset.py \
+  --dataset-directory hf/dataset/data-complete-core
+python hf/space/build_complete_core_space_bundle.py --check
 ```
 
-Before upload, scan the full commit for secrets, absolute local paths, private artifact names, and
-unexpected large files. After upload, verify every row count in the Hugging Face Data Viewer and
-compare its dataset commit SHA with the revision pinned by the Space.
+These checks make no provider calls.
+
+## Versioning
+
+- Never replace a response or reinterpret a score inside a published release.
+- Publish new model results, task changes, or scoring changes as a new versioned release.
+- Keep raw responses and route metadata next to every derived score.
+- Pin any external reproduction by commit, not by a moving branch.
+- Keep official test maps separate from reward maps used for optimization.
+
+## Visibility gate
+
+The dataset and Space remain private until the arXiv submission is approved. The public switch is
+one release operation: verify both Hub revisions, make the dataset public, make the Space public,
+replace paper links with the arXiv URL, and recheck the Data Viewer and named Space endpoints.

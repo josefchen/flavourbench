@@ -27,4 +27,4 @@ environment variable and deliberately omits them from response and report artifa
 
 ## Supported versions
 
-The default branch is the only supported public research snapshot until versioned releases begin.
+The latest tagged release and the default branch are supported public research snapshots.

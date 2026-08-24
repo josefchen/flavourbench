@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "epicure-flavourbench"
-version = "0.2.0"
+version = "1.2.0"
 description = "Executable culinary evaluation and dense reward training for language models"
 requires-python = ">=3.12"
 license = { file = "LICENSE" }

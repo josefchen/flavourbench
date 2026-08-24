@@ -9,8 +9,8 @@ authors:
   - family-names: Hayretci
     given-names: Erim
     affiliation: Imperial College London
-version: 1.0.2
-date-released: 2026-08-13
+version: 1.2.0
+date-released: 2026-08-24
 repository-code: "https://github.com/josefchen/flavourbench"
 url: "https://github.com/josefchen/flavourbench"
 preferred-citation:

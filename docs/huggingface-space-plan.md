@@ -1,157 +1,102 @@
-# FlavourBench on Hugging Face
+# Hugging Face publication specification
 
-## Product thesis
+## Product position
 
-FlavourBench should own a clear category: the executable culinary reasoning benchmark for frontier
-language models. Its defining mechanism is ground truth from a versioned runtime rather than a
-human or model judge. The hero should state both ideas directly and let the paired evidence make
-them concrete.
+FlavourBench is the executable culinary benchmark for frontier language models. The public
+product has three jobs:
 
-Most benchmark Spaces begin with a dense sortable table. FlavourBench should begin with its
-scientific advantage: an exact model-only score against executable answer keys. The first screen
-should communicate one idea in under five seconds:
+1. rank models on one complete, shared task matrix;
+2. expose enough evidence to audit any score; and
+3. let a lab evaluate or train its own model without sending credentials to FlavourBench.
 
-> Blue is the FlavourBench Score. Gray is its Wilson 95% interval.
+The Space is a scientific instrument, not a promotional landing page. It opens with the result,
+then provides discovery, uncertainty, evidence, execution, comparison, and method in that order.
 
-The public product is an evidence explorer with a leaderboard, not a leaderboard with an About
-tab attached.
+## Reference products
 
-## Competitive scan
+The publication design was checked against current benchmark products on 23 August 2026.
 
-The design takes current patterns from several successful Hugging Face benchmark products while
-avoiding a visual clone.
+| Product | Pattern retained in FlavourBench |
+|---|---|
+| [LiveBench](https://livebench.ai) | Dedicated insights view, sortable evidence, release context |
+| [Open LLM Leaderboard](https://huggingface.co/spaces/open-llm-leaderboard/open_llm_leaderboard) | Search, fast scope filters, downloadable results |
+| [SWE-bench](https://www.swebench.com) | Explicit submission contract, setup disclosure, versioned result history |
+| [MTEB](https://huggingface.co/spaces/mteb/leaderboard) | Clear navigation across results, models, tasks, and comparison |
+| [LMArena](https://huggingface.co/spaces/lmarena-ai/arena-leaderboard) | Confidence-aware ranking and domain views |
+| [Berkeley Function Calling Leaderboard](https://gorilla.cs.berkeley.edu/leaderboard.html) | Dense research table, update context, capability breakdown |
 
-| Space | Useful pattern | FlavourBench response |
-|---|---|---|
-| [Open LLM Leaderboard](https://huggingface.co/spaces/open-llm-leaderboard/open_llm_leaderboard) | Filters, selectable columns, comparison workflow, separate result datasets | Keep filtering and comparison, but make matched evidence the primary interaction |
-| [MTEB Leaderboard](https://huggingface.co/spaces/mteb/leaderboard) | Focused full-width product and a disciplined information hierarchy | Use a similarly restrained research-product shell |
-| [LMArena Leaderboard](https://huggingface.co/spaces/lmarena-ai/arena-leaderboard) | Strong first-screen identity and fast access to current results | Lead with one memorable visual instead of instructions |
-| [GAIA Leaderboard](https://huggingface.co/spaces/gaia-benchmark/leaderboard) | Clear method, citation, dataset, and submission surfaces | Put method and reproduction next to the evidence |
-| [BigCode Leaderboard](https://huggingface.co/spaces/bigcode/bigcode-models-leaderboard) | Searchable table, plots, and explicit submission path | Add search now and a governed submission flow later |
-| [LLM Performance Leaderboard](https://huggingface.co/spaces/optimum/llm-perf-leaderboard) | Goal-oriented model finder and useful plot tabs | Later add task-family and availability-aware model discovery |
+The visual treatment does not copy any of them. It uses the same identity as the launch figures.
 
-Hugging Face's current [leaderboard documentation](https://huggingface.co/docs/leaderboards/main/index)
-also supports a dataset-backed architecture. The Space and dataset should be independent repos,
-with the Space consuming an immutable dataset revision.
+## Information architecture
 
-## Experience architecture
+| Surface | Question answered |
+|---|---|
+| Leaders | Which models score highest, and what is the complete point order? |
+| Insights | Which score gaps are resolved, and where do leading labs differ? |
+| Profiles | What is one model's substitution, pairing, and constraint profile? |
+| Inspect | Which exact prompt, response, reward map, route, and hashes produced a cell? |
+| Run your model | How can a lab run, score, train, and submit a result? |
+| Compare | Is one selected pair distinguishable on the shared tasks? |
+| Method | What is the scoring contract, inference procedure, and training boundary? |
 
-```mermaid
-flowchart LR
-    A["Public release artifact"] --> B["HF dataset tables"]
-    B --> C["Leaderboard"]
-    B --> D["Model fingerprint"]
-    B --> E["Pair Lens"]
-    E --> F["Prompt and choices"]
-    E --> G["Model only and Model + Epicure answers"]
-    E --> H["Epicure trace and hashes"]
-    B --> I["Download and reproduce"]
-```
+## Visual contract
 
-### 1. Evidence hero
+The interface matches the launch assets:
 
-The hero asks how well frontier language models reason about flavour. A real
-FlavourBench Score rail with Wilson intervals fills the right half. It uses the checked-in data,
-not a product mockup. Four compact facts establish scale without a row of generic cards.
+| Token | Value |
+|---|---|
+| Paper | `#F6F7F5` |
+| Ink | `#161817` |
+| Muted text | `#68706C` |
+| Structural line | `#56605B` |
+| Rule | `#DDE1DE` |
+| Launch red | `#A83D34` |
+| Display and body | Lato |
+| Measurements and hashes | DejaVu Sans Mono |
 
-### 2. Leaderboard
+Rules are sharp. There are no gradients, glows, floating cards, decorative borders, or ornamental
+motion. Red is reserved for the leader, resolved emphasis, and interaction focus. Dark mode keeps
+the same hierarchy. Mobile layouts show the primary score columns directly and move detailed
+intervals into the Insights view.
 
-The table exposes score rank, model, FlavourBench Score, correct count, Wilson 95% interval, and
-model-only parsed-answer count. Equal scores share a rank. Availability is never collapsed into a
-capability claim, and Epicure-assisted values do not enter this table.
+Design controls: variance 5, motion 2, information density 8.
 
-### 3. Model fingerprint
+## Publication architecture
 
-Selecting a model reveals its four-family profile. The future version should add a small-multiple
-heatmap and a response-availability strip, not a decorative radar chart.
+Hugging Face recommends separating the leaderboard frontend, result data, request data, and any
+evaluation backend. FlavourBench currently uses the two components it needs:
 
-### 4. Pair Lens
+- `josefchen/flavourbench` dataset: immutable release tables, official task maps, and disjoint lab
+  training maps;
+- `josefchen/flavourbench` Space: a read-only explorer plus deterministic scoring endpoints.
 
-This is the signature interaction. A researcher selects a model and task and sees:
+The Space makes no provider calls. Endpoint keys and local checkpoints remain in the lab's
+environment. The checked-in runner downloads the public task contract and emits response and
+report artifacts that can be verified offline.
 
-- the exact prompt and choices;
-- Model only and Model + Epicure answers side by side;
-- observed choice and correctness;
-- latency and response artifact hash;
-- bounded Epicure tool trace;
-- reference operation, reference result, and result hash; and
-- release provenance.
+The Space carries the `leaderboard`, `modality:text`, `judge:auto`, and `submission:manual` tags so
+it is discoverable through Hugging Face's leaderboard index. Native `eval.yaml` aggregation is a
+separate integration: the FlavourBench evaluation framework must first be added to Hugging Face's
+supported framework enum and benchmark allow-list. Do not publish an unsupported `eval.yaml`.
 
-Every visible number should be openable into evidence.
+## Result publication
 
-### 5. Method and download
+The Space scores an uploaded artifact in-session but never adds it to the leaderboard. A proposed
+result must include all 534 responses, the content-addressed report, an immutable artifact URL,
+route and decoding settings, and a training disclosure. The offline verifier must reproduce the
+score. Accepted results enter a new release rather than changing an existing release.
 
-The final tab defines the score in plain language, links the repository and paper, identifies the
-release hash, and gives one exact replay command.
+See [submitting results](./submitting-results.md).
 
-## Visual system
+## Release gate
 
-The visual language is an editorial scientific instrument, not an AI startup landing page.
-
-| Token | Value | Role |
-|---|---|---|
-| FlavourBench Blue | `#1769AA` | Primary action, baseline score, focus state |
-| Epicure Gold | `#E6A11A` | Tool-added portion of paired results |
-| Evidence Teal | `#168C7A` | Correct and verified states |
-| Failure Red | `#C75450` | Incorrect or failed states only |
-| Charcoal | `#262B33` | Primary text |
-| Paper | `#F7F8FA` | Light canvas |
-
-Use Geist or Inter for interface copy and IBM Plex Mono for hashes and measurements. The layout
-uses thin rules, 8-pixel panel radii, broad editorial whitespace, and restrained motion only when
-the selected model or task changes. Dark mode is first-class. Reduced-motion preferences disable
-all nonessential transitions.
-
-## Dataset architecture
-
-The companion dataset exposes five first-class configurations:
-
-1. `models`: route identity plus summary metrics;
-2. `tasks`: prompt, choices, expected answer, family, and Epicure reference;
-3. `observations`: all 1,280 assigned arms, including unavailable responses;
-4. `paired_outcomes`: 640 matched model-task comparisons; and
-5. `leaderboard`: one flattened summary row per model.
-
-JSON Lines makes the launch auditable. Parquet should be added for the public dataset once the
-component-level license is finalized. The Data Viewer should remain enabled for every config.
-
-## Launch sequence
-
-### Phase 1: public preview
-
-- Publish `josefchen/flavourbench` on GitHub.
-- Select a software license and confirm the dataset component license.
-- Create `josefchen/flavourbench` as a Hugging Face dataset repository.
-- Upload `hf/dataset/README.md` and `hf/dataset/data`.
-- Create `josefchen/flavourbench` as a Gradio Space.
-- Upload the contents of `hf/space`.
-- Pin the Space to the dataset's commit SHA before announcing it.
-
-### Phase 2: research polish
-
-- Add score-group and uncertainty visualization.
-- Add model-vs-model comparison across all 32 tasks.
-- Add family heatmap and failure decomposition.
-- Add URL-deep-linked Pair Lens selections.
-- Add downloadable citation, JSON, and Parquet links.
-- Add an architecture figure explaining Epicure, not a generic system diagram.
-
-### Phase 3: governed submissions
-
-- Accept result artifacts, never provider keys.
-- Validate schema, model identity, route, task-set hash, and missingness.
-- Label submissions as author-run or independently reproduced.
-- Keep the original public pilot immutable and publish later releases under new versions.
-
-## Launch checklist
-
-- [ ] Software license selected
-- [ ] Dataset rights statement approved
-- [ ] GitHub release tagged and checksums attached
-- [ ] Dataset repository created and commit pinned
-- [ ] Space repository created and dataset revision pinned
-- [ ] Pair Lens verified against at least five hand-checked records
-- [ ] Mobile, dark-mode, keyboard, and reduced-motion checks complete
-- [ ] Model availability failures clearly labeled
-- [ ] Paper and dataset cite the same release artifact SHA
-- [ ] No secret, local path, private evidence, or unrestricted Epicure payload in either repo
+- [x] 27 by 534 response matrix is complete.
+- [x] Dataset and lab manifests verify byte-for-byte.
+- [x] Search, best-per-lab filter, download, and empty state work.
+- [x] Desktop, mobile, light, dark, keyboard focus, and reduced motion are covered.
+- [x] Space exposes the score and training APIs without accepting provider credentials.
+- [x] Result submission template and verification contract are public in the source tree.
+- [x] Dataset and Space remain private before the paper is approved.
+- [ ] Make both Hugging Face repositories public when the approved arXiv record is live.
+- [ ] Replace repository paper links with the arXiv URL after approval.
+- [ ] Apply for Hugging Face native benchmark registration after public release.

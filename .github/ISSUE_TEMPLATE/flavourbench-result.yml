@@ -1,0 +1,77 @@
+name: FlavourBench result
+description: Propose one complete, reproducible 534-task run for a future release
+title: "[Result] "
+labels:
+  - result-submission
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Submit only complete runs. Never paste API keys, access tokens, private weights, or customer data.
+  - type: input
+    id: model
+    attributes:
+      label: Model and immutable version
+      description: Give the exact provider model ID, dated version, or checkpoint commit.
+      placeholder: provider/model-id@revision
+    validations:
+      required: true
+  - type: textarea
+    id: route
+    attributes:
+      label: Provider route
+      description: Record provider, endpoint family, backend, region, and any routing layer.
+      placeholder: Provider, base URL family, backend, region, routing policy
+    validations:
+      required: true
+  - type: textarea
+    id: decoding
+    attributes:
+      label: Generation settings
+      description: Record temperature, top-p, maximum tokens, reasoning effort, and other controls.
+      placeholder: temperature=0; top_p=1; max_tokens=...; reasoning_effort=...
+    validations:
+      required: true
+  - type: input
+    id: artifacts
+    attributes:
+      label: Immutable artifact URL
+      description: Link the raw responses and content-addressed score report at a pinned revision.
+      placeholder: https://huggingface.co/datasets/org/repo/tree/commit
+    validations:
+      required: true
+  - type: input
+    id: response_hash
+    attributes:
+      label: Response-set semantic SHA-256
+      placeholder: 64 hexadecimal characters
+    validations:
+      required: true
+  - type: input
+    id: report_hash
+    attributes:
+      label: Report artifact SHA-256
+      placeholder: 64 hexadecimal characters
+    validations:
+      required: true
+  - type: textarea
+    id: training_disclosure
+    attributes:
+      label: Training disclosure
+      description: State whether FlavourBench, Epicure, culinary reward maps, or related data were used.
+      placeholder: Base model; no FlavourBench or Epicure training data used.
+    validations:
+      required: true
+  - type: checkboxes
+    id: attestations
+    attributes:
+      label: Attestations
+      options:
+        - label: The artifact contains one completed, parseable response for all 534 official tasks.
+          required: true
+        - label: The submitted settings are sufficient for an independent rerun.
+          required: true
+        - label: The linked artifacts contain no secrets, private weights, or customer data.
+          required: true
+        - label: I understand that acceptance creates a new versioned release and does not edit an existing one.
+          required: true

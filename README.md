@@ -4,6 +4,8 @@
 
 ### Ranking frontier language models with executable culinary ground truth
 
+[![Public release integrity](https://github.com/josefchen/flavourbench/actions/workflows/ci.yml/badge.svg)](https://github.com/josefchen/flavourbench/actions/workflows/ci.yml)
+
 **Josef Chen** · **Erim Hayretci**<br>
 Josef Chen, Independent Researcher · Erim Hayretci, Imperial College London
 
@@ -159,6 +161,8 @@ python3.12 -m venv .venv
 . .venv/bin/activate
 pip install -e '.[dev]'
 
+make ci
+
 make -C paper -f Makefile.powered verify
 make -C paper -f Makefile.powered arxiv
 cd paper/build
@@ -195,7 +199,7 @@ No reproduction command calls a model provider.
 |---|---|
 | Statistical release | `709452f8cf54ebc1947f2a3c24e6ee19580be1c115ba3a9effbac441de556db4` |
 | Release semantic ID | `0a20655c97aa1363c2266e247f3dd03b759d0f80bca9154c6619c5549b2fac99` |
-| Analysis plan | `17ac5aea6eb25a0c0af440124849c926fdcafaf36956fd2e676f2c70ca80faa6` |
+| Analysis plan file | `17ac5aea6eb25a0c0af440124849c926fdcafaf36956fd2e676f2c70ca80faa6` |
 | Lab training dataset | `b7f7d2f6e6dad9b5a526d15ee56e24f6b150e5bd2cd440c38f33092219654970` |
 | Final PDF | `e3538932fb3b58a6869793bd5ea3ee8688a9abb06dbdc6536e3ae1c783395fc2` |
 | arXiv source tarball | `50ac9a26b359577111f7217a0b3b4f02131fdf7c247b94b690bc6ff3e937657b` |

@@ -11,8 +11,16 @@ model routes, score semantics, or reported results should include:
 6. confirmation that no credential, private database, participant data, or unrestricted Epicure
    payload is included.
 
-Code-only improvements should run the relevant test files and Ruff checks. Paper changes should
-also run `make -C paper verify`. Generated release artifacts must be content-addressed and must be
+Before pushing any change, run the same provider-free gate used by GitHub Actions:
+
+```bash
+make format
+make ci
+```
+
+`make ci` verifies the statistical release, runs the public test suite, reconstructs the lab
+dataset, checks the PDF and arXiv bundle, enforces Ruff formatting, and scans the public tree for
+private paths and credential patterns. Generated release artifacts must be content-addressed and
 reproducible from checked-in public inputs.
 
 Please keep the public automated track separate from any future human-judgment track. Do not

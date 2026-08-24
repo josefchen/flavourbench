@@ -15,6 +15,8 @@ tags:
 - executable-ground-truth
 size_categories:
 - 10K<n<100K
+spaces:
+- josefchen/flavourbench
 configs:
 - config_name: models
   data_files:
@@ -66,33 +68,103 @@ configs:
     path: data-lab/supplemental_cultural_composition.jsonl
 ---
 
-# FlavourBench: executable culinary ground truth
+# FlavourBench
 
-**Josef Chen · Erim Hayretci**<br>
-Josef Chen, Independent Researcher · Erim Hayretci, Imperial College London
+![Which AI knows food best? FlavourBench leaderboard](./assets/flavourbench-leaderboard.svg)
 
-FlavourBench ranks 27 language-model endpoints on an identical set of 534 culinary selection
-tasks. Each task asks for three ingredients from eight candidates. Epicure scores all 56 legal
-portfolios before any model is called, so each response is evaluated against a fixed score map
-rather than a human or model judge.
+**An executable culinary benchmark for frontier language models.** Pick 3 ingredients from 8.
+Epicure scores all 56 legal portfolios before a model runs. One response becomes one deterministic
+score from 0 to 100. Repeat across 534 shared tasks.
 
-[Paper](https://github.com/josefchen/flavourbench/blob/main/paper/build/flavourbench.pdf) ·
-[Interactive leaderboard](https://huggingface.co/spaces/josefchen/flavourbench) ·
-[Source](https://github.com/josefchen/flavourbench)
+[Open the leaderboard](https://huggingface.co/spaces/josefchen/flavourbench)&nbsp;&nbsp;&nbsp;
+[Read the paper](https://github.com/josefchen/flavourbench/blob/main/paper/build/flavourbench.pdf)&nbsp;&nbsp;&nbsp;
+[Run the source](https://github.com/josefchen/flavourbench)&nbsp;&nbsp;&nbsp;
+[Submit a result](https://github.com/josefchen/flavourbench/issues/new?template=flavourbench-result.yml)
 
-## Evaluate or train your own model
+Josef Chen, Independent Researcher<br>
+Erim Hayretci, Imperial College London
 
-The lab kit separates model evaluation from reward training:
+## The release in one screen
 
-- `lab_tasks` contains 342 training tasks and 84 validation tasks with dense Epicure reward maps;
-- those 426 anchors do not occur in the 534-task leaderboard, and train/validation anchors are
-  disjoint from each other;
-- `sft` contains optimal prompt-completion demonstrations and each optimum's runner-up margin;
-- `dpo` contains four deterministic preference pairs per task, each separated by at least five
-  FlavourBench points; and
-- `grpo` contains prompts, choices, and complete reward maps for local online RL.
+| | Count | What is held constant |
+|---|---:|---|
+| Frontier endpoints | **27** | The exact 534-task prompt set |
+| Shared tasks | **534** | 178 substitution, 178 pairing, 178 constraint |
+| Scored answers | **14,418** | One valid answer in every model-task cell |
+| Model pairs | **351** | Shared-task contrasts with familywise error control |
 
-Load any training view directly with `datasets`:
+The point-estimate leader is **Grok 4.6 at 65.07**, followed by Gemini 3.1 Pro Preview at 64.95
+and GPT-5.6 Sol Pro at 64.23. The release resolves 101 of 351 model pairs after Holm correction.
+The leading simultaneous intervals overlap, so the leaderboard reports the point order and the
+statistical groups together.
+
+## Run it on your model
+
+The same runner handles an OpenAI-compatible endpoint, vLLM server, or local Transformers
+checkpoint. It fetches the official task file from this dataset, checkpoints every answer, resumes
+interrupted runs, and emits a content-addressed report.
+
+### Hosted endpoint
+
+```bash
+python -m pip install "epicure-flavourbench @ git+https://github.com/josefchen/flavourbench.git"
+
+export LAB_MODEL_API_KEY='...'
+flavourbench run \
+  --backend openai-compatible \
+  --base-url https://your-endpoint.example/v1 \
+  --api-key-env LAB_MODEL_API_KEY \
+  --model your-exact-model-id \
+  --responses responses.jsonl \
+  --report flavourbench-report.json \
+  --resume
+```
+
+### Local checkpoint
+
+```bash
+python -m pip install "epicure-flavourbench[transformers] @ git+https://github.com/josefchen/flavourbench.git"
+
+flavourbench run \
+  --backend transformers \
+  --model /path/to/checkpoint \
+  --responses responses.jsonl \
+  --report flavourbench-report.json \
+  --resume
+```
+
+Add `--limit 12` to either command for a balanced smoke test. Remove it for the complete 534-task
+run. The CLI never stores a provider key. A complete run receives a FlavourBench Score and a 95%
+cluster-bootstrap interval. Partial runs receive coverage diagnostics and no comparable headline
+score.
+
+You can also upload the response artifact in the
+[Space](https://huggingface.co/spaces/josefchen/flavourbench), or call its named
+`score_completion`, `score_submission`, and `training_reward` endpoints.
+
+## Publish a verified result
+
+A leaderboard submission includes the complete 534-response artifact, the content-addressed
+score report, exact model and route identifiers, decoding settings, and a training-data
+disclosure. The maintainer reruns the offline verifier before a result can enter a new versioned
+release. Provider keys and model weights are never submitted.
+
+[Read the submission contract](https://github.com/josefchen/flavourbench/blob/main/docs/submitting-results.md)
+or [open a result submission](https://github.com/josefchen/flavourbench/issues/new?template=flavourbench-result.yml).
+
+## Train against the reward, not the test set
+
+![FlavourBench executable reward architecture](./assets/executable-judge.svg)
+
+The lab track contains **426 anchor-disjoint development maps**: 342 for training and 84 for
+validation. None of their ingredient anchors occurs in the 534-task leaderboard. The three views
+support different training setups:
+
+| Config | Training signal | Rows |
+|---|---|---:|
+| `sft` | Optimal prompt-completion demonstrations plus optimum margins | 426 |
+| `dpo` | Four deterministic chosen/rejected pairs per training task | 1,368 train + 336 validation |
+| `grpo` | The complete dense 56-choice reward map for each prompt | 426 |
 
 ```python
 from datasets import load_dataset
@@ -102,120 +174,83 @@ dpo = load_dataset("josefchen/flavourbench", "dpo")
 grpo = load_dataset("josefchen/flavourbench", "grpo")
 ```
 
-The runnable [SFT, DPO, and GRPO recipes](https://github.com/josefchen/flavourbench/tree/main/examples/lab)
-push checkpoints to the model owner's Hub account and report metrics through Trackio. GRPO uses the
-local deterministic reward function; it does not make one network request per rollout.
+The [runnable SFT, DPO, and GRPO recipes](https://github.com/josefchen/flavourbench/tree/main/examples/lab)
+work locally or as Hugging Face Jobs. Each pushes the trained adapter to the model owner's Hub
+account and records metrics with Trackio. GRPO computes rewards locally, so a rollout does not need
+one Space request per sample.
 
-For evaluation, install the SDK and point it at an OpenAI-compatible endpoint, a vLLM server, or a
-local Transformers checkpoint:
+## What the score means
 
-```bash
-pip install 'epicure-flavourbench @ git+https://github.com/josefchen/flavourbench.git'
+For task \(t\), Epicure assigns a value to each of the 56 legal three-item portfolios. The chosen
+portfolio is min-max normalized within that task to a score from 0 to 100. FlavourBench then takes
+the equal-weight mean of the three task-family means:
 
-export LAB_MODEL_API_KEY='...'
-flavourbench run \
-  --backend openai-compatible \
-  --base-url https://your-endpoint.example/v1 \
-  --api-key-env LAB_MODEL_API_KEY \
-  --model your-exact-model-id \
-  --responses responses.jsonl \
-  --report report.json
-```
+\[
+\mathrm{FB}(m) = \frac{1}{3}\sum_{f \in \{S,P,C\}}
+\frac{1}{|T_f|}\sum_{t \in T_f} s_{m,t}.
+\]
 
-The CLI never stores the key. A comparable score is issued only when every requested task has one
-valid parseable response. Partial runs receive coverage diagnostics but no FlavourBench Score.
+A score of **100** means choosing Epicure's optimum on every task. Epicure is the executable
+reference environment, not a ranked model. The random-choice baseline is calculated exactly by
+averaging all 56 legal portfolios on each task, rather than estimating chance from simulations.
 
-## Dataset contents
+Inference uses 534 ingredient-anchor clusters, 50,000 shared cluster-bootstrap replicates,
+simultaneous 95% score intervals, 100,000 cluster sign flips for all model pairs, Holm correction,
+and bootstrap rank intervals. Shared tasks move together in every resample.
+
+## Dataset views
 
 | Config | Rows | Unit |
 |---|---:|---|
-| `models` | 27 | Model score, uncertainty, exact route, family scores, and panel replication |
+| `models` | 27 | Score, uncertainty, route, family scores, and panel replication |
 | `tasks` | 534 | Prompt, candidates, all 56 Epicure scores, family, anchor, and panel |
-| `primary_observations` | 14,418 | One selected source response for each model-task cell |
-| `leaderboard` | 27 | Point rank, rank group, score interval, and route |
-| `pairwise_comparisons` | 351 | One paired contrast with sign-flip and Holm-adjusted inference |
+| `primary_observations` | 14,418 | One content-addressed response for each model-task cell |
+| `leaderboard` | 27 | Point rank, statistical group, score interval, and route |
+| `pairwise_comparisons` | 351 | Paired difference, sign-flip test, Holm result, and effect size |
+| `lab_tasks` | 426 | Anchor-disjoint development reward maps |
+| `sft`, `dpo`, `grpo` | multiple | Ready-to-load training views |
 
-`primary_observations` stores the original content-addressed response document, the exact source
-path, the release panel, and parser-v3 scoring used by the final analysis. The selected matrix is
-complete: every model has one valid, parseable response for every ranked task.
+The original two panels contained 640 tasks each. The release keeps parser-valid all-model tasks,
+orders them by a score-blind hash rule, and takes 89 tasks per family from each panel. The resulting
+common core has 267 tasks per panel and 534 tasks overall. Regional composition remains in the
+development evidence but is not ranked because it could not supply the same balanced all-model
+matrix.
 
-## Score and inference
+## Reproduce and verify
 
-The FlavourBench Score is the equal-weight mean of substitution, pairing, and constraint scores.
-Each family contains 178 tasks. A task score lies between 0 and 100 and is determined by the
-position of the chosen portfolio on that task's Epicure score map.
-
-The release uses 534 ingredient-anchor clusters, 50,000 shared cluster-bootstrap replicates,
-simultaneous 95% score intervals, 100,000 cluster sign flips for all model pairs, Holm correction,
-exact-chance tests, and bootstrap rank intervals. There are 101 Holm-significant pairwise
-differences. The leading intervals overlap, so the release does not claim one statistically unique
-top model.
-
-## Common-core construction
-
-The original two panels contained 640 tasks each. For every panel and included family, the analysis
-retains tasks with a completed parser-v3-valid response from all 27 models, orders those tasks by a
-fixed hash rule, and takes the first 89. The selection rule uses status and parseability only. It
-does not inspect scores or selected ingredients. The resulting common core has 267 tasks per panel
-and 534 tasks overall.
-
-Regional composition remains in the full development evidence but is not part of this ranked
-common-core estimand because it could not supply the same balanced all-model cell.
-
-## Integrity
-
-`data-complete-core/DATA_MANIFEST.json` binds each table by byte size and SHA-256. It also binds the
-final statistical release and frozen analysis plan.
-
-`data-lab/DATA_MANIFEST.json` independently binds every development and training view. A clean
-source checkout reconstructs it from the two content-addressed tasksets and the frozen common-core
-selection plan:
+`data-complete-core/DATA_MANIFEST.json` binds every release table by byte size and SHA-256.
+`data-lab/DATA_MANIFEST.json` independently binds every training view.
 
 ```bash
+git clone https://github.com/josefchen/flavourbench.git
+cd flavourbench
+python -m pip install -e '.[dev]'
+
 python hf/dataset/build_lab_dataset.py --check
-```
-
-- Dataset manifest: `54331a825da40ab90c8e13fc971d47fe4eb94e5f23cf87ec70131fe5e3807e05`
-- Release semantic ID: `0a20655c97aa1363c2266e247f3dd03b759d0f80bca9154c6619c5549b2fac99`
-- Release file SHA-256: `709452f8cf54ebc1947f2a3c24e6ee19580be1c115ba3a9effbac441de556db4`
-- Analysis plan semantic ID: `2ba71c793c8d4b97eed863ee83fd770b429fdefdffebdeafb241672f634ee507`
-- Lab dataset semantic ID: `b7f7d2f6e6dad9b5a526d15ee56e24f6b150e5bd2cd440c38f33092219654970`
-
-Verify the downloaded export without provider access:
-
-```bash
 python3 -I hf/dataset/verify_complete_core_dataset.py \
-  --dataset-directory hf-release/data-complete-core
+  --dataset-directory hf/dataset/data-complete-core
+pytest -q tests/lab_cli_test.py tests/hf_lab_space_api_test.py
 ```
 
-To reconstruct the ignored source-response tree for a full analysis rebuild, run the checked
-restorer and then the paper targets:
+These checks make no provider calls.
 
-```bash
-python3 -I hf/dataset/restore_complete_core_sources.py \
-  --dataset-directory hf-release/data-complete-core \
-  --repository . \
-  --restore
-make -C paper -f Makefile.powered analysis assets verify
-```
+| Bound artifact | SHA-256 or semantic ID |
+|---|---|
+| Dataset manifest | `54331a825da40ab90c8e13fc971d47fe4eb94e5f23cf87ec70131fe5e3807e05` |
+| Release semantic ID | `0a20655c97aa1363c2266e247f3dd03b759d0f80bca9154c6619c5549b2fac99` |
+| Release file | `709452f8cf54ebc1947f2a3c24e6ee19580be1c115ba3a9effbac441de556db4` |
+| Analysis plan | `2ba71c793c8d4b97eed863ee83fd770b429fdefdffebdeafb241672f634ee507` |
+| Lab dataset | `b7f7d2f6e6dad9b5a526d15ee56e24f6b150e5bd2cd440c38f33092219654970` |
 
-These commands make no provider calls.
-
-## Interpretation and rights
-
-A score of 100 means that a model chose Epicure's optimum on every task. Epicure is the reference
-environment and is not a ranked model. These scores measure culinary portfolio selection under the
-released reward surface, not general intelligence, food safety, or sensory preference.
+## Rights and citation
 
 Prompts, candidate sets, derived tables, and original figures are CC BY 4.0. Model responses retain
-their provider terms. The underlying Epicure ingredient data and embeddings are not redistributed.
-See the repository [rights boundary](https://github.com/josefchen/flavourbench/blob/main/LICENSES.md).
-The evaluation and training software is Apache-2.0.
+their provider terms. Epicure's underlying ingredient data and embeddings are not redistributed.
+The evaluation and training software is Apache-2.0. See the repository
+[rights boundary](https://github.com/josefchen/flavourbench/blob/main/LICENSES.md).
 
 Josef Chen is a Cohere Labs Catalyst Grant recipient. This acknowledgement does not imply Cohere
 endorsement of FlavourBench, Epicure, the protocol, or any model ranking.
-
-## Citation
 
 ```bibtex
 @article{chen2026flavourbench,
