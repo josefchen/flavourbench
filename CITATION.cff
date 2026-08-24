@@ -9,10 +9,14 @@ authors:
   - family-names: Hayretci
     given-names: Erim
     affiliation: Imperial College London
-version: 1.2.0
-date-released: 2026-08-24
+version: 1.3.0
+date-released: "2026-08-24"
 repository-code: "https://github.com/josefchen/flavourbench"
-url: "https://github.com/josefchen/flavourbench"
+url: "https://arxiv.org/abs/2608.20574"
+identifiers:
+  - type: doi
+    value: "10.48550/arXiv.2608.20574"
+    description: "FlavourBench arXiv record"
 preferred-citation:
   type: article
   authors:
@@ -24,3 +28,7 @@ preferred-citation:
       affiliation: Imperial College London
   title: "FlavourBench: Ranking Frontier Language Models with Executable Culinary Ground Truth"
   year: 2026
+  identifiers:
+    - type: doi
+      value: "10.48550/arXiv.2608.20574"
+  url: "https://arxiv.org/abs/2608.20574"

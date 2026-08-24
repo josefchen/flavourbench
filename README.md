@@ -11,7 +11,7 @@ Josef Chen, Independent Researcher · Erim Hayretci, Imperial College London
 
 **27 models · 534 identical tasks per model · 14,418 scored responses · 351 paired tests**
 
-[Paper](paper/build/flavourbench.pdf) · [Leaderboard](https://huggingface.co/spaces/josefchen/flavourbench) · [Dataset](https://huggingface.co/datasets/josefchen/flavourbench) · [arXiv source](paper/build/flavourbench-arxiv-source.tar.gz)
+[Paper](https://arxiv.org/abs/2608.20574) · [PDF](paper/build/flavourbench.pdf) · [Leaderboard](https://huggingface.co/spaces/josefchen/flavourbench) · [Dataset](https://huggingface.co/datasets/josefchen/flavourbench) · [arXiv source](paper/build/flavourbench-arxiv-source.tar.gz)
 
 </div>
 
@@ -121,18 +121,23 @@ The Hugging Face dataset now exposes three training-ready configurations:
 
 | Config | Train | Validation | Interface |
 |---|---:|---:|---|
-| `sft` | 342 | 84 | Optimal demonstrations with optimum margins |
-| `dpo` | 1,368 | 336 | Deterministic preferences with gaps of at least 5 points |
-| `grpo` | 342 | 84 | Prompt plus complete local reward map |
+| `sft` | 270 | 72 | Optimal demonstrations with optimum margins |
+| `dpo` | 1,080 | 288 | Deterministic preferences with gaps of at least 5 points |
+| `grpo` | 270 | 72 | Prompt plus complete local reward map |
 
-All 426 development anchors are disjoint from the 534 leaderboard anchors; train and validation
-anchors are disjoint from each other. The [runnable Hugging Face Jobs recipes](examples/lab) cover
-SFT, DPO, and GRPO with LoRA, Trackio, evaluation, checkpointing, and Hub persistence. Training on
-the public leaderboard maps is explicitly outside the protocol because it would measure
-memorization.
+All 426 lab anchors are disjoint from the 534 leaderboard anchors. Train, validation, and the
+84-task predeclared transfer split are mutually anchor-disjoint and balanced by family and source
+panel. The transfer maps are public rather than hidden, so the protocol relies on declared split
+discipline; optimizer-facing configs omit them. The [runnable Hugging Face Jobs recipes](examples/lab)
+cover SFT, DPO, and GRPO with LoRA, Trackio, evaluation, checkpointing, and Hub persistence.
+Training on either the transfer split or the public leaderboard maps is outside the protocol.
+
+The prospective [Epicure reward-transfer study](docs/reward-transfer-study.md) freezes two base
+checkpoints, three training methods, three seeds, six multiplicity-controlled contrasts, inference
+effort scaling, and candidate-order robustness before any transfer result is inspected.
 
 The Hugging Face Space also exposes named Gradio API endpoints for official evaluation and a
-separate `training_reward` endpoint restricted to the 426 non-leaderboard development maps. Local
+separate `training_reward` endpoint restricted to the 342 train/validation maps. Local
 reward lookup remains the recommended path for high-throughput RL.
 
 ## Statistical design
@@ -145,10 +150,17 @@ reward lookup remains the recommended path for high-throughput RL.
 - 100,000 cluster sign flips for each of 351 paired contrasts
 - Holm correction across the full pairwise family
 - exact taskwise chance tests for every model
+- crossed-design relative-decision generalizability of 0.936
+- 5,000 balanced, score-blind subsamples at five smaller task counts
 
 The common core was selected using completion and parseability only. No score or observed selection
 was inspected during task selection. This removes the missing-cell ambiguity that affected earlier
 development releases while retaining a fixed, shared estimand for all models.
+
+The generalizability model estimates 329 balanced tasks for relative reliability 0.90. At 270
+tasks, the median rank correlation with the complete point order is 0.952, but the point leader is
+preserved in only 46.1% of subsets. The score is stable before the exact winner is; this is why the
+release shows simultaneous intervals and bootstrap rank ranges beside the point order.
 
 ## Reproduce the release
 
@@ -200,9 +212,10 @@ No reproduction command calls a model provider.
 | Statistical release | `709452f8cf54ebc1947f2a3c24e6ee19580be1c115ba3a9effbac441de556db4` |
 | Release semantic ID | `0a20655c97aa1363c2266e247f3dd03b759d0f80bca9154c6619c5549b2fac99` |
 | Analysis plan file | `17ac5aea6eb25a0c0af440124849c926fdcafaf36956fd2e676f2c70ca80faa6` |
-| Lab training dataset | `b7f7d2f6e6dad9b5a526d15ee56e24f6b150e5bd2cd440c38f33092219654970` |
-| Final PDF | `e3538932fb3b58a6869793bd5ea3ee8688a9abb06dbdc6536e3ae1c783395fc2` |
-| arXiv source tarball | `50ac9a26b359577111f7217a0b3b4f02131fdf7c247b94b690bc6ff3e937657b` |
+| Lab training dataset | `257dfaf17c4f529f2f9b538c0c0b7d7d8ea030262f75ecf06284b61658a64137` |
+| Task-count stability analysis | `4b359ac51db465c7a3f49fb5567a624b1ce3ad6280d309f31545e17ff2797026` |
+| Final PDF | `aec6b96193e046519e27234278eb33c8f52dce852dfd1d79f5fd5e4cf0ee23ed` |
+| arXiv source tarball | `3bab563508060a73ae657ec7a3ee681568dc9b72862d08ce0ff6a2c08a80fb41` |
 
 ## Repository map
 
@@ -222,7 +235,12 @@ No reproduction command calls a model provider.
 @article{chen2026flavourbench,
   title  = {FlavourBench: Ranking Frontier Language Models with Executable Culinary Ground Truth},
   author = {Chen, Josef and Hayretci, Erim},
-  year   = {2026}
+  journal = {arXiv preprint arXiv:2608.20574},
+  year   = {2026},
+  eprint = {2608.20574},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.CL},
+  url = {https://arxiv.org/abs/2608.20574}
 }
 ```
 

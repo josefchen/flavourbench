@@ -1,0 +1,63 @@
+{
+  "artifact_sha256": "b8566e3851fc692ed0b0565f5e8a1acd7c1a3ec3e02a204a80410bc3cf58b542",
+  "base_models": [
+    "Qwen/Qwen3-0.6B",
+    "HuggingFaceTB/SmolLM2-360M-Instruct"
+  ],
+  "confirmatory": {
+    "alpha": 0.05,
+    "contrasts": "each trained treatment minus the matched unmodified base",
+    "family_size": 6,
+    "interval": "hierarchical_anchor_and_seed_bootstrap_95pct",
+    "multiplicity": "holm",
+    "outcome": "equal_family_flavourbench_score",
+    "test": "stratified_task_sign_flip_on_seed_mean_differences"
+  },
+  "decoding": {
+    "max_new_tokens": 64,
+    "primary": "greedy",
+    "temperature": 0.0
+  },
+  "dataset": {
+    "evaluation_tasks": 84,
+    "lab_dataset_artifact_sha256": "257dfaf17c4f529f2f9b538c0c0b7d7d8ea030262f75ecf06284b61658a64137",
+    "official_leaderboard_anchor_overlap": 0,
+    "train_tasks": 270,
+    "train_validation_evaluation_anchor_overlap": 0,
+    "validation_tasks": 72
+  },
+  "prohibited": [
+    "hyperparameter_selection_on_evaluation_split",
+    "optimization_on_evaluation_split",
+    "optimization_on_official_leaderboard_maps",
+    "selective_task_deletion"
+  ],
+  "schema_version": "flavourbench-reward-transfer-plan-v1",
+  "secondary_analyses": [
+    "inference_effort_n1_n4_n16",
+    "five_candidate_label_permutations",
+    "training_data_25_50_100_percent",
+    "family_specific_transfer"
+  ],
+  "seeds": [
+    20260824,
+    20260825,
+    20260826
+  ],
+  "status": "prospective_protocol_frozen_before_training",
+  "stratification": {
+    "dimensions": [
+      "family",
+      "source_panel"
+    ],
+    "evaluation_per_stratum": 14,
+    "strata": 6,
+    "train_per_stratum": 45,
+    "validation_per_stratum": 12
+  },
+  "treatments": [
+    "sft_lora",
+    "dpo_lora",
+    "grpo_lora"
+  ]
+}

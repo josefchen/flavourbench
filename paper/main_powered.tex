@@ -44,6 +44,7 @@
 \newcommand{\epicure}{\textsc{Epicure}}
 \newcommand{\sha}[1]{\texttt{\seqsplit{#1}}}
 \input{generated/complete-core/complete-core-macros.tex}
+\input{generated/complete-core/complete-core-stability-macros.tex}
 
 \title{\vspace{-1.4em}\system{}: Ranking Frontier Language Models with\\
 Executable Culinary Ground Truth}
@@ -72,7 +73,8 @@ Executable Culinary Ground Truth}
   \FBBootstrapResamples{} anchor-cluster bootstrap replicates for simultaneous 95\% score bands
   and \FBPermutationResamples{} sign-flip draws for all \FBPairs{} paired model contrasts, with
   Holm control. The two independently compiled panels correlate at $r=\FBPanelPearson{}$ (rank
-  $\rho=\FBPanelSpearman{}$). \FBTopModel{} has the largest point estimate at \FBTopScore{}
+  $\rho=\FBPanelSpearman{}$), and crossed-design relative-decision generalizability is
+  \FBGeneralizability{}. \FBTopModel{} has the largest point estimate at \FBTopScore{}
   (simultaneous 95\% CI \FBTopCILow{}--\FBTopCIHigh{}); \FBSignificantPairs{} of \FBPairs{}
   model pairs are resolved. The release includes the prompts, all portfolio score maps, raw
   responses, exact routes, content hashes, and an offline verifier that reconstructs every result.
@@ -313,6 +315,15 @@ All inferential choices are bound in the content-addressed analysis plan.
   total order.
 \end{itemize}
 
+We add a retrospective precision diagnostic that does not alter the confirmatory inference.
+Within each of the six family--panel strata, we draw \FBStabilityReplicates{} score-blind subsets
+without replacement at total task counts 30, 60, 90, 150, and 270, then compare each point order
+with the complete 534-task order. We report rank correlation, top-five overlap, point-leader
+preservation, pair-order agreement, and score error. A crossed model-by-task decomposition also
+reports a descriptive generalizability coefficient for relative endpoint comparisons. It treats
+the release as a crossed design; it does not turn these fixed endpoints or tasks into random
+population samples.
+
 The design has \FBIndependentClusters{} independent anchor clusters and \FBTasks{} paired cells
 per contrast. Statistical claims are read directly from simultaneous intervals and Holm-adjusted
 tests; point-rank differences without corrected support are shown as unresolved.
@@ -373,6 +384,28 @@ replication to a single coefficient.
   uses \FBUniqueAnchors{} unique anchor clusters.}
   \label{fig:panel-replication}
 \end{figure}
+
+\subsection{How much task evidence is enough for a stable score?}
+
+The crossed design's relative-decision generalizability coefficient is
+\FBGeneralizability{} at 534 tasks; the same variance model estimates \FBTasksForGNinety{}
+balanced tasks for 0.90. In \FBStabilityReplicates{} stratified half-size subsamples
+(\FBHalfTaskCount{} tasks), the median rank correlation with the complete point order is
+\FBHalfRankMedian{} (empirical 95\% range \FBHalfRankLow{}--\FBHalfRankHigh{}) and median
+top-five overlap is \FBHalfTopFive{}. The complete point leader is retained in only
+\FBHalfTopOne{} of those subsets. The first two results show that 534 tasks support a reliable
+global score; the last shows why a narrow claim about the single point leader would be stronger
+than the data allow.
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=0.92\linewidth]{figures/complete-core/complete-core-task-count-stability.pdf}
+  \caption{Stability of smaller, score-blind task subsets relative to the complete 534-task point
+  order. Lines are medians across family--panel stratified samples; bands are empirical 2.5th to
+  97.5th percentiles. The 534-task endpoint is identical to the reference by construction. This is
+  a precision diagnostic, not a post-hoc power calculation.}
+  \label{fig:task-count-stability}
+\end{figure*}
 
 \subsection{Which pairwise conclusions survive correction?}
 
@@ -453,10 +486,14 @@ This creates three immediate training interfaces:
   \item offline or online policy optimization using dense bounded rewards and held-out anchors.
 \end{enumerate}
 
-The present experiment evaluates models rather than training them. The release supplies the
-environment, reward function, and anchor identifiers required for a clean next experiment: train
-on development reward maps and measure transfer on disjoint held-out anchors. Direct optimization
-on the public test map would measure memorization rather than culinary learning.
+The present experiment evaluates models rather than training them. The release therefore keeps a
+separate, content-addressed lab track: 270 training maps, 72 validation maps, and 84 predeclared
+transfer maps, balanced across the same six family--panel strata. Every lab anchor is disjoint from
+the ranked 534-task core and from the other lab splits. Optimizer-facing SFT, DPO, and GRPO views
+omit the transfer rows. The public maps are not secret, so this is a declared held-out protocol,
+not a hidden test server. The prospective study fixes two base checkpoints, three training methods,
+three seeds, and six Holm-controlled transfer contrasts before training. Direct optimization on
+either transfer map would measure memorization rather than culinary learning.
 
 \section{Reproducibility}
 \label{sec:reproducibility}

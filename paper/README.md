@@ -5,6 +5,8 @@
 Josef Chen, Independent Researcher<br>
 Erim Hayretci, Imperial College London
 
+Canonical paper record: <https://arxiv.org/abs/2608.20574>
+
 The paper reports the final 27-model complete-common-core benchmark. Each model is scored on the
 same 534 tasks, giving 14,418 valid model-task observations. The task set contains two independently
 compiled panels and three equally weighted families. Epicure scores all 56 legal portfolios before
@@ -14,6 +16,10 @@ The primary analysis uses 50,000 ingredient-anchor cluster bootstraps, simultane
 intervals, 100,000 cluster sign flips for all 351 model pairs, Holm correction, exact-chance tests,
 and bootstrap rank intervals. The paper reports point ranks without claiming a statistically unique
 winner when the leading intervals overlap.
+
+A crossed-design precision supplement reports relative-decision generalizability of 0.936 and
+5,000 balanced, score-blind subsamples at each of five smaller task counts. Its content-addressed
+analysis, CSV tables, and vector figure are rebuilt with the paper assets.
 
 ## Build and verify
 

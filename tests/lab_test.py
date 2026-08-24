@@ -51,13 +51,13 @@ def test_lab_scores_a_complete_content_addressed_submission() -> None:
         seed=7,
     )
 
-    assert len(tasks) == 342
+    assert len(tasks) == 270
     assert report["comparable"] is True
     assert report["flavourbench_score"] == 100.0
     assert report["coverage"] == {
-        "tasks": 342,
-        "submitted": 342,
-        "valid": 342,
+        "tasks": 270,
+        "submitted": 270,
+        "valid": 270,
         "missing": 0,
         "invalid": 0,
         "fraction_valid": 1.0,
@@ -78,7 +78,7 @@ def test_lab_withholds_score_for_missing_or_invalid_cells() -> None:
 
     assert report["comparable"] is False
     assert report["flavourbench_score"] is None
-    assert report["coverage"]["valid"] == 340
+    assert report["coverage"]["valid"] == 268
     assert report["coverage"]["invalid"] == 1
     assert report["coverage"]["missing"] == 1
     assert report["diagnostic_valid_score"] == 100.0

@@ -22,6 +22,7 @@ from trl import SFTConfig, SFTTrainer
 
 DATASET_REPO = os.environ.get("FLAVOURBENCH_DATASET", "josefchen/flavourbench")
 BASE_MODEL = os.environ.get("BASE_MODEL", "Qwen/Qwen3-0.6B")
+SEED = int(os.environ.get("SEED", "20260824"))
 MIN_OPTIMAL_MARGIN_BPS = int(os.environ.get("MIN_OPTIMAL_MARGIN_BPS", "500"))
 OUTPUT_MODEL = os.environ.get("OUTPUT_MODEL")
 if not OUTPUT_MODEL:
@@ -35,7 +36,7 @@ print(
     f"with optimum margins >= {MIN_OPTIMAL_MARGIN_BPS} bps"
 )
 config = SFTConfig(
-    output_dir="flavourbench-sft-output",
+    output_dir=f"flavourbench-sft-output-seed-{SEED}",
     push_to_hub=True,
     hub_model_id=OUTPUT_MODEL,
     hub_private_repo=os.environ.get("PUBLIC_MODEL", "0") != "1",
@@ -56,7 +57,10 @@ config = SFTConfig(
     lr_scheduler_type="cosine",
     report_to="trackio",
     project="flavourbench-lab",
-    run_name=f"sft-{BASE_MODEL.rsplit('/', 1)[-1]}",
+    run_name=f"sft-{BASE_MODEL.rsplit('/', 1)[-1]}-seed-{SEED}",
+    seed=SEED,
+    data_seed=SEED,
+    full_determinism=True,
 )
 trainer = SFTTrainer(
     model=BASE_MODEL,

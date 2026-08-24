@@ -96,7 +96,8 @@ See [submitting results](./submitting-results.md).
 - [x] Desktop, mobile, light, dark, keyboard focus, and reduced motion are covered.
 - [x] Space exposes the score and training APIs without accepting provider credentials.
 - [x] Result submission template and verification contract are public in the source tree.
-- [x] Dataset and Space remain private before the paper is approved.
-- [ ] Make both Hugging Face repositories public when the approved arXiv record is live.
-- [ ] Replace repository paper links with the arXiv URL after approval.
+- [x] Dataset and Space remained private before the paper was approved.
+- [x] Approved arXiv record is live at <https://arxiv.org/abs/2608.20574>.
+- [x] Replace repository paper links with the canonical arXiv URL.
+- [x] Dataset and Space are public after final revision verification.
 - [ ] Apply for Hugging Face native benchmark registration after public release.

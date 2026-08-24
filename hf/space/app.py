@@ -30,7 +30,7 @@ BUNDLE_PATH = Path(
 
 RUST = "#A83D34"
 INK = "#161817"
-PAPER_URL = "https://github.com/josefchen/flavourbench/blob/main/paper/build/flavourbench.pdf"
+PAPER_URL = "https://arxiv.org/abs/2608.20574"
 DATASET_URL = "https://huggingface.co/datasets/josefchen/flavourbench"
 SOURCE_URL = "https://github.com/josefchen/flavourbench"
 DATASET_RESULTS_URL = (
@@ -1140,6 +1140,7 @@ MODELS = BUNDLE["models"]
 TASKS = BUNDLE["tasks"]
 LAB_TASKS = BUNDLE.get("lab_tasks", [])
 PAIRWISE = BUNDLE["pairwise_comparisons"]
+STABILITY = BUNDLE["stability_analysis"]
 MODEL_COUNT = len(MODELS)
 TASK_COUNT = len(TASKS)
 PAIR_COUNT = len(PAIRWISE)
@@ -1658,6 +1659,23 @@ def _insights_html() -> str:
             "mean_difference", float(DISPLAY_MODELS[0]["flavourbench_score"]) - chance
         )
     )
+    stability_rows = []
+    for row in STABILITY["task_count_stability"]:
+        rank = row["metrics"]["rank_spearman"]
+        top_five = row["metrics"]["top_5_overlap"]
+        leader = row["metrics"]["top_1_preserved"]
+        stability_rows.append(
+            "<tr>"
+            f"<td>{int(row['tasks'])}</td>"
+            f"<td>{float(rank['median']):.3f}</td>"
+            f"<td>{float(rank['p2_5']):.3f}–{float(rank['p97_5']):.3f}</td>"
+            f"<td>{float(top_five['median']) * 100:.0f}%</td>"
+            f"<td>{float(leader['mean']) * 100:.1f}%</td>"
+            "</tr>"
+        )
+    variance = STABILITY["variance_partition"]
+    generalizability = float(variance["relative_decision_generalizability_at_534_tasks"])
+    tasks_for_g_90 = int(variance["estimated_balanced_tasks_for_relative_g_0_90"])
     return f"""
     <div class="fb-insight-layout">
       <section>
@@ -1675,6 +1693,29 @@ def _insights_html() -> str:
         </div>
       </aside>
     </div>
+    <section class="fb-family-insight">
+      <h3>Why 534 tasks?</h3>
+      <p>The crossed design's descriptive relative-decision generalizability is
+      <strong>{generalizability:.3f}</strong>; the same variance model estimates
+      <strong>{tasks_for_g_90}</strong> balanced tasks for 0.90. The table below repeatedly takes
+      score-blind, balanced subsets and compares them with the complete point order.</p>
+      <div class="fb-table-wrap">
+        <table class="fb-table">
+          <caption>5,000 family-by-panel stratified subsets at each non-complete task count</caption>
+          <thead><tr>
+            <th scope="col">Tasks</th>
+            <th scope="col">Median rank ρ</th>
+            <th scope="col">Empirical 95%</th>
+            <th scope="col">Top-five overlap</th>
+            <th scope="col">Point leader kept</th>
+          </tr></thead>
+          <tbody>{"".join(stability_rows)}</tbody>
+        </table>
+      </div>
+      <p class="fb-resolution-note">This is a precision diagnostic relative to the complete
+      release, not a post-hoc power claim. The point leader remains unstable in smaller subsets;
+      the simultaneous score bands and rank intervals remain the inferential result.</p>
+    </section>
     <section class="fb-family-insight">
       <h3>Where the leading labs differ</h3>
       <p>Scores are out of 100. Red marks each column leader.</p>
@@ -2417,8 +2458,9 @@ and GRPO recipes in the source repository. The full publication contract is in t
                     sign flips, Holm correction, exact tests against a random legal choice, bootstrap rank intervals,
                     and an independently compiled second panel.</p>
                     <h3>Training boundary</h3>
-                    <p>The 426 SFT, DPO, and GRPO development maps use anchors that do not occur in
-                    the {TASK_COUNT}-task leaderboard. Training cannot query the official test reward maps by accident.</p>
+                    <p>The 342 optimizer-facing SFT, DPO, and GRPO maps use anchors that do not
+                    occur in the 84-task transfer split or the {TASK_COUNT}-task leaderboard.
+                    Training cannot query either evaluation map through the reward endpoint.</p>
                     <aside class="fb-evidence">
                       <strong>Content-addressed release</strong><br>
                       <span class="fb-hash">{BUNDLE["release_artifact_sha256"]}</span><br><br>
@@ -2467,7 +2509,7 @@ pytest -q tests/lab_cli_test.py tests/hf_lab_space_api_test.py
             <span>Erim Hayretci, Imperial College London</span>
           </div>
           <nav class="fb-footer-links" aria-label="Project resources">
-            <a href="https://github.com/josefchen/flavourbench/blob/main/paper/build/flavourbench.pdf">Paper</a>
+            <a href="https://arxiv.org/abs/2608.20574">Paper</a>
             <a href="https://huggingface.co/datasets/josefchen/flavourbench">Dataset</a>
             <a href="https://github.com/josefchen/flavourbench">Source</a>
           </nav>

@@ -81,7 +81,7 @@ Do not use:
 
 ## Canonical links
 
-- Paper: <https://github.com/josefchen/flavourbench/blob/main/paper/build/flavourbench.pdf>
+- Paper: <https://arxiv.org/abs/2608.20574>
 - Source and replay: <https://github.com/josefchen/flavourbench>
 - Benchmark Space: <https://huggingface.co/spaces/josefchen/flavourbench>
 - Dataset: <https://huggingface.co/datasets/josefchen/flavourbench>

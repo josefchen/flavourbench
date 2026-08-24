@@ -83,15 +83,18 @@ The Space exposes four named endpoints:
 |---|---|
 | `/score_completion` | Score one completion on one official task |
 | `/score_submission` | Score a complete JSON or JSONL artifact supplied as text |
-| `/training_reward` | Query one of 426 anchor-disjoint development reward maps |
+| `/training_reward` | Query one of 342 anchor-disjoint train/validation reward maps |
 | `/score_uploaded_submission` | Score an uploaded artifact and return a report |
 
 Use **Use via API** in the running Space for generated Python, JavaScript, and curl clients. For
 high-throughput RL, use the local deterministic reward function. The linked dataset includes
 ready-to-load SFT, DPO, and GRPO views plus runnable LoRA recipes for Hugging Face Jobs.
 
+The [prospective reward-transfer protocol](https://github.com/josefchen/flavourbench/blob/main/docs/reward-transfer-study.md)
+defines the 84-task transfer split, seeds, six confirmatory contrasts, and multiplicity control.
+
 [Dataset and lab kit](https://huggingface.co/datasets/josefchen/flavourbench)&nbsp;&nbsp;&nbsp;
-[Paper](https://github.com/josefchen/flavourbench/blob/main/paper/build/flavourbench.pdf)&nbsp;&nbsp;&nbsp;
+[Paper](https://arxiv.org/abs/2608.20574)&nbsp;&nbsp;&nbsp;
 [Source](https://github.com/josefchen/flavourbench)
 
 Josef Chen, Independent Researcher<br>
@@ -101,6 +104,11 @@ Erim Hayretci, Imperial College London
 @article{chen2026flavourbench,
   title  = {FlavourBench: Ranking Frontier Language Models with Executable Culinary Ground Truth},
   author = {Chen, Josef and Hayretci, Erim},
-  year   = {2026}
+  journal = {arXiv preprint arXiv:2608.20574},
+  year   = {2026},
+  eprint = {2608.20574},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.CL},
+  url = {https://arxiv.org/abs/2608.20574}
 }
 ```

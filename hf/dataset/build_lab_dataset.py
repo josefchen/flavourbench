@@ -1,4 +1,4 @@
-"""Build contamination-separated FlavourBench development and TRL training tables."""
+"""Build contamination-separated FlavourBench training, validation, and transfer tables."""
 
 from __future__ import annotations
 
@@ -29,9 +29,12 @@ DEFAULT_OFFICIAL_PLAN = (
 )
 
 PRIMARY_FAMILIES = ("substitution", "pairing", "constraint")
-SCHEMA_VERSION = "flavourbench-lab-dataset-v1"
-SPLIT_SALT = "flavourbench-lab-anchor-split-v1"
+SCHEMA_VERSION = "flavourbench-lab-dataset-v2"
+SPLIT_SALT = "flavourbench-lab-anchor-split-v2"
 DPO_MIN_MARGIN_BPS = 500
+TRAIN_PER_STRATUM = 45
+VALIDATION_PER_STRATUM = 12
+EVALUATION_PER_STRATUM = 14
 
 
 class LabDatasetBuildError(RuntimeError):
@@ -75,9 +78,10 @@ def _hash_key(value: str) -> str:
 
 def _primary_split(
     rows: Sequence[Mapping[str, Any]],
-) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
     train: list[dict[str, Any]] = []
     validation: list[dict[str, Any]] = []
+    evaluation: list[dict[str, Any]] = []
     for family in PRIMARY_FAMILIES:
         for panel in ("panel_1", "panel_2"):
             stratum = sorted(
@@ -90,9 +94,21 @@ def _primary_split(
             )
             if len(stratum) != 71:
                 raise LabDatasetBuildError(f"{family}/{panel} does not contain 71 lab tasks")
-            validation_ids = {str(row["task_id"]) for row in stratum[:14]}
+            if TRAIN_PER_STRATUM + VALIDATION_PER_STRATUM + EVALUATION_PER_STRATUM != len(stratum):
+                raise LabDatasetBuildError("primary split cardinalities do not exhaust a stratum")
+            split_by_id: dict[str, str] = {}
+            boundaries = (
+                ("evaluation", EVALUATION_PER_STRATUM),
+                ("validation", VALIDATION_PER_STRATUM),
+                ("train", TRAIN_PER_STRATUM),
+            )
+            offset = 0
+            for split, count in boundaries:
+                for row in stratum[offset : offset + count]:
+                    split_by_id[str(row["task_id"])] = split
+                offset += count
             for row in stratum:
-                split = "validation" if str(row["task_id"]) in validation_ids else "train"
+                split = split_by_id[str(row["task_id"])]
                 transformed = {
                     **row,
                     "source_split": row.get("split"),
@@ -102,12 +118,17 @@ def _primary_split(
                     "official_test_anchor_overlap": False,
                     "official_test_task_overlap": False,
                 }
-                (validation if split == "validation" else train).append(transformed)
+                {"train": train, "validation": validation, "evaluation": evaluation}[split].append(
+                    transformed
+                )
     train.sort(key=lambda row: (PRIMARY_FAMILIES.index(str(row["family"])), str(row["task_id"])))
     validation.sort(
         key=lambda row: (PRIMARY_FAMILIES.index(str(row["family"])), str(row["task_id"]))
     )
-    return train, validation
+    evaluation.sort(
+        key=lambda row: (PRIMARY_FAMILIES.index(str(row["family"])), str(row["task_id"]))
+    )
+    return train, validation, evaluation
 
 
 def _supplemental_split(rows: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
@@ -262,14 +283,17 @@ def build_files(
     if len(supplemental) != 283:
         raise LabDatasetBuildError("disjoint supplemental development pool differs")
 
-    train_tasks, validation_tasks = _primary_split(primary)
-    if len(train_tasks) != 342 or len(validation_tasks) != 84:
-        raise LabDatasetBuildError("primary train/validation cardinality differs")
+    train_tasks, validation_tasks, evaluation_tasks = _primary_split(primary)
+    if len(train_tasks) != 270 or len(validation_tasks) != 72 or len(evaluation_tasks) != 84:
+        raise LabDatasetBuildError("primary train/validation/evaluation cardinality differs")
     train_anchors = {str(row["anchor_ingredient"]) for row in train_tasks}
     validation_anchors = {str(row["anchor_ingredient"]) for row in validation_tasks}
+    evaluation_anchors = {str(row["anchor_ingredient"]) for row in evaluation_tasks}
     if (
         train_anchors & validation_anchors
-        or (train_anchors | validation_anchors) & official_anchors
+        or train_anchors & evaluation_anchors
+        or validation_anchors & evaluation_anchors
+        or (train_anchors | validation_anchors | evaluation_anchors) & official_anchors
     ):
         raise LabDatasetBuildError("anchor leakage detected across lab splits")
 
@@ -277,6 +301,7 @@ def build_files(
     files = {
         "train_tasks.jsonl": _jsonl(train_tasks),
         "validation_tasks.jsonl": _jsonl(validation_tasks),
+        "evaluation_tasks.jsonl": _jsonl(evaluation_tasks),
         "sft_train.jsonl": _jsonl(_sft(train_tasks)),
         "sft_validation.jsonl": _jsonl(_sft(validation_tasks)),
         "dpo_train.jsonl": _jsonl(_dpo(train_tasks)),
@@ -287,7 +312,7 @@ def build_files(
     }
     manifest: dict[str, Any] = {
         "schema_version": SCHEMA_VERSION,
-        "status": "development_reward_maps_not_official_test",
+        "status": "preregistered_transfer_maps_not_official_leaderboard_test",
         "split_salt": SPLIT_SALT,
         "official_test": {
             "tasks": len(official_ids),
@@ -302,6 +327,7 @@ def build_files(
         "counts": {
             "train_tasks": len(train_tasks),
             "validation_tasks": len(validation_tasks),
+            "evaluation_tasks": len(evaluation_tasks),
             "sft_train": len(train_tasks),
             "sft_validation": len(validation_tasks),
             "dpo_train": len(train_tasks) * 4,
@@ -312,9 +338,11 @@ def build_files(
         },
         "contract": {
             "primary_families": list(PRIMARY_FAMILIES),
-            "train_validation_anchor_overlap": 0,
+            "train_validation_evaluation_anchor_overlap": 0,
             "development_official_anchor_overlap": 0,
             "direct_optimization_on_official_test_forbidden": True,
+            "direct_optimization_on_evaluation_split_forbidden": True,
+            "evaluation_split_is_public_not_secret": True,
             "dpo_minimum_reward_margin_bps": DPO_MIN_MARGIN_BPS,
         },
         "files": [

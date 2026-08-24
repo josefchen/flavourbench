@@ -11,6 +11,9 @@ from typing import Any
 HERE = Path(__file__).resolve().parent
 DEFAULT_DATASET = HERE.parent / "dataset" / "data-complete-core"
 DEFAULT_LAB_DATASET = HERE.parent / "dataset" / "data-lab"
+DEFAULT_STABILITY = (
+    HERE.parents[1] / "paper/generated/complete-core/complete-core-stability-analysis.json"
+)
 DEFAULT_OUTPUT = HERE / "data-complete-core" / "flavourbench-complete-core-space.json"
 
 
@@ -53,7 +56,12 @@ def _jsonl(path: Path, *, expected_sha256: str, expected_rows: int) -> list[dict
     return rows
 
 
-def build_bundle(*, dataset_directory: Path, lab_dataset_directory: Path) -> dict[str, Any]:
+def build_bundle(
+    *,
+    dataset_directory: Path,
+    lab_dataset_directory: Path,
+    stability_path: Path = DEFAULT_STABILITY,
+) -> dict[str, Any]:
     manifest = _load(dataset_directory / "DATA_MANIFEST.json")
     if (
         not _semantic_valid(manifest)
@@ -92,8 +100,8 @@ def build_bundle(*, dataset_directory: Path, lab_dataset_directory: Path) -> dic
     lab_manifest = _load(lab_dataset_directory / "DATA_MANIFEST.json")
     if (
         not _semantic_valid(lab_manifest)
-        or lab_manifest.get("schema_version") != "flavourbench-lab-dataset-v1"
-        or lab_manifest.get("status") != "development_reward_maps_not_official_test"
+        or lab_manifest.get("schema_version") != "flavourbench-lab-dataset-v2"
+        or lab_manifest.get("status") != "preregistered_transfer_maps_not_official_leaderboard_test"
     ):
         raise CompleteCoreSpaceBuildError("lab dataset manifest failed verification")
     lab_records = {str(row["name"]): row for row in lab_manifest["files"]}
@@ -107,14 +115,21 @@ def build_bundle(*, dataset_directory: Path, lab_dataset_directory: Path) -> dic
         )
 
     lab_tasks = [*lab_rows("train_tasks.jsonl"), *lab_rows("validation_tasks.jsonl")]
+    stability = _load(stability_path)
+    if (
+        not _semantic_valid(stability)
+        or stability.get("schema_version") != "flavourbench-task-count-stability-v1"
+        or stability.get("status") != "retrospective_precision_and_stability_analysis"
+    ):
+        raise CompleteCoreSpaceBuildError("task-count stability analysis failed verification")
     official_ids = {str(row["task_id"]) for row in tasks}
     official_anchors = {str(row["anchor_ingredient"]) for row in tasks}
     lab_ids = {str(row["task_id"]) for row in lab_tasks}
     lab_anchors = {str(row["anchor_ingredient"]) for row in lab_tasks}
     if (
-        len(lab_tasks) != 426
-        or len(lab_ids) != 426
-        or len(lab_anchors) != 426
+        len(lab_tasks) != 342
+        or len(lab_ids) != 342
+        or len(lab_anchors) != 342
         or lab_ids & official_ids
         or lab_anchors & official_anchors
     ):
@@ -160,9 +175,11 @@ def build_bundle(*, dataset_directory: Path, lab_dataset_directory: Path) -> dic
             "task_count": len(lab_tasks),
             "train_tasks": int(lab_manifest["counts"]["train_tasks"]),
             "validation_tasks": int(lab_manifest["counts"]["validation_tasks"]),
+            "evaluation_tasks": int(lab_manifest["counts"]["evaluation_tasks"]),
             "official_anchor_overlap": 0,
         },
         "lab_tasks": lab_tasks,
+        "stability_analysis": stability,
         "primary_observations": compact_observations,
         "pairwise_comparisons": pairwise,
     }
@@ -199,12 +216,14 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Build the final FlavourBench Space bundle")
     parser.add_argument("--dataset-directory", type=Path, default=DEFAULT_DATASET)
     parser.add_argument("--lab-dataset-directory", type=Path, default=DEFAULT_LAB_DATASET)
+    parser.add_argument("--stability", type=Path, default=DEFAULT_STABILITY)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
     bundle = build_bundle(
         dataset_directory=args.dataset_directory,
         lab_dataset_directory=args.lab_dataset_directory,
+        stability_path=args.stability,
     )
     payload = _bytes(bundle)
     if args.check:

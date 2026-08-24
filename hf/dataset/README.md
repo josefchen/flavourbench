@@ -38,12 +38,22 @@ configs:
   data_files:
   - split: test
     path: data-complete-core/pairwise_comparisons.jsonl
+- config_name: task_count_stability
+  data_files:
+  - split: analysis
+    path: data-analysis/task_count_stability.jsonl
+- config_name: variance_partition
+  data_files:
+  - split: analysis
+    path: data-analysis/variance_partition.jsonl
 - config_name: lab_tasks
   data_files:
   - split: train
     path: data-lab/train_tasks.jsonl
   - split: validation
     path: data-lab/validation_tasks.jsonl
+  - split: test
+    path: data-lab/evaluation_tasks.jsonl
 - config_name: sft
   data_files:
   - split: train
@@ -77,7 +87,7 @@ Epicure scores all 56 legal portfolios before a model runs. One response becomes
 score from 0 to 100. Repeat across 534 shared tasks.
 
 [Open the leaderboard](https://huggingface.co/spaces/josefchen/flavourbench)&nbsp;&nbsp;&nbsp;
-[Read the paper](https://github.com/josefchen/flavourbench/blob/main/paper/build/flavourbench.pdf)&nbsp;&nbsp;&nbsp;
+[Read the paper](https://arxiv.org/abs/2608.20574)&nbsp;&nbsp;&nbsp;
 [Run the source](https://github.com/josefchen/flavourbench)&nbsp;&nbsp;&nbsp;
 [Submit a result](https://github.com/josefchen/flavourbench/issues/new?template=flavourbench-result.yml)
 
@@ -156,15 +166,17 @@ or [open a result submission](https://github.com/josefchen/flavourbench/issues/n
 
 ![FlavourBench executable reward architecture](./assets/executable-judge.svg)
 
-The lab track contains **426 anchor-disjoint development maps**: 342 for training and 84 for
-validation. None of their ingredient anchors occurs in the 534-task leaderboard. The three views
-support different training setups:
+The lab track contains **426 anchor-disjoint reward maps**: 270 for training, 72 for validation,
+and 84 for a predeclared transfer evaluation. None of their ingredient anchors occurs in the
+534-task leaderboard. The evaluation maps are public, not secret, but optimizer-facing configs do
+not load them. The three training views support different setups:
 
 | Config | Training signal | Rows |
 |---|---|---:|
-| `sft` | Optimal prompt-completion demonstrations plus optimum margins | 426 |
-| `dpo` | Four deterministic chosen/rejected pairs per training task | 1,368 train + 336 validation |
-| `grpo` | The complete dense 56-choice reward map for each prompt | 426 |
+| `sft` | Optimal prompt-completion demonstrations plus optimum margins | 270 train + 72 validation |
+| `dpo` | Four deterministic chosen/rejected pairs per task | 1,080 train + 288 validation |
+| `grpo` | The complete dense 56-choice reward map for each prompt | 270 train + 72 validation |
+| `lab_tasks/test` | Predeclared, balanced transfer evaluation | 84 |
 
 ```python
 from datasets import load_dataset
@@ -178,6 +190,10 @@ The [runnable SFT, DPO, and GRPO recipes](https://github.com/josefchen/flavourbe
 work locally or as Hugging Face Jobs. Each pushes the trained adapter to the model owner's Hub
 account and records metrics with Trackio. GRPO computes rewards locally, so a rollout does not need
 one Space request per sample.
+
+The [prospective reward-transfer protocol](https://github.com/josefchen/flavourbench/blob/main/docs/reward-transfer-study.md)
+freezes the two base checkpoints, three methods, three seeds, six confirmatory contrasts, and the
+held-out inference rules before training begins.
 
 ## What the score means
 
@@ -198,6 +214,15 @@ Inference uses 534 ingredient-anchor clusters, 50,000 shared cluster-bootstrap r
 simultaneous 95% score intervals, 100,000 cluster sign flips for all model pairs, Holm correction,
 and bootstrap rank intervals. Shared tasks move together in every resample.
 
+The crossed 27-by-534 design has a descriptive relative-decision generalizability coefficient of
+**0.936**; its estimated threshold for 0.90 is 329 balanced tasks. In 5,000 score-blind,
+family-by-panel stratified subsamples of 270 tasks, the median rank correlation with the full point
+order is **0.952** (empirical 95% range 0.897–0.980). The point leader is preserved in only 46.1%
+of those half-size subsets, which is why FlavourBench publishes rank uncertainty instead of
+declaring every adjacent point rank definitive.
+
+![Task-count stability relative to the complete 534-task release](./assets/complete-core-task-count-stability.png)
+
 ## Dataset views
 
 | Config | Rows | Unit |
@@ -207,7 +232,9 @@ and bootstrap rank intervals. Shared tasks move together in every resample.
 | `primary_observations` | 14,418 | One content-addressed response for each model-task cell |
 | `leaderboard` | 27 | Point rank, statistical group, score interval, and route |
 | `pairwise_comparisons` | 351 | Paired difference, sign-flip test, Holm result, and effect size |
-| `lab_tasks` | 426 | Anchor-disjoint development reward maps |
+| `task_count_stability` | 6 | Stratified task-count precision and rank-stability curve |
+| `variance_partition` | 6 | Crossed model, task, family, panel, and interaction components |
+| `lab_tasks` | 426 | Anchor-disjoint train, validation, and transfer-evaluation maps |
 | `sft`, `dpo`, `grpo` | multiple | Ready-to-load training views |
 
 The original two panels contained 640 tasks each. The release keeps parser-valid all-model tasks,
@@ -240,7 +267,7 @@ These checks make no provider calls.
 | Release semantic ID | `0a20655c97aa1363c2266e247f3dd03b759d0f80bca9154c6619c5549b2fac99` |
 | Release file | `709452f8cf54ebc1947f2a3c24e6ee19580be1c115ba3a9effbac441de556db4` |
 | Analysis plan | `2ba71c793c8d4b97eed863ee83fd770b429fdefdffebdeafb241672f634ee507` |
-| Lab dataset | `b7f7d2f6e6dad9b5a526d15ee56e24f6b150e5bd2cd440c38f33092219654970` |
+| Lab dataset | `257dfaf17c4f529f2f9b538c0c0b7d7d8ea030262f75ecf06284b61658a64137` |
 
 ## Rights and citation
 
@@ -256,6 +283,11 @@ endorsement of FlavourBench, Epicure, the protocol, or any model ranking.
 @article{chen2026flavourbench,
   title  = {FlavourBench: Ranking Frontier Language Models with Executable Culinary Ground Truth},
   author = {Chen, Josef and Hayretci, Erim},
-  year   = {2026}
+  journal = {arXiv preprint arXiv:2608.20574},
+  year   = {2026},
+  eprint = {2608.20574},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.CL},
+  url = {https://arxiv.org/abs/2608.20574}
 }
 ```

@@ -8,7 +8,7 @@ different ingredient anchors.
 
 - A provider-neutral evaluator and strict response parser
 - The 534-task published evaluation map used for the paper
-- 342 development-training maps and 84 anchor-disjoint validation maps
+- 270 training maps, 72 validation maps, and an 84-task predeclared transfer split
 - SFT demonstrations, DPO preference pairs, and GRPO-ready dense rewards
 - A Hugging Face Space UI and named Gradio API endpoints
 - Content hashes for every dataset table and evaluation report
@@ -156,8 +156,8 @@ same coverage-gated report as the upload interface. The API is useful for integr
 small experiments. High-throughput RL should use the local reward maps to avoid network latency
 and Space rate limits.
 
-The separate `/training_reward` endpoint accepts IDs only from the 342-task training and 84-task
-validation partitions:
+The separate `/training_reward` endpoint accepts IDs only from the 270-task training and 72-task
+validation partitions. It omits the 84 transfer-evaluation maps:
 
 ```python
 result = client.predict(
@@ -168,7 +168,8 @@ result = client.predict(
 assert result["official_leaderboard_eligible"] is False
 ```
 
-This separation prevents an RL loop from silently optimizing on the public leaderboard map.
+This separation prevents an RL loop from silently optimizing on either the transfer split or the
+public leaderboard map.
 
 Hugging Face can therefore host the released FlavourBench reward service. It should not be
 described as the full Epicure API: arbitrary task generation would require the separate Epicure

@@ -1,0 +1,362 @@
+{
+  "artifact_sha256": "4b359ac51db465c7a3f49fb5567a624b1ce3ad6280d309f31545e17ff2797026",
+  "claim_boundary": "Subsampling quantifies stability relative to this release's full point order. It is not a post-hoc power calculation and does not prove external culinary validity.",
+  "design": {
+    "family_panel_strata": 6,
+    "models": 27,
+    "reference": "complete_534_task_point_order",
+    "sampling": "without_replacement_within_each_family_panel_stratum",
+    "tasks": 534,
+    "tasks_per_stratum": 89
+  },
+  "inputs": {
+    "leaderboard_sha256": "07a9aceb4179433ef4e52f9166250e400efb422885205c79f637621f4adca59a",
+    "observations_sha256": "e6e95d531405c760810da1de6282c14457044326db88333bee0e39d6b236851c",
+    "pairwise_sha256": "f7bfc5526b3809515b88f4c58511de6e5a56d32fe3f0ec3e26cde4ef982bc355",
+    "tasks_sha256": "97d58de483b6a4949b0a185c424c541f6fb1810f0eb774d04e27b11c100f9451"
+  },
+  "requested_subsample_replicates": 5000,
+  "schema_version": "flavourbench-task-count-stability-v1",
+  "seed": 20260824,
+  "status": "retrospective_precision_and_stability_analysis",
+  "task_count_stability": [
+    {
+      "metrics": {
+        "all_pair_order_agreement": {
+          "mean": 0.7269663817663818,
+          "median": 0.7350427350427351,
+          "p2_5": 0.5555555555555556,
+          "p97_5": 0.8433048433048433
+        },
+        "maximum_absolute_score_error": {
+          "mean": 11.414993790262173,
+          "median": 11.07875468164793,
+          "p2_5": 6.516872565543079,
+          "p97_5": 18.22613464419477
+        },
+        "mean_absolute_score_error": {
+          "mean": 4.647352678096823,
+          "median": 4.102865168539324,
+          "p2_5": 2.4408446525176877,
+          "p97_5": 9.560482681370503
+        },
+        "rank_spearman": {
+          "mean": 0.6077804639804639,
+          "median": 0.6416361416361416,
+          "p2_5": 0.1648199023199023,
+          "p97_5": 0.8565476190476189
+        },
+        "resolved_pair_direction_agreement": {
+          "mean": 0.8988910891089108,
+          "median": 0.9306930693069307,
+          "p2_5": 0.6534653465346535,
+          "p97_5": 1.0
+        },
+        "top_1_preserved": {
+          "mean": 0.1452,
+          "median": 0.0,
+          "p2_5": 0.0,
+          "p97_5": 1.0
+        },
+        "top_5_overlap": {
+          "mean": 0.42363999999999996,
+          "median": 0.4,
+          "p2_5": 0.0,
+          "p97_5": 0.8
+        }
+      },
+      "subsample_replicates": 5000,
+      "tasks": 30,
+      "tasks_per_family_panel_stratum": 5
+    },
+    {
+      "metrics": {
+        "all_pair_order_agreement": {
+          "mean": 0.7870131054131054,
+          "median": 0.7948717948717948,
+          "p2_5": 0.6609686609686609,
+          "p97_5": 0.8774928774928775
+        },
+        "maximum_absolute_score_error": {
+          "mean": 7.839288535580525,
+          "median": 7.5442275280898805,
+          "p2_5": 4.6177786516854065,
+          "p97_5": 12.647347050561777
+        },
+        "mean_absolute_score_error": {
+          "mean": 3.1830836134554032,
+          "median": 2.786977562768759,
+          "p2_5": 1.732622163268131,
+          "p97_5": 6.687771476626454
+        },
+        "rank_spearman": {
+          "mean": 0.7418956043956043,
+          "median": 0.7661782661782661,
+          "p2_5": 0.44931318681318677,
+          "p97_5": 0.905982905982906
+        },
+        "resolved_pair_direction_agreement": {
+          "mean": 0.9633386138613862,
+          "median": 0.9801980198019802,
+          "p2_5": 0.8316831683168316,
+          "p97_5": 1.0
+        },
+        "top_1_preserved": {
+          "mean": 0.1982,
+          "median": 0.0,
+          "p2_5": 0.0,
+          "p97_5": 1.0
+        },
+        "top_5_overlap": {
+          "mean": 0.52528,
+          "median": 0.6,
+          "p2_5": 0.2,
+          "p97_5": 0.8
+        }
+      },
+      "subsample_replicates": 5000,
+      "tasks": 60,
+      "tasks_per_family_panel_stratum": 10
+    },
+    {
+      "metrics": {
+        "all_pair_order_agreement": {
+          "mean": 0.8230062678062677,
+          "median": 0.8290598290598291,
+          "p2_5": 0.717948717948718,
+          "p97_5": 0.8974358974358975
+        },
+        "maximum_absolute_score_error": {
+          "mean": 6.232178891136081,
+          "median": 5.992717228464418,
+          "p2_5": 3.680946504369545,
+          "p97_5": 9.999511860174792
+        },
+        "mean_absolute_score_error": {
+          "mean": 2.5085138513709717,
+          "median": 2.1985674388495884,
+          "p2_5": 1.3860872162112214,
+          "p97_5": 5.222138129421551
+        },
+        "rank_spearman": {
+          "mean": 0.8111797313797313,
+          "median": 0.8266178266178266,
+          "p2_5": 0.5958333333333333,
+          "p97_5": 0.9279761904761903
+        },
+        "resolved_pair_direction_agreement": {
+          "mean": 0.985120792079208,
+          "median": 0.9900990099009901,
+          "p2_5": 0.9108910891089109,
+          "p97_5": 1.0
+        },
+        "top_1_preserved": {
+          "mean": 0.2542,
+          "median": 0.0,
+          "p2_5": 0.0,
+          "p97_5": 1.0
+        },
+        "top_5_overlap": {
+          "mean": 0.5924799999999999,
+          "median": 0.6,
+          "p2_5": 0.2,
+          "p97_5": 1.0
+        }
+      },
+      "subsample_replicates": 5000,
+      "tasks": 90,
+      "tasks_per_family_panel_stratum": 15
+    },
+    {
+      "metrics": {
+        "all_pair_order_agreement": {
+          "mean": 0.8675532763532763,
+          "median": 0.8717948717948718,
+          "p2_5": 0.7948717948717948,
+          "p97_5": 0.9230769230769231
+        },
+        "maximum_absolute_score_error": {
+          "mean": 4.489284808838951,
+          "median": 4.319182022471907,
+          "p2_5": 2.6224267415730296,
+          "p97_5": 7.267934569288372
+        },
+        "mean_absolute_score_error": {
+          "mean": 1.8013558912914414,
+          "median": 1.5963098488001086,
+          "p2_5": 0.9953796844222493,
+          "p97_5": 3.6882497350534025
+        },
+        "rank_spearman": {
+          "mean": 0.8852026862026864,
+          "median": 0.8937728937728938,
+          "p2_5": 0.7625,
+          "p97_5": 0.9566544566544567
+        },
+        "resolved_pair_direction_agreement": {
+          "mean": 0.9980316831683167,
+          "median": 1.0,
+          "p2_5": 0.9801980198019802,
+          "p97_5": 1.0
+        },
+        "top_1_preserved": {
+          "mean": 0.3348,
+          "median": 0.0,
+          "p2_5": 0.0,
+          "p97_5": 1.0
+        },
+        "top_5_overlap": {
+          "mean": 0.68752,
+          "median": 0.6,
+          "p2_5": 0.4,
+          "p97_5": 1.0
+        }
+      },
+      "subsample_replicates": 5000,
+      "tasks": 150,
+      "tasks_per_family_panel_stratum": 25
+    },
+    {
+      "metrics": {
+        "all_pair_order_agreement": {
+          "mean": 0.9179287749287749,
+          "median": 0.9202279202279202,
+          "p2_5": 0.8746438746438746,
+          "p97_5": 0.9515669515669516
+        },
+        "maximum_absolute_score_error": {
+          "mean": 2.7599565284228067,
+          "median": 2.6469513108614393,
+          "p2_5": 1.603976310861452,
+          "p97_5": 4.444585996670782
+        },
+        "mean_absolute_score_error": {
+          "mean": 1.1040470348330025,
+          "median": 0.9662305913903859,
+          "p2_5": 0.6006812680137525,
+          "p97_5": 2.250182050600321
+        },
+        "rank_spearman": {
+          "mean": 0.948664468864469,
+          "median": 0.9523809523809523,
+          "p2_5": 0.8974358974358975,
+          "p97_5": 0.9804639804639804
+        },
+        "resolved_pair_direction_agreement": {
+          "mean": 0.9999782178217822,
+          "median": 1.0,
+          "p2_5": 1.0,
+          "p97_5": 1.0
+        },
+        "top_1_preserved": {
+          "mean": 0.4606,
+          "median": 0.0,
+          "p2_5": 0.0,
+          "p97_5": 1.0
+        },
+        "top_5_overlap": {
+          "mean": 0.8137199999999999,
+          "median": 0.8,
+          "p2_5": 0.6,
+          "p97_5": 1.0
+        }
+      },
+      "subsample_replicates": 5000,
+      "tasks": 270,
+      "tasks_per_family_panel_stratum": 45
+    },
+    {
+      "metrics": {
+        "all_pair_order_agreement": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p2_5": 1.0,
+          "p97_5": 1.0
+        },
+        "maximum_absolute_score_error": {
+          "mean": 8.526512829121202e-14,
+          "median": 8.526512829121202e-14,
+          "p2_5": 8.526512829121202e-14,
+          "p97_5": 8.526512829121202e-14
+        },
+        "mean_absolute_score_error": {
+          "mean": 2.8158545454196562e-14,
+          "median": 2.8158545454196562e-14,
+          "p2_5": 2.8158545454196562e-14,
+          "p97_5": 2.8158545454196562e-14
+        },
+        "rank_spearman": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p2_5": 1.0,
+          "p97_5": 1.0
+        },
+        "resolved_pair_direction_agreement": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p2_5": 1.0,
+          "p97_5": 1.0
+        },
+        "top_1_preserved": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p2_5": 1.0,
+          "p97_5": 1.0
+        },
+        "top_5_overlap": {
+          "mean": 1.0,
+          "median": 1.0,
+          "p2_5": 1.0,
+          "p97_5": 1.0
+        }
+      },
+      "subsample_replicates": 1,
+      "tasks": 534,
+      "tasks_per_family_panel_stratum": 89
+    }
+  ],
+  "variance_partition": {
+    "estimated_balanced_tasks_for_relative_g_0_90": 329,
+    "grand_mean": 60.23650228880566,
+    "interpretation": "Descriptive crossed-design generalizability for relative endpoint comparisons; it is not a claim that the 27 endpoints or public tasks are random population samples.",
+    "random_effect_descriptive_components": {
+      "model": 14.0661111063985,
+      "model_by_task": 513.6331713055439,
+      "task": 630.5467248556154
+    },
+    "relative_decision_generalizability_at_534_tasks": 0.935995360066749,
+    "sum_squares_partition": [
+      {
+        "component": "model",
+        "fraction_of_total": 0.0125129888803687,
+        "sum_squares": 208648.3490551809
+      },
+      {
+        "component": "family",
+        "fraction_of_total": 0.06561477621884677,
+        "sum_squares": 1094096.2916674574
+      },
+      {
+        "component": "panel",
+        "fraction_of_total": 0.0006516314466434377,
+        "sum_squares": 10865.655426890007
+      },
+      {
+        "component": "family_by_panel",
+        "fraction_of_total": 0.002408534146628691,
+        "sum_squares": 40161.201943168184
+      },
+      {
+        "component": "task_within_family_panel",
+        "fraction_of_total": 0.4919380469424923,
+        "sum_squares": 8202841.2486655
+      },
+      {
+        "component": "model_by_task",
+        "fraction_of_total": 0.4268740223650201,
+        "sum_squares": 7117928.487952227
+      }
+    ],
+    "total_sum_squares": 16674541.234710423
+  }
+}

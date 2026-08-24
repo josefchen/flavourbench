@@ -1,81 +1,90 @@
 {
-  "artifact_sha256": "b7f7d2f6e6dad9b5a526d15ee56e24f6b150e5bd2cd440c38f33092219654970",
+  "artifact_sha256": "257dfaf17c4f529f2f9b538c0c0b7d7d8ea030262f75ecf06284b61658a64137",
   "contract": {
     "development_official_anchor_overlap": 0,
+    "direct_optimization_on_evaluation_split_forbidden": true,
     "direct_optimization_on_official_test_forbidden": true,
     "dpo_minimum_reward_margin_bps": 500,
+    "evaluation_split_is_public_not_secret": true,
     "primary_families": [
       "substitution",
       "pairing",
       "constraint"
     ],
-    "train_validation_anchor_overlap": 0
+    "train_validation_evaluation_anchor_overlap": 0
   },
   "counts": {
-    "dpo_train": 1368,
-    "dpo_validation": 336,
-    "grpo_train": 342,
-    "grpo_validation": 84,
-    "sft_train": 342,
-    "sft_validation": 84,
+    "dpo_train": 1080,
+    "dpo_validation": 288,
+    "evaluation_tasks": 84,
+    "grpo_train": 270,
+    "grpo_validation": 72,
+    "sft_train": 270,
+    "sft_validation": 72,
     "supplemental_cultural_composition": 283,
-    "train_tasks": 342,
-    "validation_tasks": 84
+    "train_tasks": 270,
+    "validation_tasks": 72
   },
   "files": [
     {
-      "bytes": 1451901,
+      "bytes": 1146954,
       "name": "dpo_train.jsonl",
-      "rows": 1368,
-      "sha256": "7a30c01ce98121426117352908b9164599ece89d9da570464f8e9201b7212146"
+      "rows": 1080,
+      "sha256": "c5c01316d8d5051dfa9b468206c44985fd3f357f7996c8203e5b1e9b8264f5c4"
     },
     {
-      "bytes": 358257,
+      "bytes": 306253,
       "name": "dpo_validation.jsonl",
-      "rows": 336,
-      "sha256": "79227f33b7e54aa49b2c70443c7f93d287608a642199e9a464c73d5f0b6ff06d"
+      "rows": 288,
+      "sha256": "99de8b7eb5acf6541524c27fdbcb8c450be9b47affbb6a07b24a42850cef7a79"
     },
     {
-      "bytes": 550086,
+      "bytes": 235710,
+      "name": "evaluation_tasks.jsonl",
+      "rows": 84,
+      "sha256": "fc80a57698443c9215fbf2af5ecbbf15b5fc0ea27e44e5b86a3c51356eb1691f"
+    },
+    {
+      "bytes": 434536,
       "name": "grpo_train.jsonl",
-      "rows": 342,
-      "sha256": "2c8e17fee871c8ef4469ed6f8bf4e33207b8d8e134d5f2c7ed370f3ed835d27f"
+      "rows": 270,
+      "sha256": "c630257ccd924b74206a7548f6600e16b1ceba59adc8b562e6b6c349489861b2"
     },
     {
-      "bytes": 135469,
+      "bytes": 115838,
       "name": "grpo_validation.jsonl",
-      "rows": 84,
-      "sha256": "fe2ae26114204dcfdc1b2102e916829d3a966b7bd7c9cd642157727e7d4609b5"
+      "rows": 72,
+      "sha256": "41fd22cf367ab3bd8e8afe0c5cc3c42a8fca6c35a1ad35d05dd580069957d9be"
     },
     {
-      "bytes": 326194,
+      "bytes": 257711,
       "name": "sft_train.jsonl",
-      "rows": 342,
-      "sha256": "71bfb2b12652a5cbb60212e4ca15779d103b7cd5f6c85ce816c3f8ffc65f69a5"
+      "rows": 270,
+      "sha256": "5f3f77834e91d9e413e28150a5692a47f6b297d868e14ebdc226b3f810cf49cf"
     },
     {
-      "bytes": 80531,
+      "bytes": 68814,
       "name": "sft_validation.jsonl",
-      "rows": 84,
-      "sha256": "6148032042eff85a5fc51091ec1197b17893bf86062f4f295a6a4959c863b464"
+      "rows": 72,
+      "sha256": "055bc5c98aa9b9a429b3f126b0b2ffa87a9215d19e56a317b288c3bf1dd2986d"
     },
     {
-      "bytes": 834110,
+      "bytes": 834170,
       "name": "supplemental_cultural_composition.jsonl",
       "rows": 283,
-      "sha256": "a6b79cd8eb90d8ce4f16429a5ab5979f734b5d688f97ee542a22da27e6856cdb"
+      "sha256": "cfb4a1b20efc087fefa463aebb9fa454fb3681fe2c0441e264897312be1b3cc4"
     },
     {
-      "bytes": 956186,
+      "bytes": 755254,
       "name": "train_tasks.jsonl",
-      "rows": 342,
-      "sha256": "a7a9c9d59fab373701b113a0119040890b123c0eba1b78afd66cbff1110c32c2"
+      "rows": 270,
+      "sha256": "7808c78dafc7ea474b1c7e5b428d3518880a5587ac225c431b34aabd05dcf912"
     },
     {
-      "bytes": 235694,
+      "bytes": 201636,
       "name": "validation_tasks.jsonl",
-      "rows": 84,
-      "sha256": "c2d8115fdb34d86d7f40a19a737be7e24e7b9dc9d1071fd0cdf6b8fee33333fd"
+      "rows": 72,
+      "sha256": "37a8e4d1e70565c6b465cb8f669b1b17bbd185fcf0e59b9f5dda5763edddbfdd"
     }
   ],
   "official_test": {
@@ -84,11 +93,11 @@
     "plan_semantic_sha256": "2ba71c793c8d4b97eed863ee83fd770b429fdefdffebdeafb241672f634ee507",
     "tasks": 534
   },
-  "schema_version": "flavourbench-lab-dataset-v1",
+  "schema_version": "flavourbench-lab-dataset-v2",
   "sources": {
     "panel_1_semantic_sha256": "a33bf28db372090015118371417b0e8ed1254f416d03d2c2c5816a6a752beb41",
     "panel_2_semantic_sha256": "925ba9d1d4be9c2b7a1e9956ecd6c18d34ffcad22eee28522f16892922c91e3f"
   },
-  "split_salt": "flavourbench-lab-anchor-split-v1",
-  "status": "development_reward_maps_not_official_test"
+  "split_salt": "flavourbench-lab-anchor-split-v2",
+  "status": "preregistered_transfer_maps_not_official_leaderboard_test"
 }

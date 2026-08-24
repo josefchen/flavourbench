@@ -35,7 +35,7 @@ def test_space_batch_api_matches_the_local_score_contract() -> None:
     space_report, rows = SPACE_API.score_payload(tasks, payload)
     local_report = score_submission(tasks, responses, include_inference=False)
 
-    assert len(rows) == 84
+    assert len(rows) == 72
     assert space_report["comparable"] is True
     assert space_report["flavourbench_score"] == 100.0
     assert space_report["coverage"] == local_report["coverage"]

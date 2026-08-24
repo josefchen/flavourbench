@@ -107,6 +107,26 @@ def test_powered_space_loads_and_exposes_score_task_and_pairwise_views(
         "tasks": [task],
         "primary_observations": observations,
         "pairwise_comparisons": pairwise,
+        "stability_analysis": {
+            "task_count_stability": [
+                {
+                    "tasks": 1,
+                    "metrics": {
+                        "rank_spearman": {
+                            "median": 1.0,
+                            "p2_5": 1.0,
+                            "p97_5": 1.0,
+                        },
+                        "top_5_overlap": {"median": 1.0},
+                        "top_1_preserved": {"mean": 1.0},
+                    },
+                }
+            ],
+            "variance_partition": {
+                "relative_decision_generalizability_at_534_tasks": 0.936,
+                "estimated_balanced_tasks_for_relative_g_0_90": 329,
+            },
+        },
         "lab_tasks": [
             {
                 **task,

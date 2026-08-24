@@ -25,6 +25,8 @@ FIGURES := figures/complete-core
 ASSET_BUILDER := build_complete_core_assets.py
 RELEASE_BUILDER := reproduce_complete_core_release.py
 RELEASE_VERIFIER := verify_complete_core_release.py
+STABILITY_BUILDER := build_stability_assets.py
+HF_DATA := ../hf/dataset/data-complete-core
 
 TABLE_ASSETS := \
 	$(GENERATED)/complete-core-macros.tex \
@@ -33,14 +35,19 @@ TABLE_ASSETS := \
 	$(GENERATED)/complete-core-family-table.tex \
 	$(GENERATED)/complete-core-task-table.tex \
 	$(GENERATED)/complete-core-examples-table.tex \
-	$(GENERATED)/complete-core-examples.json
+	$(GENERATED)/complete-core-examples.json \
+	$(GENERATED)/complete-core-stability-macros.tex \
+	$(GENERATED)/complete-core-stability-analysis.json \
+	$(GENERATED)/complete-core-task-count-stability.csv \
+	$(GENERATED)/complete-core-variance-partition.csv
 
 FIGURE_ASSETS := \
 	$(FIGURES)/complete-core-leaderboard-forest.pdf \
 	$(FIGURES)/complete-core-family-heatmap.pdf \
 	$(FIGURES)/complete-core-pairwise-matrix.pdf \
 	$(FIGURES)/complete-core-panel-replication.pdf \
-	$(FIGURES)/complete-core-rank-intervals.pdf
+	$(FIGURES)/complete-core-rank-intervals.pdf \
+	$(FIGURES)/complete-core-task-count-stability.pdf
 
 .PHONY: all analysis assets verify verify-static paper _paper arxiv _arxiv clean
 
@@ -62,6 +69,15 @@ assets:
 		--panel-2-plan $(PANEL_2_PLAN) \
 		--generated-directory $(GENERATED) \
 		--figure-directory $(FIGURES)
+	$(PYTHON) $(STABILITY_BUILDER) \
+		--tasks $(HF_DATA)/tasks.jsonl \
+		--observations $(HF_DATA)/primary_observations.jsonl \
+		--leaderboard $(HF_DATA)/leaderboard.jsonl \
+		--pairwise $(HF_DATA)/pairwise_comparisons.jsonl \
+		--generated-directory $(GENERATED) \
+		--figure-directory $(FIGURES) \
+		--dataset-directory ../hf/dataset/data-analysis \
+		--dataset-figure-directory ../hf/dataset/assets
 
 verify: assets verify-static
 
@@ -69,14 +85,14 @@ verify-static:
 	test -n "$(PLAN)"
 	test -n "$(RELEASE)"
 	for file in main_powered.tex references.bib README.md LICENSES.md Makefile.powered \
-		$(ASSET_BUILDER) $(RELEASE_BUILDER) $(RELEASE_VERIFIER) $(PLAN) $(RELEASE) \
+		$(ASSET_BUILDER) $(STABILITY_BUILDER) $(RELEASE_BUILDER) $(RELEASE_VERIFIER) $(PLAN) $(RELEASE) \
 		$(TABLE_ASSETS) $(FIGURE_ASSETS); do
 		test -f "$$file"
 		test ! -L "$$file"
 	done
 	$(PYTHON) -I $(RELEASE_VERIFIER) --release $(RELEASE)
-	$(RUFF) check $(ASSET_BUILDER) $(RELEASE_BUILDER) $(RELEASE_VERIFIER)
-	$(RUFF) format --check $(ASSET_BUILDER) $(RELEASE_BUILDER) $(RELEASE_VERIFIER)
+	$(RUFF) check $(ASSET_BUILDER) $(STABILITY_BUILDER) $(RELEASE_BUILDER) $(RELEASE_VERIFIER)
+	$(RUFF) format --check $(ASSET_BUILDER) $(STABILITY_BUILDER) $(RELEASE_BUILDER) $(RELEASE_VERIFIER)
 	$(PYTHON) -m pytest -q \
 		../tests/epicure_selection_common_core_analysis_v1_test.py \
 		../tests/epicure_selection_complete_core_plan_v84_test.py

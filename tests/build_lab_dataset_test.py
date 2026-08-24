@@ -25,26 +25,36 @@ def test_lab_dataset_is_reproducible_and_anchor_disjoint() -> None:
     )
     assert (
         manifest["artifact_sha256"]
-        == "b7f7d2f6e6dad9b5a526d15ee56e24f6b150e5bd2cd440c38f33092219654970"
+        == "257dfaf17c4f529f2f9b538c0c0b7d7d8ea030262f75ecf06284b61658a64137"
     )
     assert manifest["counts"] == {
-        "train_tasks": 342,
-        "validation_tasks": 84,
-        "sft_train": 342,
-        "sft_validation": 84,
-        "dpo_train": 1368,
-        "dpo_validation": 336,
-        "grpo_train": 342,
-        "grpo_validation": 84,
+        "train_tasks": 270,
+        "validation_tasks": 72,
+        "evaluation_tasks": 84,
+        "sft_train": 270,
+        "sft_validation": 72,
+        "dpo_train": 1080,
+        "dpo_validation": 288,
+        "grpo_train": 270,
+        "grpo_validation": 72,
         "supplemental_cultural_composition": 283,
     }
     train = _rows(files["train_tasks.jsonl"])
     validation = _rows(files["validation_tasks.jsonl"])
+    evaluation = _rows(files["evaluation_tasks.jsonl"])
     train_anchors = {str(row["anchor_ingredient"]) for row in train}
     validation_anchors = {str(row["anchor_ingredient"]) for row in validation}
+    evaluation_anchors = {str(row["anchor_ingredient"]) for row in evaluation}
     assert not train_anchors & validation_anchors
-    assert all(row["official_leaderboard_eligible"] is False for row in train + validation)
-    assert all(row["official_test_anchor_overlap"] is False for row in train + validation)
+    assert not train_anchors & evaluation_anchors
+    assert not validation_anchors & evaluation_anchors
+    assert all(
+        row["official_leaderboard_eligible"] is False for row in train + validation + evaluation
+    )
+    assert all(
+        row["official_test_anchor_overlap"] is False for row in train + validation + evaluation
+    )
+    assert all(row["lab_split"] == "evaluation" for row in evaluation)
     dpo_rows = _rows(files["dpo_train.jsonl"])
     assert min(float(row["reward_margin"]) for row in dpo_rows) >= 0.05
     sft_rows = _rows(files["sft_train.jsonl"])

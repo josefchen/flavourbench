@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "epicure-flavourbench"
-version = "1.2.0"
+version = "1.3.0"
 description = "Executable culinary evaluation and dense reward training for language models"
 requires-python = ">=3.12"
 license = { file = "LICENSE" }
@@ -158,7 +158,7 @@ flavourbench-freeze-reasoning-sensitivity = "flavourbench.reasoning_effort_sensi
 Homepage = "https://github.com/josefchen/flavourbench"
 Dataset = "https://huggingface.co/datasets/josefchen/flavourbench"
 Leaderboard = "https://huggingface.co/spaces/josefchen/flavourbench"
-Paper = "https://github.com/josefchen/flavourbench/blob/main/paper/build/flavourbench.pdf"
+Paper = "https://arxiv.org/abs/2608.20574"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/flavourbench"]

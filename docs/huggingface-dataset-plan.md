@@ -25,10 +25,10 @@ pairing, and 178 constraint tasks. The 534 ingredient anchors are the resampling
 
 | Config | Split or rows | Purpose |
 |---|---:|---|
-| `lab_tasks` | 342 train, 84 validation | Anchor-disjoint development reward maps |
-| `sft` | 342 train, 84 validation | Optimal demonstrations |
-| `dpo` | 1,368 train, 336 validation | Deterministic chosen and rejected pairs |
-| `grpo` | 342 train, 84 validation | Dense 56-choice rewards |
+| `lab_tasks` | 270 train, 72 validation, 84 test | Anchor-disjoint reward maps and transfer split |
+| `sft` | 270 train, 72 validation | Optimal demonstrations |
+| `dpo` | 1,080 train, 288 validation | Deterministic chosen and rejected pairs |
+| `grpo` | 270 train, 72 validation | Dense 56-choice rewards |
 | `supplemental_cultural_composition` | 283 development | Non-ranked regional composition evidence |
 
 No lab-track anchor appears in the official 534-task release. The package includes runnable LoRA
@@ -60,6 +60,6 @@ These checks make no provider calls.
 
 ## Visibility gate
 
-The dataset and Space remain private until the arXiv submission is approved. The public switch is
-one release operation: verify both Hub revisions, make the dataset public, make the Space public,
-replace paper links with the arXiv URL, and recheck the Data Viewer and named Space endpoints.
+The approved arXiv record is live at <https://arxiv.org/abs/2608.20574>. The publication operation
+verifies both Hub revisions, makes the dataset and Space public, and rechecks the Data Viewer and
+named Space endpoints. Future benchmark versions remain immutable once published.

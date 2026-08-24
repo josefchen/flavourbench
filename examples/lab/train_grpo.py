@@ -25,13 +25,14 @@ from flavourbench.lab import trl_reward
 
 DATASET_REPO = os.environ.get("FLAVOURBENCH_DATASET", "josefchen/flavourbench")
 BASE_MODEL = os.environ.get("BASE_MODEL", "Qwen/Qwen3-0.6B")
+SEED = int(os.environ.get("SEED", "20260824"))
 OUTPUT_MODEL = os.environ.get("OUTPUT_MODEL")
 if not OUTPUT_MODEL:
     raise RuntimeError("Set OUTPUT_MODEL to the Hub repository that will receive the adapter")
 
 data = load_dataset(DATASET_REPO, "grpo")
 config = GRPOConfig(
-    output_dir="flavourbench-grpo-output",
+    output_dir=f"flavourbench-grpo-output-seed-{SEED}",
     push_to_hub=True,
     hub_model_id=OUTPUT_MODEL,
     hub_private_repo=os.environ.get("PUBLIC_MODEL", "0") != "1",
@@ -54,7 +55,10 @@ config = GRPOConfig(
     lr_scheduler_type="cosine",
     report_to="trackio",
     project="flavourbench-lab",
-    run_name=f"grpo-{BASE_MODEL.rsplit('/', 1)[-1]}",
+    run_name=f"grpo-{BASE_MODEL.rsplit('/', 1)[-1]}-seed-{SEED}",
+    seed=SEED,
+    data_seed=SEED,
+    full_determinism=True,
 )
 trainer = GRPOTrainer(
     model=BASE_MODEL,

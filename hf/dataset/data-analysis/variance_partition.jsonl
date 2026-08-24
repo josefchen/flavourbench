@@ -1,0 +1,6 @@
+{"analysis_artifact_sha256":"4b359ac51db465c7a3f49fb5567a624b1ce3ad6280d309f31545e17ff2797026","component":"model","fraction_of_total":0.0125129888803687,"sum_squares":208648.3490551809}
+{"analysis_artifact_sha256":"4b359ac51db465c7a3f49fb5567a624b1ce3ad6280d309f31545e17ff2797026","component":"family","fraction_of_total":0.06561477621884677,"sum_squares":1094096.2916674574}
+{"analysis_artifact_sha256":"4b359ac51db465c7a3f49fb5567a624b1ce3ad6280d309f31545e17ff2797026","component":"panel","fraction_of_total":0.0006516314466434377,"sum_squares":10865.655426890007}
+{"analysis_artifact_sha256":"4b359ac51db465c7a3f49fb5567a624b1ce3ad6280d309f31545e17ff2797026","component":"family_by_panel","fraction_of_total":0.002408534146628691,"sum_squares":40161.201943168184}
+{"analysis_artifact_sha256":"4b359ac51db465c7a3f49fb5567a624b1ce3ad6280d309f31545e17ff2797026","component":"task_within_family_panel","fraction_of_total":0.4919380469424923,"sum_squares":8202841.2486655}
+{"analysis_artifact_sha256":"4b359ac51db465c7a3f49fb5567a624b1ce3ad6280d309f31545e17ff2797026","component":"model_by_task","fraction_of_total":0.4268740223650201,"sum_squares":7117928.487952227}
