@@ -45,6 +45,11 @@ jobs:
             tests/frontier_refresh_*_test.py \
             tests/build_powered*_test.py \
             tests/build_joint_powered_dataset_test.py \
+            tests/build_lab_dataset_test.py \
+            tests/lab_test.py \
+            tests/lab_cli_test.py \
+            tests/lab_runner_test.py \
+            tests/hf_lab_space_api_test.py \
             tests/hf_powered_space_app_test.py \
             tests/reproduce_powered_release_test.py \
             tests/restore_powered_runs_test.py \
@@ -59,6 +64,7 @@ jobs:
             paper/reproduce_powered_release.py \
             paper/verify_complete_core_release.py \
             hf/dataset/build_complete_core_dataset.py \
+            hf/dataset/build_lab_dataset.py \
             hf/dataset/build_joint_powered_dataset.py \
             hf/dataset/build_powered_dataset.py \
             hf/dataset/restore_complete_core_sources.py \
@@ -67,7 +73,15 @@ jobs:
             hf/dataset/verify_complete_core_dataset.py \
             hf/space/build_complete_core_space_bundle.py \
             hf/space/build_powered_space_bundle.py \
+            hf/space/lab_api.py \
+            src/flavourbench/lab.py \
+            src/flavourbench/lab_cli.py \
+            src/flavourbench/lab_runner.py \
+            examples/lab/train_sft.py \
+            examples/lab/train_dpo.py \
+            examples/lab/train_grpo.py \
             hf/space/app.py
+          python hf/dataset/build_lab_dataset.py --check
 
       - name: Verify PDF and self-contained arXiv bundle
         shell: bash
@@ -95,6 +109,7 @@ jobs:
             paper/reproduce_powered_release.py
             paper/verify_complete_core_release.py
             hf/dataset/build_complete_core_dataset.py
+            hf/dataset/build_lab_dataset.py
             hf/dataset/build_joint_powered_dataset.py
             hf/dataset/build_powered_dataset.py
             hf/dataset/restore_complete_core_sources.py
@@ -103,7 +118,14 @@ jobs:
             hf/dataset/verify_complete_core_dataset.py
             hf/space/build_complete_core_space_bundle.py
             hf/space/build_powered_space_bundle.py
+            hf/space/lab_api.py
             hf/space/app.py
+            src/flavourbench/lab.py
+            src/flavourbench/lab_cli.py
+            src/flavourbench/lab_runner.py
+            examples/lab/train_sft.py
+            examples/lab/train_dpo.py
+            examples/lab/train_grpo.py
             scripts/scan_public_release.py
             tests/epicure_native_powered*_test.py
             tests/epicure_native_taskset_v*_test.py
@@ -111,6 +133,11 @@ jobs:
             tests/frontier_refresh_*_test.py
             tests/build_powered*_test.py
             tests/build_joint_powered_dataset_test.py
+            tests/build_lab_dataset_test.py
+            tests/lab_test.py
+            tests/lab_cli_test.py
+            tests/lab_runner_test.py
+            tests/hf_lab_space_api_test.py
             tests/hf_powered_space_app_test.py
             tests/reproduce_powered_release_test.py
             tests/restore_powered_runs_test.py

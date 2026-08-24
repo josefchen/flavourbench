@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/josefchen/flavourbench/schemas/lab-report-v1.schema.json",
+  "title": "FlavourBench lab report",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "comparable",
+    "flavourbench_score",
+    "coverage",
+    "families",
+    "task_set_semantic_sha256",
+    "response_set_semantic_sha256",
+    "artifact_sha256",
+    "per_task"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "flavourbench-lab-report-v1"
+    },
+    "comparable": {
+      "type": "boolean"
+    },
+    "flavourbench_score": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "maximum": 100
+    },
+    "diagnostic_valid_score": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "maximum": 100
+    },
+    "coverage": {
+      "type": "object",
+      "required": ["tasks", "submitted", "valid", "missing", "invalid", "fraction_valid"]
+    },
+    "families": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "task_set_semantic_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "response_set_semantic_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "artifact_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "per_task": {
+      "type": "array"
+    }
+  },
+  "additionalProperties": true
+}

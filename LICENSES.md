@@ -21,6 +21,8 @@ The broader grant does not extend to material owned by third parties. In particu
   respective owners; and
 - cited publications and software retain their original licences.
 
-Evaluation and paper-build source is included to reproduce and review the reported result. Files
-without an explicit software licence are not granted a broader software licence by this document.
-No credentials, private provider configuration, or unrestricted Epicure payloads are included.
+The repository's original software, including the public evaluation SDK, command-line tools,
+dataset builders, Space application, tests, and paper-build source, is released under the Apache
+License 2.0 in [`LICENSE`](LICENSE). That software licence does not relicense benchmark data,
+provider responses, model weights, trademarks, or the private Epicure ingredient corpus. No
+credentials, private provider configuration, or unrestricted Epicure payloads are included.

@@ -74,6 +74,65 @@ A score of 100 means that the model chose Epicure's optimum on every task. Epicu
 environment, not a contestant. The benchmark measures alignment with a published culinary reward
 surface; it does not claim to rank general intelligence or sensory taste.
 
+## Run your own model
+
+The public lab kit evaluates an OpenAI-compatible endpoint, a vLLM server, a local Transformers
+checkpoint, or an existing JSONL response artifact. It never asks for provider keys in a result
+file, and it refuses to issue a comparable score unless every task is present and parseable.
+
+```bash
+pip install 'epicure-flavourbench @ git+https://github.com/josefchen/flavourbench.git'
+
+export LAB_MODEL_API_KEY='...'
+flavourbench run \
+  --backend openai-compatible \
+  --base-url https://your-endpoint.example/v1 \
+  --api-key-env LAB_MODEL_API_KEY \
+  --model your-exact-model-id \
+  --responses responses.jsonl \
+  --report report.json
+```
+
+For a local or Hub checkpoint:
+
+```bash
+pip install 'epicure-flavourbench[transformers] @ git+https://github.com/josefchen/flavourbench.git'
+flavourbench run --backend transformers --model your-org/your-model
+```
+
+Already have outputs? Each JSONL row needs only a task ID and answer:
+
+```json
+{"task_id":"fb-executable-substitution-136","response":"FINAL_SELECTION: A,F,H"}
+```
+
+```bash
+flavourbench score responses.jsonl --output report.json
+flavourbench verify-report report.json
+```
+
+See the complete [lab evaluation contract](docs/lab-kit.md).
+
+## Train with Epicure rewards
+
+The Hugging Face dataset now exposes three training-ready configurations:
+
+| Config | Train | Validation | Interface |
+|---|---:|---:|---|
+| `sft` | 342 | 84 | Optimal demonstrations with optimum margins |
+| `dpo` | 1,368 | 336 | Deterministic preferences with gaps of at least 5 points |
+| `grpo` | 342 | 84 | Prompt plus complete local reward map |
+
+All 426 development anchors are disjoint from the 534 leaderboard anchors; train and validation
+anchors are disjoint from each other. The [runnable Hugging Face Jobs recipes](examples/lab) cover
+SFT, DPO, and GRPO with LoRA, Trackio, evaluation, checkpointing, and Hub persistence. Training on
+the public leaderboard maps is explicitly outside the protocol because it would measure
+memorization.
+
+The Hugging Face Space also exposes named Gradio API endpoints for official evaluation and a
+separate `training_reward` endpoint restricted to the 426 non-leaderboard development maps. Local
+reward lookup remains the recommended path for high-throughput RL.
+
 ## Statistical design
 
 - 27 models and exactly 534 valid scored tasks per model
@@ -137,6 +196,7 @@ No reproduction command calls a model provider.
 | Statistical release | `709452f8cf54ebc1947f2a3c24e6ee19580be1c115ba3a9effbac441de556db4` |
 | Release semantic ID | `0a20655c97aa1363c2266e247f3dd03b759d0f80bca9154c6619c5549b2fac99` |
 | Analysis plan | `17ac5aea6eb25a0c0af440124849c926fdcafaf36956fd2e676f2c70ca80faa6` |
+| Lab training dataset | `b7f7d2f6e6dad9b5a526d15ee56e24f6b150e5bd2cd440c38f33092219654970` |
 | Final PDF | `e3538932fb3b58a6869793bd5ea3ee8688a9abb06dbdc6536e3ae1c783395fc2` |
 | arXiv source tarball | `50ac9a26b359577111f7217a0b3b4f02131fdf7c247b94b690bc6ff3e937657b` |
 
@@ -147,8 +207,9 @@ No reproduction command calls a model provider.
 | [`src/flavourbench`](src/flavourbench) | Task construction, route contracts, response parsing, scoring, and inference |
 | [`benchmark`](benchmark) | Frozen task sets, route manifests, analysis plans, and compact evidence |
 | [`paper`](paper) | Manuscript, figures, tables, PDF, and arXiv source package |
-| [`hf/dataset`](hf/dataset) | Deterministic final-dataset builder |
-| [`hf/space`](hf/space) | Interactive leaderboard and evidence explorer |
+| [`hf/dataset`](hf/dataset) | Deterministic benchmark and training-dataset builders |
+| [`hf/space`](hf/space) | Leaderboard, evidence explorer, upload scorer, and reward API |
+| [`examples/lab`](examples/lab) | Runnable SFT, DPO, and GRPO recipes |
 | [`tests`](tests) | Statistical, route, integrity, and publication tests |
 
 ## Citation
@@ -164,3 +225,5 @@ No reproduction command calls a model provider.
 Prompts, candidate sets, derived tables, and original figures are released under CC BY 4.0.
 Provider responses retain their source terms. See [`LICENSES.md`](LICENSES.md) for the component
 rights boundary and [`SECURITY.md`](SECURITY.md) for credential handling.
+Original software is Apache-2.0. Josef Chen is a Cohere Labs Catalyst Grant recipient; this
+acknowledgement does not imply Cohere endorsement of the benchmark, methods, or rankings.
