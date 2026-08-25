@@ -1,0 +1,303 @@
+{
+  "all_public_checkpoint_point_estimates_preserve_release_leader": true,
+  "analysis_timing": {
+    "model_provider_calls_added": 0,
+    "model_responses_changed": false,
+    "posthoc_sensitivity": true,
+    "prespecified_primary_analysis": false,
+    "task_prompts_or_candidate_sets_changed": false
+  },
+  "artifact_sha256": "799550a10f13786ef356f069295d3c73ec34d5e0e8ad1394ce838af6622e5f49",
+  "checkpoint_results": [
+    {
+      "checkpoint": "cooc",
+      "ingredient_coverage": {
+        "covered": 1220,
+        "missing": 0,
+        "required": 1220
+      },
+      "label": "Epicure-Cooc",
+      "leaderboard_agreement": {
+        "alternative_point_leader_model_id": "x-ai/grok-4.6",
+        "maximum_absolute_score_shift": 2.6679026217228454,
+        "mean_absolute_score_shift": 0.8183478984602575,
+        "original_point_leader_model_id": "x-ai/grok-4.6",
+        "pair_order_agreement": 0.9173789173789174,
+        "point_leader_preserved": true,
+        "rank_spearman": 0.9572649572649573
+      },
+      "repo_id": "Kaikaku/epicure-cooc",
+      "revision": "03edd311adde6e39a2eb6f9f3fa78f7396be6b53",
+      "stratified_anchor_bootstrap": {
+        "pair_order_agreement": {
+          "median": 0.8945868945868946,
+          "percentile_95_interval": [
+            0.8404558404558404,
+            0.9373219373219374
+          ]
+        },
+        "rank_spearman": {
+          "median": 0.9297924297924298,
+          "percentile_95_interval": [
+            0.851037851037851,
+            0.9700854700854701
+          ]
+        },
+        "release_point_leader_rate_under_alternative": 0.5361,
+        "release_point_leader_rate_under_original": 0.43545,
+        "replicates": 20000,
+        "same_sampled_point_leader_rate": 0.5383
+      },
+      "task_score_map_agreement": {
+        "exact_optimum_set_agreement_rate": 0.3838951310861423,
+        "mean_absolute_chance_score_shift": 3.291995719636169,
+        "pearson": {
+          "mean": 0.7398033796126902,
+          "median": 0.7911708805832027
+        },
+        "rank_spearman": {
+          "interquartile_interval": [
+            0.6467684021543985,
+            0.8899474100124943
+          ],
+          "median": 0.7515037593984963,
+          "percentile_95_interval": [
+            0.22986594295553517,
+            0.9999999999999999
+          ]
+        },
+        "tasks": 534
+      }
+    },
+    {
+      "checkpoint": "core",
+      "ingredient_coverage": {
+        "covered": 1220,
+        "missing": 0,
+        "required": 1220
+      },
+      "label": "Epicure-Core",
+      "leaderboard_agreement": {
+        "alternative_point_leader_model_id": "x-ai/grok-4.6",
+        "maximum_absolute_score_shift": 4.1982209737827745,
+        "mean_absolute_score_shift": 2.32365168539326,
+        "original_point_leader_model_id": "x-ai/grok-4.6",
+        "pair_order_agreement": 0.8803418803418803,
+        "point_leader_preserved": true,
+        "rank_spearman": 0.9151404151404152
+      },
+      "repo_id": "Kaikaku/epicure-core",
+      "revision": "d31ebb5af8e92bbaf5cb67381d5006d4ea8368b7",
+      "stratified_anchor_bootstrap": {
+        "pair_order_agreement": {
+          "median": 0.8575498575498576,
+          "percentile_95_interval": [
+            0.792022792022792,
+            0.9031339031339032
+          ]
+        },
+        "rank_spearman": {
+          "median": 0.8791208791208791,
+          "percentile_95_interval": [
+            0.7625152625152625,
+            0.9413919413919414
+          ]
+        },
+        "release_point_leader_rate_under_alternative": 0.5414,
+        "release_point_leader_rate_under_original": 0.43545,
+        "replicates": 20000,
+        "same_sampled_point_leader_rate": 0.4594
+      },
+      "task_score_map_agreement": {
+        "exact_optimum_set_agreement_rate": 0.3146067415730337,
+        "mean_absolute_chance_score_shift": 3.5228173488496517,
+        "pearson": {
+          "mean": 0.6579540160512313,
+          "median": 0.7258079447411191
+        },
+        "rank_spearman": {
+          "interquartile_interval": [
+            0.5804340396445661,
+            0.8286774921492105
+          ],
+          "median": 0.6723518850987432,
+          "percentile_95_interval": [
+            -0.055148667122351336,
+            0.9999999999999999
+          ]
+        },
+        "tasks": 534
+      }
+    },
+    {
+      "checkpoint": "chem",
+      "ingredient_coverage": {
+        "covered": 1220,
+        "missing": 0,
+        "required": 1220
+      },
+      "label": "Epicure-Chem",
+      "leaderboard_agreement": {
+        "alternative_point_leader_model_id": "x-ai/grok-4.6",
+        "maximum_absolute_score_shift": 5.1957303370786505,
+        "mean_absolute_score_shift": 3.470626994035234,
+        "original_point_leader_model_id": "x-ai/grok-4.6",
+        "pair_order_agreement": 0.8689458689458689,
+        "point_leader_preserved": true,
+        "rank_spearman": 0.9029304029304028
+      },
+      "repo_id": "Kaikaku/epicure-chem",
+      "revision": "2461ef3fbafab36d2b1111187a3df98721146861",
+      "stratified_anchor_bootstrap": {
+        "pair_order_agreement": {
+          "median": 0.8547008547008547,
+          "percentile_95_interval": [
+            0.7891737891737892,
+            0.9031339031339032
+          ]
+        },
+        "rank_spearman": {
+          "median": 0.8748473748473748,
+          "percentile_95_interval": [
+            0.7564102564102564,
+            0.9401709401709402
+          ]
+        },
+        "release_point_leader_rate_under_alternative": 0.61445,
+        "release_point_leader_rate_under_original": 0.43545,
+        "replicates": 20000,
+        "same_sampled_point_leader_rate": 0.3894
+      },
+      "task_score_map_agreement": {
+        "exact_optimum_set_agreement_rate": 0.27715355805243447,
+        "mean_absolute_chance_score_shift": 3.686759965222044,
+        "pearson": {
+          "mean": 0.6284523659048015,
+          "median": 0.6847256307524838
+        },
+        "rank_spearman": {
+          "interquartile_interval": [
+            0.5291866028708134,
+            0.8031613123718387
+          ],
+          "median": 0.6602333931777377,
+          "percentile_95_interval": [
+            0.0018591934381408624,
+            0.9999999999999999
+          ]
+        },
+        "tasks": 534
+      }
+    }
+  ],
+  "claim_boundary": "This post-hoc analysis tests reward-map dependence conditional on the released 534 prompts, candidate sets, constraints, and model selections. The original runtime selected those candidate sets. The analysis does not validate the scorer against human culinary judgments, recover the original runtime's training lineage, or show what a newly compiled public-checkpoint benchmark would rank.",
+  "companion_files": [
+    {
+      "bytes": 1117855,
+      "format": "jsonl",
+      "name": "complete-core-public-scorer-score-maps.jsonl",
+      "newline_count": 1602,
+      "records": 1602,
+      "sha256": "19eaf02dda84f3192af4a435e2764d9de30d2a433d994ee3a8f6c7122582764a"
+    },
+    {
+      "bytes": 319417,
+      "format": "csv",
+      "name": "complete-core-public-scorer-task-agreement.csv",
+      "newline_count": 1603,
+      "records": 1602,
+      "sha256": "d4263d8cc335f8c575a8d473c45e87d452a8eabad31731118b0a3a542d240ec8"
+    },
+    {
+      "bytes": 17214,
+      "format": "csv",
+      "name": "complete-core-public-scorer-leaderboard.csv",
+      "newline_count": 82,
+      "records": 81,
+      "sha256": "aa5cc4b684951bea0bb8fe69e7ca0f467bfd9cdaf949b44177b004081d73d338"
+    }
+  ],
+  "design": {
+    "actions_per_task": 56,
+    "bootstrap": {
+      "interval": "descriptive percentile 95 percent",
+      "replicates": 20000,
+      "resampling_unit": "task anchor",
+      "seed": 20260826,
+      "stratification": "panel by family"
+    },
+    "families": [
+      "substitution",
+      "pairing",
+      "constraint"
+    ],
+    "missing_public_checkpoint_ingredients": 0,
+    "model_task_cells": 14418,
+    "models": 27,
+    "panels": 2,
+    "public_checkpoint_count": 3,
+    "required_ingredient_count": 1220,
+    "score_rule": "recompute all 56 within-task min-max-normalized rewards from each public embedding while preserving the released action set, constraint metadata, and observed model selection",
+    "tasks": 534,
+    "tasks_per_panel_family": 89
+  },
+  "inputs": {
+    "builder_physical_sha256": "4b1198ed0c66987b5420fe634218c22ebb91810253b8f42436c79e110a48c05b",
+    "complete_core_plan_physical_sha256": "17ac5aea6eb25a0c0af440124849c926fdcafaf36956fd2e676f2c70ca80faa6",
+    "complete_core_plan_semantic_sha256": "2ba71c793c8d4b97eed863ee83fd770b429fdefdffebdeafb241672f634ee507",
+    "ingredient_tags_sha256": "8f52e83a072069f436ab7d851ed0251e775da92afc46e0deaa61d49d91014772",
+    "ingredient_tags_source_commit": "14ddf04aba81a76b75efa6554041f6bff48992c6",
+    "ingredient_tags_source_url": "https://raw.githubusercontent.com/KAIKAKU-AI/epicure-mcp/14ddf04aba81a76b75efa6554041f6bff48992c6/data/ingredient_tags.csv",
+    "panel_1_response_artifact_set_sha256": "b8d1c12942183de840f3c01dab7f3aeb3b3780b928134a207a242c90f77f49bf",
+    "panel_1_taskset_physical_sha256": "140a82f3abc220749ba03f1527a77cbc3cc40b7f479df1aad7e749f24a202685",
+    "panel_1_taskset_semantic_sha256": "a33bf28db372090015118371417b0e8ed1254f416d03d2c2c5816a6a752beb41",
+    "panel_2_response_artifact_set_sha256": "ec71fba400525fdbc6755023f4288841eb9c7640748f1bd3160343e82c957843",
+    "panel_2_taskset_physical_sha256": "4c563b1104d5b59d0cca512c19a5ec5d893c529c04a54afef7f2ba53ee75087d",
+    "panel_2_taskset_semantic_sha256": "925ba9d1d4be9c2b7a1e9956ecd6c18d34ffcad22eee28522f16892922c91e3f",
+    "public_checkpoints": [
+      {
+        "checkpoint": "cooc",
+        "config_sha256": "8fd5ed3de8295d33240b4fbf16a3a84788c916bcb09ab450434b8b0a1dfd6853",
+        "embedding_dimensions": 300,
+        "embeddings_sha256": "5ce3bdd03deb8cc8e30bd2a574e04a997b9990422d9203dac4f148949b701a87",
+        "label": "Epicure-Cooc",
+        "repo_id": "Kaikaku/epicure-cooc",
+        "revision": "03edd311adde6e39a2eb6f9f3fa78f7396be6b53",
+        "schema": "cooc",
+        "vocab_sha256": "5a10278cd71eeb66051d23ef8621b917a60ecd493d4580f60d324623191f8005",
+        "vocab_size": 1790
+      },
+      {
+        "checkpoint": "core",
+        "config_sha256": "0edfdd497a9828d86bd3490294512bc7e94fdee085fe8b1a5f1811e4b9245a99",
+        "embedding_dimensions": 300,
+        "embeddings_sha256": "58c965532709e415cc00098ea24ad153ca5e02f2ffc88d6b7287c36308e34120",
+        "label": "Epicure-Core",
+        "repo_id": "Kaikaku/epicure-core",
+        "revision": "d31ebb5af8e92bbaf5cb67381d5006d4ea8368b7",
+        "schema": "core",
+        "vocab_sha256": "5a10278cd71eeb66051d23ef8621b917a60ecd493d4580f60d324623191f8005",
+        "vocab_size": 1790
+      },
+      {
+        "checkpoint": "chem",
+        "config_sha256": "423b70aa8b1253d8fd401207f4e8359f5411a242d6627b6879cda672bf146b6c",
+        "embedding_dimensions": 300,
+        "embeddings_sha256": "66679efdd10502f3ba52bc18c379a3617a11c8b30afc29327a286b1c5b2a22b9",
+        "label": "Epicure-Chem",
+        "repo_id": "Kaikaku/epicure-chem",
+        "revision": "2461ef3fbafab36d2b1111187a3df98721146861",
+        "schema": "chem",
+        "vocab_sha256": "5a10278cd71eeb66051d23ef8621b917a60ecd493d4580f60d324623191f8005",
+        "vocab_size": 1790
+      }
+    ]
+  },
+  "maximum_model_rank_spearman": 0.9572649572649573,
+  "maximum_pair_order_agreement": 0.9173789173789174,
+  "minimum_model_rank_spearman": 0.9029304029304028,
+  "minimum_pair_order_agreement": 0.8689458689458689,
+  "original_point_leader_model_id": "x-ai/grok-4.6",
+  "schema_version": "flavourbench-public-epicure-scorer-sensitivity-v1",
+  "status": "post_collection_fixed_task_public_scorer_sensitivity"
+}

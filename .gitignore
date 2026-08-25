@@ -27,6 +27,11 @@ paper/build/*
 !paper/build/flavourbench-arxiv-source.tar.gz
 paper/neurips2026/build/*
 !paper/neurips2026/build/flavourbench-neurips2026-*.pdf
+paper/iclr2027/build/*
+!paper/iclr2027/build/ICLR2027-MANIFEST.sha256
+!paper/iclr2027/build/flavourbench-iclr2027-anonymous.pdf
+!paper/iclr2027/build/flavourbench-iclr2027-anonymous-source.tar.gz
+!paper/iclr2027/build/flavourbench-iclr2027-anonymous-supplement.zip
 
 # Hugging Face export scratch space.
 hf/.cache/

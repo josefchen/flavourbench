@@ -1,0 +1,288 @@
+{
+  "all_three_primary_tests_reject_after_holm": true,
+  "analysis_timing": {
+    "flavourbench_tasks_or_scores_changed": false,
+    "model_provider_calls_added": 0,
+    "model_responses_changed": false,
+    "prespecified_primary_flavourbench_analysis": false,
+    "protocol_fixed_before_public_checkpoint_scores_were_inspected": true
+  },
+  "artifact_sha256": "46795dabb1cb698bb76ab9d33a90380de306aff128fc1c7e277ae98832d3205d",
+  "checkpoint_results": [
+    {
+      "checkpoint": "cooc",
+      "full_vocabulary_retrieval": {
+        "analytic_chance_hit_at_1": 0.000558971492453885,
+        "analytic_chance_hit_at_10": 0.005589714924538849,
+        "analytic_chance_hit_at_3": 0.0016769144773616548,
+        "analytic_chance_mrr": 0.004509171161609309,
+        "hit_at_1": 0.02450646698434309,
+        "hit_at_10": 0.13274336283185842,
+        "hit_at_3": 0.06398910823689585,
+        "mean_rank": 267.98910823689585,
+        "mean_reciprocal_rank": 0.06622198591290288,
+        "median_rank": 111.0
+      },
+      "label": "Epicure-Cooc",
+      "primary_all_unique_pairs": {
+        "bootstrap_replicates": 50000,
+        "bootstrap_seed": 20260826,
+        "chance_value": 0.5,
+        "difference_from_chance": 0.3062478105045374,
+        "equal_source_mean_rank_percentile": 0.8062478105045374,
+        "holm_adjusted_p": 5.9998800023999525e-05,
+        "holm_reject_at_familywise_0_05": true,
+        "one_sided_null_centered_cluster_bootstrap_p": 1.999960000799984e-05,
+        "percentile_95_interval": [
+          0.7882123713936288,
+          0.8239927384640242
+        ],
+        "unique_pairs": 1469,
+        "unique_sources": 357
+      },
+      "sensitivity_novel_unique_pairs": {
+        "bootstrap_replicates": 50000,
+        "bootstrap_seed": 20260827,
+        "chance_value": 0.5,
+        "difference_from_chance": 0.2541939322344624,
+        "equal_source_mean_rank_percentile": 0.7541939322344624,
+        "one_sided_null_centered_cluster_bootstrap_p": 1.999960000799984e-05,
+        "percentile_95_interval": [
+          0.7287400949040987,
+          0.7791048880775715
+        ],
+        "unique_pairs": 594,
+        "unique_sources": 268
+      },
+      "within_group_candidate_count": {
+        "maximum": 447,
+        "median": 111.0,
+        "minimum": 33
+      }
+    },
+    {
+      "checkpoint": "core",
+      "full_vocabulary_retrieval": {
+        "analytic_chance_hit_at_1": 0.000558971492453885,
+        "analytic_chance_hit_at_10": 0.005589714924538849,
+        "analytic_chance_hit_at_3": 0.0016769144773616548,
+        "analytic_chance_mrr": 0.004509171161609309,
+        "hit_at_1": 0.03471749489448604,
+        "hit_at_10": 0.17222600408441116,
+        "hit_at_3": 0.08168822328114364,
+        "mean_rank": 320.37440435670527,
+        "mean_reciprocal_rank": 0.08104439564108205,
+        "median_rank": 119.0
+      },
+      "label": "Epicure-Core",
+      "primary_all_unique_pairs": {
+        "bootstrap_replicates": 50000,
+        "bootstrap_seed": 20260836,
+        "chance_value": 0.5,
+        "difference_from_chance": 0.30021778540687427,
+        "equal_source_mean_rank_percentile": 0.8002177854068743,
+        "holm_adjusted_p": 5.9998800023999525e-05,
+        "holm_reject_at_familywise_0_05": true,
+        "one_sided_null_centered_cluster_bootstrap_p": 1.999960000799984e-05,
+        "percentile_95_interval": [
+          0.7809063512696892,
+          0.818698642281731
+        ],
+        "unique_pairs": 1469,
+        "unique_sources": 357
+      },
+      "sensitivity_novel_unique_pairs": {
+        "bootstrap_replicates": 50000,
+        "bootstrap_seed": 20260837,
+        "chance_value": 0.5,
+        "difference_from_chance": 0.23512049910346655,
+        "equal_source_mean_rank_percentile": 0.7351204991034666,
+        "one_sided_null_centered_cluster_bootstrap_p": 1.999960000799984e-05,
+        "percentile_95_interval": [
+          0.7059016611949511,
+          0.7632160515858083
+        ],
+        "unique_pairs": 594,
+        "unique_sources": 268
+      },
+      "within_group_candidate_count": {
+        "maximum": 447,
+        "median": 111.0,
+        "minimum": 33
+      }
+    },
+    {
+      "checkpoint": "chem",
+      "full_vocabulary_retrieval": {
+        "analytic_chance_hit_at_1": 0.000558971492453885,
+        "analytic_chance_hit_at_10": 0.005589714924538849,
+        "analytic_chance_hit_at_3": 0.0016769144773616548,
+        "analytic_chance_mrr": 0.004509171161609309,
+        "hit_at_1": 0.03607896528250511,
+        "hit_at_10": 0.15520762423417292,
+        "hit_at_3": 0.07283866575901975,
+        "mean_rank": 318.09394145677334,
+        "mean_reciprocal_rank": 0.07677793018158237,
+        "median_rank": 147.0
+      },
+      "label": "Epicure-Chem",
+      "primary_all_unique_pairs": {
+        "bootstrap_replicates": 50000,
+        "bootstrap_seed": 20260846,
+        "chance_value": 0.5,
+        "difference_from_chance": 0.27973141566155624,
+        "equal_source_mean_rank_percentile": 0.7797314156615562,
+        "holm_adjusted_p": 5.9998800023999525e-05,
+        "holm_reject_at_familywise_0_05": true,
+        "one_sided_null_centered_cluster_bootstrap_p": 1.999960000799984e-05,
+        "percentile_95_interval": [
+          0.7606566513992601,
+          0.7981730390544345
+        ],
+        "unique_pairs": 1469,
+        "unique_sources": 357
+      },
+      "sensitivity_novel_unique_pairs": {
+        "bootstrap_replicates": 50000,
+        "bootstrap_seed": 20260847,
+        "chance_value": 0.5,
+        "difference_from_chance": 0.21804042619567032,
+        "equal_source_mean_rank_percentile": 0.7180404261956703,
+        "one_sided_null_centered_cluster_bootstrap_p": 1.999960000799984e-05,
+        "percentile_95_interval": [
+          0.6908560580651711,
+          0.7442800338636392
+        ],
+        "unique_pairs": 594,
+        "unique_sources": 268
+      },
+      "within_group_candidate_count": {
+        "maximum": 447,
+        "median": 111.0,
+        "minimum": 33
+      }
+    }
+  ],
+  "claim_boundary": "This is label-independent convergent validation of substitution similarity for the three public Epicure checkpoints. Recipe1MSubs recipes derive from Recipe1M, which is upstream of part of Epicure's recipe corpus, so it is not corpus-independent validation. It does not validate the unrecovered primary runtime, the pairing or constraint reward components, human taste preference, safety, nutrition, or cooked-food outcomes.",
+  "companion_files": [
+    {
+      "bytes": 1129,
+      "format": "csv",
+      "name": "complete-core-external-substitution-validation.csv",
+      "records": 3,
+      "sha256": "42332d25df2d6507a2341cf6849385888ddc9a5f9cf9f80626f0bc7d4e210394"
+    },
+    {
+      "bytes": 267,
+      "format": "tex",
+      "name": "complete-core-external-substitution-validation-table.tex",
+      "records": 1,
+      "sha256": "ac57d5d92a8442b70f18e02b099055aea24771d75a64606759cf92b2e0032a18"
+    },
+    {
+      "bytes": 384,
+      "format": "tex",
+      "name": "complete-core-external-substitution-validation-macros.tex",
+      "records": 1,
+      "sha256": "5e33cbbf199a0774b744c188fc259110d2df95f430bb3b79a95d6a506d708eee"
+    }
+  ],
+  "coverage": {
+    "exact_manual_aliases": 0,
+    "mapped_test_event_rate": 0.3053875500139574,
+    "mapped_test_events": 3282,
+    "novel_unique_pair_rate": 0.404356705241661,
+    "novel_unique_pairs": 594,
+    "raw_test_records": 10747,
+    "raw_train_records": 49044,
+    "source_mapped_test_events": 5674,
+    "target_mapped_test_events": 5408,
+    "unique_mapped_test_pairs": 1469,
+    "unique_source_ingredients": 357,
+    "unique_target_ingredients": 429
+  },
+  "design": {
+    "bootstrap_replicates": 50000,
+    "candidate_universe": "public Epicure vocabulary excluding source",
+    "chance_value": 0.5,
+    "deduplication_unit": "directed source-target pair",
+    "manual_aliases": 0,
+    "mapping": "exact canonical token equality",
+    "minimum_food_group_candidates": 20,
+    "multiplicity": "Holm correction across three public checkpoint tests",
+    "primary_estimand": "equal-source mean within-food-group rank percentile",
+    "primary_negative_control": "all candidates in the observed target food group excluding source",
+    "uncertainty_unit": "source ingredient"
+  },
+  "figure_files": [
+    {
+      "bytes": 15875,
+      "format": "pdf",
+      "name": "complete-core-external-substitution-validation.pdf",
+      "sha256": "50594a554b5cdeecac9803244b4263be0e04ed1e6acfb411da45084fa655aa50"
+    },
+    {
+      "bytes": 56720,
+      "format": "png",
+      "name": "complete-core-external-substitution-validation.png",
+      "sha256": "272c27abaac529f6c3853dc4828c4feff622d88c1b2630032f2fc83040ec80cd"
+    }
+  ],
+  "inputs": {
+    "builder_physical_sha256": "40b09baec0654cf6235e6b940dd20da88170f6a621839f7837a9830bc308c685",
+    "checkpoint_loader_physical_sha256": "4b1198ed0c66987b5420fe634218c22ebb91810253b8f42436c79e110a48c05b",
+    "ingredient_tags_sha256": "8f52e83a072069f436ab7d851ed0251e775da92afc46e0deaa61d49d91014772",
+    "ingredient_tags_source_commit": "14ddf04aba81a76b75efa6554041f6bff48992c6",
+    "ingredient_tags_source_url": "https://raw.githubusercontent.com/KAIKAKU-AI/epicure-mcp/14ddf04aba81a76b75efa6554041f6bff48992c6/data/ingredient_tags.csv",
+    "protocol_filename": "external_substitution_validation_v1.json",
+    "protocol_physical_sha256": "c4eeb139acaf094f2e5d5a5a20b4a47af45ec263b30581f70ab1caf952abe462",
+    "public_checkpoints": [
+      {
+        "checkpoint": "cooc",
+        "config_sha256": "8fd5ed3de8295d33240b4fbf16a3a84788c916bcb09ab450434b8b0a1dfd6853",
+        "embeddings_sha256": "5ce3bdd03deb8cc8e30bd2a574e04a997b9990422d9203dac4f148949b701a87",
+        "label": "Epicure-Cooc",
+        "repo_id": "Kaikaku/epicure-cooc",
+        "revision": "03edd311adde6e39a2eb6f9f3fa78f7396be6b53",
+        "vocab_sha256": "5a10278cd71eeb66051d23ef8621b917a60ecd493d4580f60d324623191f8005"
+      },
+      {
+        "checkpoint": "core",
+        "config_sha256": "0edfdd497a9828d86bd3490294512bc7e94fdee085fe8b1a5f1811e4b9245a99",
+        "embeddings_sha256": "58c965532709e415cc00098ea24ad153ca5e02f2ffc88d6b7287c36308e34120",
+        "label": "Epicure-Core",
+        "repo_id": "Kaikaku/epicure-core",
+        "revision": "d31ebb5af8e92bbaf5cb67381d5006d4ea8368b7",
+        "vocab_sha256": "5a10278cd71eeb66051d23ef8621b917a60ecd493d4580f60d324623191f8005"
+      },
+      {
+        "checkpoint": "chem",
+        "config_sha256": "423b70aa8b1253d8fd401207f4e8359f5411a242d6627b6879cda672bf146b6c",
+        "embeddings_sha256": "66679efdd10502f3ba52bc18c379a3617a11c8b30afc29327a286b1c5b2a22b9",
+        "label": "Epicure-Chem",
+        "repo_id": "Kaikaku/epicure-chem",
+        "revision": "2461ef3fbafab36d2b1111187a3df98721146861",
+        "vocab_sha256": "5a10278cd71eeb66051d23ef8621b917a60ecd493d4580f60d324623191f8005"
+      }
+    ],
+    "recipe1msubs": {
+      "test": {
+        "filename": "test_comments_subs.pkl",
+        "records": 10747,
+        "sha256": "0758382cae59697958dd2a5e509c15f8d0417ea1a9e079fd75792779f1ce6174",
+        "url": "https://dl.fbaipublicfiles.com/gismo/test_comments_subs.pkl"
+      },
+      "train": {
+        "filename": "train_comments_subs.pkl",
+        "records": 49044,
+        "sha256": "b4d58e6c6c6747671e531812393397acf75c02d2a9ce00c2edcc7794bf567c81",
+        "url": "https://dl.fbaipublicfiles.com/gismo/train_comments_subs.pkl"
+      }
+    }
+  },
+  "minimum_novel_pair_equal_source_percentile": 0.7180404261956703,
+  "minimum_primary_equal_source_percentile": 0.7797314156615562,
+  "raw_external_rows_redistributed": false,
+  "schema_version": "flavourbench-external-substitution-validation-v1",
+  "status": "post_collection_label_independent_convergent_validation"
+}

@@ -1,0 +1,28 @@
+omitted_model_id,omitted_model_name,selected_task_overlap,selected_task_overlap_fraction,minimum_available_tasks_per_stratum,rank_spearman,pair_order_agreement,mean_absolute_score_shift,maximum_absolute_score_shift,official_point_leader,leave_one_out_point_leader,point_leader_preserved
+openai/gpt-5.6-sol-pro,OpenAI: GPT-5.6 Sol Pro,534,1.0,89,1.0,1.0,0.0,0.0,x-ai/grok-4.6,x-ai/grok-4.6,True
+openai/gpt-5.6-terra-pro,OpenAI: GPT-5.6 Terra Pro,534,1.0,89,1.0,1.0,0.0,0.0,x-ai/grok-4.6,x-ai/grok-4.6,True
+openai/gpt-5.6-luna-pro,OpenAI: GPT-5.6 Luna Pro,534,1.0,89,1.0,1.0,0.0,0.0,x-ai/grok-4.6,x-ai/grok-4.6,True
+meta-llama/llama-4-maverick,Meta: Llama 4 Maverick,534,1.0,89,1.0,1.0,0.0,0.0,x-ai/grok-4.6,x-ai/grok-4.6,True
+anthropic/claude-opus-5,Claude Opus 5,534,1.0,89,1.0,1.0,0.0,0.0,x-ai/grok-4.6,x-ai/grok-4.6,True
+anthropic/claude-sonnet-5,Anthropic: Claude Sonnet 5,534,1.0,89,1.0,1.0,0.0,0.0,x-ai/grok-4.6,x-ai/grok-4.6,True
+google/gemini-3.1-pro-preview,Google: Gemini 3.1 Pro Preview,534,1.0,89,1.0,1.0,0.0,0.0,x-ai/grok-4.6,x-ai/grok-4.6,True
+google/gemini-3.6-flash,Google: Gemini 3.6 Flash,534,1.0,89,1.0,1.0,0.0,0.0,x-ai/grok-4.6,x-ai/grok-4.6,True
+x-ai/grok-4.6,SpaceXAI: Grok 4.6,534,1.0,89,1.0,1.0,0.0,0.0,google/gemini-3.1-pro-preview,google/gemini-3.1-pro-preview,True
+moonshotai/kimi-k3,MoonshotAI: Kimi K3,534,1.0,89,1.0,1.0,0.0,0.0,x-ai/grok-4.6,x-ai/grok-4.6,True
+qwen/qwen3.8-max,Qwen: Qwen3.8 Max,534,1.0,89,1.0,1.0,0.0,0.0,x-ai/grok-4.6,x-ai/grok-4.6,True
+z-ai/glm-5.2,Z.ai: GLM 5.2,531,0.9943820224719101,89,0.9958974358974358,0.9846153846153847,0.13473350619417865,0.37604868913857104,x-ai/grok-4.6,google/gemini-3.1-pro-preview,False
+deepseek/deepseek-v4-pro-0813,DeepSeek: DeepSeek V4 Pro 0813,534,1.0,89,1.0,1.0,0.0,0.0,x-ai/grok-4.6,x-ai/grok-4.6,True
+deepseek/deepseek-v4-flash-0731,DeepSeek: DeepSeek V4 Flash 0731,534,1.0,89,1.0,1.0,0.0,0.0,x-ai/grok-4.6,x-ai/grok-4.6,True
+minimax/minimax-m3,MiniMax: MiniMax M3,534,1.0,89,1.0,1.0,0.0,0.0,x-ai/grok-4.6,x-ai/grok-4.6,True
+nvidia/nemotron-3.5-lightning,NVIDIA: Nemotron 3.5 Lightning,534,1.0,89,1.0,1.0,0.0,0.0,x-ai/grok-4.6,x-ai/grok-4.6,True
+mistralai/mistral-large-2512,Mistral: Mistral Large 3 2512,532,0.9962546816479401,89,0.9986324786324786,0.9938461538461538,0.06061869778161967,0.1439700374531867,x-ai/grok-4.6,x-ai/grok-4.6,True
+tencent/hy3,Tencent: Hy3,534,1.0,89,1.0,1.0,0.0,0.0,x-ai/grok-4.6,x-ai/grok-4.6,True
+cohere/command-a,Cohere: Command A,534,1.0,89,1.0,1.0,0.0,0.0,x-ai/grok-4.6,x-ai/grok-4.6,True
+cohere/command-r-plus-08-2024,Cohere: Command R+ (08-2024),534,1.0,89,1.0,1.0,0.0,0.0,x-ai/grok-4.6,x-ai/grok-4.6,True
+meta/muse-spark-1.2,Meta: Muse Spark 1.2,534,1.0,89,1.0,1.0,0.0,0.0,x-ai/grok-4.6,x-ai/grok-4.6,True
+meta/muse-glimmer-30b,Meta: Muse Glimmer 30B,533,0.99812734082397,89,0.997948717948718,0.9907692307692307,0.07991212906943063,0.15256554307116232,x-ai/grok-4.6,google/gemini-3.1-pro-preview,False
+anthropic/claude-fable-5,Anthropic: Claude Fable 5,379,0.7097378277153558,155,0.9548717948717949,0.9292307692307692,0.6545145491212903,1.3742883895131115,x-ai/grok-4.6,x-ai/grok-4.6,True
+qwen/qwen3.8-2.4t-a95b,Qwen: Qwen3.8 2.4T A95B,534,1.0,89,1.0,1.0,0.0,0.0,x-ai/grok-4.6,x-ai/grok-4.6,True
+bytedance-seed/seed-2-1-turbo,ByteDance Seed: Seed 2.1 Turbo,534,1.0,89,1.0,1.0,0.0,0.0,x-ai/grok-4.6,x-ai/grok-4.6,True
+thinkingmachines/inkling,Thinking Machines: Inkling,534,1.0,89,1.0,1.0,0.0,0.0,x-ai/grok-4.6,x-ai/grok-4.6,True
+z-ai/glm-5.3,Z.ai: GLM-5.3,534,1.0,89,1.0,1.0,0.0,0.0,x-ai/grok-4.6,x-ai/grok-4.6,True

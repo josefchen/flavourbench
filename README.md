@@ -2,7 +2,7 @@
 
 # FlavourBench
 
-### Ranking frontier language models with executable culinary ground truth
+### Ranking frontier language models in an executable culinary environment
 
 [![Public release integrity](https://github.com/josefchen/flavourbench/actions/workflows/ci.yml/badge.svg)](https://github.com/josefchen/flavourbench/actions/workflows/ci.yml)
 
@@ -18,7 +18,7 @@ Josef Chen, Independent Researcher · Erim Hayretci, Imperial College London
 FlavourBench measures culinary decision quality without a human panel or an LLM judge. Each task
 presents eight ingredients and asks a model to choose three. Before any model is called, Epicure
 scores all 56 legal portfolios. The model's choice receives a continuous score from 0 to 100 on
-that fixed reward surface.
+that fixed, released reward map.
 
 The ranked release uses an identical 534-task common core for every endpoint. It contains two
 independently compiled panels and three balanced families: substitution, pairing, and culinary
@@ -66,6 +66,44 @@ pairwise model contrasts, 101 remain significant after familywise correction. Ea
 the same 534 paired cells. Cross-panel agreement is 0.885 by Pearson correlation and 0.804 by
 Spearman correlation.
 
+### Reward-map sensitivity
+
+The primary task maps come from one fixed Epicure runtime. To test whether the ranking is an
+artifact of that particular reward map, we rescored the same 14,418 model decisions with three
+immutable public Epicure checkpoints. This post-collection analysis changes the reward function,
+not the prompts, candidate sets, constraints, or model answers.
+
+| Public reward map | Median task-map rank correlation | Model-rank correlation | Pair-order agreement | Point leader |
+|---|---:|---:|---:|---|
+| Epicure-Cooc | 0.752 | 0.957 | 91.7% | Grok 4.6 |
+| Epicure-Core | 0.672 | 0.915 | 88.0% | Grok 4.6 |
+| Epicure-Chem | 0.660 | 0.903 | 86.9% | Grok 4.6 |
+
+The aggregate ordering survives substantial task-level changes, but this is a fixed-task
+sensitivity analysis rather than external label validation. The original runtime still selected
+the candidate sets.
+
+### Held-out substitution labels
+
+We then test the public checkpoint geometry against Recipe1MSubs substitutions extracted from
+recipe-user comments. Exact matching produces 1,469 unique directed test pairs over 357 source
+ingredients, with no hand-written aliases. The observed target is ranked only against alternatives
+in its own food group, then averaged equally across source ingredients.
+
+| Public checkpoint | Within-group percentile [95% source-cluster CI] | Pairs unseen in Recipe1MSubs train | Full-vocabulary Hit@10 |
+|---|---:|---:|---:|
+| Epicure-Cooc | 0.806 [0.788, 0.824] | 0.754 | 0.133 |
+| Epicure-Core | 0.800 [0.781, 0.819] | 0.735 | 0.172 |
+| Epicure-Chem | 0.780 [0.761, 0.798] | 0.718 | 0.155 |
+
+All three intervals exclude the 0.5 chance percentile after Holm correction; the sensitivity
+column retains only the 594 directed pairs absent from the Recipe1MSubs training split. The labels
+are independent of Epicure fitting, but the recipes share Recipe1M ancestry with part of Epicure's
+corpus. This validates public-checkpoint substitution geometry—not the unrecovered primary
+runtime, the complete reward function, human taste, or cooked outcomes.
+
+![External substitution validation](hf/dataset/assets/complete-core-external-substitution-validation.png)
+
 ## The FlavourBench Score
 
 For task \(t\), Epicure supplies a score for each legal three-item portfolio. The chosen portfolio
@@ -73,8 +111,8 @@ is normalized to a 0-100 scale between that task's worst and best portfolio. A m
 is the equal-weight mean of its substitution, pairing, and constraint means across both panels.
 
 A score of 100 means that the model chose Epicure's optimum on every task. Epicure is the reference
-environment, not a contestant. The benchmark measures alignment with a published culinary reward
-surface; it does not claim to rank general intelligence or sensory taste.
+environment, not a contestant. The benchmark measures alignment with a released culinary reward
+map; it does not claim to rank general intelligence or sensory taste.
 
 ## Run your own model
 
@@ -181,6 +219,10 @@ cd paper/build
 sha256sum --check ARTIFACTS.sha256
 ```
 
+The first paper build downloads three hash-pinned public Epicure checkpoints and one
+commit-pinned ingredient metadata file if they are not already cached. Pass explicit local inputs
+and set `PUBLIC_SCORER_NETWORK=` for a fully offline rebuild.
+
 The compact release verifier has no provider dependency:
 
 ```bash
@@ -214,8 +256,11 @@ No reproduction command calls a model provider.
 | Analysis plan file | `17ac5aea6eb25a0c0af440124849c926fdcafaf36956fd2e676f2c70ca80faa6` |
 | Lab training dataset | `257dfaf17c4f529f2f9b538c0c0b7d7d8ea030262f75ecf06284b61658a64137` |
 | Task-count stability analysis | `4b359ac51db465c7a3f49fb5567a624b1ce3ad6280d309f31545e17ff2797026` |
-| Final PDF | `aec6b96193e046519e27234278eb33c8f52dce852dfd1d79f5fd5e4cf0ee23ed` |
-| arXiv source tarball | `3bab563508060a73ae657ec7a3ee681568dc9b72862d08ce0ff6a2c08a80fb41` |
+| Selection-robustness analysis | `09ebe388b99d6da629c5ec8f8ee837ec0b01b9361f337649228602187ab44293` |
+| Public-scorer sensitivity analysis | `799550a10f13786ef356f069295d3c73ec34d5e0e8ad1394ce838af6622e5f49` |
+| External substitution validation | `46795dabb1cb698bb76ab9d33a90380de306aff128fc1c7e277ae98832d3205d` |
+| Final PDF | `8655a8540e6c930e5f8930cab52e2df66103def11ac2fd865a0b5503e76dcbe7` |
+| arXiv source tarball | `89a048afb968828bc6b9a8be443ef1de9f09694ce56b3e3a8f8a6a6b21b6b1d9` |
 
 ## Repository map
 
@@ -233,7 +278,7 @@ No reproduction command calls a model provider.
 
 ```bibtex
 @article{chen2026flavourbench,
-  title  = {FlavourBench: Ranking Frontier Language Models with Executable Culinary Ground Truth},
+  title  = {FlavourBench: Ranking Frontier Language Models in an Executable Culinary Environment},
   author = {Chen, Josef and Hayretci, Erim},
   journal = {arXiv preprint arXiv:2608.20574},
   year   = {2026},

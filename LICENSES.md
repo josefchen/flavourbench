@@ -15,6 +15,8 @@ The broader grant does not extend to material owned by third parties. In particu
 
 - the underlying Epicure ingredient data, embeddings, and source datasets are not redistributed
   or relicensed by this paper package;
+- Recipe1MSubs raw train and test files are retrieved from Meta's public host only for local,
+  hash-pinned aggregate validation and are not redistributed or relicensed here;
 - model responses and bounded tool-trace projections are research records whose inclusion does
   not grant rights in provider software, model weights, or hosted services;
 - provider names, model names, product names, and other marks remain the property of their

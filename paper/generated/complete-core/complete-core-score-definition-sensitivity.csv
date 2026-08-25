@@ -1,0 +1,5 @@
+metric,rank_spearman_with_flavourbench,pair_order_agreement_with_flavourbench,point_leader_model_id,point_leader_model_name,top_five_overlap_with_flavourbench
+flavourbench_score,1.0,1.0,x-ai/grok-4.6,SpaceXAI: Grok 4.6,1.0
+chance_adjusted_gain,0.9853479853479854,0.9601139601139601,google/gemini-3.1-pro-preview,Google: Gemini 3.1 Pro Preview,0.8
+action_percentile,0.9694749694749695,0.9344729344729344,x-ai/grok-4.6,SpaceXAI: Grok 4.6,0.8
+exact_optimum_rate,0.9377289377289377,0.8917378917378918,x-ai/grok-4.6,SpaceXAI: Grok 4.6,0.8

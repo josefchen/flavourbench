@@ -1,0 +1,1689 @@
+{
+  "artifact_sha256": "09ebe388b99d6da629c5ec8f8ee837ec0b01b9361f337649228602187ab44293",
+  "claim_boundary": "These are post-collection sensitivity diagnostics. They test dependence on the complete-core roster, observable task-map characteristics, score definition, and moderate family reweighting. They do not establish external culinary validity or replace the prespecified complete-core inference.",
+  "design": {
+    "candidate_tasks_per_panel": 640,
+    "included_families": [
+      "substitution",
+      "pairing",
+      "constraint"
+    ],
+    "models": 27,
+    "primary_selected_tasks": 534,
+    "selected_tasks_per_family_panel": 89,
+    "selection_rule": "same fixed SHA-256 order as the primary complete-core plan"
+  },
+  "family_weight_sensitivity": {
+    "equal_weight_leader_retention_share": 0.5603448275862069,
+    "equal_weight_point_leader": "x-ai/grok-4.6",
+    "grid_points": 696,
+    "model_rank_ranges": [
+      {
+        "maximum_rank": 3,
+        "minimum_rank": 3,
+        "model_id": "openai/gpt-5.6-sol-pro",
+        "model_name": "OpenAI: GPT-5.6 Sol Pro"
+      },
+      {
+        "maximum_rank": 6,
+        "minimum_rank": 4,
+        "model_id": "openai/gpt-5.6-terra-pro",
+        "model_name": "OpenAI: GPT-5.6 Terra Pro"
+      },
+      {
+        "maximum_rank": 11,
+        "minimum_rank": 6,
+        "model_id": "openai/gpt-5.6-luna-pro",
+        "model_name": "OpenAI: GPT-5.6 Luna Pro"
+      },
+      {
+        "maximum_rank": 26,
+        "minimum_rank": 26,
+        "model_id": "meta-llama/llama-4-maverick",
+        "model_name": "Meta: Llama 4 Maverick"
+      },
+      {
+        "maximum_rank": 10,
+        "minimum_rank": 7,
+        "model_id": "anthropic/claude-opus-5",
+        "model_name": "Claude Opus 5"
+      },
+      {
+        "maximum_rank": 20,
+        "minimum_rank": 17,
+        "model_id": "anthropic/claude-sonnet-5",
+        "model_name": "Anthropic: Claude Sonnet 5"
+      },
+      {
+        "maximum_rank": 2,
+        "minimum_rank": 1,
+        "model_id": "google/gemini-3.1-pro-preview",
+        "model_name": "Google: Gemini 3.1 Pro Preview"
+      },
+      {
+        "maximum_rank": 15,
+        "minimum_rank": 7,
+        "model_id": "google/gemini-3.6-flash",
+        "model_name": "Google: Gemini 3.6 Flash"
+      },
+      {
+        "maximum_rank": 2,
+        "minimum_rank": 1,
+        "model_id": "x-ai/grok-4.6",
+        "model_name": "SpaceXAI: Grok 4.6"
+      },
+      {
+        "maximum_rank": 14,
+        "minimum_rank": 7,
+        "model_id": "moonshotai/kimi-k3",
+        "model_name": "MoonshotAI: Kimi K3"
+      },
+      {
+        "maximum_rank": 14,
+        "minimum_rank": 12,
+        "model_id": "qwen/qwen3.8-max",
+        "model_name": "Qwen: Qwen3.8 Max"
+      },
+      {
+        "maximum_rank": 21,
+        "minimum_rank": 21,
+        "model_id": "z-ai/glm-5.2",
+        "model_name": "Z.ai: GLM 5.2"
+      },
+      {
+        "maximum_rank": 12,
+        "minimum_rank": 9,
+        "model_id": "deepseek/deepseek-v4-pro-0813",
+        "model_name": "DeepSeek: DeepSeek V4 Pro 0813"
+      },
+      {
+        "maximum_rank": 25,
+        "minimum_rank": 24,
+        "model_id": "deepseek/deepseek-v4-flash-0731",
+        "model_name": "DeepSeek: DeepSeek V4 Flash 0731"
+      },
+      {
+        "maximum_rank": 16,
+        "minimum_rank": 13,
+        "model_id": "minimax/minimax-m3",
+        "model_name": "MiniMax: MiniMax M3"
+      },
+      {
+        "maximum_rank": 22,
+        "minimum_rank": 22,
+        "model_id": "nvidia/nemotron-3.5-lightning",
+        "model_name": "NVIDIA: Nemotron 3.5 Lightning"
+      },
+      {
+        "maximum_rank": 25,
+        "minimum_rank": 24,
+        "model_id": "mistralai/mistral-large-2512",
+        "model_name": "Mistral: Mistral Large 3 2512"
+      },
+      {
+        "maximum_rank": 15,
+        "minimum_rank": 12,
+        "model_id": "tencent/hy3",
+        "model_name": "Tencent: Hy3"
+      },
+      {
+        "maximum_rank": 23,
+        "minimum_rank": 23,
+        "model_id": "cohere/command-a",
+        "model_name": "Cohere: Command A"
+      },
+      {
+        "maximum_rank": 27,
+        "minimum_rank": 27,
+        "model_id": "cohere/command-r-plus-08-2024",
+        "model_name": "Cohere: Command R+ (08-2024)"
+      },
+      {
+        "maximum_rank": 6,
+        "minimum_rank": 4,
+        "model_id": "meta/muse-spark-1.2",
+        "model_name": "Meta: Muse Spark 1.2"
+      },
+      {
+        "maximum_rank": 18,
+        "minimum_rank": 17,
+        "model_id": "meta/muse-glimmer-30b",
+        "model_name": "Meta: Muse Glimmer 30B"
+      },
+      {
+        "maximum_rank": 7,
+        "minimum_rank": 4,
+        "model_id": "anthropic/claude-fable-5",
+        "model_name": "Anthropic: Claude Fable 5"
+      },
+      {
+        "maximum_rank": 12,
+        "minimum_rank": 8,
+        "model_id": "qwen/qwen3.8-2.4t-a95b",
+        "model_name": "Qwen: Qwen3.8 2.4T A95B"
+      },
+      {
+        "maximum_rank": 20,
+        "minimum_rank": 18,
+        "model_id": "bytedance-seed/seed-2-1-turbo",
+        "model_name": "ByteDance Seed: Seed 2.1 Turbo"
+      },
+      {
+        "maximum_rank": 20,
+        "minimum_rank": 17,
+        "model_id": "thinkingmachines/inkling",
+        "model_name": "Thinking Machines: Inkling"
+      },
+      {
+        "maximum_rank": 16,
+        "minimum_rank": 15,
+        "model_id": "z-ai/glm-5.3",
+        "model_name": "Z.ai: GLM-5.3"
+      }
+    ],
+    "pair_order_agreement": {
+      "maximum": 1.0,
+      "median": 0.9772079772079773,
+      "minimum": 0.9515669515669516
+    },
+    "point_leader_frequencies": [
+      {
+        "grid_points": 390,
+        "model_id": "x-ai/grok-4.6",
+        "model_name": "SpaceXAI: Grok 4.6",
+        "share": 0.5603448275862069
+      },
+      {
+        "grid_points": 306,
+        "model_id": "google/gemini-3.1-pro-preview",
+        "model_name": "Google: Gemini 3.1 Pro Preview",
+        "share": 0.4396551724137931
+      }
+    ],
+    "rank_spearman": {
+      "maximum": 1.0,
+      "median": 0.9914529914529915,
+      "minimum": 0.9804639804639804
+    },
+    "weight_grid_definition": "all one-percentage-point three-family weights summing to one, with every family between 0.20 and 0.50"
+  },
+  "inputs": {
+    "builder_physical_sha256": "08d69dbee6094ab717d3f1d0c1489da11f9264a57227fd8d4cc51d9b37047f53",
+    "complete_core_plan_physical_sha256": "17ac5aea6eb25a0c0af440124849c926fdcafaf36956fd2e676f2c70ca80faa6",
+    "complete_core_plan_semantic_sha256": "2ba71c793c8d4b97eed863ee83fd770b429fdefdffebdeafb241672f634ee507",
+    "panel_1_taskset_semantic_sha256": "a33bf28db372090015118371417b0e8ed1254f416d03d2c2c5816a6a752beb41",
+    "panel_1_validity_matrix_sha256": "ecfe7ad8dcbfcf15d62d7a8c2259d2954a1ff85e11e8ba8b3c9320df8bd038e1",
+    "panel_2_taskset_semantic_sha256": "925ba9d1d4be9c2b7a1e9956ecd6c18d34ffcad22eee28522f16892922c91e3f",
+    "panel_2_validity_matrix_sha256": "d0878d931160949682e6943de67d667bae39352bb05e9b1f6e89dfbc6091cdfc"
+  },
+  "leave_one_model_out": [
+    {
+      "leave_one_out_point_leader": "x-ai/grok-4.6",
+      "maximum_absolute_score_shift": 0.0,
+      "mean_absolute_score_shift": 0.0,
+      "minimum_available_tasks_per_stratum": 89,
+      "official_point_leader": "x-ai/grok-4.6",
+      "omitted_model_id": "openai/gpt-5.6-sol-pro",
+      "omitted_model_name": "OpenAI: GPT-5.6 Sol Pro",
+      "pair_order_agreement": 1.0,
+      "point_leader_preserved": true,
+      "rank_spearman": 1.0,
+      "selected_task_overlap": 534,
+      "selected_task_overlap_fraction": 1.0
+    },
+    {
+      "leave_one_out_point_leader": "x-ai/grok-4.6",
+      "maximum_absolute_score_shift": 0.0,
+      "mean_absolute_score_shift": 0.0,
+      "minimum_available_tasks_per_stratum": 89,
+      "official_point_leader": "x-ai/grok-4.6",
+      "omitted_model_id": "openai/gpt-5.6-terra-pro",
+      "omitted_model_name": "OpenAI: GPT-5.6 Terra Pro",
+      "pair_order_agreement": 1.0,
+      "point_leader_preserved": true,
+      "rank_spearman": 1.0,
+      "selected_task_overlap": 534,
+      "selected_task_overlap_fraction": 1.0
+    },
+    {
+      "leave_one_out_point_leader": "x-ai/grok-4.6",
+      "maximum_absolute_score_shift": 0.0,
+      "mean_absolute_score_shift": 0.0,
+      "minimum_available_tasks_per_stratum": 89,
+      "official_point_leader": "x-ai/grok-4.6",
+      "omitted_model_id": "openai/gpt-5.6-luna-pro",
+      "omitted_model_name": "OpenAI: GPT-5.6 Luna Pro",
+      "pair_order_agreement": 1.0,
+      "point_leader_preserved": true,
+      "rank_spearman": 1.0,
+      "selected_task_overlap": 534,
+      "selected_task_overlap_fraction": 1.0
+    },
+    {
+      "leave_one_out_point_leader": "x-ai/grok-4.6",
+      "maximum_absolute_score_shift": 0.0,
+      "mean_absolute_score_shift": 0.0,
+      "minimum_available_tasks_per_stratum": 89,
+      "official_point_leader": "x-ai/grok-4.6",
+      "omitted_model_id": "meta-llama/llama-4-maverick",
+      "omitted_model_name": "Meta: Llama 4 Maverick",
+      "pair_order_agreement": 1.0,
+      "point_leader_preserved": true,
+      "rank_spearman": 1.0,
+      "selected_task_overlap": 534,
+      "selected_task_overlap_fraction": 1.0
+    },
+    {
+      "leave_one_out_point_leader": "x-ai/grok-4.6",
+      "maximum_absolute_score_shift": 0.0,
+      "mean_absolute_score_shift": 0.0,
+      "minimum_available_tasks_per_stratum": 89,
+      "official_point_leader": "x-ai/grok-4.6",
+      "omitted_model_id": "anthropic/claude-opus-5",
+      "omitted_model_name": "Claude Opus 5",
+      "pair_order_agreement": 1.0,
+      "point_leader_preserved": true,
+      "rank_spearman": 1.0,
+      "selected_task_overlap": 534,
+      "selected_task_overlap_fraction": 1.0
+    },
+    {
+      "leave_one_out_point_leader": "x-ai/grok-4.6",
+      "maximum_absolute_score_shift": 0.0,
+      "mean_absolute_score_shift": 0.0,
+      "minimum_available_tasks_per_stratum": 89,
+      "official_point_leader": "x-ai/grok-4.6",
+      "omitted_model_id": "anthropic/claude-sonnet-5",
+      "omitted_model_name": "Anthropic: Claude Sonnet 5",
+      "pair_order_agreement": 1.0,
+      "point_leader_preserved": true,
+      "rank_spearman": 1.0,
+      "selected_task_overlap": 534,
+      "selected_task_overlap_fraction": 1.0
+    },
+    {
+      "leave_one_out_point_leader": "x-ai/grok-4.6",
+      "maximum_absolute_score_shift": 0.0,
+      "mean_absolute_score_shift": 0.0,
+      "minimum_available_tasks_per_stratum": 89,
+      "official_point_leader": "x-ai/grok-4.6",
+      "omitted_model_id": "google/gemini-3.1-pro-preview",
+      "omitted_model_name": "Google: Gemini 3.1 Pro Preview",
+      "pair_order_agreement": 1.0,
+      "point_leader_preserved": true,
+      "rank_spearman": 1.0,
+      "selected_task_overlap": 534,
+      "selected_task_overlap_fraction": 1.0
+    },
+    {
+      "leave_one_out_point_leader": "x-ai/grok-4.6",
+      "maximum_absolute_score_shift": 0.0,
+      "mean_absolute_score_shift": 0.0,
+      "minimum_available_tasks_per_stratum": 89,
+      "official_point_leader": "x-ai/grok-4.6",
+      "omitted_model_id": "google/gemini-3.6-flash",
+      "omitted_model_name": "Google: Gemini 3.6 Flash",
+      "pair_order_agreement": 1.0,
+      "point_leader_preserved": true,
+      "rank_spearman": 1.0,
+      "selected_task_overlap": 534,
+      "selected_task_overlap_fraction": 1.0
+    },
+    {
+      "leave_one_out_point_leader": "google/gemini-3.1-pro-preview",
+      "maximum_absolute_score_shift": 0.0,
+      "mean_absolute_score_shift": 0.0,
+      "minimum_available_tasks_per_stratum": 89,
+      "official_point_leader": "google/gemini-3.1-pro-preview",
+      "omitted_model_id": "x-ai/grok-4.6",
+      "omitted_model_name": "SpaceXAI: Grok 4.6",
+      "pair_order_agreement": 1.0,
+      "point_leader_preserved": true,
+      "rank_spearman": 1.0,
+      "selected_task_overlap": 534,
+      "selected_task_overlap_fraction": 1.0
+    },
+    {
+      "leave_one_out_point_leader": "x-ai/grok-4.6",
+      "maximum_absolute_score_shift": 0.0,
+      "mean_absolute_score_shift": 0.0,
+      "minimum_available_tasks_per_stratum": 89,
+      "official_point_leader": "x-ai/grok-4.6",
+      "omitted_model_id": "moonshotai/kimi-k3",
+      "omitted_model_name": "MoonshotAI: Kimi K3",
+      "pair_order_agreement": 1.0,
+      "point_leader_preserved": true,
+      "rank_spearman": 1.0,
+      "selected_task_overlap": 534,
+      "selected_task_overlap_fraction": 1.0
+    },
+    {
+      "leave_one_out_point_leader": "x-ai/grok-4.6",
+      "maximum_absolute_score_shift": 0.0,
+      "mean_absolute_score_shift": 0.0,
+      "minimum_available_tasks_per_stratum": 89,
+      "official_point_leader": "x-ai/grok-4.6",
+      "omitted_model_id": "qwen/qwen3.8-max",
+      "omitted_model_name": "Qwen: Qwen3.8 Max",
+      "pair_order_agreement": 1.0,
+      "point_leader_preserved": true,
+      "rank_spearman": 1.0,
+      "selected_task_overlap": 534,
+      "selected_task_overlap_fraction": 1.0
+    },
+    {
+      "leave_one_out_point_leader": "google/gemini-3.1-pro-preview",
+      "maximum_absolute_score_shift": 0.37604868913857104,
+      "mean_absolute_score_shift": 0.13473350619417865,
+      "minimum_available_tasks_per_stratum": 89,
+      "official_point_leader": "x-ai/grok-4.6",
+      "omitted_model_id": "z-ai/glm-5.2",
+      "omitted_model_name": "Z.ai: GLM 5.2",
+      "pair_order_agreement": 0.9846153846153847,
+      "point_leader_preserved": false,
+      "rank_spearman": 0.9958974358974358,
+      "selected_task_overlap": 531,
+      "selected_task_overlap_fraction": 0.9943820224719101
+    },
+    {
+      "leave_one_out_point_leader": "x-ai/grok-4.6",
+      "maximum_absolute_score_shift": 0.0,
+      "mean_absolute_score_shift": 0.0,
+      "minimum_available_tasks_per_stratum": 89,
+      "official_point_leader": "x-ai/grok-4.6",
+      "omitted_model_id": "deepseek/deepseek-v4-pro-0813",
+      "omitted_model_name": "DeepSeek: DeepSeek V4 Pro 0813",
+      "pair_order_agreement": 1.0,
+      "point_leader_preserved": true,
+      "rank_spearman": 1.0,
+      "selected_task_overlap": 534,
+      "selected_task_overlap_fraction": 1.0
+    },
+    {
+      "leave_one_out_point_leader": "x-ai/grok-4.6",
+      "maximum_absolute_score_shift": 0.0,
+      "mean_absolute_score_shift": 0.0,
+      "minimum_available_tasks_per_stratum": 89,
+      "official_point_leader": "x-ai/grok-4.6",
+      "omitted_model_id": "deepseek/deepseek-v4-flash-0731",
+      "omitted_model_name": "DeepSeek: DeepSeek V4 Flash 0731",
+      "pair_order_agreement": 1.0,
+      "point_leader_preserved": true,
+      "rank_spearman": 1.0,
+      "selected_task_overlap": 534,
+      "selected_task_overlap_fraction": 1.0
+    },
+    {
+      "leave_one_out_point_leader": "x-ai/grok-4.6",
+      "maximum_absolute_score_shift": 0.0,
+      "mean_absolute_score_shift": 0.0,
+      "minimum_available_tasks_per_stratum": 89,
+      "official_point_leader": "x-ai/grok-4.6",
+      "omitted_model_id": "minimax/minimax-m3",
+      "omitted_model_name": "MiniMax: MiniMax M3",
+      "pair_order_agreement": 1.0,
+      "point_leader_preserved": true,
+      "rank_spearman": 1.0,
+      "selected_task_overlap": 534,
+      "selected_task_overlap_fraction": 1.0
+    },
+    {
+      "leave_one_out_point_leader": "x-ai/grok-4.6",
+      "maximum_absolute_score_shift": 0.0,
+      "mean_absolute_score_shift": 0.0,
+      "minimum_available_tasks_per_stratum": 89,
+      "official_point_leader": "x-ai/grok-4.6",
+      "omitted_model_id": "nvidia/nemotron-3.5-lightning",
+      "omitted_model_name": "NVIDIA: Nemotron 3.5 Lightning",
+      "pair_order_agreement": 1.0,
+      "point_leader_preserved": true,
+      "rank_spearman": 1.0,
+      "selected_task_overlap": 534,
+      "selected_task_overlap_fraction": 1.0
+    },
+    {
+      "leave_one_out_point_leader": "x-ai/grok-4.6",
+      "maximum_absolute_score_shift": 0.1439700374531867,
+      "mean_absolute_score_shift": 0.06061869778161967,
+      "minimum_available_tasks_per_stratum": 89,
+      "official_point_leader": "x-ai/grok-4.6",
+      "omitted_model_id": "mistralai/mistral-large-2512",
+      "omitted_model_name": "Mistral: Mistral Large 3 2512",
+      "pair_order_agreement": 0.9938461538461538,
+      "point_leader_preserved": true,
+      "rank_spearman": 0.9986324786324786,
+      "selected_task_overlap": 532,
+      "selected_task_overlap_fraction": 0.9962546816479401
+    },
+    {
+      "leave_one_out_point_leader": "x-ai/grok-4.6",
+      "maximum_absolute_score_shift": 0.0,
+      "mean_absolute_score_shift": 0.0,
+      "minimum_available_tasks_per_stratum": 89,
+      "official_point_leader": "x-ai/grok-4.6",
+      "omitted_model_id": "tencent/hy3",
+      "omitted_model_name": "Tencent: Hy3",
+      "pair_order_agreement": 1.0,
+      "point_leader_preserved": true,
+      "rank_spearman": 1.0,
+      "selected_task_overlap": 534,
+      "selected_task_overlap_fraction": 1.0
+    },
+    {
+      "leave_one_out_point_leader": "x-ai/grok-4.6",
+      "maximum_absolute_score_shift": 0.0,
+      "mean_absolute_score_shift": 0.0,
+      "minimum_available_tasks_per_stratum": 89,
+      "official_point_leader": "x-ai/grok-4.6",
+      "omitted_model_id": "cohere/command-a",
+      "omitted_model_name": "Cohere: Command A",
+      "pair_order_agreement": 1.0,
+      "point_leader_preserved": true,
+      "rank_spearman": 1.0,
+      "selected_task_overlap": 534,
+      "selected_task_overlap_fraction": 1.0
+    },
+    {
+      "leave_one_out_point_leader": "x-ai/grok-4.6",
+      "maximum_absolute_score_shift": 0.0,
+      "mean_absolute_score_shift": 0.0,
+      "minimum_available_tasks_per_stratum": 89,
+      "official_point_leader": "x-ai/grok-4.6",
+      "omitted_model_id": "cohere/command-r-plus-08-2024",
+      "omitted_model_name": "Cohere: Command R+ (08-2024)",
+      "pair_order_agreement": 1.0,
+      "point_leader_preserved": true,
+      "rank_spearman": 1.0,
+      "selected_task_overlap": 534,
+      "selected_task_overlap_fraction": 1.0
+    },
+    {
+      "leave_one_out_point_leader": "x-ai/grok-4.6",
+      "maximum_absolute_score_shift": 0.0,
+      "mean_absolute_score_shift": 0.0,
+      "minimum_available_tasks_per_stratum": 89,
+      "official_point_leader": "x-ai/grok-4.6",
+      "omitted_model_id": "meta/muse-spark-1.2",
+      "omitted_model_name": "Meta: Muse Spark 1.2",
+      "pair_order_agreement": 1.0,
+      "point_leader_preserved": true,
+      "rank_spearman": 1.0,
+      "selected_task_overlap": 534,
+      "selected_task_overlap_fraction": 1.0
+    },
+    {
+      "leave_one_out_point_leader": "google/gemini-3.1-pro-preview",
+      "maximum_absolute_score_shift": 0.15256554307116232,
+      "mean_absolute_score_shift": 0.07991212906943063,
+      "minimum_available_tasks_per_stratum": 89,
+      "official_point_leader": "x-ai/grok-4.6",
+      "omitted_model_id": "meta/muse-glimmer-30b",
+      "omitted_model_name": "Meta: Muse Glimmer 30B",
+      "pair_order_agreement": 0.9907692307692307,
+      "point_leader_preserved": false,
+      "rank_spearman": 0.997948717948718,
+      "selected_task_overlap": 533,
+      "selected_task_overlap_fraction": 0.99812734082397
+    },
+    {
+      "leave_one_out_point_leader": "x-ai/grok-4.6",
+      "maximum_absolute_score_shift": 1.3742883895131115,
+      "mean_absolute_score_shift": 0.6545145491212903,
+      "minimum_available_tasks_per_stratum": 155,
+      "official_point_leader": "x-ai/grok-4.6",
+      "omitted_model_id": "anthropic/claude-fable-5",
+      "omitted_model_name": "Anthropic: Claude Fable 5",
+      "pair_order_agreement": 0.9292307692307692,
+      "point_leader_preserved": true,
+      "rank_spearman": 0.9548717948717949,
+      "selected_task_overlap": 379,
+      "selected_task_overlap_fraction": 0.7097378277153558
+    },
+    {
+      "leave_one_out_point_leader": "x-ai/grok-4.6",
+      "maximum_absolute_score_shift": 0.0,
+      "mean_absolute_score_shift": 0.0,
+      "minimum_available_tasks_per_stratum": 89,
+      "official_point_leader": "x-ai/grok-4.6",
+      "omitted_model_id": "qwen/qwen3.8-2.4t-a95b",
+      "omitted_model_name": "Qwen: Qwen3.8 2.4T A95B",
+      "pair_order_agreement": 1.0,
+      "point_leader_preserved": true,
+      "rank_spearman": 1.0,
+      "selected_task_overlap": 534,
+      "selected_task_overlap_fraction": 1.0
+    },
+    {
+      "leave_one_out_point_leader": "x-ai/grok-4.6",
+      "maximum_absolute_score_shift": 0.0,
+      "mean_absolute_score_shift": 0.0,
+      "minimum_available_tasks_per_stratum": 89,
+      "official_point_leader": "x-ai/grok-4.6",
+      "omitted_model_id": "bytedance-seed/seed-2-1-turbo",
+      "omitted_model_name": "ByteDance Seed: Seed 2.1 Turbo",
+      "pair_order_agreement": 1.0,
+      "point_leader_preserved": true,
+      "rank_spearman": 1.0,
+      "selected_task_overlap": 534,
+      "selected_task_overlap_fraction": 1.0
+    },
+    {
+      "leave_one_out_point_leader": "x-ai/grok-4.6",
+      "maximum_absolute_score_shift": 0.0,
+      "mean_absolute_score_shift": 0.0,
+      "minimum_available_tasks_per_stratum": 89,
+      "official_point_leader": "x-ai/grok-4.6",
+      "omitted_model_id": "thinkingmachines/inkling",
+      "omitted_model_name": "Thinking Machines: Inkling",
+      "pair_order_agreement": 1.0,
+      "point_leader_preserved": true,
+      "rank_spearman": 1.0,
+      "selected_task_overlap": 534,
+      "selected_task_overlap_fraction": 1.0
+    },
+    {
+      "leave_one_out_point_leader": "x-ai/grok-4.6",
+      "maximum_absolute_score_shift": 0.0,
+      "mean_absolute_score_shift": 0.0,
+      "minimum_available_tasks_per_stratum": 89,
+      "official_point_leader": "x-ai/grok-4.6",
+      "omitted_model_id": "z-ai/glm-5.3",
+      "omitted_model_name": "Z.ai: GLM-5.3",
+      "pair_order_agreement": 1.0,
+      "point_leader_preserved": true,
+      "rank_spearman": 1.0,
+      "selected_task_overlap": 534,
+      "selected_task_overlap_fraction": 1.0
+    }
+  ],
+  "most_influential_omission": {
+    "leave_one_out_point_leader": "x-ai/grok-4.6",
+    "maximum_absolute_score_shift": 1.3742883895131115,
+    "mean_absolute_score_shift": 0.6545145491212903,
+    "minimum_available_tasks_per_stratum": 155,
+    "official_point_leader": "x-ai/grok-4.6",
+    "omitted_model_id": "anthropic/claude-fable-5",
+    "omitted_model_name": "Anthropic: Claude Fable 5",
+    "pair_order_agreement": 0.9292307692307692,
+    "point_leader_preserved": true,
+    "rank_spearman": 0.9548717948717949,
+    "selected_task_overlap": 379,
+    "selected_task_overlap_fraction": 0.7097378277153558
+  },
+  "schema_version": "flavourbench-selection-robustness-v1",
+  "score_definition_model_values": [
+    {
+      "action_percentile": 78.10691181477699,
+      "chance_adjusted_gain": 46.68362619393831,
+      "exact_optimum_rate": 19.662921348314608,
+      "flavourbench_score": 64.22983146067415,
+      "model_id": "openai/gpt-5.6-sol-pro",
+      "model_name": "OpenAI: GPT-5.6 Sol Pro"
+    },
+    {
+      "action_percentile": 78.00987402110997,
+      "chance_adjusted_gain": 45.98716222790025,
+      "exact_optimum_rate": 18.913857677902623,
+      "flavourbench_score": 63.668220973782766,
+      "model_id": "openai/gpt-5.6-terra-pro",
+      "model_name": "OpenAI: GPT-5.6 Terra Pro"
+    },
+    {
+      "action_percentile": 77.0990806945863,
+      "chance_adjusted_gain": 43.97678258560193,
+      "exact_optimum_rate": 18.352059925093634,
+      "flavourbench_score": 62.643857677902616,
+      "model_id": "openai/gpt-5.6-luna-pro",
+      "model_name": "OpenAI: GPT-5.6 Luna Pro"
+    },
+    {
+      "action_percentile": 71.02315287708545,
+      "chance_adjusted_gain": 31.366511118990786,
+      "exact_optimum_rate": 11.04868913857678,
+      "flavourbench_score": 53.65292134831461,
+      "model_id": "meta-llama/llama-4-maverick",
+      "model_name": "Meta: Llama 4 Maverick"
+    },
+    {
+      "action_percentile": 77.13993871297241,
+      "chance_adjusted_gain": 44.624664958333305,
+      "exact_optimum_rate": 18.352059925093634,
+      "flavourbench_score": 62.4999063670412,
+      "model_id": "anthropic/claude-opus-5",
+      "model_name": "Claude Opus 5"
+    },
+    {
+      "action_percentile": 75.28770854613552,
+      "chance_adjusted_gain": 40.88113570558003,
+      "exact_optimum_rate": 17.04119850187266,
+      "flavourbench_score": 59.521179775280906,
+      "model_id": "anthropic/claude-sonnet-5",
+      "model_name": "Anthropic: Claude Sonnet 5"
+    },
+    {
+      "action_percentile": 78.67551923731698,
+      "chance_adjusted_gain": 48.151271116339124,
+      "exact_optimum_rate": 20.786516853932582,
+      "flavourbench_score": 64.95162921348314,
+      "model_id": "google/gemini-3.1-pro-preview",
+      "model_name": "Google: Gemini 3.1 Pro Preview"
+    },
+    {
+      "action_percentile": 75.88014981273409,
+      "chance_adjusted_gain": 43.470324300674704,
+      "exact_optimum_rate": 18.539325842696627,
+      "flavourbench_score": 61.97865168539326,
+      "model_id": "google/gemini-3.6-flash",
+      "model_name": "Google: Gemini 3.6 Flash"
+    },
+    {
+      "action_percentile": 78.92747701736465,
+      "chance_adjusted_gain": 47.23267569092365,
+      "exact_optimum_rate": 20.973782771535582,
+      "flavourbench_score": 65.0658052434457,
+      "model_id": "x-ai/grok-4.6",
+      "model_name": "SpaceXAI: Grok 4.6"
+    },
+    {
+      "action_percentile": 77.3203949608444,
+      "chance_adjusted_gain": 44.69004184914302,
+      "exact_optimum_rate": 18.913857677902623,
+      "flavourbench_score": 62.051067415730344,
+      "model_id": "moonshotai/kimi-k3",
+      "model_name": "MoonshotAI: Kimi K3"
+    },
+    {
+      "action_percentile": 76.692202928158,
+      "chance_adjusted_gain": 42.98488114491243,
+      "exact_optimum_rate": 17.04119850187266,
+      "flavourbench_score": 61.502153558052434,
+      "model_id": "qwen/qwen3.8-max",
+      "model_name": "Qwen: Qwen3.8 Max"
+    },
+    {
+      "action_percentile": 74.15389853592102,
+      "chance_adjusted_gain": 38.87698949488588,
+      "exact_optimum_rate": 15.168539325842698,
+      "flavourbench_score": 58.45168539325843,
+      "model_id": "z-ai/glm-5.2",
+      "model_name": "Z.ai: GLM 5.2"
+    },
+    {
+      "action_percentile": 77.03438883214164,
+      "chance_adjusted_gain": 43.747163942444885,
+      "exact_optimum_rate": 18.164794007490638,
+      "flavourbench_score": 61.9537265917603,
+      "model_id": "deepseek/deepseek-v4-pro-0813",
+      "model_name": "DeepSeek: DeepSeek V4 Pro 0813"
+    },
+    {
+      "action_percentile": 70.84099421178072,
+      "chance_adjusted_gain": 34.478706934315575,
+      "exact_optimum_rate": 15.54307116104869,
+      "flavourbench_score": 55.432902621722846,
+      "model_id": "deepseek/deepseek-v4-flash-0731",
+      "model_name": "DeepSeek: DeepSeek V4 Flash 0731"
+    },
+    {
+      "action_percentile": 76.11508341845422,
+      "chance_adjusted_gain": 42.37295377527811,
+      "exact_optimum_rate": 17.04119850187266,
+      "flavourbench_score": 60.93955056179775,
+      "model_id": "minimax/minimax-m3",
+      "model_name": "MiniMax: MiniMax M3"
+    },
+    {
+      "action_percentile": 73.43718079673135,
+      "chance_adjusted_gain": 37.47556253472814,
+      "exact_optimum_rate": 14.981273408239701,
+      "flavourbench_score": 57.3936329588015,
+      "model_id": "nvidia/nemotron-3.5-lightning",
+      "model_name": "NVIDIA: Nemotron 3.5 Lightning"
+    },
+    {
+      "action_percentile": 72.6387470207695,
+      "chance_adjusted_gain": 34.51870483694033,
+      "exact_optimum_rate": 11.985018726591761,
+      "flavourbench_score": 55.41541198501873,
+      "model_id": "mistralai/mistral-large-2512",
+      "model_name": "Mistral: Mistral Large 3 2512"
+    },
+    {
+      "action_percentile": 76.16104868913857,
+      "chance_adjusted_gain": 42.71868054643942,
+      "exact_optimum_rate": 17.04119850187266,
+      "flavourbench_score": 61.48209737827715,
+      "model_id": "tencent/hy3",
+      "model_name": "Tencent: Hy3"
+    },
+    {
+      "action_percentile": 73.05413687436159,
+      "chance_adjusted_gain": 36.492888065415706,
+      "exact_optimum_rate": 13.670411985018728,
+      "flavourbench_score": 56.70722846441949,
+      "model_id": "cohere/command-a",
+      "model_name": "Cohere: Command A"
+    },
+    {
+      "action_percentile": 65.04596527068438,
+      "chance_adjusted_gain": 22.810281176403983,
+      "exact_optimum_rate": 9.176029962546817,
+      "flavourbench_score": 47.855599250936336,
+      "model_id": "cohere/command-r-plus-08-2024",
+      "model_name": "Cohere: Command R+ (08-2024)"
+    },
+    {
+      "action_percentile": 78.00817160367721,
+      "chance_adjusted_gain": 45.691490301792285,
+      "exact_optimum_rate": 19.10112359550562,
+      "flavourbench_score": 63.75447565543071,
+      "model_id": "meta/muse-spark-1.2",
+      "model_name": "Meta: Muse Spark 1.2"
+    },
+    {
+      "action_percentile": 76.3023493360572,
+      "chance_adjusted_gain": 40.558326717668265,
+      "exact_optimum_rate": 14.794007490636705,
+      "flavourbench_score": 59.8869850187266,
+      "model_id": "meta/muse-glimmer-30b",
+      "model_name": "Meta: Muse Glimmer 30B"
+    },
+    {
+      "action_percentile": 78.12734082397004,
+      "chance_adjusted_gain": 45.935591368469936,
+      "exact_optimum_rate": 19.662921348314605,
+      "flavourbench_score": 63.35756554307116,
+      "model_id": "anthropic/claude-fable-5",
+      "model_name": "Anthropic: Claude Fable 5"
+    },
+    {
+      "action_percentile": 76.5679264555669,
+      "chance_adjusted_gain": 43.32759802793511,
+      "exact_optimum_rate": 18.352059925093634,
+      "flavourbench_score": 62.08411985018728,
+      "model_id": "qwen/qwen3.8-2.4t-a95b",
+      "model_name": "Qwen: Qwen3.8 2.4T A95B"
+    },
+    {
+      "action_percentile": 74.37521280217909,
+      "chance_adjusted_gain": 40.42782849755459,
+      "exact_optimum_rate": 16.47940074906367,
+      "flavourbench_score": 59.72376404494382,
+      "model_id": "bytedance-seed/seed-2-1-turbo",
+      "model_name": "ByteDance Seed: Seed 2.1 Turbo"
+    },
+    {
+      "action_percentile": 74.6561116785836,
+      "chance_adjusted_gain": 39.351406685258794,
+      "exact_optimum_rate": 16.47940074906367,
+      "flavourbench_score": 59.60831460674158,
+      "model_id": "thinkingmachines/inkling",
+      "model_name": "Thinking Machines: Inkling"
+    },
+    {
+      "action_percentile": 75.6962887299966,
+      "chance_adjusted_gain": 41.456319059376035,
+      "exact_optimum_rate": 18.539325842696627,
+      "flavourbench_score": 60.57327715355806,
+      "model_id": "z-ai/glm-5.3",
+      "model_name": "Z.ai: GLM-5.3"
+    }
+  ],
+  "score_definition_sensitivity": [
+    {
+      "metric": "flavourbench_score",
+      "pair_order_agreement_with_flavourbench": 1.0,
+      "point_leader_model_id": "x-ai/grok-4.6",
+      "point_leader_model_name": "SpaceXAI: Grok 4.6",
+      "rank_spearman_with_flavourbench": 1.0,
+      "top_five_overlap_with_flavourbench": 1.0
+    },
+    {
+      "metric": "chance_adjusted_gain",
+      "pair_order_agreement_with_flavourbench": 0.9601139601139601,
+      "point_leader_model_id": "google/gemini-3.1-pro-preview",
+      "point_leader_model_name": "Google: Gemini 3.1 Pro Preview",
+      "rank_spearman_with_flavourbench": 0.9853479853479854,
+      "top_five_overlap_with_flavourbench": 0.8
+    },
+    {
+      "metric": "action_percentile",
+      "pair_order_agreement_with_flavourbench": 0.9344729344729344,
+      "point_leader_model_id": "x-ai/grok-4.6",
+      "point_leader_model_name": "SpaceXAI: Grok 4.6",
+      "rank_spearman_with_flavourbench": 0.9694749694749695,
+      "top_five_overlap_with_flavourbench": 0.8
+    },
+    {
+      "metric": "exact_optimum_rate",
+      "pair_order_agreement_with_flavourbench": 0.8917378917378918,
+      "point_leader_model_id": "x-ai/grok-4.6",
+      "point_leader_model_name": "SpaceXAI: Grok 4.6",
+      "rank_spearman_with_flavourbench": 0.9377289377289377,
+      "top_five_overlap_with_flavourbench": 0.8
+    }
+  ],
+  "selection_profile": {
+    "candidate_tasks_in_included_families": 960,
+    "category_balance": [
+      {
+        "family": "substitution",
+        "panel": "panel_1",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.6662666866656667,
+        "selected_vs_not_selected_total_variation": 0.19829086880835575
+      },
+      {
+        "family": "pairing",
+        "panel": "panel_1",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.06774661266936653,
+        "selected_vs_not_selected_total_variation": 0.2937173603418262
+      },
+      {
+        "family": "constraint",
+        "panel": "panel_1",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.043497825108744566,
+        "selected_vs_not_selected_total_variation": 0.3082766260484254
+      },
+      {
+        "family": "substitution",
+        "panel": "panel_2",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.43777811109444525,
+        "selected_vs_not_selected_total_variation": 0.2269346415572084
+      },
+      {
+        "family": "pairing",
+        "panel": "panel_2",
+        "random_subset_holm_p": 0.7370631468426578,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.017549122543872805,
+        "selected_vs_not_selected_total_variation": 0.33043203038455454
+      },
+      {
+        "family": "constraint",
+        "panel": "panel_2",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.7651617419129043,
+        "selected_vs_not_selected_total_variation": 0.1899034657382497
+      }
+    ],
+    "maximum_absolute_selected_standardized_difference": 0.27413235019946885,
+    "maximum_absolute_validity_gate_standardized_difference": 1.073225390857941,
+    "maximum_absolute_validity_gate_standardized_difference_minimum_10_tasks_per_group": 0.2779293219766624,
+    "maximum_category_total_variation": 0.33043203038455454,
+    "random_subset_draws_per_stratum": 20000,
+    "random_subset_holm_resolved_characteristics": 0,
+    "random_subset_hypotheses": 42,
+    "random_subset_seed": 20260825,
+    "selected_tasks": 534,
+    "selected_vs_not_selected": [
+      {
+        "family": "substitution",
+        "metric": "chance_score",
+        "not_selected_mean": 45.26394366197184,
+        "panel": "panel_1",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.656217189140543,
+        "selected_mean": 44.93797752808988,
+        "standardized_difference": -0.07137683748277383
+      },
+      {
+        "family": "substitution",
+        "metric": "optimal_margin",
+        "not_selected_mean": 7.0366197183098596,
+        "panel": "panel_1",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.9020548972551372,
+        "selected_mean": 7.146966292134831,
+        "standardized_difference": 0.020385887677834263
+      },
+      {
+        "family": "substitution",
+        "metric": "distinct_score_count",
+        "not_selected_mean": 55.774647887323944,
+        "panel": "panel_1",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.6035198240087996,
+        "selected_mean": 55.82022471910113,
+        "standardized_difference": 0.09910965321862014
+      },
+      {
+        "family": "substitution",
+        "metric": "zero_portfolio_share",
+        "not_selected_mean": 0.017857142857142846,
+        "panel": "panel_1",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 1.0,
+        "selected_mean": 0.017857142857142853,
+        "standardized_difference": 0.0
+      },
+      {
+        "family": "substitution",
+        "metric": "score_map_standard_deviation",
+        "not_selected_mean": 24.397790116660186,
+        "panel": "panel_1",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.5415229238538073,
+        "selected_mean": 24.599274532276468,
+        "standardized_difference": 0.09997307329023553
+      },
+      {
+        "family": "substitution",
+        "metric": "reference_26_model_mean_score",
+        "not_selected_mean": 64.94028689057421,
+        "panel": "panel_1",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.9803509824508775,
+        "selected_mean": 64.85597666378565,
+        "standardized_difference": -0.003932528967326716
+      },
+      {
+        "family": "pairing",
+        "metric": "chance_score",
+        "not_selected_mean": 45.17633802816901,
+        "panel": "panel_1",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.312234388280586,
+        "selected_mean": 44.39561797752809,
+        "standardized_difference": -0.16131823766373032
+      },
+      {
+        "family": "pairing",
+        "metric": "optimal_margin",
+        "not_selected_mean": 7.687323943661971,
+        "panel": "panel_1",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.8848557572121394,
+        "selected_mean": 7.833146067415729,
+        "standardized_difference": 0.023882552287786803
+      },
+      {
+        "family": "pairing",
+        "metric": "distinct_score_count",
+        "not_selected_mean": 55.774647887323944,
+        "panel": "panel_1",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.09574521273936303,
+        "selected_mean": 55.87640449438202,
+        "standardized_difference": 0.2688002828492826
+      },
+      {
+        "family": "pairing",
+        "metric": "zero_portfolio_share",
+        "not_selected_mean": 0.017857142857142846,
+        "panel": "panel_1",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 1.0,
+        "selected_mean": 0.017857142857142853,
+        "standardized_difference": 0.0
+      },
+      {
+        "family": "pairing",
+        "metric": "score_map_standard_deviation",
+        "not_selected_mean": 24.083165360096427,
+        "panel": "panel_1",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.7306134693265337,
+        "selected_mean": 23.968399654519377,
+        "standardized_difference": -0.05509727559217646
+      },
+      {
+        "family": "pairing",
+        "metric": "reference_26_model_mean_score",
+        "not_selected_mean": 64.94571505958831,
+        "panel": "panel_1",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.2448877556122194,
+        "selected_mean": 68.10041486603284,
+        "standardized_difference": 0.18606507517104542
+      },
+      {
+        "family": "constraint",
+        "metric": "chance_score",
+        "not_selected_mean": 3.504788732394366,
+        "panel": "panel_1",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.6015699215039249,
+        "selected_mean": 3.445168539325843,
+        "standardized_difference": -0.08338847683735953
+      },
+      {
+        "family": "constraint",
+        "metric": "optimal_margin",
+        "not_selected_mean": 36.68676056338028,
+        "panel": "panel_1",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.8519074046297685,
+        "selected_mean": 37.37606741573033,
+        "standardized_difference": 0.0291870345835408
+      },
+      {
+        "family": "constraint",
+        "metric": "distinct_score_count",
+        "not_selected_mean": 4.0,
+        "panel": "panel_1",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 1.0,
+        "selected_mean": 4.0,
+        "standardized_difference": 0.0
+      },
+      {
+        "family": "constraint",
+        "metric": "zero_portfolio_share",
+        "not_selected_mean": 0.9464285714285712,
+        "panel": "panel_1",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 1.0,
+        "selected_mean": 0.9464285714285713,
+        "standardized_difference": 0.0
+      },
+      {
+        "family": "constraint",
+        "metric": "score_map_standard_deviation",
+        "not_selected_mean": 16.428789104655248,
+        "panel": "panel_1",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.7917604119794011,
+        "selected_mean": 16.34684769173008,
+        "standardized_difference": -0.04071313100072856
+      },
+      {
+        "family": "constraint",
+        "metric": "reference_26_model_mean_score",
+        "not_selected_mean": 50.84660780065004,
+        "panel": "panel_1",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.18489075546222689,
+        "selected_mean": 44.672597234226444,
+        "standardized_difference": -0.21333676502769083
+      },
+      {
+        "family": "substitution",
+        "metric": "chance_score",
+        "not_selected_mean": 45.750281690140845,
+        "panel": "panel_2",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.632318384080796,
+        "selected_mean": 45.41022471910113,
+        "standardized_difference": -0.07701798189821009
+      },
+      {
+        "family": "substitution",
+        "metric": "optimal_margin",
+        "not_selected_mean": 6.207042253521129,
+        "panel": "panel_2",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.44217789110544475,
+        "selected_mean": 6.863146067415731,
+        "standardized_difference": 0.12665637055894946
+      },
+      {
+        "family": "substitution",
+        "metric": "distinct_score_count",
+        "not_selected_mean": 55.859154929577464,
+        "panel": "panel_2",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.576121193940303,
+        "selected_mean": 55.80898876404494,
+        "standardized_difference": -0.12040262299872359
+      },
+      {
+        "family": "substitution",
+        "metric": "zero_portfolio_share",
+        "not_selected_mean": 0.017857142857142846,
+        "panel": "panel_2",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 1.0,
+        "selected_mean": 0.017857142857142853,
+        "standardized_difference": 0.0
+      },
+      {
+        "family": "substitution",
+        "metric": "score_map_standard_deviation",
+        "not_selected_mean": 24.297339894574232,
+        "panel": "panel_2",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.28763561821908906,
+        "selected_mean": 24.63228317064557,
+        "standardized_difference": 0.16998425988262156
+      },
+      {
+        "family": "substitution",
+        "metric": "reference_26_model_mean_score",
+        "not_selected_mean": 66.1285423618635,
+        "panel": "panel_2",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.664116794160292,
+        "selected_mean": 64.7424286949006,
+        "standardized_difference": -0.06978578365542248
+      },
+      {
+        "family": "pairing",
+        "metric": "chance_score",
+        "not_selected_mean": 45.803661971830984,
+        "panel": "panel_2",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.872156392180391,
+        "selected_mean": 45.65370786516854,
+        "standardized_difference": -0.02600257596229713
+      },
+      {
+        "family": "pairing",
+        "metric": "optimal_margin",
+        "not_selected_mean": 6.7078873239436625,
+        "panel": "panel_2",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.4130293485325734,
+        "selected_mean": 7.514606741573033,
+        "standardized_difference": 0.1319984909368735
+      },
+      {
+        "family": "pairing",
+        "metric": "distinct_score_count",
+        "not_selected_mean": 55.87323943661972,
+        "panel": "panel_2",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.11534423278836058,
+        "selected_mean": 55.764044943820224,
+        "standardized_difference": -0.27413235019946885
+      },
+      {
+        "family": "pairing",
+        "metric": "zero_portfolio_share",
+        "not_selected_mean": 0.017857142857142846,
+        "panel": "panel_2",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 1.0,
+        "selected_mean": 0.017857142857142853,
+        "standardized_difference": 0.0
+      },
+      {
+        "family": "pairing",
+        "metric": "score_map_standard_deviation",
+        "not_selected_mean": 24.36265510859201,
+        "panel": "panel_2",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.10309484525773711,
+        "selected_mean": 23.818398042432513,
+        "standardized_difference": -0.26305464132224765
+      },
+      {
+        "family": "pairing",
+        "metric": "reference_26_model_mean_score",
+        "not_selected_mean": 68.12307692307692,
+        "panel": "panel_2",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.7230638468076597,
+        "selected_mean": 67.19757130509939,
+        "standardized_difference": -0.056003365354076386
+      },
+      {
+        "family": "constraint",
+        "metric": "chance_score",
+        "not_selected_mean": 3.524929577464789,
+        "panel": "panel_2",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.14209289535523223,
+        "selected_mean": 3.362247191011236,
+        "standardized_difference": -0.237297552635383
+      },
+      {
+        "family": "constraint",
+        "metric": "optimal_margin",
+        "not_selected_mean": 35.74380281690141,
+        "panel": "panel_2",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.25148742562871856,
+        "selected_mean": 39.927191011235955,
+        "standardized_difference": 0.1863649631301953
+      },
+      {
+        "family": "constraint",
+        "metric": "distinct_score_count",
+        "not_selected_mean": 4.0,
+        "panel": "panel_2",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 1.0,
+        "selected_mean": 4.0,
+        "standardized_difference": 0.0
+      },
+      {
+        "family": "constraint",
+        "metric": "zero_portfolio_share",
+        "not_selected_mean": 0.9464285714285712,
+        "panel": "panel_2",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 1.0,
+        "selected_mean": 0.9464285714285713,
+        "standardized_difference": 0.0
+      },
+      {
+        "family": "constraint",
+        "metric": "score_map_standard_deviation",
+        "not_selected_mean": 16.44799012193598,
+        "panel": "panel_2",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.3152842357882106,
+        "selected_mean": 16.142978620897196,
+        "standardized_difference": -0.1613059475506921
+      },
+      {
+        "family": "constraint",
+        "metric": "reference_26_model_mean_score",
+        "not_selected_mean": 47.66069447453954,
+        "panel": "panel_2",
+        "random_subset_holm_p": 1.0,
+        "random_subset_holm_significant": false,
+        "random_subset_two_sided_p": 0.45407729613519326,
+        "selected_mean": 51.12977960242006,
+        "standardized_difference": 0.12040212053642887
+      }
+    ],
+    "validity_gate_fable_valid_vs_invalid": [
+      {
+        "fable_invalid_tasks": 1,
+        "fable_valid_tasks": 159,
+        "family": "substitution",
+        "invalid_mean": 44.51,
+        "metric": "chance_score",
+        "panel": "panel_1",
+        "standardized_difference": 0.1775286278162497,
+        "valid_mean": 45.08622641509434
+      },
+      {
+        "fable_invalid_tasks": 1,
+        "fable_valid_tasks": 159,
+        "family": "substitution",
+        "invalid_mean": 6.29,
+        "metric": "optimal_margin",
+        "panel": "panel_1",
+        "standardized_difference": 0.2097217766243295,
+        "valid_mean": 7.103081761006289
+      },
+      {
+        "fable_invalid_tasks": 1,
+        "fable_valid_tasks": 159,
+        "family": "substitution",
+        "invalid_mean": 56.0,
+        "metric": "distinct_score_count",
+        "panel": "panel_1",
+        "standardized_difference": -0.6175712173960984,
+        "valid_mean": 55.79874213836478
+      },
+      {
+        "fable_invalid_tasks": 1,
+        "fable_valid_tasks": 159,
+        "family": "substitution",
+        "invalid_mean": 0.017857142857142856,
+        "metric": "zero_portfolio_share",
+        "panel": "panel_1",
+        "standardized_difference": 0.0,
+        "valid_mean": 0.01785714285714285
+      },
+      {
+        "fable_invalid_tasks": 1,
+        "fable_valid_tasks": 159,
+        "family": "substitution",
+        "invalid_mean": 25.173415236989154,
+        "metric": "score_map_standard_deviation",
+        "panel": "panel_1",
+        "standardized_difference": -0.4585907204854999,
+        "valid_mean": 24.505692556091127
+      },
+      {
+        "fable_invalid_tasks": 1,
+        "fable_valid_tasks": 159,
+        "family": "substitution",
+        "invalid_mean": 48.6523076923077,
+        "metric": "reference_26_model_mean_score",
+        "panel": "panel_1",
+        "standardized_difference": 1.073225390857941,
+        "valid_mean": 64.9955344944364
+      },
+      {
+        "fable_invalid_tasks": 71,
+        "fable_valid_tasks": 89,
+        "family": "pairing",
+        "invalid_mean": 45.17633802816901,
+        "metric": "chance_score",
+        "panel": "panel_1",
+        "standardized_difference": -0.16131823766373032,
+        "valid_mean": 44.39561797752809
+      },
+      {
+        "fable_invalid_tasks": 71,
+        "fable_valid_tasks": 89,
+        "family": "pairing",
+        "invalid_mean": 7.687323943661971,
+        "metric": "optimal_margin",
+        "panel": "panel_1",
+        "standardized_difference": 0.023882552287786803,
+        "valid_mean": 7.833146067415729
+      },
+      {
+        "fable_invalid_tasks": 71,
+        "fable_valid_tasks": 89,
+        "family": "pairing",
+        "invalid_mean": 55.774647887323944,
+        "metric": "distinct_score_count",
+        "panel": "panel_1",
+        "standardized_difference": 0.2688002828492826,
+        "valid_mean": 55.87640449438202
+      },
+      {
+        "fable_invalid_tasks": 71,
+        "fable_valid_tasks": 89,
+        "family": "pairing",
+        "invalid_mean": 0.017857142857142846,
+        "metric": "zero_portfolio_share",
+        "panel": "panel_1",
+        "standardized_difference": 0.0,
+        "valid_mean": 0.017857142857142853
+      },
+      {
+        "fable_invalid_tasks": 71,
+        "fable_valid_tasks": 89,
+        "family": "pairing",
+        "invalid_mean": 24.083165360096427,
+        "metric": "score_map_standard_deviation",
+        "panel": "panel_1",
+        "standardized_difference": -0.05509727559217646,
+        "valid_mean": 23.968399654519377
+      },
+      {
+        "fable_invalid_tasks": 71,
+        "fable_valid_tasks": 89,
+        "family": "pairing",
+        "invalid_mean": 64.94571505958831,
+        "metric": "reference_26_model_mean_score",
+        "panel": "panel_1",
+        "standardized_difference": 0.18606507517104542,
+        "valid_mean": 68.10041486603284
+      },
+      {
+        "fable_invalid_tasks": 67,
+        "fable_valid_tasks": 93,
+        "family": "constraint",
+        "invalid_mean": 3.486716417910448,
+        "metric": "chance_score",
+        "panel": "panel_1",
+        "standardized_difference": -0.03648603909894822,
+        "valid_mean": 3.4607526881720427
+      },
+      {
+        "fable_invalid_tasks": 67,
+        "fable_valid_tasks": 93,
+        "family": "constraint",
+        "invalid_mean": 37.26686567164179,
+        "metric": "optimal_margin",
+        "panel": "panel_1",
+        "standardized_difference": -0.01433747402260624,
+        "valid_mean": 36.92849462365591
+      },
+      {
+        "fable_invalid_tasks": 67,
+        "fable_valid_tasks": 93,
+        "family": "constraint",
+        "invalid_mean": 4.0,
+        "metric": "distinct_score_count",
+        "panel": "panel_1",
+        "standardized_difference": 0.0,
+        "valid_mean": 4.0
+      },
+      {
+        "fable_invalid_tasks": 67,
+        "fable_valid_tasks": 93,
+        "family": "constraint",
+        "invalid_mean": 0.9464285714285712,
+        "metric": "zero_portfolio_share",
+        "panel": "panel_1",
+        "standardized_difference": 0.0,
+        "valid_mean": 0.9464285714285713
+      },
+      {
+        "fable_invalid_tasks": 67,
+        "fable_valid_tasks": 93,
+        "family": "constraint",
+        "invalid_mean": 16.366583006883967,
+        "metric": "score_map_standard_deviation",
+        "panel": "panel_1",
+        "standardized_difference": 0.014280061758584605,
+        "valid_mean": 16.395187199282514
+      },
+      {
+        "fable_invalid_tasks": 67,
+        "fable_valid_tasks": 93,
+        "family": "constraint",
+        "invalid_mean": 50.661577497129734,
+        "metric": "reference_26_model_mean_score",
+        "panel": "panel_1",
+        "standardized_difference": -0.19315745241577661,
+        "valid_mean": 45.071447477253926
+      },
+      {
+        "fable_invalid_tasks": 10,
+        "fable_valid_tasks": 150,
+        "family": "substitution",
+        "invalid_mean": 45.203,
+        "metric": "chance_score",
+        "panel": "panel_2",
+        "standardized_difference": 0.08225904566419587,
+        "valid_mean": 45.585
+      },
+      {
+        "fable_invalid_tasks": 10,
+        "fable_valid_tasks": 150,
+        "family": "substitution",
+        "invalid_mean": 5.938,
+        "metric": "optimal_margin",
+        "panel": "panel_2",
+        "standardized_difference": 0.13625622068412369,
+        "valid_mean": 6.6142666666666665
+      },
+      {
+        "fable_invalid_tasks": 10,
+        "fable_valid_tasks": 150,
+        "family": "substitution",
+        "invalid_mean": 55.8,
+        "metric": "distinct_score_count",
+        "panel": "panel_2",
+        "standardized_difference": 0.07880118657500097,
+        "valid_mean": 55.833333333333336
+      },
+      {
+        "fable_invalid_tasks": 10,
+        "fable_valid_tasks": 150,
+        "family": "substitution",
+        "invalid_mean": 0.017857142857142856,
+        "metric": "zero_portfolio_share",
+        "panel": "panel_2",
+        "standardized_difference": 0.0,
+        "valid_mean": 0.01785714285714285
+      },
+      {
+        "fable_invalid_tasks": 10,
+        "fable_valid_tasks": 150,
+        "family": "substitution",
+        "invalid_mean": 24.61589955338264,
+        "metric": "score_map_standard_deviation",
+        "panel": "panel_2",
+        "standardized_difference": -0.08515567454835783,
+        "valid_mean": 24.474835594456
+      },
+      {
+        "fable_invalid_tasks": 10,
+        "fable_valid_tasks": 150,
+        "family": "substitution",
+        "invalid_mean": 69.93807692307693,
+        "metric": "reference_26_model_mean_score",
+        "panel": "panel_2",
+        "standardized_difference": -0.2779293219766624,
+        "valid_mean": 65.05214594871795
+      },
+      {
+        "fable_invalid_tasks": 55,
+        "fable_valid_tasks": 105,
+        "family": "pairing",
+        "invalid_mean": 45.29272727272726,
+        "metric": "chance_score",
+        "panel": "panel_2",
+        "standardized_difference": 0.1136932042337734,
+        "valid_mean": 45.94419047619047
+      },
+      {
+        "fable_invalid_tasks": 55,
+        "fable_valid_tasks": 105,
+        "family": "pairing",
+        "invalid_mean": 7.1630909090909105,
+        "metric": "optimal_margin",
+        "panel": "panel_2",
+        "standardized_difference": -0.0016357944491972034,
+        "valid_mean": 7.153238095238095
+      },
+      {
+        "fable_invalid_tasks": 55,
+        "fable_valid_tasks": 105,
+        "family": "pairing",
+        "invalid_mean": 55.85454545454545,
+        "metric": "distinct_score_count",
+        "panel": "panel_2",
+        "standardized_difference": -0.16194237570396056,
+        "valid_mean": 55.79047619047619
+      },
+      {
+        "fable_invalid_tasks": 55,
+        "fable_valid_tasks": 105,
+        "family": "pairing",
+        "invalid_mean": 0.01785714285714286,
+        "metric": "zero_portfolio_share",
+        "panel": "panel_2",
+        "standardized_difference": 0.0,
+        "valid_mean": 0.01785714285714285
+      },
+      {
+        "fable_invalid_tasks": 55,
+        "fable_valid_tasks": 105,
+        "family": "pairing",
+        "invalid_mean": 24.274870892632933,
+        "metric": "score_map_standard_deviation",
+        "panel": "panel_2",
+        "standardized_difference": -0.1588830840498278,
+        "valid_mean": 23.94731466087348
+      },
+      {
+        "fable_invalid_tasks": 55,
+        "fable_valid_tasks": 105,
+        "family": "pairing",
+        "invalid_mean": 67.50315496503498,
+        "metric": "reference_26_model_mean_score",
+        "panel": "panel_2",
+        "standardized_difference": 0.009548770598283483,
+        "valid_mean": 67.66332175824176
+      },
+      {
+        "fable_invalid_tasks": 66,
+        "fable_valid_tasks": 94,
+        "family": "constraint",
+        "invalid_mean": 3.542575757575757,
+        "metric": "chance_score",
+        "panel": "panel_2",
+        "standardized_difference": -0.26970157080604495,
+        "valid_mean": 3.3585106382978718
+      },
+      {
+        "fable_invalid_tasks": 66,
+        "fable_valid_tasks": 94,
+        "family": "constraint",
+        "invalid_mean": 35.34212121212121,
+        "metric": "optimal_margin",
+        "panel": "panel_2",
+        "standardized_difference": 0.20852627105826546,
+        "valid_mean": 39.986702127659576
+      },
+      {
+        "fable_invalid_tasks": 66,
+        "fable_valid_tasks": 94,
+        "family": "constraint",
+        "invalid_mean": 4.0,
+        "metric": "distinct_score_count",
+        "panel": "panel_2",
+        "standardized_difference": 0.0,
+        "valid_mean": 4.0
+      },
+      {
+        "fable_invalid_tasks": 66,
+        "fable_valid_tasks": 94,
+        "family": "constraint",
+        "invalid_mean": 0.9464285714285712,
+        "metric": "zero_portfolio_share",
+        "panel": "panel_2",
+        "standardized_difference": 0.0,
+        "valid_mean": 0.9464285714285712
+      },
+      {
+        "fable_invalid_tasks": 66,
+        "fable_valid_tasks": 94,
+        "family": "constraint",
+        "invalid_mean": 16.496911319704175,
+        "metric": "score_map_standard_deviation",
+        "panel": "panel_2",
+        "standardized_difference": -0.19725541117526954,
+        "valid_mean": 16.124853710817337
+      },
+      {
+        "fable_invalid_tasks": 66,
+        "fable_valid_tasks": 94,
+        "family": "constraint",
+        "invalid_mean": 49.24647552447553,
+        "metric": "reference_26_model_mean_score",
+        "panel": "panel_2",
+        "standardized_difference": 0.020422468932678302,
+        "valid_mean": 49.83183306055646
+      }
+    ]
+  },
+  "status": "post_collection_robustness_analysis"
+}

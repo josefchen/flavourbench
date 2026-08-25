@@ -1,0 +1,9 @@
+# Generated CSV files use RFC-style CRLF records. Do not treat the carriage return as whitespace
+# damage in release diffs.
+*.csv -whitespace
+
+# These files are vendored byte-for-byte from the official ICLR 2027 style archive. Their upstream
+# whitespace is part of the verified file hash and must not be normalized locally.
+paper/iclr2027/fancyhdr.sty -whitespace
+paper/iclr2027/iclr2027_conference.bst -whitespace
+paper/iclr2027/natbib.sty -whitespace

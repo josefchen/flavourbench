@@ -2,87 +2,116 @@
 
 ## Category
 
-**FlavourBench is the executable culinary benchmark for frontier language models.**
+**FlavourBench is an executable culinary benchmark for frontier language models.**
 
-It tests ingredient substitution, composition, cookability, and cultural association against
-answer keys compiled by a versioned culinary runtime. No human or model judge determines the
-leaderboard. A matched second condition checks execution when the same model can call Epicure; it
-does not affect rank.
+Each task asks a model to select three ingredients from eight. Epicure assigns a score to all 56
+legal portfolios before the evaluated model runs, so scoring is deterministic and does not depend
+on a human panel or an LLM judge. The benchmark covers substitution, pairing, and constrained
+composition.
 
-This is the canonical category sentence. Use it consistently in search descriptions, launch posts,
-repository summaries, paper metadata, and the first screen of the benchmark Space.
+Use this description across the paper, repository, Hugging Face pages, and research outreach.
 
-## Naming architecture
+## What is being measured
 
-| Name | Role | Canonical description |
+FlavourBench measures how closely an endpoint's selections agree with a fixed, released culinary
+reward map. It does not measure universal taste, food safety, complete recipe writing, or general
+intelligence.
+
+The primary reward map comes from a content-addressed Epicure runtime whose exact training run and
+seed were not recovered. Three immutable public Epicure checkpoints provide a post-collection
+reward-map sensitivity analysis. That analysis preserves broad model ordering but remains
+conditional on the released prompts and candidate sets.
+
+Recipe1MSubs supplies a separate label-independent check on the substitution geometry of those
+public checkpoints. Its user-observed substitution labels were not used to fit Epicure, although
+its underlying recipes share Recipe1M ancestry with part of Epicure's corpus. It does not validate
+the unrecovered primary runtime or the full pairing and constraint reward.
+
+## Naming
+
+| Name | Role | Description |
 |---|---|---|
-| **FlavourBench** | Benchmark and leaderboard | Executable culinary benchmark for frontier language models |
-| **FlavourBench Score** | Official ranking metric | Model-only exact-choice accuracy on the fixed task panel |
-| **Epicure Gain** | Secondary diagnostic | Matched change when the same endpoint receives the named Epicure operation; never a rank input |
-| **Epicure** | Culinary runtime and operator layer | Versioned system that compiles the answer keys and powers the assisted condition |
-| **Epicure Explorer** | Operator demonstration | Interactive view of the culinary representation and operators behind FlavourBench |
+| **FlavourBench** | Benchmark and leaderboard | Executable culinary evaluation of language-model endpoints |
+| **FlavourBench Score** | Primary metric | Equal-family mean of within-task 0 to 100 portfolio scores |
+| **Epicure** | Reference environment | Fixed function used to construct candidate reward maps |
+| **Public-scorer sensitivity** | Robustness analysis | Rescore of fixed model choices under Cooc, Core, and Chem checkpoints |
+| **External substitution check** | Convergent validation | Held-out Recipe1MSubs labels evaluated against public checkpoint geometry |
+| **Lab track** | Training and evaluation kit | Anchor-disjoint SFT, DPO, GRPO, validation, and transfer splits |
 
-FlavourBench is the benchmark brand. Epicure is the underlying system. Do not call the leaderboard
-the “Epicure benchmark,” because that hides the independent benchmark identity and makes the score
-sound like a product test.
+Epicure is not a leaderboard contestant. A score of 100 means selecting Epicure's optimum on every
+task, not that Epicure has 100% culinary accuracy.
 
-## Message hierarchy
+## Evidence hierarchy
 
-1. **Executable ground truth:** the answer key exists before an evaluated model is called.
-2. **Frontier comparison:** 20 current endpoints receive the same 32 tasks and missing-response rule.
-3. **Matched execution diagnostic:** 640 model-task pairs expose named-operation integration failures.
-4. **Auditability:** prompts, routes, responses, completion states, bounded traces, and hashes replay offline.
+1. **Shared executable tasks.** Every ranked endpoint has one valid response on the same 534 tasks.
+2. **Paired inference.** Simultaneous confidence bands, rank intervals, and Holm-controlled paired
+   tests quantify uncertainty rather than treating point ranks as definitive.
+3. **Replication and sensitivity.** Two independently compiled panels, score-blind subsampling,
+   leave-one-endpoint checks, score-definition checks, and three public reward maps test dependence
+   on design choices.
+4. **External labels.** Public checkpoint substitution geometry is tested on 1,469 unique
+   held-out Recipe1MSubs pairs, with source-clustered intervals and a novel-pair sensitivity set.
+5. **Reconstruction.** Prompts, reward maps, responses, routes, hashes, analysis plans, code, and an
+   offline verifier reconstruct the published result.
 
-The short launch hook is:
+The current proof line is:
 
-> How well do frontier models reason about flavour?
+> 27 endpoints. 534 shared tasks each. 14,418 scored decisions. 351 paired comparisons.
 
-The proof line is:
+The statistical qualifier belongs near any rank claim:
 
-> 20 current endpoints. 32 executable culinary tasks. 640 matched Model only / Model + Epicure pairs.
-
-## Surface roles
-
-| Surface | Job | Primary call to action |
-|---|---|---|
-| Paper | Establish the construct, method, evidence, and limitations | Cite and reproduce |
-| FlavourBench Space | Make every rank and paired outcome inspectable | Explore the leaderboard and Pair Lens |
-| FlavourBench dataset | Provide machine-readable benchmark evidence | Load, audit, and build analyses |
-| GitHub repository | Supply exact replay, source, checksums, and release history | Reproduce the result |
-| Epicure Explorer | Demonstrate the operator layer behind the answer keys | Explore Epicure, then continue to FlavourBench |
+> Grok 4.6 has the largest point estimate; overlapping simultaneous intervals do not establish a
+> unique best endpoint.
 
 ## Claims boundary
 
 Use:
 
-- “the executable culinary benchmark for frontier language models”;
-- “20 current language-model endpoints” for this dated release;
-- “no human or model judge scores the primary leaderboard”;
-- “FlavourBench Score is the only ranking metric, and equal scores share a score rank”;
-- “the same endpoint and task are measured with and without Epicure”; and
-- “the complete leaderboard reconstructs from one content-addressed artifact.”
+- "an executable culinary benchmark for frontier language models";
+- "27 dated language-model endpoints in the current release";
+- "no human or model judge scores the leaderboard";
+- "a fixed, released culinary reward map";
+- "all ranked endpoints face the same 534 tasks";
+- "the full leaderboard reconstructs from content-addressed artifacts"; and
+- "three public Epicure checkpoints preserve the same point leader in a fixed-task sensitivity
+  analysis"; and
+- "public Epicure checkpoints rank held-out, human-observed substitutions above same-food-group
+  chance alternatives."
 
 Do not use:
 
-- “the largest food benchmark” or “the first culinary benchmark” without a formal systematic review;
-- “a general ranking of cooking ability or model intelligence”;
-- “human culinary truth,” “food-safety certification,” or “cultural-authenticity certification”;
-- “20 independent foundation models” when the measured objects are hosted endpoints; or
-- “tool-use benchmark” without explaining that the operation is specified rather than discovered.
+- "the first" or "the largest" without a documented systematic review;
+- "culinary ground truth," "human culinary truth," or "universal taste";
+- "statistically significant winner" when leading simultaneous intervals overlap;
+- "27 independent foundation models" when the observations are dated endpoints;
+- "human validated" or "cooking validated";
+- public-checkpoint sensitivity alone as evidence of external construct validity;
+- "corpus-independent validation" for the Recipe1MSubs analysis; or
+- any claim that a model's culinary rank establishes its general model quality.
 
-## Citation-oriented release loop
+## Surface roles
 
-1. Keep each benchmark release immutable and give it a stable version, artifact hash, and dated model routes.
-2. Put the paper, dataset, Space, and replay command one click apart; each surface should cite the others.
-3. Publish task-level records so later papers can analyze calibration, model families, failures, and tool gain.
-4. Add larger hidden panels as new releases rather than silently changing the current 32-task snapshot.
-5. Invite independently reproduced result artifacts, clearly separated from author-run routes.
-6. After an arXiv identifier exists, add the same BibTeX block and canonical URL to every public surface.
+| Surface | Purpose | Main action |
+|---|---|---|
+| Paper | Define the construct, design, evidence, and limitations | Read and cite |
+| Hugging Face Space | Inspect ranks, intervals, tasks, and model profiles | Explore or score a run |
+| Hugging Face dataset | Load task, response, robustness, and training records | Analyze or train |
+| GitHub repository | Rebuild the release and run a new endpoint | Reproduce or evaluate |
+| Lab track | Test whether Epicure rewards improve held-out culinary decisions | Run the protocol |
+
+## Release discipline
+
+1. Keep each release immutable and bind it to semantic and physical hashes.
+2. Put the paper, dataset, Space, source, and exact replay command one click apart.
+3. Publish task-level records and uncertainty, not only a sorted score table.
+4. Add new models or task panels through a new versioned release.
+5. Separate independently submitted runs from author-run routes.
+6. Keep the same title, author list, claims, citation, and artifact identifiers on every surface.
 
 ## Canonical links
 
 - Paper: <https://arxiv.org/abs/2608.20574>
-- Source and replay: <https://github.com/josefchen/flavourbench>
+- Source: <https://github.com/josefchen/flavourbench>
 - Benchmark Space: <https://huggingface.co/spaces/josefchen/flavourbench>
 - Dataset: <https://huggingface.co/datasets/josefchen/flavourbench>
 - Epicure Explorer: <https://huggingface.co/spaces/Kaikaku/epicure-explorer>

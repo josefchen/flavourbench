@@ -1,0 +1,91 @@
+{
+  "schema_version": "flavourbench-external-substitution-validation-plan-v1",
+  "status": "analysis_protocol_fixed_before_public_checkpoint_scoring",
+  "created_at_utc": "2026-08-25T22:43:59Z",
+  "repository_head_at_creation": "869b0a25818fbf7fc1754a0bbb828f3027dd4336",
+  "research_question": "Do immutable public Epicure ingredient embeddings rank held-out human-observed substitutions above plausible alternatives?",
+  "external_dataset": {
+    "name": "Recipe1MSubs",
+    "paper": "https://arxiv.org/abs/2302.07960",
+    "official_repository": "https://github.com/facebookresearch/gismo",
+    "label_source": "ingredient substitutions extracted from user comments on Recipe1M recipes",
+    "splits": {
+      "train": {
+        "url": "https://dl.fbaipublicfiles.com/gismo/train_comments_subs.pkl",
+        "sha256": "b4d58e6c6c6747671e531812393397acf75c02d2a9ce00c2edcc7794bf567c81",
+        "records": 49044,
+        "use": "identify directed source-target pairs previously observed in the substitution benchmark"
+      },
+      "test": {
+        "url": "https://dl.fbaipublicfiles.com/gismo/test_comments_subs.pkl",
+        "sha256": "0758382cae59697958dd2a5e509c15f8d0417ea1a9e079fd75792779f1ce6174",
+        "records": 10747,
+        "use": "all outcome estimation and hypothesis testing"
+      }
+    },
+    "redistribution": "Raw Recipe1MSubs files are not redistributed; the builder downloads hash-pinned files from the official Meta host and publishes aggregates only."
+  },
+  "checkpoint_family": [
+    {
+      "name": "Epicure-Cooc",
+      "repo_id": "Kaikaku/epicure-cooc",
+      "revision": "03edd311adde6e39a2eb6f9f3fa78f7396be6b53"
+    },
+    {
+      "name": "Epicure-Core",
+      "repo_id": "Kaikaku/epicure-core",
+      "revision": "d31ebb5af8e92bbaf5cb67381d5006d4ea8368b7"
+    },
+    {
+      "name": "Epicure-Chem",
+      "repo_id": "Kaikaku/epicure-chem",
+      "revision": "2461ef3fbafab36d2b1111187a3df98721146861"
+    }
+  ],
+  "mapping": {
+    "rule": "exact string equality between Recipe1MSubs canonical tokens and the 1790-entry public Epicure vocabulary",
+    "manual_aliases": 0,
+    "exclusions": [
+      "source or target absent from the public Epicure vocabulary",
+      "source equals target",
+      "duplicate directed source-target pair after exact mapping"
+    ]
+  },
+  "candidate_universes": {
+    "full_vocabulary": "all public Epicure vocabulary entries except the source ingredient",
+    "within_target_food_group": "the observed target and every public Epicure ingredient with the same pre-existing food_group tag, excluding the source; require at least 20 candidates"
+  },
+  "scoring_rule": "cosine similarity between the source and candidate ingredient vectors; no Recipe1MSubs label is used to fit or tune a checkpoint",
+  "primary_estimand": {
+    "name": "equal-source mean within-food-group rank percentile",
+    "definition": "For each unique directed mapped test pair, rank the observed target among the within-target-food-group candidates with average ranks for ties and map best to 1 and worst to 0. Average target percentiles within source ingredient, then average equally across source ingredients.",
+    "chance_value": 0.5,
+    "hypotheses": "one one-sided test per public checkpoint that the estimand exceeds 0.5",
+    "multiplicity": "Holm correction across the three checkpoint hypotheses at familywise alpha 0.05"
+  },
+  "secondary_estimands": [
+    "full-vocabulary mean reciprocal rank",
+    "full-vocabulary Hit@1, Hit@3, and Hit@10",
+    "equal-source within-food-group rank percentile restricted to directed test pairs absent from the Recipe1MSubs training split"
+  ],
+  "uncertainty": {
+    "unit": "source ingredient",
+    "bootstrap": "50000 source-cluster bootstrap replicates with replacement",
+    "seed": 20260826,
+    "interval": "two-sided percentile 95% confidence interval",
+    "test": "one-sided null-centered source-cluster bootstrap test"
+  },
+  "reporting": {
+    "required_counts": [
+      "raw train and test records",
+      "mapped test events",
+      "unique mapped directed test pairs",
+      "unique source and target ingredients",
+      "novel directed pairs",
+      "food-group candidate-set sizes"
+    ],
+    "required_sensitivity": "repeat the primary estimand on mapped directed test pairs absent from the Recipe1MSubs training split",
+    "failed_primary_outcome": "Report the estimate and uncertainty unchanged; do not replace the endpoint or mapping after seeing scores."
+  },
+  "claim_boundary": "This is label-independent convergent validation of substitution similarity for the three public Epicure checkpoints. Recipe1MSubs recipes derive from Recipe1M, which is upstream of part of Epicure's recipe corpus, so it is not corpus-independent validation. It does not validate the unrecovered primary runtime, the pairing or constraint reward components, human taste preference, safety, nutrition, or cooked-food outcomes."
+}

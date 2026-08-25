@@ -1,5 +1,5 @@
 ---
-pretty_name: "FlavourBench: Executable Culinary Ground Truth"
+pretty_name: "FlavourBench: Executable Culinary Benchmark"
 license: other
 language:
 - en
@@ -12,7 +12,7 @@ tags:
 - culinary
 - reproducibility
 - frontier-models
-- executable-ground-truth
+- executable-benchmark
 size_categories:
 - 10K<n<100K
 spaces:
@@ -46,6 +46,30 @@ configs:
   data_files:
   - split: analysis
     path: data-analysis/variance_partition.jsonl
+- config_name: leave_one_model_out
+  data_files:
+  - split: analysis
+    path: data-analysis/complete-core-leave-one-model-out.csv
+- config_name: score_definition_sensitivity
+  data_files:
+  - split: analysis
+    path: data-analysis/complete-core-score-definition-sensitivity.csv
+- config_name: public_scorer_score_maps
+  data_files:
+  - split: analysis
+    path: data-analysis/complete-core-public-scorer-score-maps.jsonl
+- config_name: public_scorer_task_agreement
+  data_files:
+  - split: analysis
+    path: data-analysis/complete-core-public-scorer-task-agreement.csv
+- config_name: public_scorer_leaderboard
+  data_files:
+  - split: analysis
+    path: data-analysis/complete-core-public-scorer-leaderboard.csv
+- config_name: external_substitution_validation
+  data_files:
+  - split: analysis
+    path: data-analysis/complete-core-external-substitution-validation.csv
 - config_name: lab_tasks
   data_files:
   - split: train
@@ -223,6 +247,48 @@ declaring every adjacent point rank definitive.
 
 ![Task-count stability relative to the complete 534-task release](./assets/complete-core-task-count-stability.png)
 
+## Sensitivity to the reward map
+
+The primary benchmark uses one fixed Epicure runtime. A post-collection sensitivity analysis
+recomputes all 56 rewards per task with three immutable public Epicure checkpoints, then rescores
+the same 14,418 model choices. It does not call any evaluated model again.
+
+| Public reward map | Median task-map rank correlation | Model-rank correlation | Pair-order agreement | Point leader |
+|---|---:|---:|---:|---|
+| Epicure-Cooc | 0.752 | 0.957 | 91.7% | Grok 4.6 |
+| Epicure-Core | 0.672 | 0.915 | 88.0% | Grok 4.6 |
+| Epicure-Chem | 0.660 | 0.903 | 86.9% | Grok 4.6 |
+
+![Model ranks under three public Epicure reward maps](./assets/complete-core-public-scorer-sensitivity.png)
+
+The broad aggregate order persists even though the task-level reward maps change substantially.
+This result is conditional on the released prompts and candidate sets, which the primary runtime
+helped construct. It does not validate either scorer against human sensory judgments or cooked
+outcomes.
+
+## Held-out substitution labels
+
+We separately evaluate the public checkpoint geometry against Recipe1MSubs, a standardized
+ingredient-substitution dataset extracted from recipe-user comments. Exact token matching maps
+3,282 held-out events to Epicure's public vocabulary and yields 1,469 unique directed pairs across
+357 source ingredients—without hand-written aliases.
+
+| Public checkpoint | Within-group percentile [95% source-cluster CI] | Unseen-pair percentile | Full-vocabulary Hit@10 |
+|---|---:|---:|---:|
+| Epicure-Cooc | 0.806 [0.788, 0.824] | 0.754 | 0.133 |
+| Epicure-Core | 0.800 [0.781, 0.819] | 0.735 | 0.172 |
+| Epicure-Chem | 0.780 [0.761, 0.798] | 0.718 | 0.155 |
+
+![External substitution validation](./assets/complete-core-external-substitution-validation.png)
+
+The target is compared only with ingredients in its own food group, and sources are weighted
+equally. All three intervals exclude the 0.5 chance percentile after Holm correction. The 594
+unseen pairs are absent from the Recipe1MSubs training split. These are external substitution
+labels, but the underlying recipes share Recipe1M ancestry with part of Epicure's corpus; the
+result validates public-checkpoint substitution geometry, not the unrecovered primary runtime,
+the full reward function, sensory preference, or cooked outcomes. Raw Recipe1MSubs files are not
+redistributed.
+
 ## Dataset views
 
 | Config | Rows | Unit |
@@ -234,6 +300,12 @@ declaring every adjacent point rank definitive.
 | `pairwise_comparisons` | 351 | Paired difference, sign-flip test, Holm result, and effect size |
 | `task_count_stability` | 6 | Stratified task-count precision and rank-stability curve |
 | `variance_partition` | 6 | Crossed model, task, family, panel, and interaction components |
+| `leave_one_model_out` | 27 | Dependence of the shared task set on each endpoint's inclusion |
+| `score_definition_sensitivity` | 4 | Rank stability under prespecified score summaries and family weights |
+| `public_scorer_score_maps` | 1,602 | All 56 rewards for 534 tasks under three public Epicure checkpoints |
+| `public_scorer_task_agreement` | 1,602 | Task-level agreement between primary and public reward maps |
+| `public_scorer_leaderboard` | 81 | Model scores and ranks under three public reward maps |
+| `external_substitution_validation` | 3 | Aggregate held-out substitution results for the public checkpoints |
 | `lab_tasks` | 426 | Anchor-disjoint train, validation, and transfer-evaluation maps |
 | `sft`, `dpo`, `grpo` | multiple | Ready-to-load training views |
 
@@ -268,6 +340,9 @@ These checks make no provider calls.
 | Release file | `709452f8cf54ebc1947f2a3c24e6ee19580be1c115ba3a9effbac441de556db4` |
 | Analysis plan | `2ba71c793c8d4b97eed863ee83fd770b429fdefdffebdeafb241672f634ee507` |
 | Lab dataset | `257dfaf17c4f529f2f9b538c0c0b7d7d8ea030262f75ecf06284b61658a64137` |
+| Selection-robustness analysis | `09ebe388b99d6da629c5ec8f8ee837ec0b01b9361f337649228602187ab44293` |
+| Public-scorer sensitivity analysis | `799550a10f13786ef356f069295d3c73ec34d5e0e8ad1394ce838af6622e5f49` |
+| External substitution validation | `46795dabb1cb698bb76ab9d33a90380de306aff128fc1c7e277ae98832d3205d` |
 
 ## Rights and citation
 
@@ -281,7 +356,7 @@ endorsement of FlavourBench, Epicure, the protocol, or any model ranking.
 
 ```bibtex
 @article{chen2026flavourbench,
-  title  = {FlavourBench: Ranking Frontier Language Models with Executable Culinary Ground Truth},
+  title  = {FlavourBench: Ranking Frontier Language Models in an Executable Culinary Environment},
   author = {Chen, Josef and Hayretci, Erim},
   journal = {arXiv preprint arXiv:2608.20574},
   year   = {2026},

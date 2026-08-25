@@ -1,0 +1,629 @@
+\documentclass{article}
+
+\usepackage{iclr2027_conference,times}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{xurl}
+\usepackage{seqsplit}
+\usepackage{hyperref}
+\usepackage[capitalise,noabbrev]{cleveref}
+\usetikzlibrary{arrows.meta,positioning}
+
+\definecolor{FBBlue}{HTML}{1769AA}
+\definecolor{FBGold}{HTML}{B77A08}
+\definecolor{FBTeal}{HTML}{168C7A}
+\definecolor{FBRed}{HTML}{B44743}
+\definecolor{FBCharcoal}{HTML}{262B33}
+\definecolor{FBPaper}{HTML}{F4F6F7}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=FBBlue,
+  citecolor=FBBlue,
+  urlcolor=FBBlue,
+  pdftitle={FlavourBench: Executable Culinary Reward Maps for Language Model Evaluation},
+  pdfauthor={Anonymous Authors},
+  pdfsubject={Executable reward maps for evaluating culinary decisions by language models},
+  pdfkeywords={language models, executable benchmarks, reward models, culinary reasoning,
+    uncertainty quantification}
+}
+\setlist{leftmargin=*,nosep}
+
+\newcommand{\system}{\textsc{FlavourBench}}
+\newcommand{\epicure}{\textsc{Epicure}}
+\newcommand{\sha}[1]{\texttt{\seqsplit{#1}}}
+\input{generated/complete-core-macros.tex}
+\input{generated/complete-core-stability-macros.tex}
+\input{generated/complete-core-robustness-macros.tex}
+\input{generated/complete-core-public-scorer-macros.tex}
+\input{generated/complete-core-external-substitution-validation-macros.tex}
+
+\title{\system{}: Executable Culinary Reward Maps for Language Model Evaluation}
+\author{Anonymous Authors}
+
+% Leave \iclrfinalcopy commented for double-blind review.
+%\iclrfinalcopy
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Open-ended language-model evaluation often substitutes another model or a small preference panel
+for a missing answer key. We introduce \system{}, which instead compiles dense answer maps from a
+versioned culinary environment. Each task asks for a three-ingredient portfolio from eight
+candidates; before inference, \epicure{} scores all 56 portfolios. We evaluate \FBModels{} frontier
+endpoints on the same \FBTasks{} substitution, pairing, and constraint tasks, yielding
+\FBCompleteCells{} complete model--task observations. Anchor-cluster bootstraps and
+multiplicity-controlled paired tests resolve \FBSignificantPairs{} of \FBPairs{} model contrasts.
+\FBTopModel{} has the largest point estimate (\FBTopScore{}), but the corrected evidence does not
+identify a unique best endpoint. Rankings replicate across two independently compiled panels and
+remain similar under alternative score definitions, task filters, family weights, and three public
+\epicure{} checkpoints. On \FBExternalSubPairs{} mapped Recipe1MSubs substitutions, those public
+checkpoints place the human-observed target at mean within-food-group percentiles of 0.780--0.806,
+with source-clustered intervals above chance. The anonymous release contains prompts, exhaustive
+reward maps, raw responses, route identities, statistical plans, and an offline verifier, together
+with disjoint maps for prospective reward-based training studies.
+\end{abstract}
+
+\section{Introduction}
+
+An executable evaluator gives a benchmark a stable object to measure. Programs can be tested,
+database states inspected, and games scored. Many open-ended language tasks lack that structure:
+human votes are costly, model judges inherit model-dependent biases, and exact-match keys collapse
+plausible answers into a binary outcome \citep{zheng2023judging,chiang2024chatbotarena}. The result
+may be scalable without being auditable.
+
+\system{} creates executable evaluation for culinary decisions. It starts from \epicure{}, a
+versioned representation of 1,790 ingredients in a 300-dimensional space
+\citep{radzikowski2026structure,radzikowski2026geometry}. A compiler turns substitution, pairing,
+and constrained-composition operations into three-of-eight selection problems. It then enumerates
+all $\binom{8}{3}=56$ legal portfolios and records a continuous reward map before any evaluated
+model is called. Scoring is a deterministic lookup, not a post-hoc interpretation of generated
+text.
+
+This construction does not make \epicure{} ``correct'' in a universal culinary sense. The primary
+score measures agreement with one released reward function under one published task distribution.
+The benchmark is useful only if that estimand is explicit and its dependence on the reward map can
+be tested. We therefore combine a complete common-task design with panel replication, clustered
+inference, roster and metric sensitivity, rescoring under three public checkpoints, and an external
+substitution check.
+
+Our contributions are:
+\begin{enumerate}[label=\arabic*.]
+  \item an executable benchmark that freezes \FBPrefrozenScores{} graded portfolio rewards before
+  model execution and exposes a single 0--100 score;
+  \item a rectangular \FBModels{}-by-\FBTasks{} frontier evaluation with simultaneous uncertainty,
+  all \FBPairs{} paired contrasts, and score-blind common-core construction;
+  \item post-collection tests of panel, task-filter, score-definition, family-weight, and reward-map
+  dependence, plus label-independent validation against observed substitutions; and
+  \item a content-addressed release and disjoint training maps that make the evaluator usable as
+  both a benchmark and a prospective dense reward source.
+\end{enumerate}
+
+\begin{figure}[t]
+  \centering
+  \resizebox{\linewidth}{!}{%
+  \begin{tikzpicture}[
+    font=\sffamily\scriptsize,
+    node distance=0.45cm,
+    block/.style={draw=FBCharcoal!35,fill=FBPaper,rounded corners=2pt,
+      minimum height=1.1cm,text width=2.05cm,align=center,inner sep=4pt},
+    oracle/.style={block,draw=FBTeal!85!black,fill=FBTeal!8},
+    result/.style={block,draw=FBBlue!85!black,fill=FBBlue!7},
+    arrow/.style={-{Latex[length=1.8mm]},thick,draw=FBCharcoal!70}
+  ]
+    \node[oracle] (runtime) {\textbf{Epicure}\\1,790 ingredients};
+    \node[oracle,right=of runtime] (compiler) {\textbf{Compiler}\\534 shared tasks};
+    \node[oracle,right=of compiler] (maps) {\textbf{Reward maps}\\56 scores per task};
+    \node[block,right=of maps] (models) {\textbf{27 endpoints}\\fixed routes};
+    \node[result,right=of models] (release) {\textbf{Inference}\\scores, bands, pairs};
+    \draw[arrow] (runtime) -- (compiler);
+    \draw[arrow] (compiler) -- (maps);
+    \draw[arrow] (maps) -- (models);
+    \draw[arrow] (models) -- (release);
+  \end{tikzpicture}}
+  \caption{\system{} freezes the tasks, every candidate reward, and the inference contract before
+  model execution. Evaluated models neither access \epicure{} nor judge one another.}
+  \label{fig:architecture}
+\end{figure}
+
+\section{Executable benchmark construction}
+\label{sec:benchmark}
+
+\subsection{Reference environment and task families}
+
+The primary task maps bind one exact \epicure{} data bundle and application build by content hash.
+Its original training seed and source revision were not recovered, so we treat it as a fixed
+reference function rather than independently established culinary ground truth. Changing the
+artifact creates a new benchmark identity. Section~\ref{sec:validity} evaluates three independently
+published, immutable sibling checkpoints.
+
+For task $t$, let $\mathcal{A}_t$ be the 56 three-item subsets of its eight candidates and
+$u_t(a)$ the environment utility of portfolio $a$. Invalid portfolios under a dietary or processing
+constraint receive zero; valid utilities are normalized within task:
+\begin{equation}
+ s_t(a)=100\,\frac{u_t(a)-\min_{b\in\mathcal{A}_t}u_t(b)}
+ {\max_{b\in\mathcal{A}_t}u_t(b)-\min_{b\in\mathcal{A}_t}u_t(b)}.
+ \label{eq:task-score}
+\end{equation}
+Each task has a unique 100-point optimum. Its exact chance value is the mean of its 56 frozen
+scores, not a generic percentage.
+
+The ranked set contains \FBTasks{} tasks, balanced across two independently compiled panels and
+three decision families (\cref{tab:families}). The panels have disjoint task identifiers; tasks
+sharing an anchor ingredient form one cluster for inference. Candidate labels and order follow a
+task-derived hash. No evaluated model proposes candidates, distractors, or scores.
+
+\begin{table}[t]
+  \caption{Complete-core task families. Each contains \FBTasksPerFamily{} tasks and uses the same
+  three-of-eight response contract.}
+  \label{tab:families}
+  \centering
+  \small
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabularx}{\linewidth}{@{}l X X@{}}
+    \toprule
+    Family & Decision & Environment utility \\
+    \midrule
+    Substitution & Replace an anchor with a coherent three-item portfolio &
+      $0.8$ anchor similarity $+0.2$ portfolio coherence \\
+    Pairing & Choose three ingredients to accompany an anchor &
+      $0.65$ anchor affinity $+0.35$ portfolio coherence \\
+    Constraints & Choose a portfolio satisfying diet and processing limits &
+      $0.7$ anchor similarity $+0.3$ coherence; invalid sets score zero \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+Prompts end with an exact \texttt{FINAL\_SELECTION} marker and require three distinct labels. The
+parser reads the final marker line, sorts the labels as an unordered set, and performs one reward-map
+lookup; free-form explanation does not affect the score. Missing markers, duplicate labels,
+provider failures, and abnormal finishes remain in the execution ledger but cannot enter the
+shared core.
+
+The score maps are graded rather than exact keys with 55 equivalent mistakes. Substitution and
+pairing tasks each have 56 distinct scores at the median, exact chance means of 45.2 and 45.0, and
+median top-two gaps of 5.6 points. Constraint maps are deliberately sparse: infeasible portfolios
+score zero, producing an exact chance mean of 3.4 and a median top-two gap of 37.3. The examples in
+\cref{tab:examples} show why partial credit matters: non-optimal portfolios can be far apart even
+when both satisfy the response syntax.
+
+\begin{table}[t]
+  \caption{Deterministically selected common-core examples. Parentheses give the frozen task score;
+  the supplement includes complete prompts, choices, score maps, and raw responses.}
+  \label{tab:examples}
+  \centering
+  \scriptsize
+  \input{generated/complete-core-examples-table.tex}
+\end{table}
+
+\subsection{Primary score}
+
+For model $m$, panel $p$, family $f$, and selected task set $T_{pf}$, let $Y_{mt}$ be the frozen
+portfolio score. The primary metric is
+\begin{equation}
+ F_m=\frac{1}{6}\sum_{p=1}^{2}\sum_{f=1}^{3}
+      \frac{1}{|T_{pf}|}\sum_{t\in T_{pf}}Y_{mt}.
+ \label{eq:fb-score}
+\end{equation}
+Because all six strata contain \FBTasksPerPanelFamily{} tasks, this equals the ordinary mean over
+the \FBTasks{} cells. Every ranked endpoint has one valid response for every selected task. Failures
+are not assigned a culinary score and are not dropped model by model; task eligibility is determined
+jointly from status and parser validity before any selected portfolio or score is loaded.
+
+\section{Evaluation and inference}
+\label{sec:design}
+
+\subsection{Endpoint panel and common core}
+
+The panel covers 27 endpoints from 16 laboratories: OpenAI, Anthropic, Google, xAI, Meta, Kimi,
+Qwen, Z.ai, DeepSeek, ByteDance, Thinking Machines, MiniMax, NVIDIA, Mistral, Tencent, and Cohere.
+It includes multiple endpoints from several laboratories to separate lab-level branding from
+endpoint-level behavior. The manifest binds requested and returned identities, model version,
+provider route, supported controls, completion contract, and collection block. Automatic fallback
+is disabled. When transport validation required a route change, the complete model block was rerun;
+successful cells from superseded blocks were never pooled. Exact endpoints and routes are listed in
+Appendix~\ref{app:routes}.
+
+Each panel compiler creates 160 candidates per family. Within every panel--family stratum, the
+analysis selects the first \FBTasksPerPanelFamily{} tasks eligible for all 27 endpoints under a fixed
+SHA-256 order. Selection code sees only response status and parser validity until task identifiers
+are fixed. The result is a rectangular \FBModels{}-by-\FBTasks{} matrix rather than a leaderboard in
+which models answer different task subsets.
+
+\subsection{Uncertainty, multiplicity, and stability}
+
+The content-addressed analysis plan fixes all inferential choices. We draw
+\FBBootstrapResamples{} bootstrap samples over the \FBUniqueAnchors{} anchor clusters, keeping tasks
+that share an anchor together, and report both pointwise score intervals and a simultaneous max-$t$
+band over all 27 scores. Every pair of endpoints is compared on the same 534 tasks using a two-sided
+anchor-cluster sign-flip test with \FBPermutationResamples{} Monte Carlo draws; Holm correction
+controls familywise error across all \FBPairs{} comparisons. A separate Holm family tests each
+endpoint against the exact taskwise random-portfolio mean. Bootstrap rank intervals and contiguous
+non-rejection groups accompany point ranks.
+
+Two diagnostics ask whether 534 tasks are enough. First, family--panel-stratified subsets of 30,
+60, 90, 150, and 270 tasks are drawn without replacement \FBStabilityReplicates{} times and compared
+with the full point order. Second, a crossed model-by-task variance decomposition estimates a
+descriptive generalizability coefficient for relative endpoint decisions. Neither calculation turns
+these fixed tasks or endpoints into random samples from an unspecified population.
+
+We also rerun task selection after omitting each endpoint; compare selected with unselected compiler
+candidates; recompute ranks with chance-adjusted gain, action percentile, and exact-optimum rate; and
+enumerate all one-percentage-point family weights from 0.20 to 0.50. These are retrospective
+sensitivity analyses, not additional confirmatory rankings.
+
+\section{Results}
+\label{sec:results}
+
+\subsection{Leaderboard and resolved comparisons}
+
+\FBTopModel{} has the largest point estimate, \FBTopScore{}, with simultaneous 95\% interval
+[\FBTopCILow{}, \FBTopCIHigh{}] (\cref{fig:leaderboard}). Of the \FBPairs{} prespecified pairwise
+contrasts, \FBSignificantPairs{} survive Holm correction. The upper ranks therefore form an
+unresolved group: the experiment supports many broad differences, but not a unique best endpoint.
+Every point in the figure is computed from the identical 534-task core.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.98\linewidth]{figures/complete-core-leaderboard-forest.pdf}
+  \caption{FlavourBench Score and simultaneous 95\% max-$t$ intervals. Group numbers summarize the
+  multiplicity-controlled pairwise graph; point ranks inside a group are not established total
+  orders. Exact values and rank intervals appear in Appendix~\ref{app:leaderboard}.}
+  \label{fig:leaderboard}
+\end{figure}
+
+\subsection{Replication and design sensitivity}
+
+The two panel-specific score vectors correlate at Pearson $r=\FBPanelPearson{}$ and rank
+$\rho=\FBPanelSpearman{}$. The crossed-design relative-decision generalizability coefficient is
+\FBGeneralizability{}; the same variance model estimates \FBTasksForGNinety{} balanced tasks for
+0.90. At \FBHalfTaskCount{} tasks, the median rank correlation with the full point order is
+\FBHalfRankMedian{} (empirical 95\% range \FBHalfRankLow{}--\FBHalfRankHigh{}), yet the full point
+leader survives only \FBHalfTopOne{} of draws. This distinction matters: the global score is stable
+while the identity of a single winner is not.
+
+Omitting the endpoint that most constrained eligibility and reapplying the frozen task hash retains
+\FBLOOOverlap{} of tasks; among the remaining models, rank correlation is \FBLOORankRho{} and the
+largest score shift is \FBLOOMaxShift{} points. None of 42 comparisons between selected and
+unselected task candidates survives Holm correction, and the largest standardized difference is
+\FBSelectionMaxSMD{}. Alternative score definitions retain rank correlations of at least
+\FBMetricMinRho{}; across \FBWeightGridPoints{} moderate family-weight settings, the minimum is
+\FBWeightMinRho{}. The point leader alternates between Grok 4.6 and Gemini 3.1 Pro, again arguing
+against a definitive winner claim.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.58\linewidth]{figures/complete-core-panel-replication.pdf}
+  \par\vspace{0.3em}
+  \includegraphics[width=\linewidth]{figures/complete-core-task-count-stability.pdf}
+  \caption{Top: independent-panel scores for all endpoints. Bottom: stability of score-blind task
+  subsets relative to the complete 534-task point order. Panel agreement and subset stability
+  support the global score; leader preservation shows why the top point estimate is not definitive.}
+  \label{fig:replication-stability}
+\end{figure}
+
+\begin{table}[t]
+  \caption{Compact robustness summary. Rank statistics compare with the complete primary point
+  order; these diagnostics do not redefine the confirmatory score.}
+  \label{tab:robustness}
+  \centering
+  \small
+  \begin{tabularx}{\linewidth}{@{}X l X@{}}
+    \toprule
+    Diagnostic & Result & Reading \\
+    \midrule
+    Independent panels & $r=.89$, $\rho=.80$ & broad replication \\
+    Crossed-design coefficient & $G=.936$ & high relative-score reliability \\
+    Half-size subsets & median $\rho=.952$ & stable order, unstable winner \\
+    Leave-one-endpoint task filter & $\rho=.955$ & limited roster dependence \\
+    Alternative score definitions & $\rho\geq.938$ & broad metric robustness \\
+    Moderate family weights & $\rho\geq.980$ & little weight dependence \\
+    Public reward checkpoints & $\rho=.903$--$.957$ & broad reward-map robustness \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\section{Reward-map and construct validity}
+\label{sec:validity}
+
+\subsection{Replacing the reward map}
+
+The primary runtime is reproducible by hash but lacks a recovered training lineage. We therefore
+rescore all \FBCompleteCells{} fixed model decisions with Epicure-Cooc, Epicure-Core, and
+Epicure-Chem at immutable public revisions \citep{radzikowski2026geometry}. This post-hoc analysis
+does not call any endpoint again. Median within-task rank correlation between the primary and
+replacement 56-action maps is 0.660--0.752; exact optima agree on 27.7\%--38.4\% of tasks. Despite
+that local change, aggregate model-rank correlations are \FBPublicScorerMinRho{}--
+\FBPublicScorerMaxRho{} and \FBPublicScorerMinPair{}--\FBPublicScorerMaxPair{} of pair directions
+agree. The same sampled point leader appears under both maps in only 38.9\%--53.8\% of bootstrap
+draws, supporting broad order rather than a fixed winner.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/complete-core-public-scorer-sensitivity.pdf}
+  \caption{Reward-map sensitivity with prompts and model decisions held fixed. Left: rank
+  trajectories for the primary top ten. Right: aggregate rank and pair-direction agreement with
+  the primary map.}
+  \label{fig:public-scorer}
+\end{figure}
+
+\subsection{Observed substitutions}
+
+Recipe1MSubs derives standardized substitutions from recipe-user comments
+\citep{fatemi2023substitute}. A hash-bound protocol, fixed before checkpoint scores were inspected,
+uses exact ingredient-token matches, deduplicates directed source--target pairs, and ranks each
+observed target by source--candidate cosine similarity. The primary candidate set is restricted to
+the target's existing food group so that broad category recognition cannot clear the null. Pair
+percentiles are averaged within source and then equally across sources; 50,000 source-cluster
+bootstrap draws form intervals, with Holm correction across three checkpoint tests.
+
+Exact matching yields \FBExternalSubPairs{} unique directed test pairs over
+\FBExternalSubSources{} sources (\cref{tab:external}). All three intervals exclude the 0.5 chance
+percentile after Holm correction ($p_{\mathrm{Holm}}<10^{-4}$). The result persists on
+\FBExternalSubNovelPairs{} pairs absent from Recipe1MSubs training. These labels are external to
+\epicure{} fitting, but Recipe1MSubs and part of \epicure{} share Recipe1M ancestry. The test is
+therefore label-independent convergent validation, not corpus-independent validation, and it does
+not validate the unrecovered primary runtime directly.
+
+\begin{table}[t]
+  \caption{Observed-substitution validation. Percentile is the equal-source rank against
+  same-food-group candidates; ``novel'' retains pairs absent from Recipe1MSubs training.}
+  \label{tab:external}
+  \centering
+  \small
+  \input{generated/complete-core-external-substitution-validation-table.tex}
+\end{table}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/complete-core-external-substitution-validation.pdf}
+  \caption{Observed targets ranked against same-food-group alternatives. Filled points use all
+  mapped test pairs; open points retain only directed pairs absent from Recipe1MSubs training.}
+  \label{fig:external-substitution}
+\end{figure}
+
+\section{Culinary profiles}
+
+The aggregate score does not collapse the three decision families into the same behavior
+(\cref{fig:families}). Gemini 3.1 Pro has the highest substitution mean, Kimi K3 the highest pairing
+mean, and Grok 4.6 the highest constraint mean; no endpoint leads every family. These values should
+be read within family rather than as a difficulty ordering because the frozen chance surfaces differ
+substantially. The decomposition is nevertheless useful diagnostically: a lab can distinguish a
+model that retrieves plausible substitutes from one that composes coherent bundles or reliably
+respects feasibility constraints.
+
+\section{From evaluation to a training environment}
+\label{sec:training}
+
+For task state $x_t$ and portfolio $a$, the frozen map supplies a bounded deterministic reward
+$r(x_t,a)=s_t(a)$. It can supervise the optimum, induce preference pairs from any two portfolios,
+or support offline and online policy optimization. The release contains a separate lab track with
+270 training maps, 72 validation maps, and 84 predeclared transfer maps. Its anchors are disjoint
+from the 534 leaderboard anchors and from one another; optimizer-facing SFT, DPO, and GRPO views
+exclude transfer rows. A prospective protocol fixes base checkpoints, training methods, seeds, and
+six Holm-controlled transfer contrasts before optimization. This paper evaluates models; it does
+not claim that optimizing \epicure{} reward transfers to human culinary judgment.
+
+\section{Related work}
+
+General evaluation includes broad suites such as HELM \citep{liang2022helm}, difficult knowledge
+tests such as MMLU-Pro and GPQA \citep{wang2024mmlupro,rein2023gpqa}, contamination-resistant sets
+\citep{white2024livebench,jain2024livecodebench}, and human-preference arenas
+\citep{chiang2024chatbotarena}. BetterBench emphasizes explicit benchmark documentation and
+validity claims \citep{reuel2024betterbench}. Executable benchmarks replace preference inference
+with observable outcomes: SWE-bench runs repository tests \citep{jimenez2023swebench}, BFCL checks
+function calls \citep{patil2025bfcl}, and $\tau$-bench inspects database state
+\citep{yao2024taubench}. \system{} applies the same principle to a dense domain reward surface.
+
+Culinary resources cover ingredient networks, recipes, substitutions, planning, nutrition, and
+food knowledge \citep{ahn2011flavor,garg2018flavordb,salvador2017recipe1m,
+fatemi2023substitute,choi2024cookingsense,wu2025recipe2plan,hua2025nutribench,
+eftimov2026foodbench,jin2026diningbench}. Our contribution is narrower: paired frontier-model
+measurement against an exhaustive culinary decision environment, rather than recipe generation or
+factual question answering.
+
+\section{Limitations}
+
+FlavourBench Score is agreement with a released reward map, not universal taste. Public-checkpoint
+rescoring and Recipe1MSubs provide convergent evidence, but do not validate the primary runtime's
+unrecovered training lineage, pairing and constraint rewards, sensory preference, or cooked
+outcomes. Within-task min--max normalization creates an interpretable 0--100 scale while discarding
+absolute utility magnitudes. The tasks test constrained ingredient selection, not full recipes,
+safety advice, embodied cooking, or long-horizon kitchen planning.
+
+The complete-core rule removes model-specific missingness but changes the estimand to tasks every
+endpoint completed; roster sensitivity cannot rule out unrecorded selection effects. Results bind
+specific model versions, providers, routes, and collection dates. The dense maps make reward-based
+learning possible, but transfer remains a prospective experiment.
+
+\section{Conclusion}
+
+\system{} evaluates open-ended culinary decisions without asking one language model to grade
+another. Exhaustive reward maps make partial credit deterministic; a rectangular common-task
+design makes comparisons paired; simultaneous intervals and corrected tests distinguish broad
+performance differences from an unsupported winner narrative. The public artifacts reconstruct
+every reported score, contrast, table, and figure and expose the same environment as a prospective
+training signal.
+
+\clearpage
+\subsection*{AI use statement}
+
+Generative AI tools assisted with methodology feedback, implementation, data cleaning and
+formatting, statistical-analysis support, interpretation, literature discovery, figure production,
+and drafting and editing the manuscript. They did not originate the empirical observations: model
+responses and benchmark records are retained as content-addressed artifacts, and quantitative
+claims are regenerated by tested analysis code. The authors reviewed the AI-assisted work;
+citations were checked against source records, release verifiers check the numerical artifacts, and
+the authors take responsibility for the final content.
+
+\subsection*{Ethics statement}
+
+No human participants were recruited. The external check uses an existing public research dataset;
+the release records its provenance and hashes and redistributes only aggregate validation outputs,
+not the raw Recipe1MSubs files. The benchmark measures a bounded culinary construct and should not
+be interpreted as nutrition, allergy, food-safety, or medical advice. Provider credentials and
+private communications are excluded from the release.
+
+\subsection*{Reproducibility statement}
+
+The anonymous supplement contains the exact task maps, model and route manifest, raw selected
+responses, completion records, frozen analysis plans, public-checkpoint score maps, aggregate
+external-validation artifact, deterministic asset builders, and an offline verifier. It also
+contains the commands and environment contract needed to reconstruct the leaderboard, statistical
+tables, and vector figures without provider access. Appendices report execution routes, protocol
+constants, per-family scores, and robustness analyses.
+
+\bibliography{references}
+\bibliographystyle{iclr2027_conference}
+
+\clearpage
+\appendix
+
+\section{Complete leaderboard}
+\label{app:leaderboard}
+
+\begin{table}[h]
+  \caption{Complete leaderboard on the common 534-task core. Rank intervals use the anchor-cluster
+  bootstrap; groups summarize the Holm-controlled pairwise graph.}
+  \centering
+  \scriptsize
+  \resizebox{\linewidth}{!}{\input{generated/complete-core-leaderboard-table.tex}}
+\end{table}
+
+\section{Exact execution routes}
+\label{app:routes}
+
+\begin{table}[h]
+  \caption{Frozen execution routes. Automatic fallback is disabled; route changes represent
+  complete model-block replacements, never cell pooling.}
+  \centering
+  \scriptsize
+  \resizebox{\linewidth}{!}{\input{generated/complete-core-route-table.tex}}
+\end{table}
+
+\section{Task-map and protocol diagnostics}
+
+\begin{table}[h]
+  \caption{Frozen task-map diagnostics. Chance is the uniform mean over all 56 portfolios; top gap
+  is the median best--second-best score difference.}
+  \centering
+  \small
+  \input{generated/complete-core-task-table.tex}
+\end{table}
+
+\begin{table}[h]
+  \caption{Primary design and inference constants.}
+  \centering
+  \small
+  \begin{tabular}{@{}l r@{}}
+    \toprule
+    Quantity & Frozen value \\
+    \midrule
+    Models & \FBModels{} \\
+    Panels / families & 2 / 3 \\
+    Tasks per model & \FBTasks{} \\
+    Unique anchor clusters & \FBUniqueAnchors{} \\
+    Portfolios per task & \FBSelectionsPerTask{} \\
+    Complete cells & \FBCompleteCells{} \\
+    Bootstrap replicates & \FBBootstrapResamples{} \\
+    Sign-flip replicates & \FBPermutationResamples{} \\
+    Pairwise hypotheses & \FBPairs{} \\
+    Common-core rule & status/parser only; score-blind \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\section{Per-family scores}
+
+\begin{table}[h]
+  \caption{Mean score by family. Every row uses identical tasks.}
+  \centering
+  \scriptsize
+  \resizebox{0.86\linewidth}{!}{\input{generated/complete-core-family-table.tex}}
+\end{table}
+
+\section{Selection and metric sensitivity}
+\label{app:robustness}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\linewidth]{figures/complete-core-selection-robustness.pdf}
+  \caption{Left: task overlap after omitting each endpoint and rerunning frozen selection. Right:
+  agreement between the primary metric and alternative summaries.}
+\end{figure}
+
+\begin{table}[h]
+  \caption{Alternative summaries of the same 534 decisions.}
+  \centering
+  \small
+  \input{generated/complete-core-score-sensitivity-table.tex}
+\end{table}
+
+\section{Public-checkpoint sensitivity}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\linewidth]{figures/complete-core-public-scorer-sensitivity.pdf}
+  \caption{Rank trajectories and aggregate agreement after replacing the reward map while holding
+  all tasks and model selections fixed.}
+\end{figure}
+
+\begin{table}[h]
+  \caption{Aggregate agreement with the primary reward map.}
+  \centering
+  \small
+  \input{generated/complete-core-public-scorer-table.tex}
+\end{table}
+
+\section{External substitution validation}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\linewidth]{figures/complete-core-external-substitution-validation.pdf}
+  \caption{Observed Recipe1MSubs targets ranked against same-food-group alternatives. Filled
+  points use all mapped test pairs; open points retain only pairs absent from the training split.}
+\end{figure}
+
+\section{Panel, task-count, pairwise, and family diagnostics}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.78\linewidth]{figures/complete-core-panel-replication.pdf}
+  \caption{Independent-panel scores for all 27 endpoints.}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\linewidth]{figures/complete-core-task-count-stability.pdf}
+  \caption{Stability of score-blind task subsets relative to the complete point order.}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.88\linewidth]{figures/complete-core-pairwise-matrix.pdf}
+  \caption{All paired endpoint contrasts after Holm correction. Grey cells are unresolved.}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.88\linewidth]{figures/complete-core-family-heatmap.pdf}
+  \caption{Mean score by culinary decision family. Each column contains 178 identical tasks per
+  endpoint; the primary score gives the three families equal weight.}
+  \label{fig:families}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.88\linewidth]{figures/complete-core-rank-intervals.pdf}
+  \caption{Point ranks and 95\% bootstrap rank intervals.}
+\end{figure}
+
+\end{document}

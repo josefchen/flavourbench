@@ -40,6 +40,17 @@ The Space is both the public scorebook and a working benchmark interface:
 No model judge runs behind the interface. The Space performs deterministic lookups against the
 released reward maps and makes no model-provider calls.
 
+The paper also reports a fixed-task sensitivity analysis with three immutable public Epicure
+checkpoints. Model-rank correlations with the primary result range from 0.903 to 0.957. This tests
+dependence on the released reward map; it is not a human taste validation.
+
+A separate held-out Recipe1MSubs check asks whether those public checkpoints recover substitutions
+observed in recipe-user comments. Across 1,469 unique mapped pairs, the observed target lands at
+the 0.780--0.806 equal-source percentile among same-food-group alternatives; every
+source-clustered interval clears the 0.5 chance level after Holm correction. Because Recipe1M is
+upstream of part of Epicure's corpus, this is label-independent validation of substitution
+geometry—not validation of the primary runtime, the full benchmark reward, or cooked outcomes.
+
 ## Run from your own environment
 
 ```bash
@@ -102,7 +113,7 @@ Erim Hayretci, Imperial College London
 
 ```bibtex
 @article{chen2026flavourbench,
-  title  = {FlavourBench: Ranking Frontier Language Models with Executable Culinary Ground Truth},
+  title  = {FlavourBench: Ranking Frontier Language Models in an Executable Culinary Environment},
   author = {Chen, Josef and Hayretci, Erim},
   journal = {arXiv preprint arXiv:2608.20574},
   year   = {2026},

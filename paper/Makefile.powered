@@ -26,7 +26,16 @@ ASSET_BUILDER := build_complete_core_assets.py
 RELEASE_BUILDER := reproduce_complete_core_release.py
 RELEASE_VERIFIER := verify_complete_core_release.py
 STABILITY_BUILDER := build_stability_assets.py
+ROBUSTNESS_BUILDER := build_selection_robustness_assets.py
+PUBLIC_SCORER_BUILDER := build_public_scorer_sensitivity_assets.py
+EXTERNAL_VALIDATION_BUILDER := build_external_substitution_validation_assets.py
+EXTERNAL_VALIDATION_PROTOCOL := protocols/external_substitution_validation_v1.json
 HF_DATA := ../hf/dataset/data-complete-core
+EPICURE_TAGS ?=
+PUBLIC_SCORER_CHECKPOINT_ROOT ?=
+PUBLIC_SCORER_NETWORK ?= --allow-network-download
+RECIPE1MSUBS_DIRECTORY ?=
+EXTERNAL_VALIDATION_NETWORK ?= --allow-network-download
 
 TABLE_ASSETS := \
 	$(GENERATED)/complete-core-macros.tex \
@@ -39,7 +48,22 @@ TABLE_ASSETS := \
 	$(GENERATED)/complete-core-stability-macros.tex \
 	$(GENERATED)/complete-core-stability-analysis.json \
 	$(GENERATED)/complete-core-task-count-stability.csv \
-	$(GENERATED)/complete-core-variance-partition.csv
+	$(GENERATED)/complete-core-variance-partition.csv \
+	$(GENERATED)/complete-core-robustness-macros.tex \
+	$(GENERATED)/complete-core-score-sensitivity-table.tex \
+	$(GENERATED)/complete-core-selection-robustness.json \
+	$(GENERATED)/complete-core-leave-one-model-out.csv \
+	$(GENERATED)/complete-core-score-definition-sensitivity.csv \
+	$(GENERATED)/complete-core-public-scorer-macros.tex \
+	$(GENERATED)/complete-core-public-scorer-table.tex \
+	$(GENERATED)/complete-core-public-scorer-sensitivity.json \
+	$(GENERATED)/complete-core-public-scorer-score-maps.jsonl \
+	$(GENERATED)/complete-core-public-scorer-task-agreement.csv \
+	$(GENERATED)/complete-core-public-scorer-leaderboard.csv \
+	$(GENERATED)/complete-core-external-substitution-validation.json \
+	$(GENERATED)/complete-core-external-substitution-validation.csv \
+	$(GENERATED)/complete-core-external-substitution-validation-table.tex \
+	$(GENERATED)/complete-core-external-substitution-validation-macros.tex
 
 FIGURE_ASSETS := \
 	$(FIGURES)/complete-core-leaderboard-forest.pdf \
@@ -47,7 +71,10 @@ FIGURE_ASSETS := \
 	$(FIGURES)/complete-core-pairwise-matrix.pdf \
 	$(FIGURES)/complete-core-panel-replication.pdf \
 	$(FIGURES)/complete-core-rank-intervals.pdf \
-	$(FIGURES)/complete-core-task-count-stability.pdf
+	$(FIGURES)/complete-core-task-count-stability.pdf \
+	$(FIGURES)/complete-core-selection-robustness.pdf \
+	$(FIGURES)/complete-core-public-scorer-sensitivity.pdf \
+	$(FIGURES)/complete-core-external-substitution-validation.pdf
 
 .PHONY: all analysis assets verify verify-static paper _paper arxiv _arxiv clean
 
@@ -78,6 +105,34 @@ assets:
 		--figure-directory $(FIGURES) \
 		--dataset-directory ../hf/dataset/data-analysis \
 		--dataset-figure-directory ../hf/dataset/assets
+	$(PYTHON) $(EXTERNAL_VALIDATION_BUILDER) \
+		--root .. \
+		--protocol $(abspath $(EXTERNAL_VALIDATION_PROTOCOL)) \
+		$(if $(strip $(RECIPE1MSUBS_DIRECTORY)),--recipe1msubs-directory "$(RECIPE1MSUBS_DIRECTORY)",) \
+		$(if $(strip $(EPICURE_TAGS)),--ingredient-tags "$(EPICURE_TAGS)",) \
+		$(if $(strip $(PUBLIC_SCORER_CHECKPOINT_ROOT)),--checkpoint-root "$(PUBLIC_SCORER_CHECKPOINT_ROOT)",) \
+		$(EXTERNAL_VALIDATION_NETWORK) \
+		--generated-directory $(GENERATED) \
+		--figure-directory $(FIGURES) \
+		--dataset-directory ../hf/dataset/data-analysis \
+		--dataset-figure-directory ../hf/dataset/assets
+	$(PYTHON) $(ROBUSTNESS_BUILDER) \
+		--root .. \
+		--plan $(abspath $(PLAN)) \
+		--generated-directory $(GENERATED) \
+		--figure-directory $(FIGURES) \
+		--dataset-directory ../hf/dataset/data-analysis \
+		--dataset-figure-directory ../hf/dataset/assets
+	$(PYTHON) $(PUBLIC_SCORER_BUILDER) \
+		--root .. \
+		--plan $(abspath $(PLAN)) \
+		$(if $(strip $(EPICURE_TAGS)),--ingredient-tags "$(EPICURE_TAGS)",) \
+		$(if $(strip $(PUBLIC_SCORER_CHECKPOINT_ROOT)),--checkpoint-root "$(PUBLIC_SCORER_CHECKPOINT_ROOT)",) \
+		$(PUBLIC_SCORER_NETWORK) \
+		--generated-directory $(GENERATED) \
+		--figure-directory $(FIGURES) \
+		--dataset-directory ../hf/dataset/data-analysis \
+		--dataset-figure-directory ../hf/dataset/assets
 
 verify: assets verify-static
 
@@ -85,17 +140,27 @@ verify-static:
 	test -n "$(PLAN)"
 	test -n "$(RELEASE)"
 	for file in main_powered.tex references.bib README.md LICENSES.md Makefile.powered \
-		$(ASSET_BUILDER) $(STABILITY_BUILDER) $(RELEASE_BUILDER) $(RELEASE_VERIFIER) $(PLAN) $(RELEASE) \
+		$(ASSET_BUILDER) $(STABILITY_BUILDER) $(ROBUSTNESS_BUILDER) \
+		$(PUBLIC_SCORER_BUILDER) $(EXTERNAL_VALIDATION_BUILDER) \
+		$(EXTERNAL_VALIDATION_PROTOCOL) \
+		$(RELEASE_BUILDER) $(RELEASE_VERIFIER) $(PLAN) $(RELEASE) \
 		$(TABLE_ASSETS) $(FIGURE_ASSETS); do
 		test -f "$$file"
 		test ! -L "$$file"
 	done
 	$(PYTHON) -I $(RELEASE_VERIFIER) --release $(RELEASE)
-	$(RUFF) check $(ASSET_BUILDER) $(STABILITY_BUILDER) $(RELEASE_BUILDER) $(RELEASE_VERIFIER)
-	$(RUFF) format --check $(ASSET_BUILDER) $(STABILITY_BUILDER) $(RELEASE_BUILDER) $(RELEASE_VERIFIER)
+	$(RUFF) check $(ASSET_BUILDER) $(STABILITY_BUILDER) $(ROBUSTNESS_BUILDER) \
+		$(PUBLIC_SCORER_BUILDER) $(EXTERNAL_VALIDATION_BUILDER) \
+		$(RELEASE_BUILDER) $(RELEASE_VERIFIER)
+	$(RUFF) format --check $(ASSET_BUILDER) $(STABILITY_BUILDER) $(ROBUSTNESS_BUILDER) \
+		$(PUBLIC_SCORER_BUILDER) $(EXTERNAL_VALIDATION_BUILDER) \
+		$(RELEASE_BUILDER) $(RELEASE_VERIFIER)
 	$(PYTHON) -m pytest -q \
 		../tests/epicure_selection_common_core_analysis_v1_test.py \
-		../tests/epicure_selection_complete_core_plan_v84_test.py
+		../tests/epicure_selection_complete_core_plan_v84_test.py \
+		../tests/selection_robustness_artifact_test.py \
+		../tests/public_scorer_sensitivity_artifact_test.py \
+		../tests/external_substitution_validation_artifact_test.py
 
 paper:
 	flock -x "$(LOCK_FILE)" $(MAKE) -f Makefile.powered --no-print-directory _paper
@@ -126,7 +191,9 @@ _arxiv: _paper
 
 	install -m 0644 main_powered.tex references.bib README.md LICENSES.md \
 		$(RELEASE_VERIFIER) "$$stage/"
-	install -d -m 0755 "$$stage/generated/complete-core" "$$stage/figures/complete-core"
+	install -d -m 0755 "$$stage/generated/complete-core" "$$stage/figures/complete-core" \
+		"$$stage/protocols"
+	install -m 0644 $(EXTERNAL_VALIDATION_PROTOCOL) "$$stage/protocols/"
 	install -m 0644 $(TABLE_ASSETS) "$$stage/generated/complete-core/"
 	install -m 0644 $(RELEASE) "$$stage/generated/complete-core/"
 	$(PYTHON) -c 'import json,pathlib,shutil,sys; p=pathlib.Path(sys.argv[1]); d=json.loads(p.read_text()); [shutil.copy2(p.parent/d["tables"][k]["filename"],sys.argv[2]) for k in ("leaderboard","pairwise")]' \
