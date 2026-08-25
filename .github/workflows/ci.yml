@@ -20,6 +20,16 @@ jobs:
           python-version: "3.12"
           cache: pip
 
+      - name: Install PDF verification dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y \
+            latexmk \
+            poppler-utils \
+            texlive-fonts-recommended \
+            texlive-latex-extra \
+            texlive-pictures
+
       - name: Install benchmark and development dependencies
         run: pip install -e '.[dev]' -r hf/space/requirements.txt
 
