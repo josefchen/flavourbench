@@ -71,6 +71,22 @@ An effect is statistically resolved when the two-sided $p$-value is below .05 an
 excludes zero. A gain of at least three points is additionally labelled practically material. Null
 and negative seed results remain in the release.
 
+The execution path is fail-closed and content-addressed:
+
+```bash
+python experiments/reward_transfer/unlock_evaluation.py
+python experiments/reward_transfer/evaluate.py --split primary
+python experiments/reward_transfer/analyze.py --split primary
+python experiments/reward_transfer/evaluate.py --split public
+python experiments/reward_transfer/analyze.py --split public
+```
+
+The unlock step verifies every byte named by all six final-adapter manifests, their shared frozen
+protocol, code revision, software stack, hardware, and the audited task hashes. Each analysis RNG
+seed is derived from the protocol hash and a fixed analysis label rather than selected after seeing
+an outcome. Public-map generation refuses to start until a content-addressed primary analysis
+exists. The analyzer reparses and rescores every raw completion before inference.
+
 ## Claim boundary
 
 A positive result would show that Epicure-aligned supervision transfers to unseen Epicure maps

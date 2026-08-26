@@ -13,6 +13,7 @@ PUBLIC_TEST_FILES := \
 	tests/build_joint_powered_dataset_test.py \
 	tests/build_lab_dataset_test.py \
 	tests/reward_transfer_plan_test.py \
+	tests/reward_transfer_execution_test.py \
 	tests/lab_test.py \
 	tests/lab_cli_test.py \
 	tests/lab_runner_test.py \
@@ -64,6 +65,9 @@ PUBLIC_SOURCE_FILES := \
 	examples/lab/train_dpo.py \
 	examples/lab/train_grpo.py \
 	experiments/reward_transfer/audit_data.py \
+	experiments/reward_transfer/unlock_evaluation.py \
+	experiments/reward_transfer/evaluate.py \
+	experiments/reward_transfer/analyze.py \
 	experiments/reward_transfer/train_sft.py
 
 PUBLIC_LINT_FILES := $(PUBLIC_SOURCE_FILES) scripts/scan_public_release.py $(PUBLIC_TEST_FILES)
