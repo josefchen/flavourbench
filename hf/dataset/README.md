@@ -364,15 +364,18 @@ git clone https://github.com/josefchen/flavourbench.git
 cd flavourbench
 python -m pip install -e '.[dev]'
 
+make hydrate-complete-core
 python hf/dataset/build_lab_dataset.py --check
 python3 -I hf/dataset/verify_complete_core_dataset.py \
   --dataset-directory hf/dataset/data-complete-core
-python experiments/reward_transfer/release_results.py --check
 python experiments/reward_transfer/verify_release.py
 pytest -q tests/lab_cli_test.py tests/hf_lab_space_api_test.py
 ```
 
-These checks make no provider calls.
+These checks make no provider calls. The hydration target extracts the complete-core dataset from
+the checksummed anonymous supplement already stored in the repository. Authors retaining the six
+adapter directories and original evaluation outputs can also run
+`make reward-transfer-source-release`.
 
 | Bound artifact | SHA-256 or semantic ID |
 |---|---|

@@ -254,9 +254,14 @@ python3 -I paper/verify_complete_core_release.py \
 The controlled post-training evidence is also reconstructable offline:
 
 ```bash
-python experiments/reward_transfer/release_results.py --check
+make hydrate-complete-core
 python experiments/reward_transfer/verify_release.py
 ```
+
+This recomputes all 4,326 released generations, scores, contrasts, intervals, and tests from the
+public payload. Authors retaining the six adapter directories and original evaluation outputs can
+additionally run `make reward-transfer-source-release` to reproduce the release projection from
+those source artifacts.
 
 The Hugging Face dataset carries the 14,418 selected source responses and the exact task records:
 

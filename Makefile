@@ -80,7 +80,7 @@ PUBLIC_SOURCE_FILES := \
 
 PUBLIC_LINT_FILES := $(PUBLIC_SOURCE_FILES) scripts/scan_public_release.py $(PUBLIC_TEST_FILES)
 
-.PHONY: ci format hydrate-complete-core lab-data lint reward-transfer-audit reward-transfer-release scan space-data test verify-artifacts verify-python verify-release
+.PHONY: ci format hydrate-complete-core lab-data lint reward-transfer-audit reward-transfer-release reward-transfer-source-release scan space-data test verify-artifacts verify-python verify-release
 
 ci: hydrate-complete-core verify-release test verify-python lab-data reward-transfer-audit reward-transfer-release space-data verify-artifacts lint scan
 
@@ -118,6 +118,9 @@ reward-transfer-audit: hydrate-complete-core
 	$(PYTHON) experiments/reward_transfer/audit_data.py >/dev/null
 
 reward-transfer-release: hydrate-complete-core
+	$(PYTHON) experiments/reward_transfer/verify_release.py >/dev/null
+
+reward-transfer-source-release: hydrate-complete-core
 	$(PYTHON) experiments/reward_transfer/release_results.py --check
 	$(PYTHON) experiments/reward_transfer/verify_release.py >/dev/null
 

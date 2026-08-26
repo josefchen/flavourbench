@@ -109,9 +109,13 @@ threshold, and replicates on a six-times-larger task set. The content-addressed 
 Reconstruct the released rows, intervals, and tests without model weights or provider access:
 
 ```bash
-python experiments/reward_transfer/release_results.py --check
+make hydrate-complete-core
 python experiments/reward_transfer/verify_release.py
 ```
+
+`make reward-transfer-source-release` adds a source-level projection check when the six local
+adapter directories and original evaluation outputs are available. Those large training artifacts
+are not required to verify the public result.
 
 ## Claim boundary
 
