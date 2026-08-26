@@ -3,6 +3,11 @@ PYTEST ?= pytest
 RUFF ?= ruff
 
 RELEASE := paper/$(shell awk '$$1 == "RELEASE" && $$2 == ":=" {print $$3}' paper/Makefile.powered)
+ICLR_SUPPLEMENT := paper/iclr2027/build/flavourbench-iclr2027-anonymous-supplement.zip
+ICLR_SUPPLEMENT_ROOT := flavourbench-iclr2027-anonymous-supplement
+COMPLETE_CORE_DATASET := hf/dataset/data-complete-core
+SPACE_BUNDLE := hf/space/data-complete-core/flavourbench-complete-core-space.json
+SPACE_BUNDLE_MANIFEST := hf/space/SPACE_BUNDLE.sha256
 
 PUBLIC_TEST_FILES := \
 	tests/epicure_native_powered*_test.py \
@@ -75,9 +80,24 @@ PUBLIC_SOURCE_FILES := \
 
 PUBLIC_LINT_FILES := $(PUBLIC_SOURCE_FILES) scripts/scan_public_release.py $(PUBLIC_TEST_FILES)
 
-.PHONY: ci format lab-data lint reward-transfer-audit reward-transfer-release scan space-data test verify-artifacts verify-python verify-release
+.PHONY: ci format hydrate-complete-core lab-data lint reward-transfer-audit reward-transfer-release scan space-data test verify-artifacts verify-python verify-release
 
-ci: verify-release test verify-python lab-data reward-transfer-audit reward-transfer-release space-data verify-artifacts lint scan
+ci: hydrate-complete-core verify-release test verify-python lab-data reward-transfer-audit reward-transfer-release space-data verify-artifacts lint scan
+
+hydrate-complete-core:
+	test -f "$(ICLR_SUPPLEMENT)"
+	test ! -L "$(COMPLETE_CORE_DATASET)"
+	if test ! -e "$(COMPLETE_CORE_DATASET)"; then \
+		stage="$$(mktemp -d)"; \
+		trap 'rm -rf -- "$$stage"' EXIT; \
+		unzip -q "$(ICLR_SUPPLEMENT)" \
+			"$(ICLR_SUPPLEMENT_ROOT)/data/complete-core/*" -d "$$stage"; \
+		mkdir -p "$(dir $(COMPLETE_CORE_DATASET))"; \
+		mv "$$stage/$(ICLR_SUPPLEMENT_ROOT)/data/complete-core" \
+			"$(COMPLETE_CORE_DATASET)"; \
+	fi
+	$(PYTHON) hf/dataset/verify_complete_core_dataset.py \
+		--dataset-directory "$(COMPLETE_CORE_DATASET)"
 
 verify-release:
 	test -n "$(RELEASE)"
@@ -94,15 +114,21 @@ verify-python:
 lab-data:
 	$(PYTHON) hf/dataset/build_lab_dataset.py --check
 
-reward-transfer-audit:
+reward-transfer-audit: hydrate-complete-core
 	$(PYTHON) experiments/reward_transfer/audit_data.py >/dev/null
 
-reward-transfer-release:
+reward-transfer-release: hydrate-complete-core
 	$(PYTHON) experiments/reward_transfer/release_results.py --check
 	$(PYTHON) experiments/reward_transfer/verify_release.py >/dev/null
 
-space-data:
-	$(PYTHON) hf/space/build_complete_core_space_bundle.py --check
+space-data: hydrate-complete-core
+	stage="$$(mktemp -d)"; \
+	trap 'rm -rf -- "$$stage"' EXIT; \
+	output="$$stage/flavourbench-complete-core-space.json"; \
+	$(PYTHON) hf/space/build_complete_core_space_bundle.py --output "$$output"; \
+	(cd "$$stage" && sha256sum --check "$(abspath $(SPACE_BUNDLE_MANIFEST))"); \
+	test ! -L "$(SPACE_BUNDLE)"; \
+	if test -f "$(SPACE_BUNDLE)"; then cmp "$$output" "$(SPACE_BUNDLE)"; fi
 
 verify-artifacts:
 	(cd paper/build && sha256sum --check ARTIFACTS.sha256)
