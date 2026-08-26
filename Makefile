@@ -68,6 +68,7 @@ PUBLIC_SOURCE_FILES := \
 	experiments/reward_transfer/unlock_evaluation.py \
 	experiments/reward_transfer/evaluate.py \
 	experiments/reward_transfer/analyze.py \
+	experiments/reward_transfer/release_results.py \
 	experiments/reward_transfer/train_sft.py
 
 PUBLIC_LINT_FILES := $(PUBLIC_SOURCE_FILES) scripts/scan_public_release.py $(PUBLIC_TEST_FILES)
