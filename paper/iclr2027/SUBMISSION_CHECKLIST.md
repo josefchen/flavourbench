@@ -97,11 +97,17 @@ soften either limitation in the submission.
   history, conflicts, and domains.
 - [ ] Confirm whether either author satisfies ICLR's reciprocal-reviewer publication rule. If one
   does, ensure at least one qualified author registers to review at least three papers when invited.
-  If neither does, document the stated exemption and one-submission quota.
+  If neither does, document the stated qualification exemption and one-submission quota.
+- [ ] After the abstract deadline, respond to ICLR's reviewer-registration notice. The guidelines
+  state that a submission with no author registered to review can be desk rejected, including when
+  the authors do not meet the publication-based qualification rule, unless the program chairs grant
+  an exception.
 - [ ] Both authors read and agree to the ICLR Code of Ethics and Code of Conduct.
 - [ ] Both authors review every disclosure item in the AI-use statement against the ICLR task list.
   The current statement is intentionally broad; do not narrow it unless a listed use is factually
   wrong.
+- [ ] Copy the approved AI-use disclosure into the corresponding OpenReview submission-form fields;
+  ICLR requires disclosure in both the manuscript and the form.
 - [ ] Both authors approve the exact metadata in `OPENREVIEW_METADATA.md`.
 - [ ] Confirm that no substantially similar manuscript is under review at another archival venue.
 

@@ -11,6 +11,8 @@ PATTERNS = {
         r"(?<![A-Za-z0-9_])sk-(?:or-v1|kimi|sp|ws)-[A-Za-z0-9._-]{12,}"
         r"|(?<![A-Za-z0-9_])sk-[A-Za-z0-9_-]{28,}"
     ),
+    "hugging_face_token": re.compile(r"(?<![A-Za-z0-9_])hf_[A-Za-z0-9]{20,}"),
+    "github_token": re.compile(r"(?<![A-Za-z0-9_])gh[pousr]_[A-Za-z0-9]{20,}"),
     "aws_access_key": re.compile(r"(?:AKIA|ASIA)[0-9A-Z]{16}"),
     "compound_api_key": re.compile(r"\b[0-9a-f]{32}\.[A-Za-z0-9_-]{16,}\b"),
     "private_key_marker": re.compile("BEGIN (?:" + "RSA|OPENSSH|EC" + ") PRIVATE KEY"),
