@@ -1,0 +1,155 @@
+{
+  "artifact_sha256": "9256abd79a522898da08406d780a7bf1c06fa50cd156ba1381df42d15bc9e7ec",
+  "base_model": {
+    "id": "Qwen/Qwen3-0.6B",
+    "revision": "c1899de289a04d12100db370d81485cdf75e47ca",
+    "thinking_mode": "disabled_by_chat_template_kwarg",
+    "weight_dtype_at_run": "float16"
+  },
+  "claim_boundary": {
+    "allowed": "Epicure supervision changes held-out agreement with disjoint Epicure reward maps beyond format-matched supervision",
+    "forbidden": [
+      "transfer_to_human_taste",
+      "improvement_in_general_language_model_quality",
+      "contamination_free_public_leaderboard_entry",
+      "reinforcement_learning_improvement"
+    ]
+  },
+  "conditions": [
+    {
+      "id": "pretrained_base",
+      "role": "descriptive_reference",
+      "training": "none"
+    },
+    {
+      "id": "sft_format_control",
+      "role": "confirmatory_control",
+      "training_config": "sft_format_control"
+    },
+    {
+      "id": "sft_epicure_optimum",
+      "role": "confirmatory_treatment",
+      "training_config": "sft"
+    }
+  ],
+  "control_construction": {
+    "accidental_target_optima": 0,
+    "algorithm": "first deterministic cyclic derangement within each family-by-source-panel stratum",
+    "fixed_salt": "flavourbench-sft-format-control-v1",
+    "preserved_exactly": [
+      "prompt_multiset",
+      "row_count",
+      "completion_length",
+      "portfolio_label_histogram_within_family_and_source_panel"
+    ],
+    "train_control_mean_score": 28.384851851851852,
+    "train_exact_chance_mean_score": 31.560444444444443
+  },
+  "dataset": {
+    "evaluation_tasks": 84,
+    "evaluation_tasks_sha256": "fc80a57698443c9215fbf2af5ecbbf15b5fc0ea27e44e5b86a3c51356eb1691f",
+    "lab_dataset_artifact_sha256": "36b660e75cb3e209526ab6549f7d3358958f048627e7cf1ebd0a25c23294aba0",
+    "official_replication_tasks": 534,
+    "official_replication_tasks_sha256": "97d58de483b6a4949b0a185c424c541f6fb1810f0eb774d04e27b11c100f9451",
+    "official_test_anchor_overlap": 0,
+    "sft_format_control_train_sha256": "b89a5c805e8b32c9f1928e0b63c4bdce277c66025f5b3c4d468588488a833274",
+    "sft_reward_train_sha256": "5f3f77834e91d9e413e28150a5692a47f6b297d868e14ebdc226b3f810cf49cf",
+    "train_tasks": 270,
+    "train_validation_evaluation_anchor_overlap": 0,
+    "validation_tasks": 72
+  },
+  "decoding": {
+    "batch_size": 4,
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "do_sample": false,
+    "max_new_tokens": 64,
+    "temperature": null
+  },
+  "evaluation": {
+    "checkpoint_rule": "fixed final checkpoint after three epochs; validation is monitoring only",
+    "primary": "84 anchor-disjoint transfer tasks, opened once after all six adapters finish",
+    "public_replication": "534 leaderboard maps, evaluated once after the primary analysis and never used for tuning",
+    "transport_failures": "retry under the identical decoding contract until completed or report the run as incomplete",
+    "unparseable_completions": "retain and score as zero in the unconditional primary outcome"
+  },
+  "frozen_at_utc": "2026-08-26T00:08:57Z",
+  "inference": {
+    "alpha": 0.05,
+    "bootstrap": "50000 crossed resamples of training seed and anchor within family-by-panel strata",
+    "confirmatory_contrast": "sft_epicure_optimum_minus_sft_format_control",
+    "family_size": 1,
+    "interval": "two-sided_95_percentile_interval",
+    "practical_gain_threshold_points": 3.0,
+    "test": "two-sided 100000-draw sign flip on per-anchor differences averaged across matched seeds"
+  },
+  "outcomes": {
+    "diagnostic": [
+      "parse_rate",
+      "score_conditional_on_parse",
+      "per_family_unconditional_score",
+      "training_seed_range",
+      "exact_optimum_rate"
+    ],
+    "primary": "equal-family mean held-out score with unparseable model completions scored zero",
+    "secondary": [
+      "reward_sft_minus_pretrained_base",
+      "format_control_sft_minus_pretrained_base",
+      "534-task public-map replication"
+    ]
+  },
+  "prohibited": [
+    "checkpoint_selection_on_evaluation_or_public_replication_tasks",
+    "hyperparameter_selection_on_evaluation_or_public_replication_tasks",
+    "optimization_on_evaluation_or_public_replication_tasks",
+    "selective_task_deletion",
+    "valid_only_primary_scoring",
+    "suppressing_null_or_negative_seed_results"
+  ],
+  "schema_version": "flavourbench-reward-transfer-plan-v2",
+  "seeds": [
+    20260824,
+    20260825,
+    20260826
+  ],
+  "status": "prospective_protocol_frozen_before_any_transfer_outcome",
+  "stratification": {
+    "dimensions": [
+      "family",
+      "source_panel"
+    ],
+    "evaluation_per_stratum": 14,
+    "strata": 6,
+    "train_per_stratum": 45,
+    "validation_per_stratum": 12
+  },
+  "supersedes": {
+    "artifact_sha256": "b8566e3851fc692ed0b0565f5e8a1acd7c1a3ec3e02a204a80410bc3cf58b542",
+    "reason": "The v1 treatment-minus-base contrasts did not isolate answer-format learning; v2 adds a label-marginal-matched control and narrows to one powered primary contrast before any transfer outcome was generated.",
+    "schema_version": "flavourbench-reward-transfer-plan-v1"
+  },
+  "training": {
+    "data_policy": "all 270 training rows; no optimum-margin filtering",
+    "epochs": 3,
+    "full_determinism": true,
+    "gradient_accumulation_steps": 8,
+    "gradient_checkpointing": true,
+    "learning_rate": 0.0001,
+    "lora": {
+      "alpha": 32,
+      "bias": "none",
+      "dropout": 0.05,
+      "rank": 16,
+      "target_modules": "all-linear",
+      "task_type": "CAUSAL_LM"
+    },
+    "lr_scheduler": "cosine",
+    "max_length": 1024,
+    "optimizer": "adamw_torch",
+    "per_device_train_batch_size": 2,
+    "save_rule": "final adapter only for confirmatory evaluation",
+    "warmup_steps_fraction": 0.1,
+    "weight_decay": 0.0
+  }
+}

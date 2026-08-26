@@ -1,5 +1,5 @@
 {
-  "artifact_sha256": "257dfaf17c4f529f2f9b538c0c0b7d7d8ea030262f75ecf06284b61658a64137",
+  "artifact_sha256": "36b660e75cb3e209526ab6549f7d3358958f048627e7cf1ebd0a25c23294aba0",
   "contract": {
     "development_official_anchor_overlap": 0,
     "direct_optimization_on_evaluation_split_forbidden": true,
@@ -11,6 +11,9 @@
       "pairing",
       "constraint"
     ],
+    "sft_format_control_optimal_targets": 0,
+    "sft_format_control_preserves_label_histogram_by_family_panel": true,
+    "sft_format_control_salt": "flavourbench-sft-format-control-v1",
     "train_validation_evaluation_anchor_overlap": 0
   },
   "counts": {
@@ -19,6 +22,8 @@
     "evaluation_tasks": 84,
     "grpo_train": 270,
     "grpo_validation": 72,
+    "sft_format_control_train": 270,
+    "sft_format_control_validation": 72,
     "sft_train": 270,
     "sft_validation": 72,
     "supplemental_cultural_composition": 283,
@@ -57,6 +62,18 @@
       "sha256": "41fd22cf367ab3bd8e8afe0c5cc3c42a8fca6c35a1ad35d05dd580069957d9be"
     },
     {
+      "bytes": 296883,
+      "name": "sft_format_control_train.jsonl",
+      "rows": 270,
+      "sha256": "b89a5c805e8b32c9f1928e0b63c4bdce277c66025f5b3c4d468588488a833274"
+    },
+    {
+      "bytes": 79248,
+      "name": "sft_format_control_validation.jsonl",
+      "rows": 72,
+      "sha256": "d2673fb11d2bdf34dbaaf024e4494c138679f5b991da09d6ce622f182190e4c7"
+    },
+    {
       "bytes": 257711,
       "name": "sft_train.jsonl",
       "rows": 270,
@@ -93,7 +110,7 @@
     "plan_semantic_sha256": "2ba71c793c8d4b97eed863ee83fd770b429fdefdffebdeafb241672f634ee507",
     "tasks": 534
   },
-  "schema_version": "flavourbench-lab-dataset-v2",
+  "schema_version": "flavourbench-lab-dataset-v3",
   "sources": {
     "panel_1_semantic_sha256": "a33bf28db372090015118371417b0e8ed1254f416d03d2c2c5816a6a752beb41",
     "panel_2_semantic_sha256": "925ba9d1d4be9c2b7a1e9956ecd6c18d34ffcad22eee28522f16892922c91e3f"

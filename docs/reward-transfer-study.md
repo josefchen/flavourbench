@@ -1,72 +1,83 @@
 # Epicure reward-transfer study
 
-This protocol asks the question a model lab actually cares about: does optimization against
-Epicure reward improve decisions on ingredient anchors that the optimizer never saw?
+This confirmatory study asks whether Epicure supervision teaches a model anything beyond the
+required answer syntax. It compares reward SFT with a format-matched control on ingredient anchors
+that appear in neither training nor validation.
 
-The study is prospective. Its task split, treatments, seeds, outcomes, and multiplicity family are
-committed before training. A later result artifact must cite the exact protocol commit and the
-content hash of every input and checkpoint.
+The protocol was frozen before generating any transfer outcome. The machine-readable contract is
+[`reward-transfer-plan-v2.json`](../contracts/reward-transfer/reward-transfer-plan-v2.json), with
+semantic SHA-256
+`9256abd79a522898da08406d780a7bf1c06fa50cd156ba1381df42d15bc9e7ec`.
 
-## Design
+## The comparison
 
-| Component | Prespecified choice |
+| Component | Frozen choice |
 |---|---|
-| Base checkpoints | `Qwen/Qwen3-0.6B`; `HuggingFaceTB/SmolLM2-360M-Instruct` |
-| Treatments | Unmodified base, LoRA SFT, LoRA DPO, LoRA GRPO |
+| Base checkpoint | `Qwen/Qwen3-0.6B` at `c1899de289a04d12100db370d81485cdf75e47ca` |
+| Descriptive reference | Unmodified base model |
+| Confirmatory control | LoRA SFT on task-mismatched but format- and label-matched completions |
+| Confirmatory treatment | LoRA SFT on each task's Epicure-optimal completion |
 | Training seeds | 20260824, 20260825, 20260826 |
-| Training maps | 270 tasks: 45 per family-by-panel stratum |
-| Model selection | Validation score on 72 tasks: 12 per stratum |
-| Primary evaluation | 84 tasks: 14 per stratum, used once after selection |
-| Primary outcome | Equal-family FlavourBench Score on the 84-task transfer split |
-| Primary contrast | Each trained treatment minus its unmodified base checkpoint |
-| Multiplicity family | Six treatment contrasts; Holm control at familywise 0.05 |
+| Training maps | 270 tasks, 45 per family-by-panel stratum |
+| Validation maps | 72 tasks, used for monitoring rather than checkpoint selection |
+| Primary evaluation | 84 transfer tasks, 14 per stratum, opened after all six adapters finish |
+| Primary outcome | Equal-family score with unparseable model completions retained at zero |
+| Primary contrast | Epicure SFT minus format-control SFT, paired within seed and task |
+| Public replication | The 534 public leaderboard maps, evaluated once after the primary analysis |
 
-All 426 lab anchors are mutually exclusive across train, validation, and transfer evaluation. They
-are also disjoint from the 534 leaderboard anchors. The public transfer maps are not cryptographic
-secrets; this is a declared held-out protocol. Training code must load only the `sft`, `dpo`, or
-`grpo` configurations, which contain train and validation splits but no transfer rows.
+Every train, validation, transfer, and leaderboard anchor is disjoint. Exact candidate sets and
+prompt hashes are also disjoint across the three lab splits. The public transfer maps are a declared
+holdout rather than a cryptographic secret; the training programs never load them.
+
+## Why the control matters
+
+Ordinary reward SFT also teaches the model to emit `FINAL_SELECTION: A,B,C`. A base-versus-SFT
+gain therefore mixes culinary reward learning with output-format learning. The control breaks that
+confound.
+
+Within each family and source panel, the builder rotates optimal A--H portfolios onto different
+prompts. It chooses the first deterministic rotation with no accidental target optimum. Reward SFT
+and control SFT consequently have identical prompts, row counts, completion lengths, and portfolio-
+label histograms. Only the alignment between a prompt and its Epicure target changes. The control's
+mean training-map score is 28.38, compared with the exact random-portfolio mean of 31.56.
+
+## Training and decoding
+
+Both SFT conditions use all 270 rows, three fixed epochs, LoRA rank 16, learning rate
+$10^{-4}$, effective batch size 16, cosine decay, 10% warmup, completion-only loss, and the final
+checkpoint. No validation-selected checkpoint is used. Qwen thinking is disabled through the chat
+template; evaluation uses greedy decoding and at most 64 new tokens under the same prompt contract
+for every condition.
+
+Transport failures are retried without changing decoding. Unparseable completions are model
+outcomes, not missing data: they remain in the primary score at zero. Parse rate and score
+conditional on parsing are reported separately, so syntax gains cannot masquerade as reward gains.
 
 ## Inference
 
-Each trained condition is evaluated with greedy decoding on all 84 transfer tasks. The treatment
-effect is the mean, across three seeds, of the task-paired score difference from the base model.
-Uncertainty uses a hierarchical bootstrap: resample the 84 ingredient-anchor tasks within the six
-family-by-panel strata, then resample training seeds. The confirmatory p-value uses sign flips of
-the per-task mean treatment difference. Holm correction covers the three training methods for both
-base checkpoints. Report the raw and adjusted p-values, the 95% interval, standardized paired
-effect, per-family effects, and every task-level response.
+The primary effect is computed for every transfer task and seed, then averaged over the three
+matched seeds. A 50,000-draw crossed bootstrap resamples training seeds and ingredient anchors
+within the six family-by-panel strata. A two-sided 100,000-draw sign-flip test operates on the
+per-anchor seed-mean differences. There is one confirmatory contrast, so no multiplicity correction
+is required. The study reports the point effect, 95% interval, raw $p$-value, each seed, all task
+scores, and the three family effects.
 
-A treatment is a confirmed transfer improvement only if its adjusted p-value is below 0.05 and the
-95% interval for the paired score difference excludes zero. Point gains without both conditions
-are estimates, not confirmed improvements.
+At 84 paired tasks, a normal-approximation 80%-power sensitivity spans roughly 4.6, 6.1, 7.6, and
+9.2 score points when the paired-difference standard deviation is 15, 20, 25, or 30. The 534-task
+public replication reduces those values to approximately 1.8, 2.4, 3.0, and 3.6 points. These are
+design sensitivities, not assumptions about the outcome.
 
-## Secondary analyses
+An effect is statistically resolved when the two-sided $p$-value is below .05 and the 95% interval
+excludes zero. A gain of at least three points is additionally labelled practically material. Null
+and negative seed results remain in the release.
 
-Secondary results do not alter the primary claim:
+## Claim boundary
 
-1. **Inference effort without Epicure.** For each base checkpoint, sample 1, 4, and 16 independent
-   completions per transfer task at temperature 0.7, map the modal valid portfolio to a score, and
-   report the paired curve. This tests whether extra inference alone substitutes for reward
-   optimization.
-2. **Candidate-order robustness.** Evaluate the base and best validation-selected treatment under
-   five deterministic label permutations per transfer task. Invert the labels before scoring and
-   report mean absolute score drift and exact selection consistency.
-3. **Data scaling.** Train the best validation-selected method with 25%, 50%, and 100% of each
-   training stratum, preserving the same validation and transfer maps.
-4. **Family transfer.** Report substitution, pairing, and constraint effects separately with
-   intervals labelled exploratory.
+A positive result would show that Epicure-aligned supervision transfers to unseen Epicure maps
+beyond answer-format training. It would not establish better human taste, cooked-food quality,
+general language-model ability, or reinforcement-learning improvement. DPO and GRPO remain
+runnable lab recipes, but they are not part of this single powered confirmatory contrast.
 
-## Execution contract
-
-- Do not inspect transfer outcomes to select checkpoints, prompts, hyperparameters, or methods.
-- Keep parse and transport failures in the response artifact. A run is analyzed only after every
-  failed cell is retried under the same decoding contract; no task is dropped selectively.
-- Record the exact base revision, dependency versions, GPU, seed, duration, Trackio run, adapter
-  revision, and SHA-256 of every response and report.
-- Publish unsuccessful treatments alongside successful ones. They are part of the six-contrast
-  family, not hidden exploratory runs.
-- Do not submit a trained checkpoint to the 534-task public leaderboard as a contamination-free
-  result. A lab-facing follow-up leaderboard requires a new server-side panel with unseen anchors.
-
-The machine-readable companion is
-[`contracts/reward-transfer/reward-transfer-plan-v1.json`](../contracts/reward-transfer/reward-transfer-plan-v1.json).
+The earlier v1 plan compared six trained conditions only with their unmodified bases. It was
+superseded before training because those contrasts did not isolate format learning. Its hash remains
+in the v2 contract so the protocol change is auditable without cluttering the paper.

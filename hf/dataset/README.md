@@ -84,6 +84,12 @@ configs:
     path: data-lab/sft_train.jsonl
   - split: validation
     path: data-lab/sft_validation.jsonl
+- config_name: sft_format_control
+  data_files:
+  - split: train
+    path: data-lab/sft_format_control_train.jsonl
+  - split: validation
+    path: data-lab/sft_format_control_validation.jsonl
 - config_name: dpo
   data_files:
   - split: train
@@ -198,6 +204,7 @@ not load them. The three training views support different setups:
 | Config | Training signal | Rows |
 |---|---|---:|
 | `sft` | Optimal prompt-completion demonstrations plus optimum margins | 270 train + 72 validation |
+| `sft_format_control` | Same prompts and answer-label marginals, with task--reward alignment broken | 270 train + 72 validation |
 | `dpo` | Four deterministic chosen/rejected pairs per task | 1,080 train + 288 validation |
 | `grpo` | The complete dense 56-choice reward map for each prompt | 270 train + 72 validation |
 | `lab_tasks/test` | Predeclared, balanced transfer evaluation | 84 |
@@ -206,6 +213,7 @@ not load them. The three training views support different setups:
 from datasets import load_dataset
 
 sft = load_dataset("josefchen/flavourbench", "sft")
+control = load_dataset("josefchen/flavourbench", "sft_format_control")
 dpo = load_dataset("josefchen/flavourbench", "dpo")
 grpo = load_dataset("josefchen/flavourbench", "grpo")
 ```
@@ -216,8 +224,8 @@ account and records metrics with Trackio. GRPO computes rewards locally, so a ro
 one Space request per sample.
 
 The [prospective reward-transfer protocol](https://github.com/josefchen/flavourbench/blob/main/docs/reward-transfer-study.md)
-freezes the two base checkpoints, three methods, three seeds, six confirmatory contrasts, and the
-held-out inference rules before training begins.
+freezes one primary comparison between Epicure-optimal SFT and a format-matched control, three
+training seeds, a pinned base revision, and the held-out inference rules before training begins.
 
 ## What the score means
 
@@ -339,7 +347,7 @@ These checks make no provider calls.
 | Release semantic ID | `0a20655c97aa1363c2266e247f3dd03b759d0f80bca9154c6619c5549b2fac99` |
 | Release file | `709452f8cf54ebc1947f2a3c24e6ee19580be1c115ba3a9effbac441de556db4` |
 | Analysis plan | `2ba71c793c8d4b97eed863ee83fd770b429fdefdffebdeafb241672f634ee507` |
-| Lab dataset | `257dfaf17c4f529f2f9b538c0c0b7d7d8ea030262f75ecf06284b61658a64137` |
+| Lab dataset | `36b660e75cb3e209526ab6549f7d3358958f048627e7cf1ebd0a25c23294aba0` |
 | Selection-robustness analysis | `09ebe388b99d6da629c5ec8f8ee837ec0b01b9361f337649228602187ab44293` |
 | Public-scorer sensitivity analysis | `799550a10f13786ef356f069295d3c73ec34d5e0e8ad1394ce838af6622e5f49` |
 | External substitution validation | `46795dabb1cb698bb76ab9d33a90380de306aff128fc1c7e277ae98832d3205d` |

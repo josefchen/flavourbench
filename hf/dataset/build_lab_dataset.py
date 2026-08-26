@@ -29,8 +29,9 @@ DEFAULT_OFFICIAL_PLAN = (
 )
 
 PRIMARY_FAMILIES = ("substitution", "pairing", "constraint")
-SCHEMA_VERSION = "flavourbench-lab-dataset-v2"
+SCHEMA_VERSION = "flavourbench-lab-dataset-v3"
 SPLIT_SALT = "flavourbench-lab-anchor-split-v2"
+FORMAT_CONTROL_SALT = "flavourbench-sft-format-control-v1"
 DPO_MIN_MARGIN_BPS = 500
 TRAIN_PER_STRATUM = 45
 VALIDATION_PER_STRATUM = 12
@@ -172,6 +173,95 @@ def _sft(rows: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
     ]
 
 
+def _format_control_sft(rows: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    """Break task--reward alignment while exactly preserving answer-label marginals.
+
+    Within each family-by-panel stratum, the optimum completions are deterministically rotated
+    onto different prompts.  The first rotation with no accidental target optimum is selected.
+    Consequently the control has the same prompts, row count, completion lengths, and multiset of
+    A--H portfolios as reward SFT, but its targets carry no task-specific Epicure supervision.
+    """
+
+    output: list[dict[str, Any]] = []
+    expected_task_ids = {str(row["task_id"]) for row in rows}
+    for family in PRIMARY_FAMILIES:
+        panels = sorted({str(row["source_panel"]) for row in rows if row["family"] == family})
+        for panel in panels:
+            stratum = sorted(
+                (
+                    dict(row)
+                    for row in rows
+                    if row["family"] == family and row["source_panel"] == panel
+                ),
+                key=lambda row: hashlib.sha256(
+                    f"{FORMAT_CONTROL_SALT}|{row['task_id']}".encode()
+                ).hexdigest(),
+            )
+            if len(stratum) < 2:
+                raise LabDatasetBuildError(f"format-control stratum is too small: {family}/{panel}")
+            shift = next(
+                (
+                    offset
+                    for offset in range(1, len(stratum))
+                    if all(
+                        str(row["optimal_selection"])
+                        != str(stratum[(index + offset) % len(stratum)]["optimal_selection"])
+                        for index, row in enumerate(stratum)
+                    )
+                ),
+                None,
+            )
+            if shift is None:
+                raise LabDatasetBuildError(
+                    f"format-control derangement does not exist: {family}/{panel}"
+                )
+            for index, row in enumerate(stratum):
+                donor = stratum[(index + shift) % len(stratum)]
+                selection = str(donor["optimal_selection"])
+                control_reward_bps = int(row["selection_scores_bps"][selection])
+                if selection == str(row["optimal_selection"]) or control_reward_bps == 10_000:
+                    raise LabDatasetBuildError(
+                        f"format control accidentally preserves the optimum: {row['task_id']}"
+                    )
+                output.append(
+                    {
+                        "task_id": row["task_id"],
+                        "family": row["family"],
+                        "source_panel": row["source_panel"],
+                        "anchor_ingredient": row["anchor_ingredient"],
+                        "prompt": row["prompt"],
+                        "completion": _render(selection),
+                        "control_source_task_id": donor["task_id"],
+                        "control_reward": control_reward_bps / 10_000,
+                        "control_reward_bps": control_reward_bps,
+                        "control_is_optimal": False,
+                        "optimal_margin_bps": row["optimal_margin_bps"],
+                        "split": row["split"],
+                    }
+                )
+    output.sort(key=lambda row: (PRIMARY_FAMILIES.index(str(row["family"])), str(row["task_id"])))
+    observed_task_ids = {str(row["task_id"]) for row in output}
+    if observed_task_ids != expected_task_ids:
+        raise LabDatasetBuildError("format control does not cover the SFT task set exactly")
+    for family in PRIMARY_FAMILIES:
+        for panel in sorted({str(row["source_panel"]) for row in rows if row["family"] == family}):
+            reward_labels = Counter(
+                str(row["optimal_selection"])
+                for row in rows
+                if row["family"] == family and row["source_panel"] == panel
+            )
+            control_labels = Counter(
+                str(row["completion"]).removeprefix("FINAL_SELECTION: ").replace(",", "")
+                for row in output
+                if row["family"] == family and row["source_panel"] == panel
+            )
+            if reward_labels != control_labels:
+                raise LabDatasetBuildError(
+                    f"format control changes label marginals: {family}/{panel}"
+                )
+    return output
+
+
 def _dpo(rows: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
     output: list[dict[str, Any]] = []
     for row in rows:
@@ -304,6 +394,8 @@ def build_files(
         "evaluation_tasks.jsonl": _jsonl(evaluation_tasks),
         "sft_train.jsonl": _jsonl(_sft(train_tasks)),
         "sft_validation.jsonl": _jsonl(_sft(validation_tasks)),
+        "sft_format_control_train.jsonl": _jsonl(_format_control_sft(train_tasks)),
+        "sft_format_control_validation.jsonl": _jsonl(_format_control_sft(validation_tasks)),
         "dpo_train.jsonl": _jsonl(_dpo(train_tasks)),
         "dpo_validation.jsonl": _jsonl(_dpo(validation_tasks)),
         "grpo_train.jsonl": _jsonl(_grpo(train_tasks)),
@@ -330,6 +422,8 @@ def build_files(
             "evaluation_tasks": len(evaluation_tasks),
             "sft_train": len(train_tasks),
             "sft_validation": len(validation_tasks),
+            "sft_format_control_train": len(train_tasks),
+            "sft_format_control_validation": len(validation_tasks),
             "dpo_train": len(train_tasks) * 4,
             "dpo_validation": len(validation_tasks) * 4,
             "grpo_train": len(train_tasks),
@@ -344,6 +438,9 @@ def build_files(
             "direct_optimization_on_evaluation_split_forbidden": True,
             "evaluation_split_is_public_not_secret": True,
             "dpo_minimum_reward_margin_bps": DPO_MIN_MARGIN_BPS,
+            "sft_format_control_salt": FORMAT_CONTROL_SALT,
+            "sft_format_control_preserves_label_histogram_by_family_panel": True,
+            "sft_format_control_optimal_targets": 0,
         },
         "files": [
             {

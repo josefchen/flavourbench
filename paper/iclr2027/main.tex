@@ -408,9 +408,10 @@ $r(x_t,a)=s_t(a)$. It can supervise the optimum, induce preference pairs from an
 or support offline and online policy optimization. The release contains a separate lab track with
 270 training maps, 72 validation maps, and 84 predeclared transfer maps. Its anchors are disjoint
 from the 534 leaderboard anchors and from one another; optimizer-facing SFT, DPO, and GRPO views
-exclude transfer rows. A prospective protocol fixes base checkpoints, training methods, seeds, and
-six Holm-controlled transfer contrasts before optimization. This paper evaluates models; it does
-not claim that optimizing \epicure{} reward transfers to human culinary judgment.
+exclude transfer rows. A prospective protocol pins one base revision and compares Epicure-optimal
+SFT against a format control with identical prompts, completion lengths, and within-stratum answer-
+label marginals across three seeds. Its single task-paired contrast is fixed before optimization.
+This paper evaluates models; it does not claim transfer to human culinary judgment.
 
 \section{Related work}
 

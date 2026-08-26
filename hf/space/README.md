@@ -102,7 +102,8 @@ high-throughput RL, use the local deterministic reward function. The linked data
 ready-to-load SFT, DPO, and GRPO views plus runnable LoRA recipes for Hugging Face Jobs.
 
 The [prospective reward-transfer protocol](https://github.com/josefchen/flavourbench/blob/main/docs/reward-transfer-study.md)
-defines the 84-task transfer split, seeds, six confirmatory contrasts, and multiplicity control.
+defines the 84-task transfer split and one prompt- and label-matched Epicure-SFT contrast across
+three seeds.
 
 [Dataset and lab kit](https://huggingface.co/datasets/josefchen/flavourbench)&nbsp;&nbsp;&nbsp;
 [Paper](https://arxiv.org/abs/2608.20574)&nbsp;&nbsp;&nbsp;

@@ -160,6 +160,7 @@ The Hugging Face dataset now exposes three training-ready configurations:
 | Config | Train | Validation | Interface |
 |---|---:|---:|---|
 | `sft` | 270 | 72 | Optimal demonstrations with optimum margins |
+| `sft_format_control` | 270 | 72 | Prompt- and label-matched control with shuffled task alignment |
 | `dpo` | 1,080 | 288 | Deterministic preferences with gaps of at least 5 points |
 | `grpo` | 270 | 72 | Prompt plus complete local reward map |
 
@@ -170,9 +171,10 @@ discipline; optimizer-facing configs omit them. The [runnable Hugging Face Jobs 
 cover SFT, DPO, and GRPO with LoRA, Trackio, evaluation, checkpointing, and Hub persistence.
 Training on either the transfer split or the public leaderboard maps is outside the protocol.
 
-The prospective [Epicure reward-transfer study](docs/reward-transfer-study.md) freezes two base
-checkpoints, three training methods, three seeds, six multiplicity-controlled contrasts, inference
-effort scaling, and candidate-order robustness before any transfer result is inspected.
+The prospective [Epicure reward-transfer study](docs/reward-transfer-study.md) compares Epicure-
+optimal SFT with a prompt-, length-, and label-marginal-matched format control across three seeds.
+Its single primary contrast, pinned checkpoint, final-checkpoint rule, and held-out inference are
+fixed before any transfer result is inspected.
 
 The Hugging Face Space also exposes named Gradio API endpoints for official evaluation and a
 separate `training_reward` endpoint restricted to the 342 train/validation maps. Local
@@ -254,7 +256,7 @@ No reproduction command calls a model provider.
 | Statistical release | `709452f8cf54ebc1947f2a3c24e6ee19580be1c115ba3a9effbac441de556db4` |
 | Release semantic ID | `0a20655c97aa1363c2266e247f3dd03b759d0f80bca9154c6619c5549b2fac99` |
 | Analysis plan file | `17ac5aea6eb25a0c0af440124849c926fdcafaf36956fd2e676f2c70ca80faa6` |
-| Lab training dataset | `257dfaf17c4f529f2f9b538c0c0b7d7d8ea030262f75ecf06284b61658a64137` |
+| Lab training dataset | `36b660e75cb3e209526ab6549f7d3358958f048627e7cf1ebd0a25c23294aba0` |
 | Task-count stability analysis | `4b359ac51db465c7a3f49fb5567a624b1ce3ad6280d309f31545e17ff2797026` |
 | Selection-robustness analysis | `09ebe388b99d6da629c5ec8f8ee837ec0b01b9361f337649228602187ab44293` |
 | Public-scorer sensitivity analysis | `799550a10f13786ef356f069295d3c73ec34d5e0e8ad1394ce838af6622e5f49` |

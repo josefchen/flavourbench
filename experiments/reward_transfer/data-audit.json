@@ -1,0 +1,82 @@
+{
+  "artifact_sha256": "783b8e62b837e664a2e17fd55dbce979f5c761b2cd1e51a432a21a5206b88463",
+  "candidate_vocabulary": {
+    "evaluation": 468,
+    "train": 935,
+    "train_evaluation_shared": 387,
+    "validation": 434
+  },
+  "control": {
+    "train": {
+      "accidental_optima": 0,
+      "control_mean_score": 28.384851851851852,
+      "control_minus_chance": -3.17559259259259,
+      "exact_chance_mean_score": 31.560444444444443,
+      "rows": 270
+    },
+    "validation": {
+      "accidental_optima": 0,
+      "control_mean_score": 29.272083333333335,
+      "control_minus_chance": -2.7774999999999963,
+      "exact_chance_mean_score": 32.04958333333333,
+      "rows": 72
+    }
+  },
+  "counts": {
+    "evaluation": 84,
+    "train": 270,
+    "validation": 72
+  },
+  "exact_overlap": {
+    "train__evaluation": {
+      "anchor": 0,
+      "exact_candidate_set": 0,
+      "prompt_sha256": 0,
+      "task_id": 0
+    },
+    "train__validation": {
+      "anchor": 0,
+      "exact_candidate_set": 0,
+      "prompt_sha256": 0,
+      "task_id": 0
+    },
+    "validation__evaluation": {
+      "anchor": 0,
+      "exact_candidate_set": 0,
+      "prompt_sha256": 0,
+      "task_id": 0
+    }
+  },
+  "interpretation": "No exact task, anchor, prompt, or candidate-set leakage was found. Shared individual candidate ingredients are expected and make the estimand transfer to new anchors, not generalization to an unseen vocabulary.",
+  "lab_dataset_artifact_sha256": "36b660e75cb3e209526ab6549f7d3358958f048627e7cf1ebd0a25c23294aba0",
+  "public_anchor_overlap": 0,
+  "public_tasks_sha256": "97d58de483b6a4949b0a185c424c541f6fb1810f0eb774d04e27b11c100f9451",
+  "schema_version": "flavourbench-reward-transfer-data-audit-v1",
+  "status": "pass",
+  "strata": {
+    "evaluation": {
+      "constraint/panel_1": 14,
+      "constraint/panel_2": 14,
+      "pairing/panel_1": 14,
+      "pairing/panel_2": 14,
+      "substitution/panel_1": 14,
+      "substitution/panel_2": 14
+    },
+    "train": {
+      "constraint/panel_1": 45,
+      "constraint/panel_2": 45,
+      "pairing/panel_1": 45,
+      "pairing/panel_2": 45,
+      "substitution/panel_1": 45,
+      "substitution/panel_2": 45
+    },
+    "validation": {
+      "constraint/panel_1": 12,
+      "constraint/panel_2": 12,
+      "pairing/panel_1": 12,
+      "pairing/panel_2": 12,
+      "substitution/panel_1": 12,
+      "substitution/panel_2": 12
+    }
+  }
+}

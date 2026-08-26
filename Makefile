@@ -12,6 +12,7 @@ PUBLIC_TEST_FILES := \
 	tests/build_powered*_test.py \
 	tests/build_joint_powered_dataset_test.py \
 	tests/build_lab_dataset_test.py \
+	tests/reward_transfer_plan_test.py \
 	tests/lab_test.py \
 	tests/lab_cli_test.py \
 	tests/lab_runner_test.py \
@@ -61,13 +62,15 @@ PUBLIC_SOURCE_FILES := \
 	src/flavourbench/lab_runner.py \
 	examples/lab/train_sft.py \
 	examples/lab/train_dpo.py \
-	examples/lab/train_grpo.py
+	examples/lab/train_grpo.py \
+	experiments/reward_transfer/audit_data.py \
+	experiments/reward_transfer/train_sft.py
 
 PUBLIC_LINT_FILES := $(PUBLIC_SOURCE_FILES) scripts/scan_public_release.py $(PUBLIC_TEST_FILES)
 
-.PHONY: ci format lab-data lint scan test verify-artifacts verify-python verify-release
+.PHONY: ci format lab-data lint reward-transfer-audit scan test verify-artifacts verify-python verify-release
 
-ci: verify-release test verify-python lab-data verify-artifacts lint scan
+ci: verify-release test verify-python lab-data reward-transfer-audit verify-artifacts lint scan
 
 verify-release:
 	test -n "$(RELEASE)"
@@ -83,6 +86,9 @@ verify-python:
 
 lab-data:
 	$(PYTHON) hf/dataset/build_lab_dataset.py --check
+
+reward-transfer-audit:
+	$(PYTHON) experiments/reward_transfer/audit_data.py >/dev/null
 
 verify-artifacts:
 	(cd paper/build && sha256sum --check ARTIFACTS.sha256)

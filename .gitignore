@@ -20,6 +20,10 @@ flavourbench/data/*.sqlite3
 data/private/
 secrets/
 
+# Local reward-transfer checkpoints and generated outcome files.
+experiments/reward_transfer/checkpoints/
+experiments/reward_transfer/results/
+
 # Paper build intermediates. Canonical release files are explicitly retained.
 paper/build/*
 !paper/build/ARTIFACTS.sha256

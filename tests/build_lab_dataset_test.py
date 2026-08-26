@@ -25,7 +25,7 @@ def test_lab_dataset_is_reproducible_and_anchor_disjoint() -> None:
     )
     assert (
         manifest["artifact_sha256"]
-        == "257dfaf17c4f529f2f9b538c0c0b7d7d8ea030262f75ecf06284b61658a64137"
+        == "36b660e75cb3e209526ab6549f7d3358958f048627e7cf1ebd0a25c23294aba0"
     )
     assert manifest["counts"] == {
         "train_tasks": 270,
@@ -33,6 +33,8 @@ def test_lab_dataset_is_reproducible_and_anchor_disjoint() -> None:
         "evaluation_tasks": 84,
         "sft_train": 270,
         "sft_validation": 72,
+        "sft_format_control_train": 270,
+        "sft_format_control_validation": 72,
         "dpo_train": 1080,
         "dpo_validation": 288,
         "grpo_train": 270,
