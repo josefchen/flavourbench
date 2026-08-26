@@ -1872,7 +1872,8 @@ def _reward_transfer_html() -> str:
         <span>points beyond format-matched supervision</span>
         <p>Primary estimate on {int(primary["tasks"])} predeclared, anchor-disjoint maps.
         The 95% interval is {primary_low:.2f} to {primary_high:.2f}; the matched sign-flip
-        p-value is {float(primary["two_sided_sign_flip_p"]):.6f}.</p>
+        p-value is {float(primary["two_sided_sign_flip_p"]):.6f}. That p-value tests held-out
+        anchors conditional on the three matched seed pairs.</p>
       </section>
       <section>
         <div class="fb-table-wrap">

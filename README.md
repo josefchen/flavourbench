@@ -118,7 +118,9 @@ same prompts and answer-label distribution with task-to-answer alignment broken.
 All three matched-seed treatment effects are positive on both evaluations. The control matters:
 on the public maps it improves on the base by 3.05 points, so a treatment-to-base comparison would
 mix response-format learning into the reward effect. This is evidence of transfer to unseen Epicure
-maps, not human preference, general capability, or reinforcement-learning improvement.
+maps, not human preference, general capability, or reinforcement-learning improvement. The
+intervals resample matched seeds and anchors; the p-values test held-out anchors conditional on the
+three realized seed pairs, rather than a population of possible training runs.
 
 ![Controlled reward transfer](hf/dataset/assets/complete-core-reward-transfer.png)
 

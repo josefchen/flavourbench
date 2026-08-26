@@ -244,7 +244,9 @@ The completed [reward-transfer study](https://github.com/josefchen/flavourbench/
 uses that frozen protocol to compare Epicure-optimal SFT with a prompt-, format-, and label-matched
 control over three seeds. On 84 anchor-disjoint tasks, Epicure SFT gains 13.30 points over control
 (95% CI 6.52 to 20.29); the same adapters gain 11.73 points on the 534 public maps (95% CI 8.98 to
-14.54). All six matched-seed effects are positive.
+14.54). All six matched-seed effects are positive. The intervals resample matched seeds and
+anchors; the p-values test held-out anchors conditional on the three realized seed pairs, not a
+population of possible training runs.
 
 ![Controlled reward transfer on unseen maps](./assets/complete-core-reward-transfer.png)
 

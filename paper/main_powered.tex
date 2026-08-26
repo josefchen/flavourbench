@@ -621,8 +621,10 @@ completions remain in the score at zero.
 The preregistered estimand is the equal-family treatment-minus-control score difference. A
 50,000-draw crossed bootstrap resamples matched training seeds and ingredient anchors within the
 six family--panel strata. A two-sided 100,000-draw sign-flip test operates on per-anchor effects
-averaged over seeds. Three points is the preregistered practical threshold. There is one primary
-contrast, so no multiplicity correction is required.
+averaged over seeds. The interval therefore includes empirical seed and anchor variation, whereas
+the $p$-value tests held-out-anchor effects conditional on the three realized seed pairs; it is not
+a population-level test over retraining randomness. Three points is the preregistered practical
+threshold. There is one primary contrast, so no multiplicity correction is required.
 
 \begin{table*}[t]
   \centering

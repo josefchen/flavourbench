@@ -44,7 +44,9 @@ On 84 anchor-disjoint tasks, Epicure-optimal LoRA SFT improves Qwen3-0.6B by 13.
 prompt-, format-, and label-matched control (95% CI 6.52 to 20.29). The same trained adapters gain
 11.73 points over control on the 534 public maps (95% CI 8.98 to 14.54). The release includes raw
 generations, training and evaluation manifests, frozen analysis plans, and an offline verifier that
-reconstructs both effects without model access.
+reconstructs both effects without model access. The intervals resample both matched seeds and
+anchors; the reported p-values test held-out anchors conditional on the three realized seed pairs,
+not a population of possible training runs.
 
 ## Build and verify
 

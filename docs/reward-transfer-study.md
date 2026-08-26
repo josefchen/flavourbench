@@ -60,7 +60,9 @@ The primary effect is computed for every transfer task and seed, then averaged o
 matched seeds. A 50,000-draw crossed bootstrap resamples training seeds and ingredient anchors
 within the six family-by-panel strata. A two-sided 100,000-draw sign-flip test operates on the
 per-anchor seed-mean differences. There is one confirmatory contrast, so no multiplicity correction
-is required. The study reports the point effect, 95% interval, raw $p$-value, each seed, all task
+is required. The interval includes empirical seed and anchor variation; the $p$-value tests
+held-out anchors conditional on the three realized seed pairs, rather than a population of possible
+training runs. The study reports the point effect, 95% interval, raw $p$-value, each seed, all task
 scores, and the three family effects.
 
 At 84 paired tasks, a normal-approximation 80%-power sensitivity spans roughly 4.6, 6.1, 7.6, and

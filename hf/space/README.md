@@ -61,7 +61,9 @@ maps (95% CI 8.98 to 14.54; p = 0.000010). Every generation, training manifest, 
 manifest, and analysis artifact is released in the linked dataset.
 
 This establishes transfer to unseen Epicure maps beyond output-format learning. It does not test
-human taste, general model quality, or reinforcement-learning improvement.
+human taste, general model quality, or reinforcement-learning improvement. The intervals resample
+matched seeds and anchors; the p-values test held-out anchors conditional on the three realized
+seed pairs.
 
 ## Run from your own environment
 

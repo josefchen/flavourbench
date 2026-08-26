@@ -430,8 +430,11 @@ in the score at zero.
 The preregistered estimand is the equal-family treatment-minus-control score difference. A
 50,000-draw crossed bootstrap resamples matched training seeds and anchors within the six
 family--panel strata; a two-sided 100,000-draw sign-flip test operates on anchor effects averaged
-over seeds. The protocol defines three points as a practically material gain. There is one primary
-contrast, so it receives no multiplicity adjustment.
+over seeds. The interval therefore includes empirical seed and anchor variation, whereas the
+$p$-value tests held-out-anchor effects conditional on the three realized seed pairs; it is not a
+population-level test over retraining randomness. The protocol defines three points as a
+practically material gain. There is one primary contrast, so it receives no multiplicity
+adjustment.
 
 \begin{table}[t]
   \caption{Reward transfer. Scores average three training seeds except the unmodified base.
