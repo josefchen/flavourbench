@@ -6,6 +6,7 @@ import hashlib
 import json
 import math
 import os
+import subprocess
 import tempfile
 from collections import Counter
 from collections.abc import Iterable, Mapping, Sequence
@@ -26,10 +27,16 @@ DEFAULT_RESULTS = REPOSITORY / "experiments/reward_transfer/results"
 DEFAULT_PRIMARY_TASKS = REPOSITORY / "hf/dataset/data-lab/evaluation_tasks.jsonl"
 DEFAULT_PUBLIC_TASKS = REPOSITORY / "hf/dataset/data-complete-core/tasks.jsonl"
 TRAINED_CONDITIONS = ("sft_format_control", "sft_epicure_optimum")
+TRAINING_RELEVANT_FILES = (
+    "experiments/reward_transfer/train_sft.py",
+    "contracts/reward-transfer/reward-transfer-plan-v2.json",
+    "hf/dataset/data-lab/sft_train.jsonl",
+    "hf/dataset/data-lab/sft_validation.jsonl",
+    "hf/dataset/data-lab/sft_format_control_train.jsonl",
+    "hf/dataset/data-lab/sft_format_control_validation.jsonl",
+)
 EXPECTED_STRATA = tuple(
-    (family, panel)
-    for family in PRIMARY_FAMILIES
-    for panel in ("panel_1", "panel_2")
+    (family, panel) for family in PRIMARY_FAMILIES for panel in ("panel_1", "panel_2")
 )
 
 
@@ -215,6 +222,33 @@ def verify_training_run(
     return manifest
 
 
+def _training_blob_binding(commits: set[str]) -> list[dict[str, str]] | None:
+    """Prove training inputs were identical when manifests captured different HEADs."""
+
+    if len(commits) <= 1:
+        return None
+    by_commit: dict[str, dict[str, str]] = {}
+    for commit in sorted(commits):
+        files: dict[str, str] = {}
+        for relative in TRAINING_RELEVANT_FILES:
+            result = subprocess.run(
+                ["git", "show", f"{commit}:{relative}"],
+                cwd=REPOSITORY,
+                check=False,
+                capture_output=True,
+            )
+            if result.returncode != 0:
+                raise RewardTransferError(
+                    f"cannot verify training-relevant blob {relative} at {commit}"
+                )
+            files[relative] = hashlib.sha256(result.stdout).hexdigest()
+        by_commit[commit] = files
+    reference = next(iter(by_commit.values()))
+    if any(files != reference for files in by_commit.values()):
+        raise RewardTransferError("training-relevant git blobs differ across run manifests")
+    return [{"path": path, "sha256": reference[path]} for path in TRAINING_RELEVANT_FILES]
+
+
 def create_evaluation_gate(
     *,
     checkpoints: Path = DEFAULT_CHECKPOINTS,
@@ -231,9 +265,7 @@ def create_evaluation_gate(
     verify_content_addressed(audit, label="reward-transfer data audit")
     if audit.get("status") != "pass":
         raise RewardTransferError("reward-transfer data audit did not pass")
-    if audit.get("lab_dataset_artifact_sha256") != plan["dataset"][
-        "lab_dataset_artifact_sha256"
-    ]:
+    if audit.get("lab_dataset_artifact_sha256") != plan["dataset"]["lab_dataset_artifact_sha256"]:
         raise RewardTransferError("data audit does not bind the frozen lab dataset")
     expected_task_hashes = {
         "primary": plan["dataset"]["evaluation_tasks_sha256"],
@@ -276,10 +308,9 @@ def create_evaluation_gate(
                     "validation_loss": manifest["validation_metrics"]["eval_loss"],
                 }
             )
-    if len(git_commits) != 1 or len(software) != 1 or len(hardware) != 1:
-        raise RewardTransferError(
-            "training runs do not share one code, software, and hardware state"
-        )
+    if len(software) != 1 or len(hardware) != 1:
+        raise RewardTransferError("training runs do not share one software and hardware state")
+    training_blobs = _training_blob_binding(git_commits)
     gate: dict[str, Any] = {
         "schema_version": "flavourbench-reward-transfer-evaluation-gate-v1",
         "status": "confirmatory_evaluation_unlocked",
@@ -287,7 +318,15 @@ def create_evaluation_gate(
         "protocol_artifact_sha256": plan["artifact_sha256"],
         "data_audit_artifact_sha256": audit["artifact_sha256"],
         "task_file_sha256": actual_task_hashes,
-        "training_git_commit": next(iter(git_commits)),
+        "manifest_write_git_commits": sorted(git_commits),
+        "training_relevant_git_blobs": training_blobs,
+        "provenance_note": (
+            "The training manifest records repository HEAD at manifest-write time. Where HEAD "
+            "advanced during the sequential job, all training-relevant git blobs are verified "
+            "byte-identical across the recorded commits."
+            if training_blobs is not None
+            else "All run manifests recorded one repository HEAD."
+        ),
         "runs": runs,
         "outcome_access_statement": (
             "All six final adapters verified before any held-out model completion was generated."
@@ -314,17 +353,24 @@ def verify_evaluation_gate(
     if gate.get("protocol_artifact_sha256") != plan["artifact_sha256"]:
         raise RewardTransferError("evaluation gate binds a different protocol")
     expected = {
-        (condition, int(seed))
-        for condition in TRAINED_CONDITIONS
-        for seed in plan["seeds"]
+        (condition, int(seed)) for condition in TRAINED_CONDITIONS for seed in plan["seeds"]
     }
     records = gate.get("runs")
-    if not isinstance(records, list) or {
-        (str(row.get("condition")), int(row.get("seed", -1)))
-        for row in records
-        if isinstance(row, Mapping)
-    } != expected:
+    if (
+        not isinstance(records, list)
+        or {
+            (str(row.get("condition")), int(row.get("seed", -1)))
+            for row in records
+            if isinstance(row, Mapping)
+        }
+        != expected
+    ):
         raise RewardTransferError("evaluation gate does not contain exactly six runs")
+    commits = {str(row.get("git_commit") or "") for row in records}
+    if "" in commits or gate.get("manifest_write_git_commits") != sorted(commits):
+        raise RewardTransferError("evaluation gate manifest-write commits differ")
+    if gate.get("training_relevant_git_blobs") != _training_blob_binding(commits):
+        raise RewardTransferError("evaluation gate training-relevant blob binding differs")
     for row in records:
         condition = str(row["condition"])
         seed = int(row["seed"])
@@ -354,8 +400,10 @@ def _validate_contrast_arrays(
     array = np.asarray(differences, dtype=np.float64)
     family_array = np.asarray(families, dtype=object)
     panel_array = np.asarray(panels, dtype=object)
-    if array.ndim != 2 or array.shape[1] != len(family_array) or len(panel_array) != len(
-        family_array
+    if (
+        array.ndim != 2
+        or array.shape[1] != len(family_array)
+        or len(panel_array) != len(family_array)
     ):
         raise RewardTransferError("contrast arrays have incompatible shapes")
     if array.shape[0] < 1 or not np.isfinite(array).all():
@@ -394,9 +442,7 @@ def crossed_seed_anchor_bootstrap(
 
     if resamples <= 0:
         raise RewardTransferError("bootstrap resamples must be positive")
-    array, family_array, panel_array = _validate_contrast_arrays(
-        differences, families, panels
-    )
+    array, family_array, panel_array = _validate_contrast_arrays(differences, families, panels)
     point = stratified_point_estimate(array.mean(axis=0), families, panels)
     rng = np.random.default_rng(seed)
     draws = np.zeros(resamples, dtype=np.float64)
@@ -430,9 +476,7 @@ def matched_anchor_sign_flip(
 
     if resamples <= 0:
         raise RewardTransferError("sign-flip resamples must be positive")
-    array, family_array, panel_array = _validate_contrast_arrays(
-        differences, families, panels
-    )
+    array, family_array, panel_array = _validate_contrast_arrays(differences, families, panels)
     anchor_differences = array.mean(axis=0)
     observed = stratified_point_estimate(anchor_differences, families, panels)
     weights = np.zeros(len(anchor_differences), dtype=np.float64)
@@ -458,8 +502,10 @@ def verify_scored_run(
     validate_tasks(tasks)
     task_by_id = {str(task["task_id"]): task for task in tasks}
     row_ids = [str(row.get("task_id")) for row in rows]
-    if len(rows) != len(tasks) or len(set(row_ids)) != len(row_ids) or set(row_ids) != set(
-        task_by_id
+    if (
+        len(rows) != len(tasks)
+        or len(set(row_ids)) != len(row_ids)
+        or set(row_ids) != set(task_by_id)
     ):
         raise RewardTransferError("evaluated run does not cover every task exactly once")
     for row in rows:
@@ -521,9 +567,7 @@ def load_verified_evaluation(
         raise RewardTransferError(f"{split} task bytes differ from the evaluation gate")
 
     expected_runs = {("pretrained_base", None)} | {
-        (condition, int(seed))
-        for condition in TRAINED_CONDITIONS
-        for seed in plan["seeds"]
+        (condition, int(seed)) for condition in TRAINED_CONDITIONS for seed in plan["seeds"]
     }
     run_records = master.get("runs")
     if not isinstance(run_records, list) or len(run_records) != len(expected_runs):

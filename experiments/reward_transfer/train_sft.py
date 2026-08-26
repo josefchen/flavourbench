@@ -126,6 +126,7 @@ def _write_manifest(
     seed: int,
     smoke_max_steps: int | None,
     started: float,
+    git_commit: str | None,
     train_metrics: dict[str, Any],
     validation_metrics: dict[str, Any],
 ) -> Path:
@@ -146,7 +147,7 @@ def _write_manifest(
         "condition": condition,
         "seed": seed,
         "base_model": plan["base_model"],
-        "git_commit": _git_commit(),
+        "git_commit": git_commit,
         "duration_seconds": time.time() - started,
         "smoke_max_steps": smoke_max_steps,
         "train_metrics": train_metrics,
@@ -189,6 +190,7 @@ def main() -> None:
     parser.add_argument("--report-to", choices=("trackio", "none"), default="trackio")
     args = parser.parse_args()
     plan = _protocol()
+    git_commit = _git_commit()
     if args.seed not in plan["seeds"]:
         raise TrainingContractError(f"seed is outside the frozen set: {args.seed}")
     if args.smoke_max_steps is not None and args.smoke_max_steps <= 0:
@@ -284,6 +286,7 @@ def main() -> None:
         seed=args.seed,
         smoke_max_steps=args.smoke_max_steps,
         started=started,
+        git_commit=git_commit,
         train_metrics=dict(train_result.metrics),
         validation_metrics=dict(validation_metrics),
     )
