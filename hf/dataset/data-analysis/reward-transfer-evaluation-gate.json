@@ -1,0 +1,101 @@
+{
+  "artifact_sha256": "dce9dab7ffc3a82efbc7ffaacd6ecd3b428354d8cab20611ccf4be117ec3c826",
+  "created_at_utc": "2026-08-26T02:22:10.670324+00:00",
+  "data_audit_artifact_sha256": "783b8e62b837e664a2e17fd55dbce979f5c761b2cd1e51a432a21a5206b88463",
+  "manifest_write_git_commits": [
+    "18fe2d05ae9f19e552066fbf152ca943161a6a7a",
+    "665f995cf85fc2c978ed90462093e0c93880c0f7",
+    "a3142ac3d1430d096ac7b29bfd209f0bcb635fbf"
+  ],
+  "outcome_access_statement": "All six final adapters verified before any held-out model completion was generated.",
+  "protocol_artifact_sha256": "9256abd79a522898da08406d780a7bf1c06fa50cd156ba1381df42d15bc9e7ec",
+  "provenance_note": "The training manifest records repository HEAD at manifest-write time. Where HEAD advanced during the sequential job, all training-relevant git blobs are verified byte-identical across the recorded commits.",
+  "runs": [
+    {
+      "condition": "sft_format_control",
+      "duration_seconds": 1148.5639877319336,
+      "git_commit": "18fe2d05ae9f19e552066fbf152ca943161a6a7a",
+      "run_artifact_sha256": "4ecf4ca6edc6f2e44107b0672425758101dc6c14ea4f9cba4becc77004ddf026",
+      "seed": 20260824,
+      "train_loss": 0.6537353904808269,
+      "validation_loss": 0.515852689743042
+    },
+    {
+      "condition": "sft_format_control",
+      "duration_seconds": 1152.261548280716,
+      "git_commit": "18fe2d05ae9f19e552066fbf152ca943161a6a7a",
+      "run_artifact_sha256": "a9bd4b1c9e9c37b647428c294fb4229476ff0aeaf647ad6fb9cd2c02bef129cf",
+      "seed": 20260825,
+      "train_loss": 0.6424610684899723,
+      "validation_loss": 0.517695963382721
+    },
+    {
+      "condition": "sft_format_control",
+      "duration_seconds": 1152.0316808223724,
+      "git_commit": "18fe2d05ae9f19e552066fbf152ca943161a6a7a",
+      "run_artifact_sha256": "73b0624117c162394ae6f90d37da1ef3742acc2f22e71e28c71a728bf6a00258",
+      "seed": 20260826,
+      "train_loss": 0.6457823538312725,
+      "validation_loss": 0.5177481174468994
+    },
+    {
+      "condition": "sft_epicure_optimum",
+      "duration_seconds": 1151.1690113544464,
+      "git_commit": "18fe2d05ae9f19e552066fbf152ca943161a6a7a",
+      "run_artifact_sha256": "e91e5044f623a78fdf650ed6c095666f83960b514a93e28e0e1c85608390e4c2",
+      "seed": 20260824,
+      "train_loss": 0.5945669038622987,
+      "validation_loss": 0.527619481086731
+    },
+    {
+      "condition": "sft_epicure_optimum",
+      "duration_seconds": 1151.0478775501251,
+      "git_commit": "665f995cf85fc2c978ed90462093e0c93880c0f7",
+      "run_artifact_sha256": "e15d4262c908aa06d37070783cc345349155d642490250b8cc07d8df5bf61a21",
+      "seed": 20260825,
+      "train_loss": 0.5949270853809282,
+      "validation_loss": 0.505683958530426
+    },
+    {
+      "condition": "sft_epicure_optimum",
+      "duration_seconds": 1151.5913605690002,
+      "git_commit": "a3142ac3d1430d096ac7b29bfd209f0bcb635fbf",
+      "run_artifact_sha256": "6b82b3485b07433dd9fa89c265264f620b4b6000c6a8baeba7b1aafbb0d31c2f",
+      "seed": 20260826,
+      "train_loss": 0.6021079678161472,
+      "validation_loss": 0.5014228820800781
+    }
+  ],
+  "schema_version": "flavourbench-reward-transfer-evaluation-gate-v1",
+  "status": "confirmatory_evaluation_unlocked",
+  "task_file_sha256": {
+    "primary": "fc80a57698443c9215fbf2af5ecbbf15b5fc0ea27e44e5b86a3c51356eb1691f",
+    "public": "97d58de483b6a4949b0a185c424c541f6fb1810f0eb774d04e27b11c100f9451"
+  },
+  "training_relevant_git_blobs": [
+    {
+      "path": "experiments/reward_transfer/train_sft.py",
+      "sha256": "1ce803fc0f66565b1158671d9ef29d3895b1d42cb9f9fb6e6966ad33445cbb35"
+    },
+    {
+      "path": "contracts/reward-transfer/reward-transfer-plan-v2.json",
+      "sha256": "4924c121456736e2da9401f5e5d2e903dd50ae8cb8166cc32f49c9d6e0dddeb6"
+    },
+    {
+      "path": "hf/dataset/data-lab/sft_train.jsonl",
+      "sha256": "5f3f77834e91d9e413e28150a5692a47f6b297d868e14ebdc226b3f810cf49cf"
+    },
+    {
+      "path": "hf/dataset/data-lab/sft_validation.jsonl",
+      "sha256": "055bc5c98aa9b9a429b3f126b0b2ffa87a9215d19e56a317b288c3bf1dd2986d"
+    },
+    {
+      "path": "hf/dataset/data-lab/sft_format_control_train.jsonl",
+      "sha256": "b89a5c805e8b32c9f1928e0b63c4bdce277c66025f5b3c4d468588488a833274"
+    },
+    {
+      "path": "hf/dataset/data-lab/sft_format_control_validation.jsonl",
+      "sha256": "d2673fb11d2bdf34dbaaf024e4494c138679f5b991da09d6ce622f182190e4c7"
+    }
+  ]
+}

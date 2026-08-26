@@ -1,0 +1,45 @@
+{
+  "artifact_sha256": "de945d81bb9cae179d54148930342bd57766c86719e74c34459c974cb91fa22c",
+  "chart_contract": {
+    "form": "condition dot plot plus paired-effect forest plot",
+    "non_color_encoding": "diamond base, open control, filled treatment",
+    "question": "Does Epicure SFT outperform format-only SFT on disjoint reward maps?",
+    "score_axis": "zero based",
+    "uncertainty": "prespecified crossed seed-anchor bootstrap"
+  },
+  "files": [
+    {
+      "bytes": 109475,
+      "path": "hf/dataset/assets/complete-core-reward-transfer.png",
+      "sha256": "b75756f9157a42eb4096a415a6ce56167a7ce5e6e34f475a6f5a590d6d2cb853"
+    },
+    {
+      "bytes": 30348,
+      "path": "paper/figures/complete-core/complete-core-reward-transfer.pdf",
+      "sha256": "8ad011ff2f7f8d29cfccd532410dcdee039719aaa67074404912626beff37d31"
+    },
+    {
+      "bytes": 542,
+      "path": "paper/generated/complete-core/complete-core-reward-transfer-family-table.tex",
+      "sha256": "80b3a0faa96a7b82d5237f24ee7867a73e567419c064d8c7afeabeba31f9c5b3"
+    },
+    {
+      "bytes": 1593,
+      "path": "paper/generated/complete-core/complete-core-reward-transfer-macros.tex",
+      "sha256": "54c8c0eacc3dc877caf25ba6403b4fb2fb2d98cefc1ef595771255c133f35c33"
+    },
+    {
+      "bytes": 515,
+      "path": "paper/generated/complete-core/complete-core-reward-transfer-seed-table.tex",
+      "sha256": "b6ed97abcf4b2e718dfb2877c8eeb042d4315579de33522d6f45b9d0b36f1e89"
+    },
+    {
+      "bytes": 425,
+      "path": "paper/generated/complete-core/complete-core-reward-transfer-table.tex",
+      "sha256": "87dfd88de3ef9311c56c7bc2085bea45e4e46b54e1537e51abe48cd702d011f8"
+    }
+  ],
+  "primary_analysis_artifact_sha256": "d6cc841dfe7fe38ab38f46a44f37a76dac4b370618d48c6d995ea6238798c124",
+  "public_analysis_artifact_sha256": "c93c1854fe0991e6c02de96ef1267b206e09e8def5e6832acef6f06d10ed312d",
+  "schema_version": "flavourbench-reward-transfer-paper-assets-v1"
+}

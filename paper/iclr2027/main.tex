@@ -28,7 +28,7 @@
   linkcolor=FBBlue,
   citecolor=FBBlue,
   urlcolor=FBBlue,
-  pdftitle={FlavourBench: Executable Culinary Reward Maps for Language Model Evaluation},
+  pdftitle={FlavourBench: Executable Culinary Reward Maps for Language Model Evaluation and Post-Training},
   pdfauthor={Anonymous Authors},
   pdfsubject={Executable reward maps for evaluating culinary decisions by language models},
   pdfkeywords={language models, executable benchmarks, reward models, culinary reasoning,
@@ -44,8 +44,10 @@
 \input{generated/complete-core-robustness-macros.tex}
 \input{generated/complete-core-public-scorer-macros.tex}
 \input{generated/complete-core-external-substitution-validation-macros.tex}
+\input{generated/complete-core-reward-transfer-macros.tex}
 
-\title{\system{}: Executable Culinary Reward Maps for Language Model Evaluation}
+\title{\system{}: Executable Culinary Reward Maps for Language Model Evaluation\\
+and Post-Training}
 \author{Anonymous Authors}
 
 % Leave \iclrfinalcopy commented for double-blind review.
@@ -63,13 +65,18 @@ endpoints on the same \FBTasks{} substitution, pairing, and constraint tasks, yi
 \FBCompleteCells{} complete model--task observations. Anchor-cluster bootstraps and
 multiplicity-controlled paired tests resolve \FBSignificantPairs{} of \FBPairs{} model contrasts.
 \FBTopModel{} has the largest point estimate (\FBTopScore{}), but the corrected evidence does not
-identify a unique best endpoint. Rankings replicate across two independently compiled panels and
-remain similar under alternative score definitions, task filters, family weights, and three public
-\epicure{} checkpoints. On \FBExternalSubPairs{} mapped Recipe1MSubs substitutions, those public
-checkpoints place the human-observed target at mean within-food-group percentiles of 0.780--0.806,
-with source-clustered intervals above chance. The anonymous release contains prompts, exhaustive
-reward maps, raw responses, route identities, statistical plans, and an offline verifier, together
-with disjoint maps for prospective reward-based training studies.
+identify a unique best endpoint. The ranking replicates across independently compiled panels and
+remains similar under alternative metrics, task filters, family weights, and three public
+\epicure{} checkpoints. We then run a preregistered, three-seed post-training study. LoRA SFT of a
+pinned Qwen3-0.6B checkpoint on 270 \epicure{}-optimal answers improves its score on
+\FBTransferPrimaryTasks{} anchor-disjoint maps by \FBTransferPrimaryGain{} points over a format-
+and label-matched control (95\% CI \FBTransferPrimaryCILow{}--\FBTransferPrimaryCIHigh{},
+$p=\FBTransferPrimaryP{}$), and the effect replicates on all \FBTransferPublicTasks{} public maps.
+The replication gain is \FBTransferPublicGain{} points (95\% CI
+\FBTransferPublicCILow{}--\FBTransferPublicCIHigh{}). On the primary split, both trained arms parse
+every response while the format control does not improve on the base model. The release contains
+prompts, exhaustive reward maps, raw responses, training and
+evaluation manifests, statistical plans, code, and an offline verifier.
 \end{abstract}
 
 \section{Introduction}
@@ -103,8 +110,9 @@ Our contributions are:
   all \FBPairs{} paired contrasts, and score-blind common-core construction;
   \item post-collection tests of panel, task-filter, score-definition, family-weight, and reward-map
   dependence, plus label-independent validation against observed substitutions; and
-  \item a content-addressed release and disjoint training maps that make the evaluator usable as
-  both a benchmark and a prospective dense reward source.
+  \item a preregistered three-seed study showing that \epicure{}-optimal SFT transfers to unseen
+  reward maps beyond answer-format learning, with a public-map replication and content-addressed
+  training evidence.
 \end{enumerate}
 
 \begin{figure}[t]
@@ -400,18 +408,76 @@ substantially. The decomposition is nevertheless useful diagnostically: a lab ca
 model that retrieves plausible substitutes from one that composes coherent bundles or reliably
 respects feasibility constraints.
 
-\section{From evaluation to a training environment}
+\section{Reward transfer beyond format learning}
 \label{sec:training}
 
-For task state $x_t$ and portfolio $a$, the frozen map supplies a bounded deterministic reward
-$r(x_t,a)=s_t(a)$. It can supervise the optimum, induce preference pairs from any two portfolios,
-or support offline and online policy optimization. The release contains a separate lab track with
-270 training maps, 72 validation maps, and 84 predeclared transfer maps. Its anchors are disjoint
-from the 534 leaderboard anchors and from one another; optimizer-facing SFT, DPO, and GRPO views
-exclude transfer rows. A prospective protocol pins one base revision and compares Epicure-optimal
-SFT against a format control with identical prompts, completion lengths, and within-stratum answer-
-label marginals across three seeds. Its single task-paired contrast is fixed before optimization.
-This paper evaluates models; it does not claim transfer to human culinary judgment.
+The exhaustive maps can supervise a policy as well as score one. We test the narrow claim that
+\epicure{} supervision transfers to unseen maps beyond learning the required response syntax. The
+protocol and analysis code were public before optimization outcomes were generated. It pins
+Qwen3-0.6B at one repository revision \citep{yang2025qwen3}, partitions 270 training, 72 validation,
+and 84 primary-transfer tasks by disjoint ingredient anchor, and reserves the 534 leaderboard maps
+for a secondary replication. Candidate sets and prompt hashes are also disjoint across the lab
+splits.
+
+Three seeds receive three epochs of all-linear LoRA SFT \citep{hu2022lora} with rank 16, effective
+batch size 16, learning rate $10^{-4}$, completion-only loss, and the final checkpoint without
+validation-based selection. The treatment completion is each task's \epicure{} optimum. The control
+rotates those same A--H portfolios onto different prompts within family and panel, preserving every
+prompt, row count, completion length, and portfolio-label histogram while preventing accidental
+optima. Greedy decoding and a 64-token limit are fixed for every arm. Unparseable completions remain
+in the score at zero.
+
+The preregistered estimand is the equal-family treatment-minus-control score difference. A
+50,000-draw crossed bootstrap resamples matched training seeds and anchors within the six
+family--panel strata; a two-sided 100,000-draw sign-flip test operates on anchor effects averaged
+over seeds. The protocol defines three points as a practically material gain. There is one primary
+contrast, so it receives no multiplicity adjustment.
+
+\begin{table}[t]
+  \caption{Reward transfer. Scores average three training seeds except the unmodified base.
+  $\Delta$ is Epicure SFT minus format control; the public-map row is a declared secondary
+  replication opened only after the primary analysis was sealed.}
+  \label{tab:transfer}
+  \centering
+  \scriptsize
+  \resizebox{\linewidth}{!}{\input{generated/complete-core-reward-transfer-table.tex}}
+\end{table}
+
+On the \FBTransferPrimaryTasks{} anchor-disjoint tasks, \epicure{} SFT scores
+\FBTransferPrimaryTreatment{} versus \FBTransferPrimaryControl{} for the format control, a
+\FBTransferPrimaryGain{}-point gain (95\% CI
+\FBTransferPrimaryCILow{}--\FBTransferPrimaryCIHigh{}, $p=\FBTransferPrimaryP{}$). All three
+primary seed effects are positive. Both trained arms parse \FBTransferPrimaryControlParse{}\% of responses;
+the base parses \FBTransferPrimaryBaseParse{}\%. Format training alone changes the base score by
+only \FBTransferPrimaryControlBaseGain{} points (95\% CI
+\FBTransferPrimaryControlBaseCILow{}--\FBTransferPrimaryControlBaseCIHigh{},
+$p=\FBTransferPrimaryControlBaseP{}$). The public-map replication yields a
+\FBTransferPublicGain{}-point effect (95\% CI
+\FBTransferPublicCILow{}--\FBTransferPublicCIHigh{}, $p=\FBTransferPublicP{}$;
+\cref{fig:transfer}); all three replication seed effects are positive. Appendix~\ref{app:transfer}
+reports every seed and the descriptive family decomposition.
+
+The control is empirically consequential. On the public maps it improves on the base by
+\FBTransferPublicControlBaseGain{} points (95\% CI
+\FBTransferPublicControlBaseCILow{}--\FBTransferPublicControlBaseCIHigh{},
+$p=\FBTransferPublicControlBaseP{}$), consistent with removing parse failures. A treatment--base
+comparison would fold that syntax gain into the reward effect. Treatment--control differences are
+positive in all six evaluation-by-family cells and largest for constraints in both evaluations;
+these family rows are descriptive rather than separately tested.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/complete-core-reward-transfer.pdf}
+  \caption{Held-out scores and matched treatment effects. Small points are training seeds;
+  connecting lines pair the control and treatment initialized with the same seed. The right panel
+  reports the prespecified crossed-bootstrap interval. The dashed line marks the three-point
+  practical threshold, not a null hypothesis.}
+  \label{fig:transfer}
+\end{figure}
+
+These results isolate learning of this released reward function from answer-format learning. They
+do not establish human preference, cooked-food quality, general capability, reinforcement-learning
+improvement, or transfer outside the culinary environment.
 
 \section{Related work}
 
@@ -423,6 +489,10 @@ validity claims \citep{reuel2024betterbench}. Executable benchmarks replace pref
 with observable outcomes: SWE-bench runs repository tests \citep{jimenez2023swebench}, BFCL checks
 function calls \citep{patil2025bfcl}, and $\tau$-bench inspects database state
 \citep{yao2024taubench}. \system{} applies the same principle to a dense domain reward surface.
+RewardBench instead evaluates learned reward models on chosen--rejected pairs
+\citep{lambert2024rewardbench}. Our reward source is a versioned program rather than a learned
+preference model, and the transfer experiment tests whether its supervision changes unseen-task
+decisions after controlling for answer syntax.
 
 Culinary resources cover ingredient networks, recipes, substitutions, planning, nutrition, and
 food knowledge \citep{ahn2011flavor,garg2018flavordb,salvador2017recipe1m,
@@ -443,16 +513,20 @@ safety advice, embodied cooking, or long-horizon kitchen planning.
 The complete-core rule removes model-specific missingness but changes the estimand to tasks every
 endpoint completed; roster sensitivity cannot rule out unrecorded selection effects. Results bind
 specific model versions, providers, routes, and collection dates. The dense maps make reward-based
-learning possible, but transfer remains a prospective experiment.
+learning possible, but the transfer evidence comes from LoRA SFT of one 0.6B checkpoint over three
+seeds. It does not compare training algorithms or model scales. The public replication reuses the
+same trained adapters on new maps and therefore strengthens task transfer, not independent training
+replication.
 
 \section{Conclusion}
 
 \system{} evaluates open-ended culinary decisions without asking one language model to grade
 another. Exhaustive reward maps make partial credit deterministic; a rectangular common-task
 design makes comparisons paired; simultaneous intervals and corrected tests distinguish broad
-performance differences from an unsupported winner narrative. The public artifacts reconstruct
-every reported score, contrast, table, and figure and expose the same environment as a prospective
-training signal.
+performance differences from an unsupported winner narrative. In a controlled post-training
+study, supervision from those maps changes decisions on unseen anchors beyond what format-matched
+SFT explains. The public artifacts reconstruct every reported score, contrast, training run, table,
+and figure.
 
 \clearpage
 \subsection*{AI use statement}
@@ -478,9 +552,10 @@ private communications are excluded from the release.
 The anonymous supplement contains the exact task maps, model and route manifest, raw selected
 responses, completion records, frozen analysis plans, public-checkpoint score maps, aggregate
 external-validation artifact, deterministic asset builders, and an offline verifier. It also
-contains the commands and environment contract needed to reconstruct the leaderboard, statistical
-tables, and vector figures without provider access. Appendices report execution routes, protocol
-constants, per-family scores, and robustness analyses.
+contains the reward-transfer protocol, training data, raw held-out generations, run manifests,
+analysis code, commands, and environment contract needed to reconstruct the leaderboard,
+statistical tables, and vector figures without provider access. Appendices report execution routes,
+protocol constants, per-family scores, and robustness analyses.
 
 \bibliography{references}
 \bibliographystyle{iclr2027_conference}
@@ -592,6 +667,48 @@ constants, per-family scores, and robustness analyses.
   \caption{Observed Recipe1MSubs targets ranked against same-food-group alternatives. Filled
   points use all mapped test pairs; open points retain only pairs absent from the training split.}
 \end{figure}
+
+\section{Reward-transfer protocol and diagnostics}
+\label{app:transfer}
+
+\begin{table}[h]
+  \caption{Frozen reward-transfer protocol. Validation loss is monitored but never selects a
+  checkpoint.}
+  \centering
+  \small
+  \begin{tabular}{@{}l l@{}}
+    \toprule
+    Component & Frozen value \\
+    \midrule
+    Base & Qwen3-0.6B, revision \texttt{c1899de289a04d1}\ldots \\
+    Conditions & unmodified base; format-control SFT; Epicure-optimum SFT \\
+    Train / validation / transfer & 270 / 72 / 84 anchor-disjoint tasks \\
+    Training seeds & 20260824, 20260825, 20260826 \\
+    LoRA & rank 16; alpha 32; dropout .05; all linear layers \\
+    Optimization & 3 epochs; AdamW; LR $10^{-4}$; effective batch 16 \\
+    Checkpoint rule & final adapter only; no validation selection \\
+    Decoding & greedy; thinking disabled; 64 new tokens \\
+    Primary score & equal family and panel; unparseable responses score zero \\
+    Inference & 50,000 crossed bootstraps; 100,000 anchor sign flips \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[h]
+  \caption{Descriptive reward-transfer scores by task family. $\Delta$ is Epicure SFT minus
+  format control; these family rows were not separate confirmatory hypotheses.}
+  \centering
+  \small
+  \input{generated/complete-core-reward-transfer-family-table.tex}
+\end{table}
+
+\begin{table}[h]
+  \caption{Matched training-seed scores. Each $\Delta$ compares adapters initialized with the
+  same seed.}
+  \centering
+  \small
+  \input{generated/complete-core-reward-transfer-seed-table.tex}
+\end{table}
 
 \section{Panel, task-count, pairwise, and family diagnostics}
 

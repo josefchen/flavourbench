@@ -18,6 +18,7 @@ tags:
 - test:public
 - reproducibility
 - culinary
+- post-training
 ---
 
 # FlavourBench
@@ -31,6 +32,7 @@ The Space is both the public scorebook and a working benchmark interface:
 
 - **Leaders** ranks all 27 endpoints with simultaneous intervals and statistical groups.
 - **Insights** shows score bands, pairwise resolution, and task-family fingerprints.
+- **Transfer** reports the controlled, three-seed Epicure supervision study and its public replication.
 - **Profiles** breaks each score into substitution, pairing, and constraint performance.
 - **Inspect** opens the exact prompt, answer, 56-choice score map, route, and content hashes.
 - **Run your model** builds a copyable endpoint or local-checkpoint command, demonstrates one dense
@@ -49,7 +51,17 @@ observed in recipe-user comments. Across 1,469 unique mapped pairs, the observed
 the 0.780--0.806 equal-source percentile among same-food-group alternatives; every
 source-clustered interval clears the 0.5 chance level after Holm correction. Because Recipe1M is
 upstream of part of Epicure's corpus, this is label-independent validation of substitution
-geometry—not validation of the primary runtime, the full benchmark reward, or cooked outcomes.
+geometry, not validation of the primary runtime, the full benchmark reward, or cooked outcomes.
+
+The completed [reward-transfer study](https://github.com/josefchen/flavourbench/blob/main/docs/reward-transfer-study.md)
+compares Epicure-optimum SFT with a prompt- and format-matched control over three seeds. On 84
+predeclared, anchor-disjoint maps, Epicure SFT gains 13.30 points over control (95% CI 6.52 to
+20.29; two-sided sign-flip p = 0.000170). The same adapters gain 11.73 points on the 534 public
+maps (95% CI 8.98 to 14.54; p = 0.000010). Every generation, training manifest, evaluation
+manifest, and analysis artifact is released in the linked dataset.
+
+This establishes transfer to unseen Epicure maps beyond output-format learning. It does not test
+human taste, general model quality, or reinforcement-learning improvement.
 
 ## Run from your own environment
 
@@ -101,9 +113,12 @@ Use **Use via API** in the running Space for generated Python, JavaScript, and c
 high-throughput RL, use the local deterministic reward function. The linked dataset includes
 ready-to-load SFT, DPO, and GRPO views plus runnable LoRA recipes for Hugging Face Jobs.
 
-The [prospective reward-transfer protocol](https://github.com/josefchen/flavourbench/blob/main/docs/reward-transfer-study.md)
-defines the 84-task transfer split and one prompt- and label-matched Epicure-SFT contrast across
-three seeds.
+The local verifier reconstructs all 4,326 released reward-transfer generations and both inferential
+contrasts:
+
+```bash
+python experiments/reward_transfer/verify_release.py
+```
 
 [Dataset and lab kit](https://huggingface.co/datasets/josefchen/flavourbench)&nbsp;&nbsp;&nbsp;
 [Paper](https://arxiv.org/abs/2608.20574)&nbsp;&nbsp;&nbsp;
@@ -114,7 +129,7 @@ Erim Hayretci, Imperial College London
 
 ```bibtex
 @article{chen2026flavourbench,
-  title  = {FlavourBench: Ranking Frontier Language Models in an Executable Culinary Environment},
+  title  = {FlavourBench: Executable Culinary Reward Maps for Language Model Evaluation and Post-Training},
   author = {Chen, Josef and Hayretci, Erim},
   journal = {arXiv preprint arXiv:2608.20574},
   year   = {2026},

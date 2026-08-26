@@ -1,8 +1,9 @@
 # Epicure reward-transfer study
 
-This confirmatory study asks whether Epicure supervision teaches a model anything beyond the
-required answer syntax. It compares reward SFT with a format-matched control on ingredient anchors
-that appear in neither training nor validation.
+This completed confirmatory study asks whether Epicure supervision teaches a model anything beyond
+the required answer syntax. It compares reward SFT with a format-matched control on ingredient
+anchors that appear in neither training nor validation, then replicates the comparison on the 534
+public benchmark maps.
 
 The protocol was frozen before generating any transfer outcome. The machine-readable contract is
 [`reward-transfer-plan-v2.json`](../contracts/reward-transfer/reward-transfer-plan-v2.json), with
@@ -87,12 +88,37 @@ seed is derived from the protocol hash and a fixed analysis label rather than se
 an outcome. Public-map generation refuses to start until a content-addressed primary analysis
 exists. The analyzer reparses and rescores every raw completion before inference.
 
+## Results
+
+On the 84 predeclared transfer tasks, the unmodified base scores 29.99, format-control SFT scores
+30.90, and Epicure-optimum SFT scores 44.20. The preregistered treatment-minus-control effect is
++13.30 points (95% CI 6.52 to 20.29; two-sided sign-flip $p=0.000170$). The three matched-seed
+effects are +12.86, +13.34, and +13.70 points. Both trained conditions parse every response; the
+format control differs from the base by +0.90 points (95% CI -4.91 to 6.85; $p=0.790$).
+
+The secondary replication covers all 534 public maps. The base scores 28.56, format-control SFT
+31.60, and Epicure-optimum SFT 43.33. The treatment effect is +11.73 points (95% CI 8.98 to 14.54;
+$p=0.000010$), with matched-seed effects of +12.69, +11.30, and +11.20. Treatment-minus-control is
+positive in substitution, pairing, and constraint tasks on both evaluations.
+
+The primary effect is statistically positive, exceeds the preregistered three-point practical
+threshold, and replicates on a six-times-larger task set. The content-addressed analysis hashes are
+`d6cc841dfe7fe38ab38f46a44f37a76dac4b370618d48c6d995ea6238798c124` (primary) and
+`c93c1854fe0991e6c02de96ef1267b206e09e8def5e6832acef6f06d10ed312d` (public).
+
+Reconstruct the released rows, intervals, and tests without model weights or provider access:
+
+```bash
+python experiments/reward_transfer/release_results.py --check
+python experiments/reward_transfer/verify_release.py
+```
+
 ## Claim boundary
 
-A positive result would show that Epicure-aligned supervision transfers to unseen Epicure maps
-beyond answer-format training. It would not establish better human taste, cooked-food quality,
-general language-model ability, or reinforcement-learning improvement. DPO and GRPO remain
-runnable lab recipes, but they are not part of this single powered confirmatory contrast.
+The result shows that Epicure-aligned supervision transfers to unseen Epicure maps beyond
+answer-format training. It does not establish better human taste, cooked-food quality, general
+language-model ability, or reinforcement-learning improvement. DPO and GRPO remain runnable lab
+recipes, but they are not part of this single powered confirmatory contrast.
 
 The earlier v1 plan compared six trained conditions only with their unmodified bases. It was
 superseded before training because those contrasts did not isolate format learning. Its hash remains

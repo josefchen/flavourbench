@@ -16,7 +16,7 @@ pdf:
 	$(LATEXMK) -g -pdf -interaction=nonstopmode -halt-on-error -file-line-error main.tex
 
 verify: pdf
-	test "$$(pdfinfo main.pdf | awk '/^Pages:/ {print $$2}')" -eq 19
+	test "$$(pdfinfo main.pdf | awk '/^Pages:/ {print $$2}')" -eq 21
 	test "$$(pdfinfo main.pdf | awk -F': +' '/^Page size:/ {print $$2}')" = '612 x 792 pts (letter)'
 	! grep -E -i 'Overfull \\hbox|Overfull \\vbox|undefined references|Citation .* undefined' main.log
 	pdffonts main.pdf | awk 'NR > 2 && $$(NF-4) != "yes" {exit 1}'

@@ -5,7 +5,7 @@ abstract deadline.
 
 ## Title
 
-FlavourBench: Executable Culinary Reward Maps for Language Model Evaluation
+FlavourBench: Executable Culinary Reward Maps for Language Model Evaluation and Post-Training
 
 ## Authors and affiliations
 
@@ -24,18 +24,21 @@ candidates; before inference, Epicure scores all 56 portfolios. We evaluate 27 f
 on the same 534 substitution, pairing, and constraint tasks, yielding 14,418 complete model-task
 observations. Anchor-cluster bootstraps and multiplicity-controlled paired tests resolve 101 of 351
 model contrasts. Grok 4.6 has the largest point estimate (65.1), but the corrected evidence does
-not identify a unique best endpoint. Rankings replicate across two independently compiled panels
-and remain similar under alternative score definitions, task filters, family weights, and three
-public Epicure checkpoints. On 1,469 mapped Recipe1MSubs substitutions, those public checkpoints
-place the human-observed target at mean within-food-group percentiles of 0.780 to 0.806, with
-source-clustered intervals above chance. The anonymous release contains prompts, exhaustive reward
-maps, raw responses, route identities, statistical plans, and an offline verifier, together with
-disjoint maps for prospective reward-based training studies.
+not identify a unique best endpoint. The ranking replicates across independently compiled panels
+and remains similar under alternative metrics, task filters, family weights, and three public
+Epicure checkpoints. We then run a preregistered, three-seed post-training study. LoRA SFT of a
+pinned Qwen3-0.6B checkpoint on 270 Epicure-optimal answers improves its score on 84
+anchor-disjoint maps by 13.30 points over a format- and label-matched control (95% CI 6.52 to
+20.29, p = 0.000170), and the effect replicates on all 534 public maps. The replication gain is
+11.73 points (95% CI 8.98 to 14.54). On the primary split, both trained arms parse every response
+while the format control does not improve on the base model. The release contains prompts,
+exhaustive reward maps, raw responses, training and evaluation manifests, statistical plans, code,
+and an offline verifier.
 
 ## Suggested keywords
 
-language model evaluation; executable benchmarks; reward maps; culinary reasoning; uncertainty
-quantification; reinforcement learning environments; reproducibility
+language model evaluation; executable benchmarks; reward maps; culinary reasoning; post-training;
+uncertainty quantification; reproducibility
 
 ## Suggested subject areas
 

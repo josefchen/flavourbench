@@ -37,6 +37,7 @@ PUBLIC_SOURCE_FILES := \
 	paper/build_complete_core_assets.py \
 	paper/build_external_substitution_validation_assets.py \
 	paper/build_public_scorer_sensitivity_assets.py \
+	paper/build_reward_transfer_assets.py \
 	paper/build_powered_selection_assets.py \
 	paper/build_selection_robustness_assets.py \
 	paper/build_stability_assets.py \
@@ -69,13 +70,14 @@ PUBLIC_SOURCE_FILES := \
 	experiments/reward_transfer/evaluate.py \
 	experiments/reward_transfer/analyze.py \
 	experiments/reward_transfer/release_results.py \
+	experiments/reward_transfer/verify_release.py \
 	experiments/reward_transfer/train_sft.py
 
 PUBLIC_LINT_FILES := $(PUBLIC_SOURCE_FILES) scripts/scan_public_release.py $(PUBLIC_TEST_FILES)
 
-.PHONY: ci format lab-data lint reward-transfer-audit scan test verify-artifacts verify-python verify-release
+.PHONY: ci format lab-data lint reward-transfer-audit reward-transfer-release scan space-data test verify-artifacts verify-python verify-release
 
-ci: verify-release test verify-python lab-data reward-transfer-audit verify-artifacts lint scan
+ci: verify-release test verify-python lab-data reward-transfer-audit reward-transfer-release space-data verify-artifacts lint scan
 
 verify-release:
 	test -n "$(RELEASE)"
@@ -94,6 +96,13 @@ lab-data:
 
 reward-transfer-audit:
 	$(PYTHON) experiments/reward_transfer/audit_data.py >/dev/null
+
+reward-transfer-release:
+	$(PYTHON) experiments/reward_transfer/release_results.py --check
+	$(PYTHON) experiments/reward_transfer/verify_release.py >/dev/null
+
+space-data:
+	$(PYTHON) hf/space/build_complete_core_space_bundle.py --check
 
 verify-artifacts:
 	(cd paper/build && sha256sum --check ARTIFACTS.sha256)

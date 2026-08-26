@@ -40,6 +40,20 @@ DATASET_RESULTS_URL = (
 SUBMISSION_GUIDE_URL = (
     "https://github.com/josefchen/flavourbench/blob/main/docs/submitting-results.md"
 )
+REWARD_TRANSFER_PROTOCOL_URL = (
+    "https://github.com/josefchen/flavourbench/blob/main/docs/reward-transfer-study.md"
+)
+REWARD_TRANSFER_DATA_URL = (
+    "https://huggingface.co/datasets/josefchen/flavourbench/tree/main/data-analysis"
+)
+REWARD_TRANSFER_VERIFY_URL = (
+    "https://github.com/josefchen/flavourbench/blob/main/"
+    "experiments/reward_transfer/verify_release.py"
+)
+REWARD_TRANSFER_FIGURE_URL = (
+    "https://huggingface.co/datasets/josefchen/flavourbench/resolve/main/"
+    "assets/complete-core-reward-transfer.png"
+)
 SUBMIT_RESULT_URL = (
     "https://github.com/josefchen/flavourbench/issues/new?template=flavourbench-result.yml"
 )
@@ -782,6 +796,90 @@ body, .gradio-container {
   margin-top: 6px;
 }
 .fb-resolution-note { color: var(--fb-muted); font-size: 13px; line-height: 1.52; margin: 18px 0 0; }
+.fb-transfer-layout {
+  align-items: start;
+  display: grid;
+  gap: clamp(34px, 6vw, 88px);
+  grid-template-columns: minmax(260px, .58fr) minmax(600px, 1.42fr);
+  margin-top: 10px;
+}
+.fb-transfer-layout > * { min-width: 0; }
+.fb-transfer-primary strong {
+  color: var(--fb-accent);
+  display: block;
+  font-size: clamp(58px, 7vw, 92px);
+  font-weight: 900;
+  letter-spacing: -.07em;
+  line-height: .9;
+}
+.fb-transfer-primary > span {
+  color: var(--fb-ink);
+  display: block;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-top: 12px;
+  max-width: 24ch;
+}
+.fb-transfer-primary p {
+  color: var(--fb-muted);
+  font-size: 13px;
+  line-height: 1.52;
+  margin: 12px 0 0;
+  max-width: 35ch;
+}
+.fb-transfer-facts {
+  border-top: 1px solid var(--fb-rule);
+  display: grid;
+  gap: 20px 28px;
+  grid-template-columns: repeat(4, 1fr);
+  margin-top: 24px;
+  padding-top: 18px;
+}
+.fb-transfer-fact strong {
+  color: var(--fb-ink);
+  display: block;
+  font-size: 19px;
+  font-weight: 900;
+}
+.fb-transfer-fact span {
+  color: var(--fb-muted);
+  display: block;
+  font-family: "DejaVu Sans Mono", ui-monospace, monospace;
+  font-size: 9px;
+  line-height: 1.45;
+  margin-top: 5px;
+  text-transform: uppercase;
+}
+.fb-table.fb-transfer-table { font-size: 11px; min-width: 640px; }
+.fb-transfer-table th,
+.fb-transfer-table td { padding-right: 8px; }
+.fb-transfer-table td:last-child { color: var(--fb-accent); font-weight: 700; }
+.fb-transfer-figure { margin: 38px 0 0; }
+.fb-transfer-figure img {
+  display: block;
+  height: auto;
+  max-width: 1120px;
+  width: 100%;
+}
+.fb-transfer-figure figcaption {
+  color: var(--fb-muted);
+  font-size: 12px;
+  line-height: 1.5;
+  margin-top: 10px;
+  max-width: 84ch;
+}
+.fb-transfer-boundary {
+  border-top: 1px solid var(--fb-rule);
+  display: grid;
+  gap: clamp(30px, 6vw, 90px);
+  grid-template-columns: 1fr 1fr;
+  margin-top: 34px;
+  padding-top: 22px;
+}
+.fb-transfer-boundary h3 { color: var(--fb-ink); font-size: 19px; margin: 0 0 6px; }
+.fb-transfer-boundary p { color: var(--fb-muted); font-size: 13px; line-height: 1.55; margin: 0; }
+.fb-transfer-links { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-top: 22px; }
 .fb-family-insight { margin-top: 42px; }
 .fb-family-insight h3 { color: var(--fb-ink); font-size: 22px; margin: 0 0 4px; }
 .fb-family-insight > p { color: var(--fb-muted); font-size: 13px; margin: 0 0 14px; }
@@ -984,6 +1082,8 @@ pre, code { border-radius: 0 !important; }
   .fb-method { grid-template-columns: 1fr; }
   .fb-method-visual { grid-template-columns: minmax(300px, .85fr) minmax(390px, 1.15fr); }
   .fb-insight-layout { grid-template-columns: 1fr; }
+  .fb-transfer-layout { grid-template-columns: 1fr; }
+  .fb-transfer-primary p { max-width: 62ch; }
   .fb-resolution { display: grid; grid-template-columns: repeat(3, 1fr); }
   .fb-resolution-row { padding-right: 18px; }
   .fb-resolution-row + .fb-resolution-row { padding-left: 18px; }
@@ -1051,6 +1151,8 @@ pre, code { border-radius: 0 !important; }
   .fb-family-mini-axis { display: none; }
   .fb-family-long { display: none; }
   .fb-family-short { display: inline; }
+  .fb-transfer-facts { grid-template-columns: repeat(2, 1fr); }
+  .fb-transfer-boundary { grid-template-columns: 1fr; }
   .fb-ci-axis-labels span:nth-child(2) { display: none; }
   .fb-metric-grid { grid-template-columns: repeat(2, 1fr); }
   .fb-metric:nth-child(3n+2), .fb-metric:nth-child(3n+3) { padding-left: 0; }
@@ -1141,6 +1243,7 @@ TASKS = BUNDLE["tasks"]
 LAB_TASKS = BUNDLE.get("lab_tasks", [])
 PAIRWISE = BUNDLE["pairwise_comparisons"]
 STABILITY = BUNDLE["stability_analysis"]
+REWARD_TRANSFER = BUNDLE.get("reward_transfer")
 MODEL_COUNT = len(MODELS)
 TASK_COUNT = len(TASKS)
 PAIR_COUNT = len(PAIRWISE)
@@ -1668,7 +1771,7 @@ def _insights_html() -> str:
             "<tr>"
             f"<td>{int(row['tasks'])}</td>"
             f"<td>{float(rank['median']):.3f}</td>"
-            f"<td>{float(rank['p2_5']):.3f}–{float(rank['p97_5']):.3f}</td>"
+            f"<td>{float(rank['p2_5']):.3f} to {float(rank['p97_5']):.3f}</td>"
             f"<td>{float(top_five['median']) * 100:.0f}%</td>"
             f"<td>{float(leader['mean']) * 100:.1f}%</td>"
             "</tr>"
@@ -1732,6 +1835,105 @@ def _insights_html() -> str:
         </table>
       </div>
     </section>
+    """
+
+
+def _reward_transfer_html() -> str:
+    if not isinstance(REWARD_TRANSFER, dict) or REWARD_TRANSFER.get("status") != "complete":
+        return """
+        <p class="fb-resolution-note">The verified reward-transfer release is not present in this
+        local Space bundle. Rebuild the bundle from the released analysis artifacts.</p>
+        """
+    primary = REWARD_TRANSFER["primary"]
+    replication = REWARD_TRANSFER["public_replication"]
+    base_model = REWARD_TRANSFER["base_model"]
+
+    def score(block: dict[str, Any], condition: str) -> float:
+        return float(block["scores"][condition])
+
+    primary_low, primary_high = (float(value) for value in primary["confidence_interval_95"])
+    replication_low, replication_high = (
+        float(value) for value in replication["confidence_interval_95"]
+    )
+    release_id = html.escape(str(REWARD_TRANSFER["release_artifact_sha256"]))
+    model_id = html.escape(str(base_model["id"]))
+    revision = html.escape(str(base_model["revision"])[:12])
+    figure_record = REWARD_TRANSFER.get("figure")
+    figure_url = REWARD_TRANSFER_FIGURE_URL
+    if isinstance(figure_record, dict) and str(figure_record.get("data_url", "")).startswith(
+        "data:image/png;base64,"
+    ):
+        figure_url = str(figure_record["data_url"])
+    figure_url = html.escape(figure_url, quote=True)
+    return f"""
+    <div class="fb-transfer-layout">
+      <section class="fb-transfer-primary">
+        <strong>+{float(primary["effect_points"]):.2f}</strong>
+        <span>points beyond format-matched supervision</span>
+        <p>Primary estimate on {int(primary["tasks"])} predeclared, anchor-disjoint maps.
+        The 95% interval is {primary_low:.2f} to {primary_high:.2f}; the matched sign-flip
+        p-value is {float(primary["two_sided_sign_flip_p"]):.6f}.</p>
+      </section>
+      <section>
+        <div class="fb-table-wrap">
+          <table class="fb-table fb-transfer-table">
+            <caption>Controlled reward-transfer scores</caption>
+            <thead><tr>
+              <th scope="col">Evaluation split</th>
+              <th scope="col">Base</th>
+              <th scope="col">Format control</th>
+              <th scope="col">Epicure SFT</th>
+              <th scope="col">Treatment effect, 95% CI</th>
+            </tr></thead>
+            <tbody>
+              <tr>
+                <td>Unseen primary ({int(primary["tasks"])})</td>
+                <td>{score(primary, "pretrained_base"):.2f}</td>
+                <td>{score(primary, "sft_format_control"):.2f}</td>
+                <td>{score(primary, "sft_epicure_optimum"):.2f}</td>
+                <td>+{float(primary["effect_points"]):.2f} [{primary_low:.2f}, {primary_high:.2f}]</td>
+              </tr>
+              <tr>
+                <td>Public replication ({int(replication["tasks"])})</td>
+                <td>{score(replication, "pretrained_base"):.2f}</td>
+                <td>{score(replication, "sft_format_control"):.2f}</td>
+                <td>{score(replication, "sft_epicure_optimum"):.2f}</td>
+                <td>+{float(replication["effect_points"]):.2f} [{replication_low:.2f}, {replication_high:.2f}]</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="fb-transfer-facts">
+          <div class="fb-transfer-fact"><strong>{len(REWARD_TRANSFER["training_seeds"])}</strong><span>matched seeds</span></div>
+          <div class="fb-transfer-fact"><strong>{int(REWARD_TRANSFER["training_tasks"])}</strong><span>training maps</span></div>
+          <div class="fb-transfer-fact"><strong>{int(REWARD_TRANSFER["validation_tasks"])}</strong><span>validation maps</span></div>
+          <div class="fb-transfer-fact"><strong>{int(REWARD_TRANSFER["response_rows"]):,}</strong><span>released generations</span></div>
+        </div>
+      </section>
+    </div>
+    <figure class="fb-transfer-figure">
+      <img src="{figure_url}" loading="lazy" alt="Scores for the base, format-control SFT, and Epicure-optimum SFT conditions on the unseen primary split and public replication split, with confidence intervals for the treatment effect.">
+      <figcaption>One pinned {model_id} checkpoint ({revision}) and the same three training seeds in both SFT conditions. The control sees the same prompts and output format; only the target portfolios differ.</figcaption>
+    </figure>
+    <div class="fb-transfer-boundary">
+      <section>
+        <h3>What this result establishes</h3>
+        <p>Epicure-optimal supervision increases agreement with unseen Epicure reward maps beyond
+        format-matched supervision. Every matched-seed effect is positive, and the result repeats
+        on all {int(replication["tasks"])} public maps.</p>
+      </section>
+      <section>
+        <h3>Where the claim stops</h3>
+        <p>This is controlled SFT transfer within the Epicure construct. It does not establish
+        human taste, general model quality, or reinforcement-learning improvement.</p>
+      </section>
+    </div>
+    <div class="fb-transfer-links">
+      <a class="fb-text-link" href="{REWARD_TRANSFER_PROTOCOL_URL}" target="_blank" rel="noreferrer">Read the protocol and result</a>
+      <a class="fb-text-link" href="{REWARD_TRANSFER_DATA_URL}" target="_blank" rel="noreferrer">Open all released generations</a>
+      <a class="fb-text-link" href="{REWARD_TRANSFER_VERIFY_URL}" target="_blank" rel="noreferrer">Inspect the offline verifier</a>
+      <span class="fb-hash">release {release_id}</span>
+    </div>
     """
 
 
@@ -2012,7 +2214,7 @@ def _reward_preview(task_label: str, completion: str) -> str:
     selection = html.escape(str(result.get("selection") or result.get("observed_selection") or ""))
     return f"""
     <div class="fb-evidence">
-      <strong>Reward {float(result["reward"]):.4f}</strong> · score {float(result["score"]):.2f} · selection <code>{selection}</code><br>
+      <strong>Reward {float(result["reward"]):.4f}</strong>, score {float(result["score"]):.2f}, selection <code>{selection}</code><br>
       This map belongs to the anchor-disjoint development track. It cannot alter the public leaderboard.
     </div>
     """
@@ -2170,6 +2372,17 @@ with gr.Blocks(title="FlavourBench | Which AI knows food best?") as demo:
                 """
             )
             gr.HTML(_insights_html())
+
+        with gr.Tab("Transfer"):
+            gr.HTML(
+                """
+                <div class="fb-section">
+                  <h2>Can the benchmark teach a model?</h2>
+                  <p>A preregistered, three-seed SFT study isolates Epicure supervision from output-format learning, then tests the same adapters on unseen reward maps.</p>
+                </div>
+                """
+            )
+            gr.HTML(_reward_transfer_html())
 
         with gr.Tab("Profiles"):
             gr.HTML(

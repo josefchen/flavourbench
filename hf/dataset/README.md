@@ -1,5 +1,5 @@
 ---
-pretty_name: "FlavourBench: Executable Culinary Benchmark"
+pretty_name: "FlavourBench: Executable Culinary Reward Maps"
 license: other
 language:
 - en
@@ -13,6 +13,7 @@ tags:
 - reproducibility
 - frontier-models
 - executable-benchmark
+- post-training
 size_categories:
 - 10K<n<100K
 spaces:
@@ -70,6 +71,22 @@ configs:
   data_files:
   - split: analysis
     path: data-analysis/complete-core-external-substitution-validation.csv
+- config_name: reward_transfer_primary_responses
+  data_files:
+  - split: test
+    path: data-analysis/reward-transfer-primary-responses.jsonl
+- config_name: reward_transfer_public_responses
+  data_files:
+  - split: test
+    path: data-analysis/reward-transfer-public-responses.jsonl
+- config_name: reward_transfer_training_manifests
+  data_files:
+  - split: train
+    path: data-analysis/reward-transfer-training-manifests.jsonl
+- config_name: reward_transfer_evaluation_manifests
+  data_files:
+  - split: analysis
+    path: data-analysis/reward-transfer-evaluation-manifests.jsonl
 - config_name: lab_tasks
   data_files:
   - split: train
@@ -223,9 +240,19 @@ work locally or as Hugging Face Jobs. Each pushes the trained adapter to the mod
 account and records metrics with Trackio. GRPO computes rewards locally, so a rollout does not need
 one Space request per sample.
 
-The [prospective reward-transfer protocol](https://github.com/josefchen/flavourbench/blob/main/docs/reward-transfer-study.md)
-freezes one primary comparison between Epicure-optimal SFT and a format-matched control, three
-training seeds, a pinned base revision, and the held-out inference rules before training begins.
+The completed [reward-transfer study](https://github.com/josefchen/flavourbench/blob/main/docs/reward-transfer-study.md)
+uses that frozen protocol to compare Epicure-optimal SFT with a prompt-, format-, and label-matched
+control over three seeds. On 84 anchor-disjoint tasks, Epicure SFT gains 13.30 points over control
+(95% CI 6.52 to 20.29); the same adapters gain 11.73 points on the 534 public maps (95% CI 8.98 to
+14.54). All six matched-seed effects are positive.
+
+![Controlled reward transfer on unseen maps](./assets/complete-core-reward-transfer.png)
+
+The control improves on the base by 3.05 points on the public maps, so the treatment-to-control
+contrast is essential: it removes response-format gains from the reward-learning estimate. The
+result establishes transfer to unseen Epicure maps for one 0.6B checkpoint under LoRA SFT. It does
+not establish human preference, general capability, reinforcement-learning improvement, or
+transfer across model scales.
 
 ## What the score means
 
@@ -314,6 +341,10 @@ redistributed.
 | `public_scorer_task_agreement` | 1,602 | Task-level agreement between primary and public reward maps |
 | `public_scorer_leaderboard` | 81 | Model scores and ranks under three public reward maps |
 | `external_substitution_validation` | 3 | Aggregate held-out substitution results for the public checkpoints |
+| `reward_transfer_primary_responses` | 588 | Seven runs on 84 anchor-disjoint transfer maps |
+| `reward_transfer_public_responses` | 3,738 | The same seven conditions on 534 public maps |
+| `reward_transfer_training_manifests` | 6 | Three treatment and three matched-control training runs |
+| `reward_transfer_evaluation_manifests` | 14 | Content-addressed evaluation runs across both splits |
 | `lab_tasks` | 426 | Anchor-disjoint train, validation, and transfer-evaluation maps |
 | `sft`, `dpo`, `grpo` | multiple | Ready-to-load training views |
 
@@ -336,6 +367,8 @@ python -m pip install -e '.[dev]'
 python hf/dataset/build_lab_dataset.py --check
 python3 -I hf/dataset/verify_complete_core_dataset.py \
   --dataset-directory hf/dataset/data-complete-core
+python experiments/reward_transfer/release_results.py --check
+python experiments/reward_transfer/verify_release.py
 pytest -q tests/lab_cli_test.py tests/hf_lab_space_api_test.py
 ```
 
@@ -351,6 +384,9 @@ These checks make no provider calls.
 | Selection-robustness analysis | `09ebe388b99d6da629c5ec8f8ee837ec0b01b9361f337649228602187ab44293` |
 | Public-scorer sensitivity analysis | `799550a10f13786ef356f069295d3c73ec34d5e0e8ad1394ce838af6622e5f49` |
 | External substitution validation | `46795dabb1cb698bb76ab9d33a90380de306aff128fc1c7e277ae98832d3205d` |
+| Reward-transfer release | `97bedaa213f92e8c57ffb81b6109dc30e4a61e1e9bf2c969517dad973a1c17ed` |
+| Reward-transfer primary analysis | `d6cc841dfe7fe38ab38f46a44f37a76dac4b370618d48c6d995ea6238798c124` |
+| Reward-transfer public replication | `c93c1854fe0991e6c02de96ef1267b206e09e8def5e6832acef6f06d10ed312d` |
 
 ## Rights and citation
 
@@ -364,7 +400,7 @@ endorsement of FlavourBench, Epicure, the protocol, or any model ranking.
 
 ```bibtex
 @article{chen2026flavourbench,
-  title  = {FlavourBench: Ranking Frontier Language Models in an Executable Culinary Environment},
+  title  = {FlavourBench: Executable Culinary Reward Maps for Language Model Evaluation and Post-Training},
   author = {Chen, Josef and Hayretci, Erim},
   journal = {arXiv preprint arXiv:2608.20574},
   year   = {2026},

@@ -12,10 +12,11 @@ than presenting the work as a culinary leaderboard alone.
 
 Do not submit the same manuscript concurrently elsewhere. If ICLR rejects it, the preferred next
 route is TMLR, whose rolling review emphasizes technical correctness. NeurIPS 2027 Evaluations &
-Datasets is the strongest later conference route if its future call resembles the 2026 track. A
-NeurIPS version should add a completed reward-transfer experiment and follow the then-current code,
-hosting, and machine-readable dataset-metadata rules. No official NeurIPS 2027 paper call was
-available when this checklist was written.
+Datasets is the strongest later conference route if its future call resembles the 2026 track. The
+present paper already includes the controlled reward-transfer experiment; a later version should
+test additional model scales or optimization algorithms and follow the then-current code, hosting,
+and machine-readable dataset-metadata rules. No official NeurIPS 2027 paper call was available when
+this checklist was written.
 
 Official sources:
 
@@ -39,16 +40,17 @@ Official sources:
 
 - [x] The manuscript uses the unmodified official ICLR 2027 style files, checked by SHA-256.
 - [x] The review switch is disabled and the author block says `Anonymous Authors`.
-- [x] Main text ends on page 8, within the strict nine-page initial limit.
-- [x] The mandatory AI-use statement begins on page 9 and sits outside the main text.
+- [x] Main text ends on page 9, at the strict nine-page initial limit.
+- [x] The mandatory AI-use statement begins on page 10 and sits outside the main text.
 - [x] References and appendices follow the disclosure statements.
-- [x] The 19-page PDF is US Letter, has anonymous metadata, and embeds every font.
+- [x] The 21-page PDF is US Letter, has anonymous metadata, and embeds every font.
 - [x] LaTeX has no overfull boxes, unresolved citations, or unresolved references.
 - [x] The anonymous source and supplement contain no author names, affiliations, public-paper link,
   local path, or credential-shaped value.
 - [x] The supplement contains all 14,418 selected response records, 534 exhaustive task maps, the
   27-model route manifest, the analysis artifacts, training splits, and offline verification code.
-- [x] A clean extraction reconstructs all published scores and ranks without provider access.
+- [x] A clean extraction reconstructs all published scores, ranks, and reward-transfer effects
+  without provider access.
 - [x] A clean extraction of the source archive rebuilds a PDF bitwise identical to the upload PDF.
 - [x] `make ci PYTHON=.venv/bin/python PYTEST=.venv/bin/pytest RUFF=.venv/bin/ruff` passes.
 
@@ -72,14 +74,18 @@ The authoritative upload artifacts are:
   family-weight sensitivity, and public-reward-map sensitivity are reported.
 - [x] Recipe1MSubs is described as label-independent convergent validation of public checkpoint
   substitution geometry, not validation of the unrecovered primary runtime or cooked outcomes.
+- [x] The preregistered reward-transfer estimand compares Epicure SFT with a prompt-, format-, and
+  label-matched control, rather than attributing parsing gains to reward learning.
+- [x] The 13.30-point primary effect and 11.73-point public-map replication reconstruct from raw
+  generations, manifests, and the sealed analysis plans.
 - [x] Limitations explicitly cover construct validity, missing primary-runtime lineage, endpoint
-  versioning, common-core selection, and the absence of a completed training-transfer result.
+  versioning, common-core selection, one 0.6B base checkpoint, three seeds, and SFT-only transfer.
 
 The main reviewer risk is scientific, not statistical: the primary reward function is a fixed
 reference environment whose original training seed and source revision were not recovered. The
-second risk is that reward-based training remains prospective. Do not soften either limitation in
-the submission. A small, preregistered transfer experiment would materially strengthen a future
-NeurIPS or revised ICLR version, but it is not needed to make the present evaluation claims valid.
+second risk is transfer breadth: the controlled study uses one 0.6B checkpoint, three seeds, and
+LoRA SFT, and its public-map result is task replication rather than independent retraining. Do not
+soften either limitation in the submission.
 
 ## Author actions before the abstract deadline
 

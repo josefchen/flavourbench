@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 .SHELLFLAGS := -Eeuo pipefail -c
 
-PYTHON ?= python3
+PYTHON ?= $(if $(wildcard ../../.venv/bin/python),../../.venv/bin/python,python3)
 LATEXMK ?= latexmk
 PDFINFO ?= pdfinfo
 
@@ -20,6 +20,7 @@ GENERATED := \
 	complete-core-robustness-macros.tex \
 	complete-core-public-scorer-macros.tex \
 	complete-core-external-substitution-validation-macros.tex \
+	complete-core-reward-transfer-macros.tex \
 	complete-core-leaderboard-table.tex \
 	complete-core-route-table.tex \
 	complete-core-task-table.tex \
@@ -27,6 +28,10 @@ GENERATED := \
 	complete-core-score-sensitivity-table.tex \
 	complete-core-public-scorer-table.tex \
 	complete-core-external-substitution-validation-table.tex \
+	complete-core-reward-transfer-table.tex \
+	complete-core-reward-transfer-family-table.tex \
+	complete-core-reward-transfer-seed-table.tex \
+	complete-core-reward-transfer-asset-manifest.json \
 	complete-core-examples-table.tex
 
 FIGURES := \
@@ -38,7 +43,8 @@ FIGURES := \
 	complete-core-task-count-stability.pdf \
 	complete-core-pairwise-matrix.pdf \
 	complete-core-family-heatmap.pdf \
-	complete-core-rank-intervals.pdf
+	complete-core-rank-intervals.pdf \
+	complete-core-reward-transfer.pdf
 
 STYLE := iclr2027_conference.sty iclr2027_conference.bst natbib.sty fancyhdr.sty
 

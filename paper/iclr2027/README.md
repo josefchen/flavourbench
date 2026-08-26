@@ -1,7 +1,8 @@
 # ICLR 2027 anonymous submission package
 
 This directory builds the double-blind manuscript **FlavourBench: Executable Culinary Reward Maps
-for Language Model Evaluation** with the unmodified official ICLR 2027 style files.
+for Language Model Evaluation and Post-Training** with the unmodified official ICLR 2027 style
+files.
 
 ```bash
 make -C paper/iclr2027 verify
@@ -10,7 +11,10 @@ make -C paper/iclr2027 package
 
 The build stages only the generated tables and figures referenced by `main.tex`. Verification checks
 the nine-page main-text limit, anonymity, PDF metadata, embedded fonts, unresolved references,
-credential patterns, official template hashes, and the semantic integrity of the 27-model release.
+credential patterns, official template hashes, the semantic integrity of the 27-model release, and
+an independent reconstruction of both reward-transfer evaluations. If the repository virtual
+environment is absent, install NumPy before running these targets or set `PYTHON` to an environment
+that provides it.
 
 The package target produces:
 

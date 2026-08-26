@@ -1,0 +1,1344 @@
+{
+  "artifact_sha256": "d6cc841dfe7fe38ab38f46a44f37a76dac4b370618d48c6d995ea6238798c124",
+  "chance_baseline_score": 30.854880952380952,
+  "claim_boundary": {
+    "allowed": "Epicure supervision changes held-out agreement with disjoint Epicure reward maps beyond format-matched supervision",
+    "forbidden": [
+      "transfer_to_human_taste",
+      "improvement_in_general_language_model_quality",
+      "contamination_free_public_leaderboard_entry",
+      "reinforcement_learning_improvement"
+    ]
+  },
+  "completed_at_utc": "2026-08-26T02:28:19.901225+00:00",
+  "condition_summaries": [
+    {
+      "condition": "pretrained_base",
+      "exact_optimum_rate_mean": 0.0,
+      "parse_rate_mean": 0.8928571428571429,
+      "parse_rate_seed_range": [
+        0.8928571428571429,
+        0.8928571428571429
+      ],
+      "per_family": [
+        {
+          "exact_optimum_rate_mean": 0.0,
+          "family": "substitution",
+          "parse_rate_mean": 1.0,
+          "score_conditional_on_parse_mean": 57.92535714285714,
+          "score_unconditional_mean": 57.92535714285714
+        },
+        {
+          "exact_optimum_rate_mean": 0.0,
+          "family": "pairing",
+          "parse_rate_mean": 0.6785714285714286,
+          "score_conditional_on_parse_mean": 42.236315789473686,
+          "score_unconditional_mean": 28.660357142857144
+        },
+        {
+          "exact_optimum_rate_mean": 0.0,
+          "family": "constraint",
+          "parse_rate_mean": 1.0,
+          "score_conditional_on_parse_mean": 3.391428571428571,
+          "score_unconditional_mean": 3.391428571428571
+        }
+      ],
+      "replicate_runs": 1,
+      "runs": [
+        {
+          "exact_optimum_rate": 0.0,
+          "parse_rate": 0.8928571428571429,
+          "per_family": [
+            {
+              "exact_optimum_rate": 0.0,
+              "family": "substitution",
+              "parse_rate": 1.0,
+              "score_conditional_on_parse": 57.92535714285714,
+              "score_unconditional": 57.92535714285714,
+              "tasks": 28
+            },
+            {
+              "exact_optimum_rate": 0.0,
+              "family": "pairing",
+              "parse_rate": 0.6785714285714286,
+              "score_conditional_on_parse": 42.236315789473686,
+              "score_unconditional": 28.660357142857144,
+              "tasks": 28
+            },
+            {
+              "exact_optimum_rate": 0.0,
+              "family": "constraint",
+              "parse_rate": 1.0,
+              "score_conditional_on_parse": 3.391428571428571,
+              "score_unconditional": 3.391428571428571,
+              "tasks": 28
+            }
+          ],
+          "score_conditional_on_parse": 33.59146666666667,
+          "score_unconditional": 29.992380952380955,
+          "tasks": 84,
+          "training_seed": null
+        }
+      ],
+      "score_conditional_on_parse_mean": 33.59146666666667,
+      "score_unconditional_mean": 29.992380952380955,
+      "score_unconditional_seed_range": [
+        29.992380952380955,
+        29.992380952380955
+      ],
+      "score_unconditional_seed_sd": null
+    },
+    {
+      "condition": "sft_format_control",
+      "exact_optimum_rate_mean": 0.007936507936507936,
+      "parse_rate_mean": 1.0,
+      "parse_rate_seed_range": [
+        1.0,
+        1.0
+      ],
+      "per_family": [
+        {
+          "exact_optimum_rate_mean": 0.0,
+          "family": "substitution",
+          "parse_rate_mean": 1.0,
+          "score_conditional_on_parse_mean": 41.62357142857143,
+          "score_unconditional_mean": 41.62357142857143
+        },
+        {
+          "exact_optimum_rate_mean": 0.0,
+          "family": "pairing",
+          "parse_rate_mean": 1.0,
+          "score_conditional_on_parse_mean": 46.33595238095238,
+          "score_unconditional_mean": 46.33595238095238
+        },
+        {
+          "exact_optimum_rate_mean": 0.023809523809523808,
+          "family": "constraint",
+          "parse_rate_mean": 1.0,
+          "score_conditional_on_parse_mean": 4.7283333333333335,
+          "score_unconditional_mean": 4.7283333333333335
+        }
+      ],
+      "replicate_runs": 3,
+      "runs": [
+        {
+          "exact_optimum_rate": 0.011904761904761904,
+          "parse_rate": 1.0,
+          "per_family": [
+            {
+              "exact_optimum_rate": 0.0,
+              "family": "substitution",
+              "parse_rate": 1.0,
+              "score_conditional_on_parse": 39.222857142857144,
+              "score_unconditional": 39.222857142857144,
+              "tasks": 28
+            },
+            {
+              "exact_optimum_rate": 0.0,
+              "family": "pairing",
+              "parse_rate": 1.0,
+              "score_conditional_on_parse": 48.50999999999999,
+              "score_unconditional": 48.50999999999999,
+              "tasks": 28
+            },
+            {
+              "exact_optimum_rate": 0.03571428571428571,
+              "family": "constraint",
+              "parse_rate": 1.0,
+              "score_conditional_on_parse": 7.0925,
+              "score_unconditional": 7.0925,
+              "tasks": 28
+            }
+          ],
+          "score_conditional_on_parse": 31.608452380952382,
+          "score_unconditional": 31.608452380952382,
+          "tasks": 84,
+          "training_seed": 20260824
+        },
+        {
+          "exact_optimum_rate": 0.011904761904761904,
+          "parse_rate": 1.0,
+          "per_family": [
+            {
+              "exact_optimum_rate": 0.0,
+              "family": "substitution",
+              "parse_rate": 1.0,
+              "score_conditional_on_parse": 41.82392857142857,
+              "score_unconditional": 41.82392857142857,
+              "tasks": 28
+            },
+            {
+              "exact_optimum_rate": 0.0,
+              "family": "pairing",
+              "parse_rate": 1.0,
+              "score_conditional_on_parse": 44.64964285714286,
+              "score_unconditional": 44.64964285714286,
+              "tasks": 28
+            },
+            {
+              "exact_optimum_rate": 0.03571428571428571,
+              "family": "constraint",
+              "parse_rate": 1.0,
+              "score_conditional_on_parse": 7.0925,
+              "score_unconditional": 7.0925,
+              "tasks": 28
+            }
+          ],
+          "score_conditional_on_parse": 31.188690476190477,
+          "score_unconditional": 31.188690476190473,
+          "tasks": 84,
+          "training_seed": 20260825
+        },
+        {
+          "exact_optimum_rate": 0.0,
+          "parse_rate": 1.0,
+          "per_family": [
+            {
+              "exact_optimum_rate": 0.0,
+              "family": "substitution",
+              "parse_rate": 1.0,
+              "score_conditional_on_parse": 43.823928571428574,
+              "score_unconditional": 43.823928571428574,
+              "tasks": 28
+            },
+            {
+              "exact_optimum_rate": 0.0,
+              "family": "pairing",
+              "parse_rate": 1.0,
+              "score_conditional_on_parse": 45.848214285714285,
+              "score_unconditional": 45.848214285714285,
+              "tasks": 28
+            },
+            {
+              "exact_optimum_rate": 0.0,
+              "family": "constraint",
+              "parse_rate": 1.0,
+              "score_conditional_on_parse": 0.0,
+              "score_unconditional": 0.0,
+              "tasks": 28
+            }
+          ],
+          "score_conditional_on_parse": 29.89071428571429,
+          "score_unconditional": 29.890714285714285,
+          "tasks": 84,
+          "training_seed": 20260826
+        }
+      ],
+      "score_conditional_on_parse_mean": 30.895952380952384,
+      "score_unconditional_mean": 30.89595238095238,
+      "score_unconditional_seed_range": [
+        29.890714285714285,
+        31.608452380952382
+      ],
+      "score_unconditional_seed_sd": 0.8955041793653291
+    },
+    {
+      "condition": "sft_epicure_optimum",
+      "exact_optimum_rate_mean": 0.06349206349206349,
+      "parse_rate_mean": 1.0,
+      "parse_rate_seed_range": [
+        1.0,
+        1.0
+      ],
+      "per_family": [
+        {
+          "exact_optimum_rate_mean": 0.047619047619047616,
+          "family": "substitution",
+          "parse_rate_mean": 1.0,
+          "score_conditional_on_parse_mean": 52.78642857142857,
+          "score_unconditional_mean": 52.78642857142857
+        },
+        {
+          "exact_optimum_rate_mean": 0.0,
+          "family": "pairing",
+          "parse_rate_mean": 1.0,
+          "score_conditional_on_parse_mean": 53.56380952380952,
+          "score_unconditional_mean": 53.56380952380952
+        },
+        {
+          "exact_optimum_rate_mean": 0.14285714285714285,
+          "family": "constraint",
+          "parse_rate_mean": 1.0,
+          "score_conditional_on_parse_mean": 26.238333333333333,
+          "score_unconditional_mean": 26.238333333333333
+        }
+      ],
+      "replicate_runs": 3,
+      "runs": [
+        {
+          "exact_optimum_rate": 0.05952380952380952,
+          "parse_rate": 1.0,
+          "per_family": [
+            {
+              "exact_optimum_rate": 0.03571428571428571,
+              "family": "substitution",
+              "parse_rate": 1.0,
+              "score_conditional_on_parse": 52.011428571428574,
+              "score_unconditional": 52.011428571428574,
+              "tasks": 28
+            },
+            {
+              "exact_optimum_rate": 0.0,
+              "family": "pairing",
+              "parse_rate": 1.0,
+              "score_conditional_on_parse": 52.93892857142857,
+              "score_unconditional": 52.93892857142857,
+              "tasks": 28
+            },
+            {
+              "exact_optimum_rate": 0.14285714285714285,
+              "family": "constraint",
+              "parse_rate": 1.0,
+              "score_conditional_on_parse": 28.453214285714285,
+              "score_unconditional": 28.453214285714285,
+              "tasks": 28
+            }
+          ],
+          "score_conditional_on_parse": 44.46785714285714,
+          "score_unconditional": 44.46785714285715,
+          "tasks": 84,
+          "training_seed": 20260824
+        },
+        {
+          "exact_optimum_rate": 0.07142857142857142,
+          "parse_rate": 1.0,
+          "per_family": [
+            {
+              "exact_optimum_rate": 0.07142857142857142,
+              "family": "substitution",
+              "parse_rate": 1.0,
+              "score_conditional_on_parse": 56.59428571428572,
+              "score_unconditional": 56.59428571428572,
+              "tasks": 28
+            },
+            {
+              "exact_optimum_rate": 0.0,
+              "family": "pairing",
+              "parse_rate": 1.0,
+              "score_conditional_on_parse": 53.563214285714274,
+              "score_unconditional": 53.563214285714274,
+              "tasks": 28
+            },
+            {
+              "exact_optimum_rate": 0.14285714285714285,
+              "family": "constraint",
+              "parse_rate": 1.0,
+              "score_conditional_on_parse": 23.427142857142854,
+              "score_unconditional": 23.427142857142854,
+              "tasks": 28
+            }
+          ],
+          "score_conditional_on_parse": 44.528214285714284,
+          "score_unconditional": 44.528214285714284,
+          "tasks": 84,
+          "training_seed": 20260825
+        },
+        {
+          "exact_optimum_rate": 0.05952380952380952,
+          "parse_rate": 1.0,
+          "per_family": [
+            {
+              "exact_optimum_rate": 0.03571428571428571,
+              "family": "substitution",
+              "parse_rate": 1.0,
+              "score_conditional_on_parse": 49.753571428571426,
+              "score_unconditional": 49.753571428571426,
+              "tasks": 28
+            },
+            {
+              "exact_optimum_rate": 0.0,
+              "family": "pairing",
+              "parse_rate": 1.0,
+              "score_conditional_on_parse": 54.1892857142857,
+              "score_unconditional": 54.1892857142857,
+              "tasks": 28
+            },
+            {
+              "exact_optimum_rate": 0.14285714285714285,
+              "family": "constraint",
+              "parse_rate": 1.0,
+              "score_conditional_on_parse": 26.834642857142857,
+              "score_unconditional": 26.834642857142857,
+              "tasks": 28
+            }
+          ],
+          "score_conditional_on_parse": 43.5925,
+          "score_unconditional": 43.5925,
+          "tasks": 84,
+          "training_seed": 20260826
+        }
+      ],
+      "score_conditional_on_parse_mean": 44.19619047619047,
+      "score_unconditional_mean": 44.19619047619048,
+      "score_unconditional_seed_range": [
+        43.5925,
+        44.528214285714284
+      ],
+      "score_unconditional_seed_sd": 0.5236815725761055
+    }
+  ],
+  "confirmatory_contrast": {
+    "alpha": 0.05,
+    "anchor_diagnostics": {
+      "anchors": 84,
+      "mean_difference_points": 13.300238095238095,
+      "median_difference_points": 7.971666666666666,
+      "positive_fraction": 0.5595238095238095,
+      "sd_difference_points": 31.4975743346275,
+      "zero_fraction": 0.16666666666666666
+    },
+    "bootstrap": {
+      "method": "crossed matched-seed and within-family-by-panel anchor bootstrap",
+      "resamples": 50000,
+      "rng_seed": 2238903729
+    },
+    "confidence_interval_95": [
+      6.522059523809523,
+      20.29068253968254
+    ],
+    "estimate_points": 13.300238095238095,
+    "interpretation": "positive_and_meets_preregistered_practical_threshold",
+    "label": "primary:sft_epicure_optimum_minus_sft_format_control",
+    "point_estimate_meets_practical_threshold": true,
+    "practical_gain_threshold_points": 3.0,
+    "sign_flip": {
+      "monte_carlo_plus_one_correction": true,
+      "resamples": 100000,
+      "rng_seed": 3621793295,
+      "unit": "anchor difference averaged across matched training seeds"
+    },
+    "statistically_detected_positive": true,
+    "training_seed_estimates_points": [
+      12.859404761904761,
+      13.339523809523811,
+      13.701785714285714
+    ],
+    "two_sided_sign_flip_p": 0.00016999830001699983
+  },
+  "estimand": "equal-family, equal-source-panel mean score difference with unparseable completions retained at zero",
+  "evaluation_gate_artifact_sha256": "dce9dab7ffc3a82efbc7ffaacd6ecd3b428354d8cab20611ccf4be117ec3c826",
+  "evaluation_manifest_artifact_sha256": "5ab7a1e5170d91a7f1fee826d787b0c87e5b2b6c9f67da48bd2a7b8f488a9824",
+  "multiplicity": "One preregistered confirmatory contrast; no multiplicity adjustment. Base comparisons and the public replication are secondary.",
+  "per_task": [
+    {
+      "anchor_ingredient": "padron_pepper",
+      "epicure_optimum_seed_mean_score": 42.77,
+      "family": "substitution",
+      "format_control_seed_mean_score": 31.21666666666667,
+      "panel": "panel_2",
+      "pretrained_base_score": 42.77,
+      "task_id": "fb-executable-rep2-substitution-011",
+      "treatment_minus_control_points": 11.553333333333335
+    },
+    {
+      "anchor_ingredient": "prickly_pear",
+      "epicure_optimum_seed_mean_score": 44.93666666666667,
+      "family": "substitution",
+      "format_control_seed_mean_score": 37.49333333333333,
+      "panel": "panel_2",
+      "pretrained_base_score": 81.88,
+      "task_id": "fb-executable-rep2-substitution-022",
+      "treatment_minus_control_points": 7.4433333333333325
+    },
+    {
+      "anchor_ingredient": "piloncillo",
+      "epicure_optimum_seed_mean_score": 69.41,
+      "family": "substitution",
+      "format_control_seed_mean_score": 22.88,
+      "panel": "panel_2",
+      "pretrained_base_score": 58.58,
+      "task_id": "fb-executable-rep2-substitution-042",
+      "treatment_minus_control_points": 46.53
+    },
+    {
+      "anchor_ingredient": "arepa",
+      "epicure_optimum_seed_mean_score": 70.54,
+      "family": "substitution",
+      "format_control_seed_mean_score": 76.34000000000002,
+      "panel": "panel_2",
+      "pretrained_base_score": 69.91,
+      "task_id": "fb-executable-rep2-substitution-044",
+      "treatment_minus_control_points": -5.799999999999997
+    },
+    {
+      "anchor_ingredient": "capelin",
+      "epicure_optimum_seed_mean_score": 59.279999999999994,
+      "family": "substitution",
+      "format_control_seed_mean_score": 57.21666666666667,
+      "panel": "panel_2",
+      "pretrained_base_score": 65.59,
+      "task_id": "fb-executable-rep2-substitution-062",
+      "treatment_minus_control_points": 2.0633333333333304
+    },
+    {
+      "anchor_ingredient": "fish_sausage",
+      "epicure_optimum_seed_mean_score": 57.04,
+      "family": "substitution",
+      "format_control_seed_mean_score": 19.726666666666667,
+      "panel": "panel_2",
+      "pretrained_base_score": 57.04,
+      "task_id": "fb-executable-rep2-substitution-065",
+      "treatment_minus_control_points": 37.31333333333333
+    },
+    {
+      "anchor_ingredient": "smoked_salmon",
+      "epicure_optimum_seed_mean_score": 21.540000000000003,
+      "family": "substitution",
+      "format_control_seed_mean_score": 48.82333333333333,
+      "panel": "panel_2",
+      "pretrained_base_score": 47.55,
+      "task_id": "fb-executable-rep2-substitution-066",
+      "treatment_minus_control_points": -27.283333333333335
+    },
+    {
+      "anchor_ingredient": "white_pepper",
+      "epicure_optimum_seed_mean_score": 65.50333333333333,
+      "family": "substitution",
+      "format_control_seed_mean_score": 45.163333333333334,
+      "panel": "panel_2",
+      "pretrained_base_score": 98.38,
+      "task_id": "fb-executable-rep2-substitution-088",
+      "treatment_minus_control_points": 20.34
+    },
+    {
+      "anchor_ingredient": "shark_fin",
+      "epicure_optimum_seed_mean_score": 16.816666666666666,
+      "family": "substitution",
+      "format_control_seed_mean_score": 30.826666666666668,
+      "panel": "panel_2",
+      "pretrained_base_score": 18.5,
+      "task_id": "fb-executable-rep2-substitution-101",
+      "treatment_minus_control_points": -14.010000000000003
+    },
+    {
+      "anchor_ingredient": "goose",
+      "epicure_optimum_seed_mean_score": 54.92666666666667,
+      "family": "substitution",
+      "format_control_seed_mean_score": 84.09,
+      "panel": "panel_2",
+      "pretrained_base_score": 46.84,
+      "task_id": "fb-executable-rep2-substitution-113",
+      "treatment_minus_control_points": -29.163333333333338
+    },
+    {
+      "anchor_ingredient": "glutinous_rice",
+      "epicure_optimum_seed_mean_score": 68.1,
+      "family": "substitution",
+      "format_control_seed_mean_score": 54.59666666666667,
+      "panel": "panel_2",
+      "pretrained_base_score": 46.71,
+      "task_id": "fb-executable-rep2-substitution-119",
+      "treatment_minus_control_points": 13.503333333333329
+    },
+    {
+      "anchor_ingredient": "red_bean_paste",
+      "epicure_optimum_seed_mean_score": 43.79999999999999,
+      "family": "substitution",
+      "format_control_seed_mean_score": 35.029999999999994,
+      "panel": "panel_2",
+      "pretrained_base_score": 53.74,
+      "task_id": "fb-executable-rep2-substitution-133",
+      "treatment_minus_control_points": 8.77
+    },
+    {
+      "anchor_ingredient": "condensed_milk",
+      "epicure_optimum_seed_mean_score": 65.27,
+      "family": "substitution",
+      "format_control_seed_mean_score": 10.56,
+      "panel": "panel_2",
+      "pretrained_base_score": 29.93,
+      "task_id": "fb-executable-rep2-substitution-150",
+      "treatment_minus_control_points": 54.71
+    },
+    {
+      "anchor_ingredient": "queso_fresco",
+      "epicure_optimum_seed_mean_score": 100.0,
+      "family": "substitution",
+      "format_control_seed_mean_score": 15.25,
+      "panel": "panel_2",
+      "pretrained_base_score": 79.14,
+      "task_id": "fb-executable-rep2-substitution-154",
+      "treatment_minus_control_points": 84.75
+    },
+    {
+      "anchor_ingredient": "lettuce",
+      "epicure_optimum_seed_mean_score": 49.38666666666668,
+      "family": "substitution",
+      "format_control_seed_mean_score": 40.03666666666667,
+      "panel": "panel_1",
+      "pretrained_base_score": 78.4,
+      "task_id": "fb-executable-substitution-002",
+      "treatment_minus_control_points": 9.350000000000003
+    },
+    {
+      "anchor_ingredient": "soy_milk",
+      "epicure_optimum_seed_mean_score": 26.820000000000004,
+      "family": "substitution",
+      "format_control_seed_mean_score": 44.36666666666667,
+      "panel": "panel_1",
+      "pretrained_base_score": 83.49,
+      "task_id": "fb-executable-substitution-004",
+      "treatment_minus_control_points": -17.546666666666667
+    },
+    {
+      "anchor_ingredient": "wax_apple",
+      "epicure_optimum_seed_mean_score": 41.88,
+      "family": "substitution",
+      "format_control_seed_mean_score": 28.8,
+      "panel": "panel_1",
+      "pretrained_base_score": 24.04,
+      "task_id": "fb-executable-substitution-019",
+      "treatment_minus_control_points": 13.08
+    },
+    {
+      "anchor_ingredient": "chicory",
+      "epicure_optimum_seed_mean_score": 33.21,
+      "family": "substitution",
+      "format_control_seed_mean_score": 69.65666666666668,
+      "panel": "panel_1",
+      "pretrained_base_score": 73.48,
+      "task_id": "fb-executable-substitution-020",
+      "treatment_minus_control_points": -36.446666666666665
+    },
+    {
+      "anchor_ingredient": "er_cai",
+      "epicure_optimum_seed_mean_score": 51.46333333333333,
+      "family": "substitution",
+      "format_control_seed_mean_score": 54.84,
+      "panel": "panel_1",
+      "pretrained_base_score": 63.29,
+      "task_id": "fb-executable-substitution-036",
+      "treatment_minus_control_points": -3.3766666666666674
+    },
+    {
+      "anchor_ingredient": "semolina",
+      "epicure_optimum_seed_mean_score": 34.9,
+      "family": "substitution",
+      "format_control_seed_mean_score": 33.88666666666666,
+      "panel": "panel_1",
+      "pretrained_base_score": 29.1,
+      "task_id": "fb-executable-substitution-037",
+      "treatment_minus_control_points": 1.0133333333333308
+    },
+    {
+      "anchor_ingredient": "radish",
+      "epicure_optimum_seed_mean_score": 72.23,
+      "family": "substitution",
+      "format_control_seed_mean_score": 46.23,
+      "panel": "panel_1",
+      "pretrained_base_score": 72.67,
+      "task_id": "fb-executable-substitution-041",
+      "treatment_minus_control_points": 26.0
+    },
+    {
+      "anchor_ingredient": "roquefort_cheese",
+      "epicure_optimum_seed_mean_score": 31.97,
+      "family": "substitution",
+      "format_control_seed_mean_score": 17.53,
+      "panel": "panel_1",
+      "pretrained_base_score": 64.41,
+      "task_id": "fb-executable-substitution-046",
+      "treatment_minus_control_points": 14.440000000000003
+    },
+    {
+      "anchor_ingredient": "bear_meat",
+      "epicure_optimum_seed_mean_score": 32.806666666666665,
+      "family": "substitution",
+      "format_control_seed_mean_score": 35.903333333333336,
+      "panel": "panel_1",
+      "pretrained_base_score": 32.53,
+      "task_id": "fb-executable-substitution-077",
+      "treatment_minus_control_points": -3.0966666666666662
+    },
+    {
+      "anchor_ingredient": "mincemeat",
+      "epicure_optimum_seed_mean_score": 65.59666666666666,
+      "family": "substitution",
+      "format_control_seed_mean_score": 18.0,
+      "panel": "panel_1",
+      "pretrained_base_score": 75.39,
+      "task_id": "fb-executable-substitution-078",
+      "treatment_minus_control_points": 47.596666666666664
+    },
+    {
+      "anchor_ingredient": "whole_wheat_flour",
+      "epicure_optimum_seed_mean_score": 74.59333333333333,
+      "family": "substitution",
+      "format_control_seed_mean_score": 40.85,
+      "panel": "panel_1",
+      "pretrained_base_score": 72.95,
+      "task_id": "fb-executable-substitution-085",
+      "treatment_minus_control_points": 33.74333333333333
+    },
+    {
+      "anchor_ingredient": "muffin",
+      "epicure_optimum_seed_mean_score": 27.316666666666666,
+      "family": "substitution",
+      "format_control_seed_mean_score": 60.19,
+      "panel": "panel_1",
+      "pretrained_base_score": 29.49,
+      "task_id": "fb-executable-substitution-098",
+      "treatment_minus_control_points": -32.873333333333335
+    },
+    {
+      "anchor_ingredient": "file_powder",
+      "epicure_optimum_seed_mean_score": 85.14333333333333,
+      "family": "substitution",
+      "format_control_seed_mean_score": 32.71333333333333,
+      "panel": "panel_1",
+      "pretrained_base_score": 53.56,
+      "task_id": "fb-executable-substitution-129",
+      "treatment_minus_control_points": 52.43000000000001
+    },
+    {
+      "anchor_ingredient": "goat_cheese",
+      "epicure_optimum_seed_mean_score": 70.77,
+      "family": "substitution",
+      "format_control_seed_mean_score": 73.24333333333334,
+      "panel": "panel_1",
+      "pretrained_base_score": 72.55,
+      "task_id": "fb-executable-substitution-142",
+      "treatment_minus_control_points": -2.4733333333333385
+    },
+    {
+      "anchor_ingredient": "tandoori_masala",
+      "epicure_optimum_seed_mean_score": 39.67,
+      "family": "pairing",
+      "format_control_seed_mean_score": 45.29,
+      "panel": "panel_1",
+      "pretrained_base_score": 52.86,
+      "task_id": "fb-executable-pairing-008",
+      "treatment_minus_control_points": -5.619999999999998
+    },
+    {
+      "anchor_ingredient": "almond_milk",
+      "epicure_optimum_seed_mean_score": 35.873333333333335,
+      "family": "pairing",
+      "format_control_seed_mean_score": 35.71666666666666,
+      "panel": "panel_1",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-pairing-013",
+      "treatment_minus_control_points": 0.1566666666666663
+    },
+    {
+      "anchor_ingredient": "viburnum",
+      "epicure_optimum_seed_mean_score": 21.186666666666667,
+      "family": "pairing",
+      "format_control_seed_mean_score": 48.99,
+      "panel": "panel_1",
+      "pretrained_base_score": 7.02,
+      "task_id": "fb-executable-pairing-048",
+      "treatment_minus_control_points": -27.803333333333338
+    },
+    {
+      "anchor_ingredient": "rice_paper",
+      "epicure_optimum_seed_mean_score": 24.319999999999997,
+      "family": "pairing",
+      "format_control_seed_mean_score": 44.98,
+      "panel": "panel_1",
+      "pretrained_base_score": 23.63,
+      "task_id": "fb-executable-pairing-057",
+      "treatment_minus_control_points": -20.66
+    },
+    {
+      "anchor_ingredient": "kinako",
+      "epicure_optimum_seed_mean_score": 50.20000000000001,
+      "family": "pairing",
+      "format_control_seed_mean_score": 52.46,
+      "panel": "panel_1",
+      "pretrained_base_score": 83.64,
+      "task_id": "fb-executable-pairing-063",
+      "treatment_minus_control_points": -2.259999999999998
+    },
+    {
+      "anchor_ingredient": "cudweed",
+      "epicure_optimum_seed_mean_score": 75.45,
+      "family": "pairing",
+      "format_control_seed_mean_score": 64.26333333333334,
+      "panel": "panel_1",
+      "pretrained_base_score": 71.9,
+      "task_id": "fb-executable-pairing-067",
+      "treatment_minus_control_points": 11.186666666666667
+    },
+    {
+      "anchor_ingredient": "fern",
+      "epicure_optimum_seed_mean_score": 44.73333333333333,
+      "family": "pairing",
+      "format_control_seed_mean_score": 53.9,
+      "panel": "panel_1",
+      "pretrained_base_score": 64.89,
+      "task_id": "fb-executable-pairing-088",
+      "treatment_minus_control_points": -9.166666666666666
+    },
+    {
+      "anchor_ingredient": "cardamom",
+      "epicure_optimum_seed_mean_score": 73.95,
+      "family": "pairing",
+      "format_control_seed_mean_score": 25.346666666666664,
+      "panel": "panel_1",
+      "pretrained_base_score": 51.09,
+      "task_id": "fb-executable-pairing-090",
+      "treatment_minus_control_points": 48.60333333333333
+    },
+    {
+      "anchor_ingredient": "quince",
+      "epicure_optimum_seed_mean_score": 73.14,
+      "family": "pairing",
+      "format_control_seed_mean_score": 51.333333333333336,
+      "panel": "panel_1",
+      "pretrained_base_score": 49.43,
+      "task_id": "fb-executable-pairing-096",
+      "treatment_minus_control_points": 21.80666666666667
+    },
+    {
+      "anchor_ingredient": "pigeon_egg",
+      "epicure_optimum_seed_mean_score": 48.93666666666667,
+      "family": "pairing",
+      "format_control_seed_mean_score": 27.06,
+      "panel": "panel_1",
+      "pretrained_base_score": 25.65,
+      "task_id": "fb-executable-pairing-104",
+      "treatment_minus_control_points": 21.876666666666665
+    },
+    {
+      "anchor_ingredient": "madeira_wine",
+      "epicure_optimum_seed_mean_score": 43.49,
+      "family": "pairing",
+      "format_control_seed_mean_score": 57.27,
+      "panel": "panel_1",
+      "pretrained_base_score": 45.0,
+      "task_id": "fb-executable-pairing-113",
+      "treatment_minus_control_points": -13.780000000000001
+    },
+    {
+      "anchor_ingredient": "ghost_pepper",
+      "epicure_optimum_seed_mean_score": 22.47666666666667,
+      "family": "pairing",
+      "format_control_seed_mean_score": 72.53,
+      "panel": "panel_1",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-pairing-128",
+      "treatment_minus_control_points": -50.053333333333335
+    },
+    {
+      "anchor_ingredient": "pepino_melon",
+      "epicure_optimum_seed_mean_score": 34.14666666666667,
+      "family": "pairing",
+      "format_control_seed_mean_score": 24.86,
+      "panel": "panel_1",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-pairing-136",
+      "treatment_minus_control_points": 9.286666666666669
+    },
+    {
+      "anchor_ingredient": "lillet",
+      "epicure_optimum_seed_mean_score": 62.88333333333333,
+      "family": "pairing",
+      "format_control_seed_mean_score": 22.959999999999997,
+      "panel": "panel_1",
+      "pretrained_base_score": 73.06,
+      "task_id": "fb-executable-pairing-137",
+      "treatment_minus_control_points": 39.92333333333333
+    },
+    {
+      "anchor_ingredient": "puff_pastry",
+      "epicure_optimum_seed_mean_score": 40.36,
+      "family": "pairing",
+      "format_control_seed_mean_score": 6.21,
+      "panel": "panel_2",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-rep2-pairing-013",
+      "treatment_minus_control_points": 34.15
+    },
+    {
+      "anchor_ingredient": "guava_paste",
+      "epicure_optimum_seed_mean_score": 77.40333333333332,
+      "family": "pairing",
+      "format_control_seed_mean_score": 68.55,
+      "panel": "panel_2",
+      "pretrained_base_score": 40.68,
+      "task_id": "fb-executable-rep2-pairing-027",
+      "treatment_minus_control_points": 8.853333333333333
+    },
+    {
+      "anchor_ingredient": "fuzzy_melon",
+      "epicure_optimum_seed_mean_score": 47.333333333333336,
+      "family": "pairing",
+      "format_control_seed_mean_score": 60.37,
+      "panel": "panel_2",
+      "pretrained_base_score": 17.46,
+      "task_id": "fb-executable-rep2-pairing-049",
+      "treatment_minus_control_points": -13.036666666666664
+    },
+    {
+      "anchor_ingredient": "pea_shoot",
+      "epicure_optimum_seed_mean_score": 91.96999999999998,
+      "family": "pairing",
+      "format_control_seed_mean_score": 42.513333333333335,
+      "panel": "panel_2",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-rep2-pairing-058",
+      "treatment_minus_control_points": 49.45666666666667
+    },
+    {
+      "anchor_ingredient": "salt_pork",
+      "epicure_optimum_seed_mean_score": 40.01333333333333,
+      "family": "pairing",
+      "format_control_seed_mean_score": 23.45,
+      "panel": "panel_2",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-rep2-pairing-065",
+      "treatment_minus_control_points": 16.563333333333333
+    },
+    {
+      "anchor_ingredient": "sand_worm",
+      "epicure_optimum_seed_mean_score": 70.32000000000001,
+      "family": "pairing",
+      "format_control_seed_mean_score": 34.49,
+      "panel": "panel_2",
+      "pretrained_base_score": 42.86,
+      "task_id": "fb-executable-rep2-pairing-085",
+      "treatment_minus_control_points": 35.82999999999999
+    },
+    {
+      "anchor_ingredient": "honey",
+      "epicure_optimum_seed_mean_score": 76.82666666666667,
+      "family": "pairing",
+      "format_control_seed_mean_score": 45.43666666666667,
+      "panel": "panel_2",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-rep2-pairing-097",
+      "treatment_minus_control_points": 31.39
+    },
+    {
+      "anchor_ingredient": "fiddlehead_fern",
+      "epicure_optimum_seed_mean_score": 73.60333333333334,
+      "family": "pairing",
+      "format_control_seed_mean_score": 88.65000000000002,
+      "panel": "panel_2",
+      "pretrained_base_score": 15.98,
+      "task_id": "fb-executable-rep2-pairing-107",
+      "treatment_minus_control_points": -15.046666666666669
+    },
+    {
+      "anchor_ingredient": "cereal",
+      "epicure_optimum_seed_mean_score": 71.37,
+      "family": "pairing",
+      "format_control_seed_mean_score": 36.79,
+      "panel": "panel_2",
+      "pretrained_base_score": 71.37,
+      "task_id": "fb-executable-rep2-pairing-110",
+      "treatment_minus_control_points": 34.580000000000005
+    },
+    {
+      "anchor_ingredient": "sugar",
+      "epicure_optimum_seed_mean_score": 54.623333333333335,
+      "family": "pairing",
+      "format_control_seed_mean_score": 48.57,
+      "panel": "panel_2",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-rep2-pairing-122",
+      "treatment_minus_control_points": 6.053333333333335
+    },
+    {
+      "anchor_ingredient": "lecithin",
+      "epicure_optimum_seed_mean_score": 44.59,
+      "family": "pairing",
+      "format_control_seed_mean_score": 36.09,
+      "panel": "panel_2",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-rep2-pairing-127",
+      "treatment_minus_control_points": 8.5
+    },
+    {
+      "anchor_ingredient": "shortening",
+      "epicure_optimum_seed_mean_score": 53.71,
+      "family": "pairing",
+      "format_control_seed_mean_score": 57.12,
+      "panel": "panel_2",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-rep2-pairing-128",
+      "treatment_minus_control_points": -3.409999999999999
+    },
+    {
+      "anchor_ingredient": "plantain",
+      "epicure_optimum_seed_mean_score": 42.09,
+      "family": "pairing",
+      "format_control_seed_mean_score": 44.91,
+      "panel": "panel_2",
+      "pretrained_base_score": 13.48,
+      "task_id": "fb-executable-rep2-pairing-145",
+      "treatment_minus_control_points": -2.819999999999993
+    },
+    {
+      "anchor_ingredient": "longan",
+      "epicure_optimum_seed_mean_score": 65.11666666666666,
+      "family": "pairing",
+      "format_control_seed_mean_score": 77.29666666666667,
+      "panel": "panel_2",
+      "pretrained_base_score": 52.49,
+      "task_id": "fb-executable-rep2-pairing-153",
+      "treatment_minus_control_points": -12.180000000000001
+    },
+    {
+      "anchor_ingredient": "brandy",
+      "epicure_optimum_seed_mean_score": 87.21,
+      "family": "constraint",
+      "format_control_seed_mean_score": 0.0,
+      "panel": "panel_1",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-constraint-012",
+      "treatment_minus_control_points": 87.21
+    },
+    {
+      "anchor_ingredient": "clam",
+      "epicure_optimum_seed_mean_score": 14.143333333333333,
+      "family": "constraint",
+      "format_control_seed_mean_score": 0.0,
+      "panel": "panel_1",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-constraint-019",
+      "treatment_minus_control_points": 14.143333333333333
+    },
+    {
+      "anchor_ingredient": "cottage_cheese",
+      "epicure_optimum_seed_mean_score": 21.91,
+      "family": "constraint",
+      "format_control_seed_mean_score": 0.0,
+      "panel": "panel_1",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-constraint-024",
+      "treatment_minus_control_points": 21.91
+    },
+    {
+      "anchor_ingredient": "endive",
+      "epicure_optimum_seed_mean_score": 66.66666666666667,
+      "family": "constraint",
+      "format_control_seed_mean_score": 0.0,
+      "panel": "panel_1",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-constraint-030",
+      "treatment_minus_control_points": 66.66666666666667
+    },
+    {
+      "anchor_ingredient": "stracchino_cheese",
+      "epicure_optimum_seed_mean_score": 0.0,
+      "family": "constraint",
+      "format_control_seed_mean_score": 0.0,
+      "panel": "panel_1",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-constraint-035",
+      "treatment_minus_control_points": 0.0
+    },
+    {
+      "anchor_ingredient": "huacatay",
+      "epicure_optimum_seed_mean_score": 0.0,
+      "family": "constraint",
+      "format_control_seed_mean_score": 0.0,
+      "panel": "panel_1",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-constraint-046",
+      "treatment_minus_control_points": 0.0
+    },
+    {
+      "anchor_ingredient": "chestnut",
+      "epicure_optimum_seed_mean_score": 100.0,
+      "family": "constraint",
+      "format_control_seed_mean_score": 65.72666666666667,
+      "panel": "panel_1",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-constraint-061",
+      "treatment_minus_control_points": 34.27333333333333
+    },
+    {
+      "anchor_ingredient": "bergamot",
+      "epicure_optimum_seed_mean_score": 0.0,
+      "family": "constraint",
+      "format_control_seed_mean_score": 0.0,
+      "panel": "panel_1",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-constraint-063",
+      "treatment_minus_control_points": 0.0
+    },
+    {
+      "anchor_ingredient": "liver",
+      "epicure_optimum_seed_mean_score": 9.056666666666667,
+      "family": "constraint",
+      "format_control_seed_mean_score": 0.0,
+      "panel": "panel_1",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-constraint-067",
+      "treatment_minus_control_points": 9.056666666666667
+    },
+    {
+      "anchor_ingredient": "snail",
+      "epicure_optimum_seed_mean_score": 94.96,
+      "family": "constraint",
+      "format_control_seed_mean_score": 0.0,
+      "panel": "panel_1",
+      "pretrained_base_score": 94.96,
+      "task_id": "fb-executable-constraint-068",
+      "treatment_minus_control_points": 94.96
+    },
+    {
+      "anchor_ingredient": "tiger_milk_mushroom",
+      "epicure_optimum_seed_mean_score": 0.0,
+      "family": "constraint",
+      "format_control_seed_mean_score": 0.0,
+      "panel": "panel_1",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-constraint-096",
+      "treatment_minus_control_points": 0.0
+    },
+    {
+      "anchor_ingredient": "cherry",
+      "epicure_optimum_seed_mean_score": 0.0,
+      "family": "constraint",
+      "format_control_seed_mean_score": 0.0,
+      "panel": "panel_1",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-constraint-120",
+      "treatment_minus_control_points": 0.0
+    },
+    {
+      "anchor_ingredient": "leek",
+      "epicure_optimum_seed_mean_score": 0.0,
+      "family": "constraint",
+      "format_control_seed_mean_score": 0.0,
+      "panel": "panel_1",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-constraint-126",
+      "treatment_minus_control_points": 0.0
+    },
+    {
+      "anchor_ingredient": "crab_boil_seasoning",
+      "epicure_optimum_seed_mean_score": 0.0,
+      "family": "constraint",
+      "format_control_seed_mean_score": 0.0,
+      "panel": "panel_1",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-constraint-130",
+      "treatment_minus_control_points": 0.0
+    },
+    {
+      "anchor_ingredient": "razor_clam",
+      "epicure_optimum_seed_mean_score": 41.51,
+      "family": "constraint",
+      "format_control_seed_mean_score": 0.0,
+      "panel": "panel_2",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-rep2-constraint-032",
+      "treatment_minus_control_points": 41.51
+    },
+    {
+      "anchor_ingredient": "mackerel",
+      "epicure_optimum_seed_mean_score": 0.0,
+      "family": "constraint",
+      "format_control_seed_mean_score": 0.0,
+      "panel": "panel_2",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-rep2-constraint-034",
+      "treatment_minus_control_points": 0.0
+    },
+    {
+      "anchor_ingredient": "cheddar_cheese",
+      "epicure_optimum_seed_mean_score": 0.0,
+      "family": "constraint",
+      "format_control_seed_mean_score": 0.0,
+      "panel": "panel_2",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-rep2-constraint-063",
+      "treatment_minus_control_points": 0.0
+    },
+    {
+      "anchor_ingredient": "matsutake_mushroom",
+      "epicure_optimum_seed_mean_score": 0.0,
+      "family": "constraint",
+      "format_control_seed_mean_score": 0.0,
+      "panel": "panel_2",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-rep2-constraint-067",
+      "treatment_minus_control_points": 0.0
+    },
+    {
+      "anchor_ingredient": "plum_wine",
+      "epicure_optimum_seed_mean_score": 100.0,
+      "family": "constraint",
+      "format_control_seed_mean_score": 0.0,
+      "panel": "panel_2",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-rep2-constraint-078",
+      "treatment_minus_control_points": 100.0
+    },
+    {
+      "anchor_ingredient": "metaxa",
+      "epicure_optimum_seed_mean_score": 32.766666666666666,
+      "family": "constraint",
+      "format_control_seed_mean_score": 0.0,
+      "panel": "panel_2",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-rep2-constraint-092",
+      "treatment_minus_control_points": 32.766666666666666
+    },
+    {
+      "anchor_ingredient": "quail_egg",
+      "epicure_optimum_seed_mean_score": 0.0,
+      "family": "constraint",
+      "format_control_seed_mean_score": 66.66666666666667,
+      "panel": "panel_2",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-rep2-constraint-094",
+      "treatment_minus_control_points": -66.66666666666667
+    },
+    {
+      "anchor_ingredient": "hazelnut",
+      "epicure_optimum_seed_mean_score": 0.0,
+      "family": "constraint",
+      "format_control_seed_mean_score": 0.0,
+      "panel": "panel_2",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-rep2-constraint-117",
+      "treatment_minus_control_points": 0.0
+    },
+    {
+      "anchor_ingredient": "pickled_ginger",
+      "epicure_optimum_seed_mean_score": 56.080000000000005,
+      "family": "constraint",
+      "format_control_seed_mean_score": 0.0,
+      "panel": "panel_2",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-rep2-constraint-122",
+      "treatment_minus_control_points": 56.080000000000005
+    },
+    {
+      "anchor_ingredient": "peanut",
+      "epicure_optimum_seed_mean_score": 0.0,
+      "family": "constraint",
+      "format_control_seed_mean_score": 0.0,
+      "panel": "panel_2",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-rep2-constraint-128",
+      "treatment_minus_control_points": 0.0
+    },
+    {
+      "anchor_ingredient": "choux_pastry",
+      "epicure_optimum_seed_mean_score": 0.0,
+      "family": "constraint",
+      "format_control_seed_mean_score": 0.0,
+      "panel": "panel_2",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-rep2-constraint-131",
+      "treatment_minus_control_points": 0.0
+    },
+    {
+      "anchor_ingredient": "geoduck",
+      "epicure_optimum_seed_mean_score": 0.0,
+      "family": "constraint",
+      "format_control_seed_mean_score": 0.0,
+      "panel": "panel_2",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-rep2-constraint-135",
+      "treatment_minus_control_points": 0.0
+    },
+    {
+      "anchor_ingredient": "blood_sausage",
+      "epicure_optimum_seed_mean_score": 100.0,
+      "family": "constraint",
+      "format_control_seed_mean_score": 0.0,
+      "panel": "panel_2",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-rep2-constraint-137",
+      "treatment_minus_control_points": 100.0
+    },
+    {
+      "anchor_ingredient": "pagoda_tree_flower",
+      "epicure_optimum_seed_mean_score": 10.37,
+      "family": "constraint",
+      "format_control_seed_mean_score": 0.0,
+      "panel": "panel_2",
+      "pretrained_base_score": 0.0,
+      "task_id": "fb-executable-rep2-constraint-151",
+      "treatment_minus_control_points": 10.37
+    }
+  ],
+  "primary_analysis_artifact_sha256": null,
+  "protocol_artifact_sha256": "9256abd79a522898da08406d780a7bf1c06fa50cd156ba1381df42d15bc9e7ec",
+  "rng_policy": "All analysis seeds are SHA-256 derivations of the prospective protocol hash and a fixed analysis label; they are independent of observed outcomes.",
+  "schema_version": "flavourbench-reward-transfer-analysis-v1",
+  "secondary_contrasts": [
+    {
+      "anchor_diagnostics": {
+        "anchors": 84,
+        "mean_difference_points": 14.203809523809522,
+        "median_difference_points": 1.1666666666666654,
+        "positive_fraction": 0.5357142857142857,
+        "sd_difference_points": 32.03357671235042,
+        "zero_fraction": 0.2261904761904762
+      },
+      "bootstrap": {
+        "method": "crossed matched-seed and within-family-by-panel anchor bootstrap",
+        "resamples": 50000,
+        "rng_seed": 1395885460
+      },
+      "confidence_interval_95": [
+        8.365803571428572,
+        20.30818253968254
+      ],
+      "estimate_points": 14.203809523809525,
+      "label": "primary:secondary:sft_epicure_optimum_minus_pretrained_base",
+      "sign_flip": {
+        "monte_carlo_plus_one_correction": true,
+        "resamples": 100000,
+        "rng_seed": 4231748587,
+        "unit": "anchor difference averaged across matched training seeds"
+      },
+      "training_seed_estimates_points": [
+        14.475476190476192,
+        14.535833333333336,
+        13.600119047619048
+      ],
+      "two_sided_sign_flip_p": 0.00011999880001199988
+    },
+    {
+      "anchor_diagnostics": {
+        "anchors": 84,
+        "mean_difference_points": 0.9035714285714282,
+        "median_difference_points": 0.0,
+        "positive_fraction": 0.38095238095238093,
+        "sd_difference_points": 30.976684429678407,
+        "zero_fraction": 0.2976190476190476
+      },
+      "bootstrap": {
+        "method": "crossed matched-seed and within-family-by-panel anchor bootstrap",
+        "resamples": 50000,
+        "rng_seed": 2784199234
+      },
+      "confidence_interval_95": [
+        -4.907848214285714,
+        6.848113095238095
+      ],
+      "estimate_points": 0.9035714285714285,
+      "label": "primary:secondary:sft_format_control_minus_pretrained_base",
+      "sign_flip": {
+        "monte_carlo_plus_one_correction": true,
+        "resamples": 100000,
+        "rng_seed": 2981642253,
+        "unit": "anchor difference averaged across matched training seeds"
+      },
+      "training_seed_estimates_points": [
+        1.616071428571428,
+        1.1963095238095236,
+        -0.10166666666666642
+      ],
+      "two_sided_sign_flip_p": 0.7899221007789922
+    }
+  ],
+  "split": "primary",
+  "status": "primary_analysis_complete_before_public_replication",
+  "tasks": 84,
+  "training_seeds": [
+    20260824,
+    20260825,
+    20260826
+  ]
+}

@@ -2,7 +2,7 @@
 
 # FlavourBench
 
-### Ranking frontier language models in an executable culinary environment
+### Executable culinary reward maps for language-model evaluation and post-training
 
 [![Public release integrity](https://github.com/josefchen/flavourbench/actions/workflows/ci.yml/badge.svg)](https://github.com/josefchen/flavourbench/actions/workflows/ci.yml)
 
@@ -104,6 +104,24 @@ runtime, the complete reward function, human taste, or cooked outcomes.
 
 ![External substitution validation](hf/dataset/assets/complete-core-external-substitution-validation.png)
 
+### Reward transfer beyond format learning
+
+A preregistered study tests whether the same reward maps can supervise a model, not merely score
+one. Three Qwen3-0.6B adapters train on Epicure-optimal completions; three matched controls see the
+same prompts and answer-label distribution with task-to-answer alignment broken.
+
+| Evaluation | Base | Format control | Epicure SFT | Epicure SFT minus control |
+|---|---:|---:|---:|---:|
+| 84 anchor-disjoint transfer tasks | 29.99 | 30.90 | 44.20 | +13.30 [6.52, 20.29] |
+| 534 public-map replication tasks | 28.56 | 31.60 | 43.33 | +11.73 [8.98, 14.54] |
+
+All three matched-seed treatment effects are positive on both evaluations. The control matters:
+on the public maps it improves on the base by 3.05 points, so a treatment-to-base comparison would
+mix response-format learning into the reward effect. This is evidence of transfer to unseen Epicure
+maps, not human preference, general capability, or reinforcement-learning improvement.
+
+![Controlled reward transfer](hf/dataset/assets/complete-core-reward-transfer.png)
+
 ## The FlavourBench Score
 
 For task \(t\), Epicure supplies a score for each legal three-item portfolio. The chosen portfolio
@@ -171,10 +189,11 @@ discipline; optimizer-facing configs omit them. The [runnable Hugging Face Jobs 
 cover SFT, DPO, and GRPO with LoRA, Trackio, evaluation, checkpointing, and Hub persistence.
 Training on either the transfer split or the public leaderboard maps is outside the protocol.
 
-The prospective [Epicure reward-transfer study](docs/reward-transfer-study.md) compares Epicure-
-optimal SFT with a prompt-, length-, and label-marginal-matched format control across three seeds.
-Its single primary contrast, pinned checkpoint, final-checkpoint rule, and held-out inference are
-fixed before any transfer result is inspected.
+The completed [Epicure reward-transfer study](docs/reward-transfer-study.md) uses a frozen protocol,
+a pinned base revision, three training seeds, final-checkpoint evaluation, an 84-task primary split,
+and a declared 534-task replication. The released verifier reconstructs all six training manifests,
+4,326 held-out generations, both resampling analyses, and every reported effect without model or
+provider access.
 
 The Hugging Face Space also exposes named Gradio API endpoints for official evaluation and a
 separate `training_reward` endpoint restricted to the 342 train/validation maps. Local
@@ -232,6 +251,13 @@ python3 -I paper/verify_complete_core_release.py \
   --release paper/generated/complete-core/flavourbench-complete-core-release-0a20655c97aa1363c2266e247f3dd03b759d0f80bca9154c6619c5549b2fac99.json
 ```
 
+The controlled post-training evidence is also reconstructable offline:
+
+```bash
+python experiments/reward_transfer/release_results.py --check
+python experiments/reward_transfer/verify_release.py
+```
+
 The Hugging Face dataset carries the 14,418 selected source responses and the exact task records:
 
 ```bash
@@ -261,8 +287,11 @@ No reproduction command calls a model provider.
 | Selection-robustness analysis | `09ebe388b99d6da629c5ec8f8ee837ec0b01b9361f337649228602187ab44293` |
 | Public-scorer sensitivity analysis | `799550a10f13786ef356f069295d3c73ec34d5e0e8ad1394ce838af6622e5f49` |
 | External substitution validation | `46795dabb1cb698bb76ab9d33a90380de306aff128fc1c7e277ae98832d3205d` |
-| Final PDF | `8655a8540e6c930e5f8930cab52e2df66103def11ac2fd865a0b5503e76dcbe7` |
-| arXiv source tarball | `89a048afb968828bc6b9a8be443ef1de9f09694ce56b3e3a8f8a6a6b21b6b1d9` |
+| Reward-transfer release | `97bedaa213f92e8c57ffb81b6109dc30e4a61e1e9bf2c969517dad973a1c17ed` |
+| Reward-transfer primary analysis | `d6cc841dfe7fe38ab38f46a44f37a76dac4b370618d48c6d995ea6238798c124` |
+| Reward-transfer public replication | `c93c1854fe0991e6c02de96ef1267b206e09e8def5e6832acef6f06d10ed312d` |
+| Final public PDF | `7dd8bd0a0c250b6dd3479f05ca74b9aeeab45570b66d406f20c2558aab06bd94` |
+| arXiv source tarball | `fecca1afdbe7424267bd5a46e43a33d23cfdb7af39bc94c2a2e4b9788cd02f48` |
 
 ## Repository map
 
@@ -280,7 +309,7 @@ No reproduction command calls a model provider.
 
 ```bibtex
 @article{chen2026flavourbench,
-  title  = {FlavourBench: Ranking Frontier Language Models in an Executable Culinary Environment},
+  title  = {FlavourBench: Executable Culinary Reward Maps for Language Model Evaluation and Post-Training},
   author = {Chen, Josef and Hayretci, Erim},
   journal = {arXiv preprint arXiv:2608.20574},
   year   = {2026},

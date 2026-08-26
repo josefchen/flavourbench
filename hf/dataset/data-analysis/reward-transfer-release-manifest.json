@@ -1,0 +1,66 @@
+{
+  "adapter_distribution": "Exact adapter hashes and training manifests are included; weight files are distributed separately from the anonymous paper supplement.",
+  "artifact_sha256": "97bedaa213f92e8c57ffb81b6109dc30e4a61e1e9bf2c969517dad973a1c17ed",
+  "counts": {
+    "evaluation_master_manifests": 2,
+    "evaluation_run_manifests": 14,
+    "evaluation_runs_per_split": 7,
+    "primary_response_rows": 588,
+    "primary_tasks": 84,
+    "public_response_rows": 3738,
+    "public_tasks": 534,
+    "training_runs": 6
+  },
+  "evaluation_gate_artifact_sha256": "dce9dab7ffc3a82efbc7ffaacd6ecd3b428354d8cab20611ccf4be117ec3c826",
+  "files": [
+    {
+      "bytes": 4412,
+      "name": "reward-transfer-evaluation-gate.json",
+      "rows": null,
+      "sha256": "40ab5d8891bd51a669201cadb3677230a5ce8fd9fe8731ac237ea1230e3346ce"
+    },
+    {
+      "bytes": 22792,
+      "name": "reward-transfer-evaluation-manifests.jsonl",
+      "rows": 16,
+      "sha256": "4ee18de9d66c09534a520bf8ac309fb1806ba64cabcee2685927a44b47a9f11a"
+    },
+    {
+      "bytes": 47286,
+      "name": "reward-transfer-primary-analysis.json",
+      "rows": null,
+      "sha256": "63bc846b08730e9c741f36feedd1f6406a80aae5b081286b02ad4f7b1193e9b0"
+    },
+    {
+      "bytes": 211459,
+      "name": "reward-transfer-primary-responses.jsonl",
+      "rows": 588,
+      "sha256": "40a6c35a59392540e0c816bea1d6e197f7a6d03dc561a675e5053d497f0777ee"
+    },
+    {
+      "bytes": 208245,
+      "name": "reward-transfer-public-analysis.json",
+      "rows": null,
+      "sha256": "7594d0777132be9a225c33533c73cc2f05cb0603378c2fba8358f6ca5a2ba84c"
+    },
+    {
+      "bytes": 1341783,
+      "name": "reward-transfer-public-responses.jsonl",
+      "rows": 3738,
+      "sha256": "88c225bc1b2251b781cc15cbaf533e566534eff4de72bfd9378a1cbc94c50310"
+    },
+    {
+      "bytes": 13126,
+      "name": "reward-transfer-training-manifests.jsonl",
+      "rows": 6,
+      "sha256": "52fc492591b40990f45cd3ab584beddabc89c6288a7c3b1ae6675097bdd218da"
+    }
+  ],
+  "primary_analysis_artifact_sha256": "d6cc841dfe7fe38ab38f46a44f37a76dac4b370618d48c6d995ea6238798c124",
+  "primary_evaluation_artifact_sha256": "5ab7a1e5170d91a7f1fee826d787b0c87e5b2b6c9f67da48bd2a7b8f488a9824",
+  "protocol_artifact_sha256": "9256abd79a522898da08406d780a7bf1c06fa50cd156ba1381df42d15bc9e7ec",
+  "public_analysis_artifact_sha256": "c93c1854fe0991e6c02de96ef1267b206e09e8def5e6832acef6f06d10ed312d",
+  "public_evaluation_artifact_sha256": "0c61781bb6c0ef711be95104e4e5a687e297141eb9aa00a186b04756ad92496f",
+  "schema_version": "flavourbench-reward-transfer-release-v1",
+  "status": "complete"
+}

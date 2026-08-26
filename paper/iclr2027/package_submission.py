@@ -74,6 +74,21 @@ def _regular_files(directory: Path) -> list[Path]:
     return result
 
 
+def _anonymous_lab_module() -> Path:
+    """Copy the lab SDK while neutralizing its unused public-repository default."""
+
+    source = ROOT / "src/flavourbench/lab.py"
+    marker = b'DEFAULT_DATASET_REPO = "josefchen/flavourbench"'
+    replacement = b'DEFAULT_DATASET_REPO = "anonymous/flavourbench"'
+    payload = source.read_bytes()
+    if payload.count(marker) != 1:
+        raise PackageError("lab SDK public-repository marker differs")
+    destination = BUILD / "anonymous-support/lab.py"
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    destination.write_bytes(payload.replace(marker, replacement))
+    return destination
+
+
 def _source_payload() -> list[tuple[Path, str]]:
     if not STAGE.is_dir():
         raise PackageError("build stage is missing; run make verify first")
@@ -107,12 +122,48 @@ def _supplement_payload(source: list[tuple[Path, str]]) -> list[tuple[Path, str]
     result = [
         (HERE / "supplement/README.md", "README.md"),
         (HERE / "supplement/LICENSES.md", "LICENSES.md"),
+        (
+            HERE / "supplement/requirements-reward-transfer.txt",
+            "requirements-reward-transfer.txt",
+        ),
         (HERE / "supplement/rebuild_summary.py", "code/rebuild_summary.py"),
         (ROOT / "hf/dataset/verify_complete_core_dataset.py", "code/verify_dataset.py"),
         (
             ROOT / "paper/protocols/external_substitution_validation_v1.json",
             "protocols/external_substitution_validation_v1.json",
         ),
+        (
+            ROOT / "contracts/reward-transfer/reward-transfer-plan-v2.json",
+            "contracts/reward-transfer/reward-transfer-plan-v2.json",
+        ),
+        (
+            ROOT / "experiments/reward_transfer/data-audit.json",
+            "experiments/reward_transfer/data-audit.json",
+        ),
+        *[
+            (
+                ROOT / f"experiments/reward_transfer/{name}",
+                f"experiments/reward_transfer/{name}",
+            )
+            for name in (
+                "analyze.py",
+                "audit_data.py",
+                "evaluate.py",
+                "release_results.py",
+                "train_sft.py",
+                "unlock_evaluation.py",
+                "verify_release.py",
+            )
+        ],
+        *[
+            (ROOT / f"src/flavourbench/{name}", f"src/flavourbench/{name}")
+            for name in (
+                "__init__.py",
+                "reward_transfer.py",
+                "selection_response_parser_v3.py",
+            )
+        ],
+        (_anonymous_lab_module(), "src/flavourbench/lab.py"),
     ]
     for source_directory, target_directory in (
         (ROOT / "hf/dataset/data-complete-core", "data/complete-core"),
@@ -123,6 +174,31 @@ def _supplement_payload(source: list[tuple[Path, str]]) -> list[tuple[Path, str]
             result.append(
                 (path, f"{target_directory}/{path.relative_to(source_directory).as_posix()}")
             )
+    for path in _regular_files(ROOT / "hf/dataset/data-lab"):
+        relative = path.relative_to(ROOT / "hf/dataset/data-lab").as_posix()
+        result.append((path, f"hf/dataset/data-lab/{relative}"))
+    result.append(
+        (
+            ROOT / "hf/dataset/data-complete-core/tasks.jsonl",
+            "hf/dataset/data-complete-core/tasks.jsonl",
+        )
+    )
+    for name in (
+        "reward-transfer-evaluation-gate.json",
+        "reward-transfer-primary-analysis.json",
+        "reward-transfer-public-analysis.json",
+        "reward-transfer-training-manifests.jsonl",
+        "reward-transfer-evaluation-manifests.jsonl",
+        "reward-transfer-primary-responses.jsonl",
+        "reward-transfer-public-responses.jsonl",
+        "reward-transfer-release-manifest.json",
+    ):
+        result.append(
+            (
+                ROOT / f"hf/dataset/data-analysis/{name}",
+                f"hf/dataset/data-analysis/{name}",
+            )
+        )
     result.extend((path, f"paper-source/{name}") for path, name in source)
     return result
 

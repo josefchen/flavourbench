@@ -144,6 +144,13 @@ def build_release(
     ):
         responses: list[dict[str, Any]] = []
         task_ids = [str(task["task_id"]) for task in tasks]
+        evaluation_wrappers.append(
+            {
+                "evaluation_split": split,
+                "manifest_type": "master",
+                "manifest": master,
+            }
+        )
         for condition, seed in identities:
             by_id = {str(row["task_id"]): row for row in rows_by_run[(condition, seed)]}
             responses.extend({"evaluation_split": split, **by_id[task_id]} for task_id in task_ids)
@@ -152,7 +159,13 @@ def build_release(
             manifest_path = results / split / str(record["manifest"])
             manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
             verify_content_addressed(manifest, label=f"{split} evaluation run")
-            evaluation_wrappers.append({"evaluation_split": split, "manifest": manifest})
+            evaluation_wrappers.append(
+                {
+                    "evaluation_split": split,
+                    "manifest_type": "run",
+                    "manifest": manifest,
+                }
+            )
 
     training_wrappers: list[dict[str, Any]] = []
     for condition in TRAINED_CONDITIONS:
@@ -185,6 +198,8 @@ def build_release(
         "counts": {
             "training_runs": 6,
             "evaluation_runs_per_split": 7,
+            "evaluation_master_manifests": 2,
+            "evaluation_run_manifests": 14,
             "primary_tasks": len(primary_tasks),
             "primary_response_rows": len(primary_tasks) * len(identities),
             "public_tasks": len(public_tasks),

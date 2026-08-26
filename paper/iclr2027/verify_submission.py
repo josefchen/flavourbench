@@ -123,6 +123,8 @@ def _verify_pdf() -> tuple[int, int, int]:
         "534 substitution, pairing, and constraint tasks",
         "14418 complete model–task observations",
         "does not identify a unique best endpoint",
+        "13.30 points over a format- and label-matched control",
+        "The replication gain is 11.73 points",
         "AI USE STATEMENT",
         "The anonymous supplement contains the exact task maps",
     ):
@@ -192,11 +194,35 @@ def _verify_release() -> dict[str, object]:
     return receipt
 
 
+def _verify_reward_transfer() -> dict[str, object]:
+    receipt = json.loads(
+        _run(
+            sys.executable,
+            str(ROOT / "experiments/reward_transfer/verify_release.py"),
+            cwd=ROOT,
+        )
+    )
+    primary = receipt.get("primary")
+    public = receipt.get("public")
+    if (
+        receipt.get("status") != "PASS"
+        or not isinstance(primary, dict)
+        or not isinstance(public, dict)
+        or primary.get("tasks") != 84
+        or public.get("tasks") != 534
+        or abs(float(primary.get("effect_points", 0)) - 13.300238095238095) > 1e-12
+        or abs(float(public.get("effect_points", 0)) - 11.728370786516855) > 1e-12
+    ):
+        raise VerificationError("reward-transfer release failed reconstruction")
+    return receipt
+
+
 def main() -> None:
     _verify_template_and_source()
     pages, conclusion_page, ai_page = _verify_pdf()
     _verify_log()
     release = _verify_release()
+    reward_transfer = _verify_reward_transfer()
     print(
         json.dumps(
             {
@@ -206,6 +232,8 @@ def main() -> None:
                 "models": release["models"],
                 "pairwise_rows": release["pairwise_rows"],
                 "pdf_pages": pages,
+                "reward_transfer_primary_effect": reward_transfer["primary"]["effect_points"],
+                "reward_transfer_public_effect": reward_transfer["public"]["effect_points"],
                 "status": "PASS",
                 "tasks_per_model": release["tasks_per_model"],
             },

@@ -1,0 +1,9 @@
+--extra-index-url https://download.pytorch.org/whl/cu130
+accelerate==1.14.0
+datasets==5.0.1
+numpy==2.3.3
+peft==0.20.0
+torch==2.13.0+cu130
+trackio==0.36.0
+transformers==5.15.1
+trl==1.10.0

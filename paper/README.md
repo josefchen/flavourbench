@@ -1,6 +1,6 @@
 # FlavourBench paper
 
-**FlavourBench: Ranking Frontier Language Models in an Executable Culinary Environment**
+**FlavourBench: Executable Culinary Reward Maps for Language Model Evaluation and Post-Training**
 
 Josef Chen, Independent Researcher<br>
 Erim Hayretci, Imperial College London
@@ -38,6 +38,13 @@ percentiles of 0.780 to 0.806; all source-clustered intervals exclude 0.5 after 
 The 594 pairs absent from Recipe1MSubs training remain at 0.718 to 0.754. This validates the public
 checkpoints' substitution geometry, not the unrecovered primary runtime or cooked-food quality;
 Recipe1M is also upstream of part of Epicure's recipe corpus.
+
+A preregistered three-seed transfer study separates reward learning from response-format learning.
+On 84 anchor-disjoint tasks, Epicure-optimal LoRA SFT improves Qwen3-0.6B by 13.30 points over a
+prompt-, format-, and label-matched control (95% CI 6.52 to 20.29). The same trained adapters gain
+11.73 points over control on the 534 public maps (95% CI 8.98 to 14.54). The release includes raw
+generations, training and evaluation manifests, frozen analysis plans, and an offline verifier that
+reconstructs both effects without model access.
 
 ## Build and verify
 
@@ -92,4 +99,6 @@ the analysis code, plans, compact release, tables, figures, PDF, and arXiv sourc
 FlavourBench ranks constrained culinary selections against the released Epicure reward surface. It
 does not measure general intelligence, food safety, sensory preference, or complete recipe writing.
 The primary runtime's exact training run and seed were not recovered. Endpoint results bind the
-routes and collection period recorded in the release.
+routes and collection period recorded in the release. The transfer study covers one 0.6B base
+checkpoint, three seeds, and LoRA SFT; it does not establish transfer across model scales or
+training algorithms.

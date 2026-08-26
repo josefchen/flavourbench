@@ -6,9 +6,9 @@ Build and verify the manuscript with:
 make
 ```
 
-The command creates `main.pdf` with a fixed source date, checks the 19-page compiled package,
+The command creates `main.pdf` with a fixed source date, checks the 21-page compiled package,
 US-Letter geometry, embedded fonts, unresolved references, and box overflows. The counted main
-text ends on page 8; the mandatory AI-use statement begins on page 9, followed by references and
+text ends on page 9; the mandatory AI-use statement begins on page 10, followed by references and
 appendices.
 
 The unmodified official ICLR 2027 style archive was retrieved from:

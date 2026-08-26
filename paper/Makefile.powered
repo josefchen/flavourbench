@@ -29,6 +29,7 @@ STABILITY_BUILDER := build_stability_assets.py
 ROBUSTNESS_BUILDER := build_selection_robustness_assets.py
 PUBLIC_SCORER_BUILDER := build_public_scorer_sensitivity_assets.py
 EXTERNAL_VALIDATION_BUILDER := build_external_substitution_validation_assets.py
+REWARD_TRANSFER_BUILDER := build_reward_transfer_assets.py
 EXTERNAL_VALIDATION_PROTOCOL := protocols/external_substitution_validation_v1.json
 HF_DATA := ../hf/dataset/data-complete-core
 EPICURE_TAGS ?=
@@ -63,7 +64,12 @@ TABLE_ASSETS := \
 	$(GENERATED)/complete-core-external-substitution-validation.json \
 	$(GENERATED)/complete-core-external-substitution-validation.csv \
 	$(GENERATED)/complete-core-external-substitution-validation-table.tex \
-	$(GENERATED)/complete-core-external-substitution-validation-macros.tex
+	$(GENERATED)/complete-core-external-substitution-validation-macros.tex \
+	$(GENERATED)/complete-core-reward-transfer-macros.tex \
+	$(GENERATED)/complete-core-reward-transfer-table.tex \
+	$(GENERATED)/complete-core-reward-transfer-family-table.tex \
+	$(GENERATED)/complete-core-reward-transfer-seed-table.tex \
+	$(GENERATED)/complete-core-reward-transfer-asset-manifest.json
 
 FIGURE_ASSETS := \
 	$(FIGURES)/complete-core-leaderboard-forest.pdf \
@@ -74,7 +80,8 @@ FIGURE_ASSETS := \
 	$(FIGURES)/complete-core-task-count-stability.pdf \
 	$(FIGURES)/complete-core-selection-robustness.pdf \
 	$(FIGURES)/complete-core-public-scorer-sensitivity.pdf \
-	$(FIGURES)/complete-core-external-substitution-validation.pdf
+	$(FIGURES)/complete-core-external-substitution-validation.pdf \
+	$(FIGURES)/complete-core-reward-transfer.pdf
 
 .PHONY: all analysis assets verify verify-static paper _paper arxiv _arxiv clean
 
@@ -133,6 +140,7 @@ assets:
 		--figure-directory $(FIGURES) \
 		--dataset-directory ../hf/dataset/data-analysis \
 		--dataset-figure-directory ../hf/dataset/assets
+	$(PYTHON) $(REWARD_TRANSFER_BUILDER)
 
 verify: assets verify-static
 
@@ -142,6 +150,7 @@ verify-static:
 	for file in main_powered.tex references.bib README.md LICENSES.md Makefile.powered \
 		$(ASSET_BUILDER) $(STABILITY_BUILDER) $(ROBUSTNESS_BUILDER) \
 		$(PUBLIC_SCORER_BUILDER) $(EXTERNAL_VALIDATION_BUILDER) \
+		$(REWARD_TRANSFER_BUILDER) \
 		$(EXTERNAL_VALIDATION_PROTOCOL) \
 		$(RELEASE_BUILDER) $(RELEASE_VERIFIER) $(PLAN) $(RELEASE) \
 		$(TABLE_ASSETS) $(FIGURE_ASSETS); do
@@ -151,9 +160,11 @@ verify-static:
 	$(PYTHON) -I $(RELEASE_VERIFIER) --release $(RELEASE)
 	$(RUFF) check $(ASSET_BUILDER) $(STABILITY_BUILDER) $(ROBUSTNESS_BUILDER) \
 		$(PUBLIC_SCORER_BUILDER) $(EXTERNAL_VALIDATION_BUILDER) \
+		$(REWARD_TRANSFER_BUILDER) \
 		$(RELEASE_BUILDER) $(RELEASE_VERIFIER)
 	$(RUFF) format --check $(ASSET_BUILDER) $(STABILITY_BUILDER) $(ROBUSTNESS_BUILDER) \
 		$(PUBLIC_SCORER_BUILDER) $(EXTERNAL_VALIDATION_BUILDER) \
+		$(REWARD_TRANSFER_BUILDER) \
 		$(RELEASE_BUILDER) $(RELEASE_VERIFIER)
 	$(PYTHON) -m pytest -q \
 		../tests/epicure_selection_common_core_analysis_v1_test.py \

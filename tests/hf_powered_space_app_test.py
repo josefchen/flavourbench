@@ -127,6 +127,44 @@ def test_powered_space_loads_and_exposes_score_task_and_pairwise_views(
                 "estimated_balanced_tasks_for_relative_g_0_90": 329,
             },
         },
+        "reward_transfer": {
+            "status": "complete",
+            "base_model": {"id": "example/base", "revision": "b" * 40},
+            "training_seeds": [1, 2, 3],
+            "training_runs": 6,
+            "training_tasks": 270,
+            "validation_tasks": 72,
+            "evaluation_tasks": 84,
+            "response_rows": 4_326,
+            "protocol_artifact_sha256": "c" * 64,
+            "release_artifact_sha256": "d" * 64,
+            "claim_boundary": {
+                "allowed": "agreement with unseen reward maps",
+                "forbidden": ["human taste"],
+            },
+            "primary": {
+                "tasks": 84,
+                "scores": {
+                    "pretrained_base": 29.99,
+                    "sft_format_control": 30.90,
+                    "sft_epicure_optimum": 44.20,
+                },
+                "effect_points": 13.30,
+                "confidence_interval_95": [6.52, 20.29],
+                "two_sided_sign_flip_p": 0.00017,
+            },
+            "public_replication": {
+                "tasks": 534,
+                "scores": {
+                    "pretrained_base": 28.56,
+                    "sft_format_control": 31.60,
+                    "sft_epicure_optimum": 43.33,
+                },
+                "effect_points": 11.73,
+                "confidence_interval_95": [8.98, 14.54],
+                "two_sided_sign_flip_p": 0.00001,
+            },
+        },
         "lab_tasks": [
             {
                 **task,
@@ -171,6 +209,11 @@ def test_powered_space_loads_and_exposes_score_task_and_pairwise_views(
     assert "What the evidence resolves" in insights_html
     assert "Where the leading labs differ" in insights_html
     assert "simultaneous 95 percent interval" in insights_html
+    transfer_html = module._reward_transfer_html()
+    assert "+13.30" in transfer_html
+    assert "format-matched supervision" in transfer_html
+    assert "4,326" in transfer_html
+    assert "reinforcement-learning improvement" in transfer_html
     diagnostic = module._completion_diagnostic("model/a")
     assert diagnostic["completed"] == 1
     assert diagnostic["failed"] == 0
