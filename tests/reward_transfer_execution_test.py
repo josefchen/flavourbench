@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from zipfile import ZipFile
 
 import numpy as np
 import pytest
@@ -62,6 +63,16 @@ def _fake_training_run(
     )
 
 
+def _public_tasks_from_release(tmp_path: Path) -> Path:
+    repository = Path(__file__).resolve().parents[1]
+    archive = repository / "paper/iclr2027/build/flavourbench-iclr2027-anonymous-supplement.zip"
+    member = "flavourbench-iclr2027-anonymous-supplement/data/complete-core/tasks.jsonl"
+    public_tasks = tmp_path / "public-tasks.jsonl"
+    with ZipFile(archive) as payload:
+        public_tasks.write_bytes(payload.read(member))
+    return public_tasks
+
+
 def test_evaluation_gate_requires_and_verifies_all_six_runs(tmp_path: Path) -> None:
     plan = load_plan()
     checkpoints = tmp_path / "checkpoints"
@@ -75,7 +86,11 @@ def test_evaluation_gate_requires_and_verifies_all_six_runs(tmp_path: Path) -> N
                 base_model=plan["base_model"],
             )
     output = tmp_path / "evaluation-gate.json"
-    gate = create_evaluation_gate(checkpoints=checkpoints, output=output)
+    gate = create_evaluation_gate(
+        checkpoints=checkpoints,
+        output=output,
+        public_tasks_path=_public_tasks_from_release(tmp_path),
+    )
     assert gate["status"] == "confirmatory_evaluation_unlocked"
     assert len(gate["runs"]) == 6
     assert verify_evaluation_gate(output, checkpoints=checkpoints) == gate
